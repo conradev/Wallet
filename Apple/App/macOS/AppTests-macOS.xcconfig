@@ -1,0 +1,6 @@
+#include "../../Configuration/Tests.xcconfig"
+
+SDKROOT = macosx
+SUPPORTED_PLATFORMS = macosx
+PRODUCT_NAME = AppTests-macOS
+TEST_TARGET_NAME = App (macOS)

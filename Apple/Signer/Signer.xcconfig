@@ -1,0 +1,8 @@
+PRODUCT_NAME = WalletSigner
+PRODUCT_BUNDLE_IDENTIFIER = $(SIGNER_BUNDLE_IDENTIFIER)
+SUPPORTED_PLATFORMS = macosx
+INFOPLIST_FILE = Signer/Signer-Info.plist
+
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks @executable_path/../../../../../../../Frameworks
+
+CODE_SIGN_ENTITLEMENTS = Signer/Signer.entitlements

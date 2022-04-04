@@ -1,0 +1,7 @@
+headers = KeccakHash.h
+compilerOpts = -I../External/src/xkcp -I../External/XKCP/lib/common -I../External/XKCP/lib/low/common -I../External/XKCP/lib/low/KeccakP-1600/common -I../External/XKCP/lib/high/Keccak -I../External/XKCP/lib/high/Keccak/FIPS202 -I../External/XKCP/lib/low/KeccakP-1600/plain-64bits -I../External/XKCP/lib/low/KeccakP-1600/plain-64bits/u6
+linkerOpts.macos_x64 = -lXKCP -L../External/build/macosx -LExternal/build/macosx
+linkerOpts.macos_arm64 = -lXKCP -L../External/build/macosx -LExternal/build/macosx
+linkerOpts.ios_arm64 = -lXKCP -L../External/build/iphoneos -LExternal/build/iphoneos
+linkerOpts.ios_simulator_arm64 = -lXKCP -L../External/build/iphonesimulator -LExternal/build/iphonesimulator
+linkerOpts.ios_x64 = -lXKCP -L../External/build/iphonesimulator -LExternal/build/iphonesimulator

@@ -1,0 +1,6 @@
+#include "../../Configuration/Tests.xcconfig"
+
+SDKROOT = iphoneos
+SUPPORTED_PLATFORMS = iphoneos iphonesimulator
+PRODUCT_NAME = AppTests-iOS
+TEST_TARGET_NAME = App (iOS)

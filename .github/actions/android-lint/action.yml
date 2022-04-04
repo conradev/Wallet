@@ -1,0 +1,10 @@
+name: Lint
+runs:
+  using: composite
+  steps:
+  - shell: bash
+    run: ./gradlew lint
+  - uses: yutailang0119/action-android-lint@v2
+    if: always()
+    with:
+      report-path: '**/build/reports/*.xml'

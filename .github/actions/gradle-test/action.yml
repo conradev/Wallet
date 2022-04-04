@@ -1,0 +1,18 @@
+name: Gradle Test
+inputs:
+  check-name:
+    description: The check name
+    required: true
+  task:
+    description: The task that will product test results
+    required: true
+runs:
+  using: composite
+  steps:
+  - shell: bash
+    run: ./gradlew ${{ inputs.task }}
+  - uses: mikepenz/action-junit-report@v2
+    if: always()
+    with:
+      check_name: ${{ inputs.check-name }}
+      report_paths: '**/build/test-results/*/TEST-*.xml'

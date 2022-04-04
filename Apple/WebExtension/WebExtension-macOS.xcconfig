@@ -1,0 +1,9 @@
+// Do not add things to this file
+// Add them in WebExtension.xcconfig instead
+
+#include "WebExtension.xcconfig"
+
+SDKROOT = macosx
+SUPPORTED_PLATFORMS = macosx
+
+CODE_SIGN_ENTITLEMENTS = WebExtension/WebExtension-macOS.entitlements

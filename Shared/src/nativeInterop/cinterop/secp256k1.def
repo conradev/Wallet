@@ -1,0 +1,7 @@
+headers = secp256k1.h
+compilerOpts = -I../External/secp256k1/include/
+linkerOpts.macos_x64 = -lsecp256k1 -L../External/build/macosx -LExternal/build/macosx
+linkerOpts.macos_arm64 = -lsecp256k1 -L../External/build/macosx -LExternal/build/macosx
+linkerOpts.ios_arm64 = -lsecp256k1 -L../External/build/iphoneos -LExternal/build/iphoneos
+linkerOpts.ios_simulator_arm64 = -lsecp256k1 -L../External/build/iphonesimulator -LExternal/build/iphonesimulator
+linkerOpts.ios_x64 = -lsecp256k1 -L../External/build/iphonesimulator -LExternal/build/iphonesimulator

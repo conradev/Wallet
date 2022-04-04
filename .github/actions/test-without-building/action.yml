@@ -1,0 +1,45 @@
+name: Test Without Building
+inputs:
+  scheme:
+    description: Scheme
+    required: true
+  destination:
+    description: Destination
+    required: true
+  test-plan:
+    description: Test Plan
+    required: false
+  artifact-name:
+    description: The name to give the uploaded xcresults file
+    required: true
+  check-name:
+    description: The check name
+    required: true
+runs:
+  using: composite
+  steps:
+  - shell: bash
+    working-directory: Apple
+    run: |
+      xcodebuild test-without-building \
+      -scheme '${{ inputs.scheme }}' \
+      -destination '${{ inputs.destination }}' \
+      ${{ inputs.test-plan && '-testPlan ' }}${{ inputs.test-plan }} \
+      -resultBundlePath TestResults.xcresult
+
+      zip TestResults.xcresult.zip TestResults.xcresult
+  - uses: actions/upload-artifact@v3
+    if: always()
+    with:
+      name: ${{ inputs.artifact-name }}
+      path: Apple/TestResults.xcresult.zip
+  - uses: kishikawakatsumi/xcresulttool@v1
+    if: always()
+    with:
+      path: Apple/TestResults.xcresult
+      title: ${{ inputs.check-name }}
+      show-passed-tests: false
+  - shell: bash
+    if: always()
+    working-directory: Apple
+    run: rm -rf TestResults.xcresult.zip TestResults.xcresult

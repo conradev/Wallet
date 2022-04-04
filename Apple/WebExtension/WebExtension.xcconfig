@@ -1,0 +1,5 @@
+#include "../Configuration/Extension.xcconfig"
+
+PRODUCT_NAME = WalletWebExtension
+PRODUCT_BUNDLE_IDENTIFIER = $(WEB_EXTENSION_BUNDLE_IDENTIFIER)
+INFOPLIST_FILE = WebExtension/WebExtension-Info.plist

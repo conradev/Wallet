@@ -1,0 +1,34 @@
+name: Kotlin Lint
+permissions:
+  contents: read
+  statuses: read
+  pull-requests: read
+  actions: read
+  checks: write
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - "*"
+jobs:
+  lint:
+    name: Kotlin Lint
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ssh-key: ${{ secrets.DEPLOY_KEY }}
+        submodules: recursive
+    - name: Lint
+      continue-on-error: true
+      run: ./gradlew --continue lintKotlin
+    - uses: jwgmeligmeyling/checkstyle-github-action@a12be500c097a5cedab881d4785ef9b4a4d3ee6a
+      with:
+        name: Kotlin Lint
+        title: Kotlin Lint report
+        path: '**/build/reports/ktlint/*.xml'
+    - name: Fail If Needed
+      run: ./gradlew lintKotlin

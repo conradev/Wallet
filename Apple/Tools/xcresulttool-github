@@ -1,0 +1,8 @@
+#!/bin/bash
+
+INPUT_FILE="${PWD}/$1"
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")"/.. >/dev/null 2>&1 && pwd)"
+
+cd "${PROJECT_DIR}/Packages/XCResultGitHub"
+
+swift run xcresulttool-github $INPUT_FILE 2>/dev/null

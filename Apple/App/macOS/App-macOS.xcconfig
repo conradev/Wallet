@@ -1,0 +1,10 @@
+#include "../App.xcconfig"
+
+SDKROOT = macosx
+SUPPORTED_PLATFORMS = macosx
+MACOSX_DEPLOYMENT_TARGET = 12.0
+
+CODE_SIGN_ENTITLEMENTS = App/macOS/App-macOS.entitlements
+EXCLUDED_SOURCE_FILE_NAMES = App/iOS/* App/iOS/*/*
+
+INFOPLIST_KEY_LSApplicationCategoryType = public.app-category.finance

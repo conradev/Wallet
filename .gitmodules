@@ -1,0 +1,9 @@
+[submodule "External/XKCP"]
+	path = External/XKCP
+	url = https://github.com/XKCP/XKCP.git
+[submodule "External/secp256k1"]
+	path = External/secp256k1
+	url = https://github.com/bitcoin-core/secp256k1.git
+[submodule "External/bitcoin"]
+	path = External/bitcoin
+	url = https://github.com/bitcoin/bitcoin.git

@@ -1,0 +1,12 @@
+DYLIB_COMPATIBILITY_VERSION = 1
+DYLIB_CURRENT_VERSION = 1
+
+DEFINES_MODULE = YES
+DYLIB_INSTALL_NAME_BASE = @rpath
+SWIFT_INSTALL_OBJC_HEADER = NO
+
+APPLICATION_EXTENSION_API_ONLY = YES
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks @loader_path/Frameworks
+LD_RUNPATH_SEARCH_PATHS[sdk=macosx*] = $(inherited) @executable_path/../Frameworks @loader_path/Frameworks
+
+VERSIONING_SYSTEM =

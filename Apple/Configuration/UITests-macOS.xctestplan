@@ -1,0 +1,27 @@
+{
+  "configurations" : [
+    {
+      "id" : "20B79E15-1700-4218-91D5-9266FD9779D9",
+      "name" : "Default",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "language" : "en",
+    "region" : "US",
+    "testExecutionOrdering" : "random",
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Wallet.xcodeproj",
+        "identifier" : "D0271CF627D1AD08002FF5B1",
+        "name" : "AppTests (macOS)"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -1,0 +1,8 @@
+// Do not add things to this file
+// Add them in WebExtension.xcconfig instead
+
+#include "WebExtension.xcconfig"
+
+SDKROOT = iphoneos
+SUPPORTED_PLATFORMS = iphoneos iphonesimulator
+IPHONEOS_DEPLOYMENT_TARGET = 15.0

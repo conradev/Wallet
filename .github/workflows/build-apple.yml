@@ -1,0 +1,87 @@
+name: Apple Build
+permissions:
+  contents: read
+  statuses: read
+  pull-requests: read
+  actions: read
+  checks: write
+on:
+  pull_request:
+    branches:
+    - "*"
+jobs:
+  build:
+    name: Build (${{ matrix.configuration['platform'] }})
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration:
+        - scheme: App (iOS)
+          destination: generic/platform=iOS
+          platform: iOS
+        - scheme: App (iOS)
+          destination: platform=iOS Simulator,OS=15.2,name=iPhone 13 Pro
+          platform: iOS Simulator
+          xcode-unit-test: UnitTests
+          xcode-ui-test: UITests-iOS
+          gradle-test: iosX64Test
+        - scheme: App (macOS)
+          destination: platform=macOS
+          platform: macOS
+          xcode-unit-test: UnitTests
+          gradle-test: macosX64Test
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_13.2.1.app/Contents/Developer
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ssh-key: ${{ secrets.DEPLOY_KEY }}
+        submodules: recursive
+    - name: Install OpenJDK
+      uses: oracle-actions/setup-java@v1
+      with:
+        website: jdk.java.net
+        release: 17
+    - name: Import Certificate
+      uses: ./.github/actions/import-cert
+      with:
+        certificate: ${{ secrets.DEVELOPER_CERT }}
+        password: ${{ secrets.DEVELOPER_CERT_PASSWORD }}
+    - name: Build
+      id: build
+      uses: ./.github/actions/build-for-testing
+      with:
+        scheme: ${{ matrix.configuration['scheme'] }}
+        destination: ${{ matrix.configuration['destination'] }}
+        app-store-key: ${{ secrets.APPSTORE_KEY }}
+        app-store-key-id: ${{ secrets.APPSTORE_KEY_ID }}
+        app-store-key-issuer-id: ${{ secrets.APPSTORE_KEY_ISSUER_ID }}
+    - name: Xcode Unit Test
+      if: ${{ matrix.configuration['xcode-unit-test'] != '' }}
+      continue-on-error: true
+      uses: ./.github/actions/test-without-building
+      with:
+        scheme: ${{ matrix.configuration['scheme'] }}
+        destination: ${{ matrix.configuration['destination'] }}
+        test-plan: ${{ matrix.configuration['xcode-unit-test'] }}
+        artifact-name: ${{ matrix.configuration['xcode-unit-test'] }}-${{ matrix.configuration['platform'] }}
+        check-name: Xcode Unit Tests (${{ matrix.configuration['platform'] }})
+    - name: Kotlin Unit Test
+      if: ${{ matrix.configuration['gradle-test'] != '' }}
+      continue-on-error: true
+      uses: ./.github/actions/gradle-test
+      with:
+        task: :Shared:${{ matrix.configuration['gradle-test'] }}
+        check-name: Kotlin Tests (${{ matrix.configuration['platform'] }})
+    - name: Xcode UI Test
+      if: ${{ matrix.configuration['xcode-ui-test'] != '' }}
+      continue-on-error: true
+      uses: ./.github/actions/test-without-building
+      with:
+        scheme: ${{ matrix.configuration['scheme'] }}
+        destination: ${{ matrix.configuration['destination'] }}
+        test-plan: ${{ matrix.configuration['xcode-ui-test'] }}
+        artifact-name: ${{ matrix.configuration['xcode-unit-test'] }}-${{ matrix.configuration['platform'] }}
+        check-name: Xcode UI Tests (${{ matrix.configuration['platform'] }})

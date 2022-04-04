@@ -1,0 +1,20 @@
+name: Android Lint
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - "*"
+jobs:
+  lint:
+    name: Android Lint
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ssh-key: ${{ secrets.DEPLOY_KEY }}
+        submodules: recursive
+    - name: Lint
+      uses: ./.github/actions/android-lint

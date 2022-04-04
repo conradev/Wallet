@@ -1,0 +1,22 @@
+CREATE TABLE public_key (
+    seed_id TEXT NOT NULL,
+    coin INTEGER AS com.conradkramer.wallet.Coin NOT NULL,
+    account_index INTEGER NOT NULL,
+    change INTEGER AS Boolean NOT NULL,
+    address_index INTEGER NOT NULL,
+    encoded BLOB AS com.conradkramer.wallet.platform.PublicKey NOT NULL,
+
+    UNIQUE (seed_id, coin, account_index, change, address_index)
+);
+
+CREATE INDEX public_key_seed_id ON public_key(seed_id);
+
+insert:
+INSERT INTO public_key(seed_id, coin, account_index, change, address_index, encoded)
+VALUES ?
+ON CONFLICT(seed_id, coin, account_index, change, address_index) DO UPDATE SET encoded = excluded.encoded;
+
+keysForSeed:
+SELECT * FROM public_key
+WHERE seed_id IN ?
+ORDER BY coin, account_index, address_index;

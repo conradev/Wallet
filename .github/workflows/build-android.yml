@@ -1,0 +1,34 @@
+name: Android Build
+permissions:
+  contents: read
+  statuses: read
+  pull-requests: read
+  actions: read
+  checks: write
+on:
+  pull_request:
+    branches:
+    - "*"
+jobs:
+  build:
+    name: Build (Android)
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ssh-key: ${{ secrets.DEPLOY_KEY }}
+        submodules: recursive
+    - name: Install OpenJDK
+      uses: oracle-actions/setup-java@v1
+      with:
+        website: jdk.java.net
+        release: 17
+    - name: Build
+      run: ./gradlew assembleDebug
+    - name: Unit Test
+      continue-on-error: true
+      uses: ./.github/actions/gradle-test
+      with:
+        task: testDebugUnitTest
+        check-name: Android Tests
