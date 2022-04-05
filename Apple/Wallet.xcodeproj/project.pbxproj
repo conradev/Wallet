@@ -50,7 +50,6 @@
 		D031A80A27DFF3D80009C6BF /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D031A80727DFF21F0009C6BF /* SwiftUI.framework */; };
 		D031A80C27DFF3EC0009C6BF /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D031A80B27DFF3EC0009C6BF /* AppKit.framework */; };
 		D031A81027E0099F0009C6BF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D031A80F27E0099F0009C6BF /* UIKit.framework */; };
-		D0501EC92726A16E00311D6F /* CodableXPC in Frameworks */ = {isa = PBXBuildFile; productRef = D0501EC82726A16E00311D6F /* CodableXPC */; };
 		D0501F142726B07600311D6F /* DictionaryCoding in Frameworks */ = {isa = PBXBuildFile; productRef = D0501F132726B07600311D6F /* DictionaryCoding */; };
 		D0501F162726B08000311D6F /* DictionaryCoding in Frameworks */ = {isa = PBXBuildFile; productRef = D0501F152726B08000311D6F /* DictionaryCoding */; };
 		D0501F892726BD5300311D6F /* Browser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0501F882726BD5300311D6F /* Browser.swift */; };
@@ -91,7 +90,6 @@
 		D0EE48CB27496A8400088215 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D070D3A2272A7F3200597E87 /* Constants.swift */; };
 		D0EE48CC27496A8400088215 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0981F5C26E26B1400CDD5CA /* Logger.swift */; };
 		D0F1EBD92757010700E83A43 /* DictionaryCoding in Frameworks */ = {isa = PBXBuildFile; productRef = D0F1EBD82757010700E83A43 /* DictionaryCoding */; };
-		D0F1EBDB275704AB00E83A43 /* CodableXPC in Frameworks */ = {isa = PBXBuildFile; platformFilters = (macos, ); productRef = D0F1EBDA275704AB00E83A43 /* CodableXPC */; };
 		D0F7A81427ECEDC3007A60EA /* MainSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F7A81327ECEDC3007A60EA /* MainSplitView.swift */; };
 		D0F7A81527ECEDC3007A60EA /* MainSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F7A81327ECEDC3007A60EA /* MainSplitView.swift */; };
 		D0FA5FAE27F2886A00EC86E5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0FA5FAC27F2886A00EC86E5 /* MainMenu.xib */; };
@@ -293,7 +291,6 @@
 		D072B10E26D252A700DA1C47 /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = background.js; sourceTree = "<group>"; };
 		D072B11026D252A700DA1C47 /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = content.js; sourceTree = "<group>"; };
 		D072B13426D2575C00DA1C47 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		D07C8CFE26E08BF800D4D339 /* CodableXPC */ = {isa = PBXFileReference; lastKnownFileType = folder; path = CodableXPC; sourceTree = "<group>"; };
 		D07C8D0D26E1C84B00D4D339 /* App.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = App.xcconfig; sourceTree = "<group>"; };
 		D07C8D0E26E1C86200D4D339 /* WebExtension.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = WebExtension.xcconfig; sourceTree = "<group>"; };
 		D07C8D1026E1C88C00D4D339 /* Compiler.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Compiler.xcconfig; sourceTree = "<group>"; };
@@ -404,7 +401,6 @@
 			files = (
 				D07F239527595E9B00E2C42C /* libWalletCore.a in Frameworks */,
 				D031A80A27DFF3D80009C6BF /* SwiftUI.framework in Frameworks */,
-				D0501EC92726A16E00311D6F /* CodableXPC in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,7 +418,6 @@
 				D0F1EBD92757010700E83A43 /* DictionaryCoding in Frameworks */,
 				D031A80027DBFC710009C6BF /* KMPNativeCoroutinesCore in Frameworks */,
 				D031A7FE27DBFC710009C6BF /* KMPNativeCoroutinesCombine in Frameworks */,
-				D0F1EBDB275704AB00E83A43 /* CodableXPC in Frameworks */,
 				D031A7FC27DBFC710009C6BF /* KMPNativeCoroutinesAsync in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -576,7 +571,6 @@
 		D07C8CD826E08BED00D4D339 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				D07C8CFE26E08BF800D4D339 /* CodableXPC */,
 			);
 			path = Packages;
 			sourceTree = "<group>";
@@ -831,7 +825,6 @@
 			);
 			name = Signer;
 			packageProductDependencies = (
-				D0501EC82726A16E00311D6F /* CodableXPC */,
 			);
 			productName = Signer;
 			productReference = D07F238A27595E0500E2C42C /* WalletSigner.xpc */;
@@ -871,7 +864,6 @@
 			name = Core;
 			packageProductDependencies = (
 				D0F1EBD82757010700E83A43 /* DictionaryCoding */,
-				D0F1EBDA275704AB00E83A43 /* CodableXPC */,
 				D031A7FB27DBFC710009C6BF /* KMPNativeCoroutinesAsync */,
 				D031A7FD27DBFC710009C6BF /* KMPNativeCoroutinesCombine */,
 				D031A7FF27DBFC710009C6BF /* KMPNativeCoroutinesCore */,
@@ -1672,10 +1664,6 @@
 			package = D031A7FA27DBFC710009C6BF /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */;
 			productName = KMPNativeCoroutinesCore;
 		};
-		D0501EC82726A16E00311D6F /* CodableXPC */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CodableXPC;
-		};
 		D0501ECA2726A17600311D6F /* CodableXPC */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CodableXPC;
@@ -1704,10 +1692,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D0501F122726B07600311D6F /* XCRemoteSwiftPackageReference "DictionaryCoding" */;
 			productName = DictionaryCoding;
-		};
-		D0F1EBDA275704AB00E83A43 /* CodableXPC */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CodableXPC;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
