@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
+
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization") version "1.6.10"
@@ -107,6 +109,7 @@ kotlin {
             it.binaries {
                 framework {
                     baseName = "Shared"
+                    embedBitcode(BitcodeEmbeddingMode.DISABLE)
                 }
             }
         }

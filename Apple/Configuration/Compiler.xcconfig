@@ -19,6 +19,8 @@ GENERATE_INFOPLIST_FILE = YES
 INFOPLIST_KEY_NSHumanReadableCopyright = Copyright © 2021 Conrad Kramer
 INFOPLIST_KEY_CFBundleDisplayName = Wall-et
 
+ENABLE_BITCODE = NO
+
 ENABLE_APP_SANDBOX[sdk=macosx*] = YES
 ENABLE_HARDENED_RUNTIME[sdk=macosx*] = YES
 COMBINE_HIDPI_IMAGES = YES
