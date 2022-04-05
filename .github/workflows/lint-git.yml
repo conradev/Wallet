@@ -1,10 +1,11 @@
-name: Gitlint
+name: Git Lint
 on:
   pull_request:
     branches:
     - "*"
 jobs:
   lint:
+    name: Git Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
