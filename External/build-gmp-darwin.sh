@@ -16,10 +16,10 @@ build() {
 
     ./configure --disable-shared --host=$HOST \
         CC="$CC $EXTRA_CFLAGS" \
-        CPP="$CC -E" \
+        CPP="$CC $EXTRA_CFLAGS -E" \
         CC_FOR_BUILD="$CC_FOR_BUILD" \
         CPP_FOR_BUILD="$CC_FOR_BUILD -E" \
-        CFLAGS="-Wno-bitwise-conditional-parentheses -Wno-unused-value"
+        CFLAGS="-Wno-bitwise-conditional-parentheses -Wno-unused-value" || cat config.log
     
     make -j $(sysctl hw.logicalcpu | awk '{print $2}')
 
