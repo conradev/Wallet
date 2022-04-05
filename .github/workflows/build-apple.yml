@@ -91,5 +91,5 @@ jobs:
         scheme: ${{ matrix.configuration['scheme'] }}
         destination: ${{ matrix.configuration['destination'] }}
         test-plan: ${{ matrix.configuration['xcode-ui-test'] }}
-        artifact-name: ${{ matrix.configuration['xcode-unit-test'] }}-${{ matrix.configuration['platform'] }}
+        artifact-name: ${{ matrix.configuration['xcode-ui-test'] }}-${{ matrix.configuration['platform'] }}
         check-name: Xcode UI Tests (${{ matrix.configuration['platform'] }})
