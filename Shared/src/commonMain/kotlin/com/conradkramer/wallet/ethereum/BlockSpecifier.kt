@@ -50,7 +50,7 @@ internal sealed class BlockSpecifier {
     }
 }
 
-internal abstract class BlockSpecifierSerializer : KSerializer<BlockSpecifier> {
+internal class BlockSpecifierSerializer : KSerializer<BlockSpecifier> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("BlockSpecifier", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: BlockSpecifier) {
