@@ -4,23 +4,17 @@ import com.conradkramer.wallet.ethereum.Address
 import com.conradkramer.wallet.ethereum.BlockSpecifier
 import com.conradkramer.wallet.ethereum.Quantity
 import com.conradkramer.wallet.ethereum.Request
+import kotlinx.serialization.json.JsonElement
 
-internal class GetBalance(val address: Address, val specifier: BlockSpecifier = BlockSpecifier.LATEST) : Request<Quantity>() {
-    constructor(params: List<String>) : this(Address.fromString(params[0]), optional(params, 1, BlockSpecifier.Companion::fromString, BlockSpecifier.LATEST))
+internal data class GetBalance(val address: Address, val specifier: BlockSpecifier = BlockSpecifier.LATEST) : Request<Quantity>() {
+    constructor(params: List<JsonElement>) : this(
+        decode(params, 0, Address.serializer()),
+        decode(params, 1, BlockSpecifier.LATEST, BlockSpecifier.serializer())
+    )
 
     override val method: String = "eth_getBalance"
-    override val params: List<String>
-        get() = listOf(address.toString(), specifier.encoded)
-
-    companion object {
-        fun <R> optional(params: List<String>, index: Int, constructor: (String) -> R, default: R): R {
-            return if (index < params.size) {
-                constructor(params[index])
-            } else {
-                default
-            }
-        }
-    }
+    override val params: List<JsonElement>
+        get() = listOf(encode(address), encode(specifier))
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

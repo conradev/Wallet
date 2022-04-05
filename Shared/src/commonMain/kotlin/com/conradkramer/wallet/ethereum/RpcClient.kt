@@ -9,13 +9,21 @@ import io.ktor.http.ContentType
 import io.ktor.http.Url
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
 import kotlin.random.Random
 
 internal class RpcClient(val endpointUrl: Url) {
 
+    @OptIn(ExperimentalSerializationApi::class)
     val client = HttpClient {
         install(ContentNegotiation) {
-            json()
+            json(
+                Json {
+                    encodeDefaults = true
+                    explicitNulls = false
+                }
+            )
         }
     }
 
