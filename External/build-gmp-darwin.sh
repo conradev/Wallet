@@ -14,7 +14,7 @@ build() {
     CC="$(xcrun --sdk $SDK_NAME -f clang) -isysroot $(xcrun --sdk $SDK_NAME --show-sdk-path)"
     CC_FOR_BUILD="$(xcrun --sdk macosx -f clang) -isysroot $(xcrun --sdk macosx --show-sdk-path)"
 
-    ./configure --disable-shared --host=$HOST \
+    ./configure --disable-shared --with-pic --host=$HOST \
         CC="$CC $EXTRA_CFLAGS" \
         CPP="$CC $EXTRA_CFLAGS -E" \
         CC_FOR_BUILD="$CC_FOR_BUILD" \
