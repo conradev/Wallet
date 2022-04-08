@@ -2,9 +2,11 @@ package com.conradkramer.wallet.viewmodel
 
 import com.conradkramer.wallet.Account
 import com.conradkramer.wallet.AccountStore
-import kotlinx.coroutines.flow.Flow
+import com.conradkramer.wallet.mapState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.StateFlow
+import kotlin.coroutines.EmptyCoroutineContext
 
 class MainViewModel internal constructor(private val accountStore: AccountStore) {
     enum class Tab {
@@ -19,16 +21,15 @@ class MainViewModel internal constructor(private val accountStore: AccountStore)
                 BALANCE -> "Balance"
                 COLLECTIBLES -> "NFTs"
                 TRANSFER -> "Send"
-                UTILITY -> "Utilities"
+                UTILITY -> "Browser"
                 TRANSACTIONS -> "Account"
             }
     }
 
+    private val scope = CoroutineScope(EmptyCoroutineContext)
+
     val selectedTab = MutableStateFlow(Tab.BALANCE)
 
-    val showOnboarding: Boolean
-        get() = accountStore.accounts.isEmpty()
-
-    val showOnboardingFlow: Flow<Boolean>
-        get() = accountStore.accountsFlow.map(Collection<Account>::isEmpty)
+    val showOnboarding: StateFlow<Boolean>
+        get() = accountStore.accounts.mapState(scope, List<Account>::isEmpty)
 }

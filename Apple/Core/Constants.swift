@@ -3,8 +3,8 @@ import Shared
 
 extension Wallet {
     public static let appBundleIdentifier = Constants.AppBundleIdentifier
-    public static let appGroupIdentifier = Constants.AppGroupIdentifier
-    public static let signerBundleIdentifier = Constants.SignerBundleIdentifier
+    static let appGroupIdentifier = Constants.AppGroupIdentifier
+    static let viewServiceBundleIdentifier = Constants.ViewServiceBundleIdentifier
 
     public static let localizedAppName = Companion.shared.localizedAppName
 }

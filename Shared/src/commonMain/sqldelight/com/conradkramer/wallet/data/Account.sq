@@ -1,0 +1,47 @@
+CREATE TABLE account (
+    id TEXT PRIMARY KEY NOT NULL,
+    encrypted_seed BLOB NOT NULL
+);
+
+CREATE TABLE public_key (
+    account_id TEXT NOT NULL,
+    coin INTEGER AS com.conradkramer.wallet.Coin NOT NULL,
+    account_index INTEGER NOT NULL,
+    change INTEGER AS kotlin.Boolean NOT NULL,
+    address_index INTEGER NOT NULL,
+    encoded BLOB AS com.conradkramer.wallet.crypto.PublicKey NOT NULL,
+
+    FOREIGN KEY (account_id) REFERENCES account(id) ON DELETE CASCADE,
+    UNIQUE (account_id, coin, account_index, change, address_index)
+);
+
+insertAccount:
+INSERT INTO account(id, encrypted_seed)
+VALUES ?
+ON CONFLICT(id)
+DO UPDATE SET encrypted_seed = excluded.encrypted_seed;
+
+encryptedSeed:
+SELECT encrypted_seed FROM account WHERE id = ?;
+
+insertKey:
+INSERT INTO public_key(account_id, coin, account_index, change, address_index, encoded)
+VALUES ?
+ON CONFLICT(account_id, coin, account_index, change, address_index)
+DO UPDATE SET encoded = excluded.encoded;
+
+accountIds:
+SELECT id FROM account;
+
+accounts:
+SELECT * FROM public_key
+ORDER BY coin, account_index, address_index;
+
+delete:
+DELETE FROM account WHERE id = ?;
+
+prune:
+DELETE FROM account WHERE id NOT IN ?;
+
+reset:
+DELETE FROM account;

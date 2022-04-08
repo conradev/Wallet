@@ -17,6 +17,10 @@ public protocol KotlinCaseIterable: CaseIterable, AnyObject {
     static func values() -> KotlinArray<Value>
 }
 
+public protocol KotlinEnum: KotlinCaseIterable, Identifiable {
+    var name: String { get }
+}
+
 public func kotlinCaseUnreachable<T: KotlinCaseIterable>(_ value: T) -> Never {
     fatalError("Received unexpected value \(value) when switching over \(type(of: value))")
 }
@@ -30,28 +34,59 @@ extension KotlinCaseIterable {
 extension KoinApplication {
     public static let shared = companion.start(
         applicationGroup: Wallet.appGroupIdentifier,
+        viewServiceName: Wallet.viewServiceBundleIdentifier,
         subsystem: Logger.subsystem
     )
 
+    @discardableResult
     public static func start() -> KoinApplication {
         shared
     }
 }
 
 extension KoinApplication {
-    static let keyPaths: [PartialKeyPath<Koin>] = [
-        \Koin.mainViewModel,
-        \Koin.importViewModel,
-        \Koin.welcomeViewModel,
-        \Koin.onboardingViewModel
+    private static let sharedKeyPaths: [PartialKeyPath<Koin>] = [
+        \.mainViewModel,
+        \.importViewModel,
+        \.welcomeViewModel,
+        \.onboardingViewModel,
+        \.browserViewModel,
+        \.browserMessageHost,
+        \.browserPromptHost
     ]
 
+    private static let previewKeyPaths: [PartialKeyPath<Koin>] = [
+        \.permissionPromptViewModel,
+        \.signDataPromptViewModel
+    ]
+
+#if os(macOS)
+    private static let keyPaths = sharedKeyPaths + previewKeyPaths + [
+        \.nativeMessageHost,
+        \.viewServiceConnection,
+        \.viewServiceServer
+    ]
+#else
+    private static let keyPaths = sharedKeyPaths + previewKeyPaths
+#endif
+
     public static func inject<T>() -> T {
-        for partialKeyPath in keyPaths {
+        shared.inject()
+    }
+
+    public func inject<T>() -> T {
+        for partialKeyPath in Self.keyPaths {
             guard let keyPath = partialKeyPath as? KeyPath<Koin, T> else { continue }
-            return shared.koin[keyPath: keyPath]
+            return koin[keyPath: keyPath]
         }
 
         fatalError("\(T.self) is not registered with KoinApplication")
     }
+}
+
+@propertyWrapper
+public struct LazyKoin<T> {
+    public lazy var wrappedValue: T = { KoinApplication.shared.inject() }()
+
+    public init() { }
 }

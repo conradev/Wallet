@@ -35,6 +35,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, OnboardingWindowControllerDe
     }()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        LoginItem.viewService.start()
+
         do {
             try Chrome.write()
             try Firefox.write()

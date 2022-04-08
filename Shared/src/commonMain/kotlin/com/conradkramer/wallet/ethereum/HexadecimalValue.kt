@@ -1,6 +1,6 @@
 package com.conradkramer.wallet.ethereum
 
-import com.conradkramer.wallet.decodeHex
+import com.conradkramer.wallet.encoding.decodeHex
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -11,11 +11,11 @@ internal abstract class HexademicalValueSerializer<T : HexademicalValue> : KSeri
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("HexademicalValue", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: T) {
-        encoder.encodeString(this.toString())
+        encoder.encodeString(value.toString())
     }
 }
 
-internal abstract class HexademicalValue(val data: ByteArray) {
+abstract class HexademicalValue(val data: ByteArray) {
     abstract override fun toString(): String
 
     override fun equals(other: Any?): Boolean {
@@ -34,7 +34,12 @@ internal abstract class HexademicalValue(val data: ByteArray) {
     }
 
     companion object {
-        inline fun <reified T> fromString(string: String, allowNibbles: Boolean, regex: Regex, constructor: (ByteArray) -> T): T {
+        inline fun <reified T> fromString(
+            string: String,
+            allowNibbles: Boolean,
+            regex: Regex,
+            constructor: (ByteArray) -> T
+        ): T {
             if (!regex.matches(string)) {
                 throw Exception("${T::class.simpleName} is incorrect format")
             }

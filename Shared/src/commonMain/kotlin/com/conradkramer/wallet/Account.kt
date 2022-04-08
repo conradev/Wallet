@@ -2,16 +2,20 @@
 
 package com.conradkramer.wallet
 
-import com.conradkramer.wallet.data.Public_key
-import com.conradkramer.wallet.ethereum.Address
 import com.conradkramer.wallet.crypto.PublicKey
 import com.conradkramer.wallet.crypto.ethereumAddress
+import com.conradkramer.wallet.data.Public_key
+import com.conradkramer.wallet.ethereum.Address
 
-internal class Account(val id: String, keys: List<PublicKeyRecord> = listOf()) {
-
-    private val keyMap: Map<Coin, List<PublicKey>> = keys.groupBy(
-        keySelector = Public_key::coin,
-        valueTransform = Public_key::encoded
+internal data class Account(val id: String, private val keys: Map<Coin, List<PublicKey>>) {
+    constructor(id: String, index: Long, keys: List<PublicKeyRecord>) : this(
+        id,
+        keys
+            .filter { it.account_index == index }
+            .groupBy(
+                keySelector = Public_key::coin,
+                valueTransform = Public_key::encoded
+            )
     )
 
     init {
@@ -21,11 +25,13 @@ internal class Account(val id: String, keys: List<PublicKeyRecord> = listOf()) {
     }
 
     val ethereumKeys: List<PublicKey>
-        get() = keyMap[Coin.ETHEREUM].orEmpty()
+        get() = keys[Coin.ETHEREUM].orEmpty()
 
     val primaryEthereumKey: PublicKey
         get() = ethereumKeys.first()
 
     val ethereumAddress: Address
         get() = primaryEthereumKey.ethereumAddress
+
+    companion object
 }

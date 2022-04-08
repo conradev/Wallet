@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "moduleResolution": "node",
+    // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/51290
+    "lib": ["es2020", "dom"],
+    "strictNullChecks": true,
+    "noEmit": true
+  },
+}

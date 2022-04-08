@@ -1,0 +1,5 @@
+CREATE TABLE browser_permission (
+    domain TEXT PRIMARY KEY NOT NULL,
+    allow TEXT DEFAULT "[]" NOT NULL,
+    deny TEXT DEFAULT "[]" NOT NULL
+);

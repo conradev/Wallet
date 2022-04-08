@@ -2,19 +2,22 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
 
 plugins {
     kotlin("multiplatform")
-    kotlin("plugin.serialization") version "1.6.20"
+    kotlin("plugin.serialization") version "1.6.21"
     id("com.android.library")
-    id("com.squareup.sqldelight")
-    id("com.rickclephas.kmp.nativecoroutines") version "0.11.3-new-mm"
+    id("app.cash.sqldelight")
+    id("com.rickclephas.kmp.nativecoroutines") version "0.12.2-new-mm"
     id("org.jmailen.kotlinter")
 }
 
 object Versions {
-    const val coroutines = "1.6.0"
-    const val ktor = "2.0.0-beta-1"
+    const val biometric = "1.2.0-alpha04"
+    const val bouncycastle = "1.71"
+    const val coroutines = "1.6.1"
+    const val ktor = "2.0.0"
     const val koin = "3.2.0-beta-1"
+    const val serialization = "1.3.2"
     const val slf4j = "1.7.36"
-    const val sqldelight = "1.5.3"
+    const val sqldelight = "2.0.0-alpha02"
 }
 
 kotlin {
@@ -32,10 +35,11 @@ kotlin {
                     }
                 }
                 implementation("io.ktor:ktor-client-core:${Versions.ktor}")
+                implementation("io.ktor:ktor-client-logging:${Versions.ktor}")
                 implementation("io.ktor:ktor-client-content-negotiation:${Versions.ktor}")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:${Versions.ktor}")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
-                implementation("com.squareup.sqldelight:coroutines-extensions:${Versions.sqldelight}")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
+                implementation("app.cash.sqldelight:coroutines-extensions:${Versions.sqldelight}")
                 implementation("io.insert-koin:koin-core:${Versions.koin}")
                 implementation(project(":kotlin-logging"))
             }
@@ -46,17 +50,18 @@ kotlin {
                 implementation("io.insert-koin:koin-test:${Versions.koin}")
             }
         }
+        val macosTest by creating {
+            dependsOn(commonTest)
+        }
 
         val androidMain by getting {
             dependsOn(commonMain)
             dependencies {
-                implementation("androidx.security:security-crypto:1.0.0")
-                implementation("androidx.biometric:biometric:1.1.0")
-                implementation("org.bouncycastle:bcprov-jdk15to18:1.70")
+                implementation("androidx.biometric:biometric:${Versions.biometric}")
+                implementation("androidx.biometric:biometric-ktx:${Versions.biometric}")
+                implementation("org.bouncycastle:bcprov-jdk15to18:${Versions.bouncycastle}")
                 implementation("io.ktor:ktor-client-okhttp:${Versions.ktor}")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}")
-                implementation("androidx.biometric:biometric-ktx:1.2.0-alpha04")
-                implementation("com.squareup.sqldelight:android-driver:${Versions.sqldelight}")
                 implementation("io.insert-koin:koin-android:${Versions.koin}")
                 implementation("io.insert-koin:koin-androidx-compose:${Versions.koin}")
                 implementation("org.slf4j:slf4j-android:${Versions.slf4j}")
@@ -68,36 +73,53 @@ kotlin {
             dependsOn(commonMain)
             dependencies {
                 implementation("io.ktor:ktor-client-ios:${Versions.ktor}")
-                implementation("com.squareup.sqldelight:native-driver:${Versions.sqldelight}")
+                implementation("app.cash.sqldelight:native-driver:${Versions.sqldelight}")
             }
         }
-        val darwinDeviceMain by creating {
+        val macosMain by creating {
             dependsOn(darwinMain)
+        }
+        val iosMain by creating {
+            dependsOn(darwinMain)
+        }
+        val iosDeviceMain by creating {
+            dependsOn(iosMain)
         }
         val iosSimulatorMain by creating {
-            dependsOn(darwinMain)
+            dependsOn(iosMain)
         }
 
-        val simulatorTargets = listOf(
-            iosX64(),
-            iosSimulatorArm64(),
-        )
-        val deviceTargets = listOf(
-            iosArm64(),
+        val macosTargets = listOf(
             macosX64(),
             macosArm64(),
         )
-        simulatorTargets.forEach {
+        val iosDeviceTargets = listOf(
+            iosArm64()
+        )
+        val iosSimulatorTargets = listOf(
+            iosX64(),
+            iosSimulatorArm64(),
+        )
+        val nativeTargets = macosTargets + iosDeviceTargets + iosSimulatorTargets
+        macosTargets.forEach {
+            getByName("${it.targetName}Main") {
+                dependsOn(macosMain)
+            }
+            getByName("${it.targetName}Test") {
+                dependsOn(macosTest)
+            }
+        }
+        iosDeviceTargets.forEach {
+            getByName("${it.targetName}Main") {
+                dependsOn(iosDeviceMain)
+            }
+        }
+        iosSimulatorTargets.forEach {
             getByName("${it.targetName}Main") {
                 dependsOn(iosSimulatorMain)
             }
         }
-        deviceTargets.forEach {
-            getByName("${it.targetName}Main") {
-                dependsOn(darwinDeviceMain)
-            }
-        }
-        (simulatorTargets + deviceTargets).forEach {
+        nativeTargets.forEach {
             it.compilations.getByName("main") {
                 cinterops {
                     val gmp by creating
@@ -126,11 +148,12 @@ android {
         minSdk = 28
         targetSdk = 31
     }
+    namespace = "com.conradkramer.wallet"
 }
 
 sqldelight {
     database("Database") {
-        dialect = "sqlite:3.25"
+        dialect = "app.cash.sqldelight:sqlite-3-35-dialect:${Versions.sqldelight}"
         packageName = "com.conradkramer.wallet.sql"
     }
 }

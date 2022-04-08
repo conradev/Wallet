@@ -1,33 +1,81 @@
 package com.conradkramer.wallet
 
-import kotlinx.coroutines.flow.Flow
+import com.conradkramer.wallet.browser.message.Frame
+import com.conradkramer.wallet.browser.message.PageIdentifier
+import com.conradkramer.wallet.browser.prompt.PermissionPrompt
+import com.conradkramer.wallet.browser.prompt.SignDataPrompt
+import com.conradkramer.wallet.ethereum.Data
+import com.conradkramer.wallet.ethereum.requests.Accounts
+import com.conradkramer.wallet.viewmodel.PermissionPromptViewModel
+import com.conradkramer.wallet.viewmodel.SignDataPromptViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import org.koin.core.Koin
 import org.koin.core.KoinApplication
-import org.koin.dsl.koinApplication
+import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
-internal class MockAccountStore : AccountStore {
+private fun Account.Companion.random(): Account {
+    return Account(
+        "id", 0,
+        ExtendedPrivateKey
+            .fromSeed(Mnemonic().seed())
+            .publicKeys("id", 0)
+    )
+}
+
+private class MockAccountStore(val account: Account) : AccountStore {
+    override val biometryType = BiometryType.FACEPRINT
     override val canStore = true
-    override val accounts: Collection<Account> = listOf()
-    override val accountsFlow: Flow<Collection<Account>> = MutableStateFlow(accounts)
+    override val accounts: StateFlow<List<Account>> = MutableStateFlow(listOf(account))
 
     override fun add(mnemonic: Mnemonic): Account {
-        return Account("mock")
+        return account
     }
+
+    override fun delete(account: Account) {
+    }
+
+    override fun reset() {
+    }
+
+    override fun context(account: Account): AuthenticationContext {
+        return AuthenticationContext(account.id)
+    }
+
+    override suspend fun <R> authenticate(
+        context: AuthenticationContext,
+        info: BiometricPromptInfo,
+        host: BiometricPromptHost?,
+        handler: (root: ExtendedPrivateKey?) -> R
+    ): R {
+        return handler(null)
+    }
+}
+
+internal fun mockModule() = module {
+    val account = Account.random()
+
+    single<AccountStore> { MockAccountStore(account) }
+    factory { PermissionPrompt("1234", Frame.zero, PageIdentifier("", 0), "app.ens.domains", listOf(Accounts.method)) }
+    factory {
+        SignDataPrompt(
+            "1234",
+            Frame.zero,
+            PageIdentifier("", 0),
+            "context.app",
+            account.ethereumAddress,
+            Data.fromString("0x9b2055d370f73ec7d8a03e965129118dc8f5bf83")
+        )
+    }
+
+    factoryOf(::PermissionPromptViewModel)
+    factory { SignDataPromptViewModel(get(), get(), getOrNull(), get()) }
 }
 
 class PreviewMocks {
     companion object {
-        private fun mockModule() = module {
-            single<AccountStore> { MockAccountStore() }
-        }
-
-        private val application: KoinApplication by lazy {
-            koinApplication {
-                modules(sharedModule(), mockModule())
-            }
-        }
+        private val application: KoinApplication by lazy { mockApplication() }
 
         val koin: Koin
             get() = application.koin

@@ -4,6 +4,7 @@ import com.conradkramer.wallet.crypto.BitSet
 import com.conradkramer.wallet.crypto.PBKDF2SHA512Derivation
 import com.conradkramer.wallet.crypto.SHA256Digest
 import com.conradkramer.wallet.crypto.toSeedByteArray
+import com.conradkramer.wallet.encoding.toUInt
 import io.ktor.utils.io.core.ByteOrder
 import io.ktor.utils.io.core.toByteArray
 import kotlin.math.min
@@ -47,7 +48,8 @@ internal class Mnemonic @Throws(Exception::class) constructor(phrase: String) {
         val dataWithChecksum = bits.toSeedByteArray()
         val data = dataWithChecksum.copyOfRange(0, dataWithChecksum.size - 1)
         val checksum = (dataWithChecksum.last().toUInt() shr (BITS_PER_BYTE - length.checksumBits)).toUByte()
-        val computedChecksum = (SHA256Digest().digest(data).first().toUInt() shr (BITS_PER_BYTE - length.checksumBits)).toUByte()
+        val computedChecksum = (SHA256Digest.digest(data).first().toUInt() shr (BITS_PER_BYTE - length.checksumBits))
+            .toUByte()
         if (checksum != computedChecksum) {
             throw Exception("Provided checksum $checksum does not match computed checksum $computedChecksum")
         }
@@ -58,7 +60,7 @@ internal class Mnemonic @Throws(Exception::class) constructor(phrase: String) {
 
     fun seed(passphrase: String = ""): ByteArray {
         val salt = ("mnemonic$passphrase").toByteArray()
-        return PBKDF2SHA512Derivation().compute(salt, phrase, 2048)
+        return PBKDF2SHA512Derivation.compute(salt, phrase, 2048)
     }
 
     enum class Length(val value: Int) {
@@ -92,7 +94,7 @@ internal class Mnemonic @Throws(Exception::class) constructor(phrase: String) {
 
         fun generate(length: Length): String {
             var data = Random.Default.nextBytes(length.bits / BITS_PER_BYTE)
-            data += SHA256Digest().digest(data).first()
+            data += SHA256Digest.digest(data).first()
             return (0 until length.value)
                 .map { index(data, it) }
                 .joinToString(" ") { Wordlist.english.words[it] }

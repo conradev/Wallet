@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D0501F8E2726BF6A00311D6F"
-               BuildableName = "WalletWebNativeHost"
-               BlueprintName = "WebNativeHost"
+               BuildableName = "WalletNativeMessageHost"
+               BlueprintName = "NativeMessageHost"
                ReferencedContainer = "container:Wallet.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D0501F8E2726BF6A00311D6F"
-            BuildableName = "WalletWebNativeHost"
-            BlueprintName = "WebNativeHost"
+            BuildableName = "WalletNativeMessageHost"
+            BlueprintName = "NativeMessageHost"
             ReferencedContainer = "container:Wallet.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D0501F8E2726BF6A00311D6F"
-            BuildableName = "WalletWebNativeHost"
-            BlueprintName = "WebNativeHost"
+            BuildableName = "WalletNativeMessageHost"
+            BlueprintName = "NativeMessageHost"
             ReferencedContainer = "container:Wallet.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

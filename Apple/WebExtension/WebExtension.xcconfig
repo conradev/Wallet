@@ -1,5 +1,6 @@
 #include "../Configuration/Extension.xcconfig"
 
 PRODUCT_NAME = WalletWebExtension
-PRODUCT_BUNDLE_IDENTIFIER = $(WEB_EXTENSION_BUNDLE_IDENTIFIER)
+PRODUCT_BUNDLE_IDENTIFIER = $(APP_BUNDLE_IDENTIFIER).web-extension
 INFOPLIST_FILE = WebExtension/WebExtension-Info.plist
+INFOPLIST_KEY_CFBundleDisplayName = Wallet Safari Helper

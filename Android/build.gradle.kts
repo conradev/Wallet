@@ -7,11 +7,13 @@ object Versions {
     const val activity = "1.4.0"
     const val appcompat = "1.4.1"
     const val biometric = "1.2.0-alpha04"
-    const val compose = "1.2.0-alpha08"
+    const val compose = "1.2.0-beta02"
+    const val dbtoolsRoom = "7.0.1"
     const val koin = "3.2.0-beta-1"
     const val material = "1.5.0"
-    const val material3 = "1.0.0-alpha08"
+    const val material3 = "1.0.0-alpha12"
     const val navigation = "2.4.2"
+    const val sqldelight = "2.0.0-alpha02"
 }
 
 android {
@@ -50,6 +52,8 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.compose
     }
+
+    namespace = "com.conradkramer.wallet.android"
 }
 
 kotlin {
@@ -62,6 +66,9 @@ kotlin {
 
 dependencies {
     implementation(project(":Shared"))
+    implementation(files("../External/sqlite/sqlite-android-3380300.aar"))
+    implementation("org.dbtools:dbtools-room-sqliteorg:${Versions.dbtoolsRoom}")
+    implementation("app.cash.sqldelight:android-driver:${Versions.sqldelight}")
     implementation("com.google.android.material:material:${Versions.material}")
     implementation("androidx.appcompat:appcompat:${Versions.appcompat}")
     implementation("androidx.biometric:biometric:${Versions.biometric}")

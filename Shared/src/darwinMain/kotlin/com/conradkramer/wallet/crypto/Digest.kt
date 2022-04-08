@@ -24,7 +24,7 @@ import xkcp.Keccak_HashInstance
 import xkcp.Keccak_HashUpdate
 
 @OptIn(ExperimentalUnsignedTypes::class)
-internal actual class SHA256Digest {
+internal actual object SHA256Digest {
     actual fun digest(data: ByteArray): ByteArray {
         val digest = UByteArray(CC_SHA256_DIGEST_LENGTH)
         data.usePinned { inputPinned ->
@@ -41,7 +41,7 @@ internal actual class SHA256Digest {
 }
 
 @OptIn(ExperimentalUnsignedTypes::class)
-internal actual class SHA512Mac {
+internal actual object SHA512Mac {
     actual fun authenticationCode(data: ByteArray, key: ByteArray): ByteArray {
         val digest = UByteArray(CC_SHA512_DIGEST_LENGTH)
         digest.usePinned { pinnedDigest ->
@@ -63,7 +63,7 @@ internal actual class SHA512Mac {
 }
 
 @OptIn(ExperimentalUnsignedTypes::class)
-internal actual class PBKDF2SHA512Derivation {
+internal actual object PBKDF2SHA512Derivation {
     actual fun compute(
         salt: ByteArray,
         password: String,
@@ -93,18 +93,21 @@ internal actual class PBKDF2SHA512Derivation {
         return key.toByteArray()
     }
 
-    private companion object {
-        const val CC_SHA512_DIGEST_LENGTH = 64
-    }
+    private const val CC_SHA512_DIGEST_LENGTH = 64
 }
 
 @OptIn(ExperimentalUnsignedTypes::class)
-internal actual class RIPEMD160Digest {
+internal actual object RIPEMD160Digest {
     actual fun digest(data: ByteArray): ByteArray {
         val digest = UByteArray(RIPEMD160_DIGEST_LENGTH.convert())
         digest.usePinned { pinnedDigest ->
             data.asUByteArray().usePinned { pinnedData ->
-                ripemd160_digest(pinnedData.addressOf(0), data.size.convert(), pinnedDigest.addressOf(0), digest.size.convert())
+                ripemd160_digest(
+                    pinnedData.addressOf(0),
+                    data.size.convert(),
+                    pinnedDigest.addressOf(0),
+                    digest.size.convert()
+                )
             }
         }
         return digest.toByteArray()
@@ -112,7 +115,7 @@ internal actual class RIPEMD160Digest {
 }
 
 @OptIn(ExperimentalUnsignedTypes::class)
-internal actual class Keccak256Digest {
+internal actual object Keccak256Digest {
     actual fun digest(data: ByteArray): ByteArray {
         memScoped {
             val instance = alloc<Keccak_HashInstance>()

@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity(), AndroidScopeComponent {
             MainView(mainViewModel)
         }
 
-        if (mainViewModel.showOnboarding) {
+        if (mainViewModel.showOnboarding.value) {
             showOnboarding()
         }
     }

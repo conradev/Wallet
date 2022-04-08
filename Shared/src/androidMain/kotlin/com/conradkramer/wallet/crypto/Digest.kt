@@ -8,13 +8,13 @@ import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
-internal actual class SHA256Digest {
+internal actual object SHA256Digest {
     actual fun digest(data: ByteArray): ByteArray {
         return MessageDigest.getInstance("SHA-256").digest(data)
     }
 }
 
-internal actual class SHA512Mac {
+internal actual object SHA512Mac {
     actual fun authenticationCode(data: ByteArray, key: ByteArray): ByteArray {
         val mac: Mac = Mac.getInstance("HmacSHA512")
         mac.init(SecretKeySpec(key, "HmacSHA512"))
@@ -22,7 +22,7 @@ internal actual class SHA512Mac {
     }
 }
 
-internal actual class PBKDF2SHA512Derivation actual constructor() {
+internal actual object PBKDF2SHA512Derivation {
     actual fun compute(
         salt: ByteArray,
         password: String,
@@ -33,31 +33,23 @@ internal actual class PBKDF2SHA512Derivation actual constructor() {
     }
 }
 
-internal actual class RIPEMD160Digest {
+internal actual object RIPEMD160Digest {
     actual fun digest(data: ByteArray): ByteArray {
         return MessageDigest.getInstance("RIPEMD160").digest(data)
     }
 
-    companion object {
-        init {
-            installBouncyCastle()
-        }
-    }
+    val bouncyCastle = Keccak256Digest.bouncyCastle
 }
 
-internal actual class Keccak256Digest {
+internal actual object Keccak256Digest {
     actual fun digest(data: ByteArray): ByteArray {
         return MessageDigest.getInstance("KECCAK-256").digest(data)
     }
 
-    companion object {
-        init {
-            installBouncyCastle()
-        }
+    val bouncyCastle = run {
+        val provider = BouncyCastleProvider()
+        Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME)
+        Security.addProvider(provider)
+        provider
     }
-}
-
-private fun installBouncyCastle() {
-    Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME)
-    Security.addProvider(BouncyCastleProvider())
 }

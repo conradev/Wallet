@@ -1,0 +1,8 @@
+{
+    "type": "object",
+    "properties": {
+        "type": { "type": "string", "const": "page_connect_message" }
+    },
+    "required": ["type"],
+    "additionalProperties": false
+}
