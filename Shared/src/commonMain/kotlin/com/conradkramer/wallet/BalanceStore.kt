@@ -22,7 +22,7 @@ internal val ETHEREUM_ADDRESS = Address.fromString("0x00000000000000000000000000
 
 internal fun EthereumBalanceRecord.toBalance() : Balance = Balance(
     address = address,
-    contractAddress = contract_address,
+    contractAddress = if (contract_address == ETHEREUM_ADDRESS) null else contract_address,
     quantity = balance
 )
 
