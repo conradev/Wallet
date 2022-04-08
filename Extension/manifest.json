@@ -1,0 +1,49 @@
+{
+    "manifest_version": 3,
+    "default_locale": "en",
+    "name": "Wallet",
+    "description": "Enables the Wallet app inside of Safari",
+    "version": "1.0",
+    "icons": {
+        "48": "images/icon-48.png",
+        "96": "images/icon-96.png",
+        "128": "images/icon-128.png",
+        "256": "images/icon-256.png",
+        "512": "images/icon-512.png"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3uhPEImQhHq437uErrJBvfZaiYJ47OvZQrpV1QgKRsghPeQ403pKdLK5ZguOZ0r4RAh9PM1VnOA5ene2s7bEsSlCNR2pj/z9451cYWVZ2kCzqjBMs9H+CTsX8N2hGHaw5EPELjv6kD9vIQtsCHZN5BvazJPrtDHLbxajxqsorQ9NErAMqNWjrGN5dlETZ5IsQsbueiqZyJG2XoECG/3J0a91kg/DrOfgdxkezxGFqk80JsylzcEem9LYWC0tQIEYmF8fA5fhjJD6NJWxCBtKe4lc9ReQQz7vpG/oVbgcSZC0CQEuHB/7JicJtl14RRf5VUpeqv1CXZFxe3Tuxoa4NQIDAQAB",
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "com.conradkramer.wallet@conradkramer.com",
+            "strict_min_version": "42.0"
+        }
+    },
+    "content_scripts": [
+        {
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_start",
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "page.js"
+            ],
+            "matches": [
+                "<all_urls>"
+            ],
+            "use_dynamic_url": true
+        }
+    ],
+    "permissions": [
+        "nativeMessaging"
+    ]
+}

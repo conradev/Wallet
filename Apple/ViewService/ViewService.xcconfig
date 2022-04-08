@@ -1,0 +1,16 @@
+PRODUCT_NAME = $(VIEW_SERVICE_BUNDLE_IDENTIFIER)
+PRODUCT_BUNDLE_IDENTIFIER = $(VIEW_SERVICE_BUNDLE_IDENTIFIER)
+EXECUTABLE_NAME = WalletViewService
+PRODUCT_MODULE_NAME = ViewService
+INFOPLIST_KEY_CFBundleDisplayName = Wallet Helper
+
+SDKROOT = macosx
+SUPPORTED_PLATFORMS = macosx
+
+INFOPLIST_FILE = ViewService/ViewService-Info.plist
+CODE_SIGN_ENTITLEMENTS = ViewService/ViewService.entitlements
+
+SWIFT_OBJC_BRIDGING_HEADER = ViewService/SkyLight.h
+SYSTEM_FRAMEWORK_SEARCH_PATHS = $(inherited) $(SDKROOT)/System/Library/PrivateFrameworks
+
+LD_RUNPATH_SEARCH_PATHS[sdk=macosx*] = $(inherited) @executable_path/../../../../../Frameworks

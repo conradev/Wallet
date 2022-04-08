@@ -1,10 +1,12 @@
 package com.conradkramer.wallet
 
 import com.conradkramer.wallet.Mnemonic.Length
+import com.conradkramer.wallet.encoding.encodeHex
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 
+/* ktlint-disable max-line-length */
 class MnemonicTests {
     @Test
     fun testValidPhrasesOfAllLengths() {

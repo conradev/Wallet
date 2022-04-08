@@ -1,0 +1,11 @@
+SUPPORTED_PLATFORMS = macosx
+
+PRODUCT_NAME = WalletNativeMessageHost
+PRODUCT_BUNDLE_IDENTIFIER = $(APP_BUNDLE_IDENTIFIER).web.messagehost
+INFOPLIST_KEY_CFBundleDisplayName = Wallet Browser Helper
+
+CODE_SIGN_ENTITLEMENTS = NativeMessageHost/NativeMessageHost.entitlements
+
+LD_RUNPATH_SEARCH_PATHS= $(inherited) @executable_path/../Frameworks
+
+CREATE_INFOPLIST_SECTION_IN_BINARY = YES

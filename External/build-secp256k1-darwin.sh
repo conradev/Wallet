@@ -21,6 +21,7 @@ build() {
         src/precomputed_ecmult_gen.c \
         --include=src/basic-config.h \
         -DUSE_BASIC_CONFIG=1 \
+        -DENABLE_MODULE_RECOVERY=1 \
         -isysroot $(xcrun --sdk $SDK_NAME --show-sdk-path) \
         $2
 

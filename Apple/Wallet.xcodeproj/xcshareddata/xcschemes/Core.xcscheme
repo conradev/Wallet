@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D0EE48C127496A6E00088215"
-               BuildableName = "libWalletCore.a"
+               BlueprintIdentifier = "D0BF411A28274264001180E3"
+               BuildableName = "WalletCore.framework"
                BlueprintName = "Core"
                ReferencedContainer = "container:Wallet.xcodeproj">
             </BuildableReference>
@@ -50,8 +50,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0EE48C127496A6E00088215"
-            BuildableName = "libWalletCore.a"
+            BlueprintIdentifier = "D0BF411A28274264001180E3"
+            BuildableName = "WalletCore.framework"
             BlueprintName = "Core"
             ReferencedContainer = "container:Wallet.xcodeproj">
          </BuildableReference>

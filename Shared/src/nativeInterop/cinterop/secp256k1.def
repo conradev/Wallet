@@ -1,4 +1,4 @@
-headers = secp256k1.h
+headers = secp256k1_recovery.h
 compilerOpts = -I../External/secp256k1/include/
 linkerOpts.macos_x64 = -lsecp256k1 -L../External/build/macosx -LExternal/build/macosx
 linkerOpts.macos_arm64 = -lsecp256k1 -L../External/build/macosx -LExternal/build/macosx

@@ -1,7 +1,7 @@
 package com.conradkramer.wallet.ethereum
 
-import com.conradkramer.wallet.encodeHex
 import com.conradkramer.wallet.crypto.Keccak256Digest
+import com.conradkramer.wallet.encoding.encodeHex
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encoding.Decoder
@@ -13,7 +13,7 @@ internal class AddressSerializer : HexademicalValueSerializer<Address>() {
 }
 
 @Serializable(with = AddressSerializer::class)
-internal class Address(data: ByteArray) : HexademicalValue(data) {
+class Address(data: ByteArray) : HexademicalValue(data) {
     init {
         if (data.size != 20) {
             throw Exception("Address is incorrect length")
@@ -22,7 +22,7 @@ internal class Address(data: ByteArray) : HexademicalValue(data) {
 
     override fun toString(): String {
         val string = data.encodeHex()
-        val hash = Keccak256Digest().digest(string.toByteArray()).encodeHex()
+        val hash = Keccak256Digest.digest(string.toByteArray()).encodeHex()
         val checksummed = CharArray(string.length) { index ->
             val uppercase = string[index].isLetter() && hash[index].toString().toInt(16) > 7
             return@CharArray if (uppercase) string[index].uppercase().first() else string[index]

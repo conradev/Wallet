@@ -1,12 +1,19 @@
 package com.conradkramer.wallet.bigint
 
-import com.conradkramer.wallet.bigint.BigDecimal
-import com.conradkramer.wallet.bigint.BigInteger
-import com.conradkramer.wallet.decodeHex
+import com.conradkramer.wallet.encoding.decodeHex
 import kotlin.test.Test
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 class BigDecimalTests {
+    @Test
+    fun testIntegerSerialization() {
+        val data = "1bceedbd796a74fb831".decodeHex(true)
+        val integer = BigInteger(data)
+
+        assertContentEquals(data, integer.data)
+    }
+
     @Test
     fun testIntegerBasicMath() {
         val data = "1bceedbd796a74fb831".decodeHex(true)

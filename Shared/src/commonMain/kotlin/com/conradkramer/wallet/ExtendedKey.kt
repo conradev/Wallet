@@ -5,6 +5,8 @@ import com.conradkramer.wallet.crypto.PublicKey
 import com.conradkramer.wallet.crypto.RIPEMD160Digest
 import com.conradkramer.wallet.crypto.SHA256Digest
 import com.conradkramer.wallet.crypto.SHA512Mac
+import com.conradkramer.wallet.encoding.encodeBase58Check
+import com.conradkramer.wallet.encoding.toByteArray
 import io.ktor.utils.io.core.ByteOrder
 import io.ktor.utils.io.core.toByteArray
 
@@ -73,7 +75,7 @@ internal class ExtendedPrivateKey(
 
         data += index.toByteArray(ByteOrder.BIG_ENDIAN)
 
-        val digest = SHA512Mac().authenticationCode(data, chainCode)
+        val digest = SHA512Mac.authenticationCode(data, chainCode)
 
         return ExtendedPrivateKey(
             network,
@@ -85,7 +87,7 @@ internal class ExtendedPrivateKey(
         )
     }
 
-    fun address(coin: Coin, account: Int = 0, change: Boolean = false, address: Int): ExtendedPrivateKey {
+    fun child(coin: Coin, account: Int = 0, change: Boolean = false, address: Int): ExtendedPrivateKey {
         return this
             .child(44u, true)
             .child(coin.number.toUInt(), true)
@@ -96,7 +98,7 @@ internal class ExtendedPrivateKey(
 
     companion object {
         fun fromSeed(seed: ByteArray, network: Network = Network.MAINNET): ExtendedPrivateKey {
-            val root = SHA512Mac().authenticationCode(seed, "Bitcoin seed".toByteArray())
+            val root = SHA512Mac.authenticationCode(seed, "Bitcoin seed".toByteArray())
             return ExtendedPrivateKey(
                 network,
                 PrivateKey(root.copyOf(32)),
@@ -127,5 +129,5 @@ internal class ExtendedPublicKey(
         }
 
     val fingerprint: ByteArray
-        get() = RIPEMD160Digest().digest(SHA256Digest().digest(key.encoded(true)))
+        get() = RIPEMD160Digest.digest(SHA256Digest.digest(key.encoded(true)))
 }

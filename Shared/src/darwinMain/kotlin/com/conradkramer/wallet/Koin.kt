@@ -1,26 +1,36 @@
 package com.conradkramer.wallet
 
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.native.NativeSqliteDriver
+import app.cash.sqldelight.driver.native.wrapConnection
 import co.touchlab.sqliter.DatabaseConfiguration
+import com.conradkramer.wallet.browser.BrowserMessageHost
+import com.conradkramer.wallet.browser.BrowserPromptHost
 import com.conradkramer.wallet.sql.Database
+import com.conradkramer.wallet.viewmodel.BrowserViewModel
 import com.conradkramer.wallet.viewmodel.ImportViewModel
 import com.conradkramer.wallet.viewmodel.MainViewModel
 import com.conradkramer.wallet.viewmodel.OnboardingViewModel
+import com.conradkramer.wallet.viewmodel.PermissionPromptViewModel
+import com.conradkramer.wallet.viewmodel.SignDataPromptViewModel
 import com.conradkramer.wallet.viewmodel.WelcomeViewModel
-import com.squareup.sqldelight.db.SqlDriver
-import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
-import com.squareup.sqldelight.drivers.native.wrapConnection
 import mu.KotlinLoggingConfiguration
 import mu.OSLogSubsystemAppender
 import org.koin.core.Koin
 import org.koin.core.KoinApplication
-import org.koin.core.context.startKoin
+import org.koin.dsl.binds
 import org.koin.dsl.module
 import platform.Foundation.NSFileManager
 
-private fun databaseModule() = module {
+internal fun darwinModule() = module {
+    single { HardwareKeyStore(getProperty("app_group_identifier"), logger<HardwareKeyStore>()) } binds arrayOf(
+        BiometricAuthenticator::class, KeyStore::class
+    )
     factory<SqlDriver> {
         val applicationGroup: String = getProperty("app_group_identifier")
-        val basePath = NSFileManager.defaultManager.containerURLForSecurityApplicationGroupIdentifier(applicationGroup)?.path
+        val basePath = NSFileManager
+            .defaultManager
+            .containerURLForSecurityApplicationGroupIdentifier(applicationGroup)?.path
             ?: throw Exception("Unable to get path for application group container")
 
         val schema = Database.Schema
@@ -42,17 +52,19 @@ private fun databaseModule() = module {
     }
 }
 
-internal fun iosModule() = module {
-    includes(sharedModule(), databaseModule())
-}
-
-fun KoinApplication.Companion.start(applicationGroup: String, subsystem: String): KoinApplication {
+fun KoinApplication.Companion.start(
+    applicationGroup: String,
+    viewServiceName: String,
+    subsystem: String
+): KoinApplication {
     KotlinLoggingConfiguration.appender = OSLogSubsystemAppender(subsystem)
-    return startKoin {
-        logger(KLoggerLogger())
-        properties(mapOf("app_group_identifier" to applicationGroup))
-        allowOverride(false)
-        modules(iosModule())
+    return startKoinShared {
+        properties(
+            mapOf(
+                "app_group_identifier" to applicationGroup,
+                "view_service_identifier" to viewServiceName
+            )
+        )
     }
 }
 
@@ -66,4 +78,19 @@ val Koin.welcomeViewModel: WelcomeViewModel
     get() = get()
 
 val Koin.importViewModel: ImportViewModel
+    get() = get()
+
+val Koin.browserViewModel: BrowserViewModel
+    get() = get()
+
+val Koin.permissionPromptViewModel: PermissionPromptViewModel
+    get() = get()
+
+val Koin.signDataPromptViewModel: SignDataPromptViewModel
+    get() = get()
+
+val Koin.browserMessageHost: BrowserMessageHost
+    get() = get()
+
+val Koin.browserPromptHost: BrowserPromptHost
     get() = get()

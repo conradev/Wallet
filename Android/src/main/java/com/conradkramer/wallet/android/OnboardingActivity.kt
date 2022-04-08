@@ -21,7 +21,7 @@ class OnboardingActivity : AppCompatActivity(), AndroidScopeComponent {
         super.onCreate(savedInstanceState)
         setContent {
             LaunchedEffect(true) {
-                mainViewModel.showOnboardingFlow.collect { show ->
+                mainViewModel.showOnboarding.collect { show ->
                     if (!show) { finishOnboarding() }
                 }
             }

@@ -1,0 +1,28 @@
+CREATE TABLE browser_prompt (
+    id TEXT GENERATED ALWAYS AS (json_extract(prompt, "$.id")) UNIQUE,
+    type TEXT GENERATED ALWAYS AS (json_extract(prompt, "$.type")),
+    prompt TEXT AS com.conradkramer.wallet.browser.prompt.Prompt NOT NULL,
+    response TEXT
+);
+
+insert:
+INSERT INTO browser_prompt(prompt) VALUES (?);
+
+respond:
+UPDATE browser_prompt SET response = ?
+WHERE id = ?;
+
+prompt:
+SELECT prompt FROM browser_prompt WHERE id = ?;
+
+pending:
+SELECT prompt FROM browser_prompt WHERE response IS NULL;
+
+response:
+SELECT response FROM browser_prompt WHERE id = ?;
+
+clear:
+DELETE FROM browser_prompt WHERE id = ?;
+
+reset:
+DELETE FROM browser_prompt;

@@ -1,0 +1,21 @@
+{
+    "type": "object",
+    "properties": {
+        "id": { "type": "number" },
+        "type": { "type": "string" },
+        "frame": {
+            "type": "object",
+            "properties": {
+                "x": { "type": "number" },
+                "y": { "type": "number" },
+                "width": { "type": "number" },
+                "height": { "type": "number" }
+            },
+            "required": ["x", "y", "width", "height"],
+            "additionalProperties": false
+        },
+        "payload": { "type": "object", "minProperties": 1 }
+    },
+    "required": ["id", "type", "payload"],
+    "additionalProperties": false
+}

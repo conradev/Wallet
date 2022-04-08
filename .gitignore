@@ -14,3 +14,10 @@ xcuserdata
 /captures
 .externalNativeBuild
 .cxx
+
+# Yarn
+**/.yarn/*
+!.yarn/releases
+!.yarn/plugins
+**/.pnp.*
+Extension/schemas/*.js

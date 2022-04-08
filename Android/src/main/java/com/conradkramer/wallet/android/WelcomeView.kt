@@ -25,7 +25,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.conradkramer.wallet.PreviewMocks
 import com.conradkramer.wallet.viewmodel.WelcomeViewModel
-import com.conradkramer.wallet.viewmodel.title
 
 @Composable
 fun WelcomeView(viewModel: WelcomeViewModel, onClick: (WelcomeViewModel.Option) -> Unit = { }) {

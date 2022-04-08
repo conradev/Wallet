@@ -29,14 +29,16 @@ internal enum class BlockTag {
 
 @Serializable(with = BlockSpecifierSerializer::class)
 internal sealed class BlockSpecifier {
-    data class Number(val quantity: Quantity) : BlockSpecifier()
-    data class Tag(val tag: BlockTag) : BlockSpecifier()
-
-    val encoded: String
-        get() = when (this) {
-            is Number -> this.quantity.toString()
-            is Tag -> this.tag.toString()
+    data class Number(val quantity: Quantity) : BlockSpecifier() {
+        override fun toString(): String {
+            return quantity.toString()
         }
+    }
+    data class Tag(val tag: BlockTag) : BlockSpecifier() {
+        override fun toString(): String {
+            return tag.toString()
+        }
+    }
 
     companion object {
         val EARLIEST = Tag(BlockTag.EARLIEST)
