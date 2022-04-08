@@ -11,11 +11,11 @@ internal abstract class HexademicalValueSerializer<T : HexademicalValue> : KSeri
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("HexademicalValue", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: T) {
-        encoder.encodeString(this.toString())
+        encoder.encodeString(value.toString())
     }
 }
 
-internal abstract class HexademicalValue(val data: ByteArray) {
+abstract class HexademicalValue(val data: ByteArray) {
     abstract override fun toString(): String
 
     override fun equals(other: Any?): Boolean {

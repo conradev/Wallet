@@ -6,7 +6,7 @@ import com.conradkramer.wallet.ethereum.Request
 import com.conradkramer.wallet.ethereum.Transaction
 import kotlinx.serialization.json.JsonElement
 
-internal data class Call(val transaction: Transaction, val specifier: BlockSpecifier = BlockSpecifier.LATEST) : Request<Data>() {
+internal data class Call<T>(val transaction: Transaction, val specifier: BlockSpecifier = BlockSpecifier.LATEST) : Request<T>() {
     constructor(params: List<JsonElement>) : this(
         decode(params, 0, Transaction.serializer()),
         decode(params, 1, BlockSpecifier.LATEST, BlockSpecifier.serializer())

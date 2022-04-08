@@ -54,7 +54,7 @@ internal class BlockSpecifierSerializer : KSerializer<BlockSpecifier> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("BlockSpecifier", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: BlockSpecifier) {
-        encoder.encodeString(value.toString())
+        encoder.encodeString(value.encoded)
     }
 
     override fun deserialize(decoder: Decoder): BlockSpecifier {

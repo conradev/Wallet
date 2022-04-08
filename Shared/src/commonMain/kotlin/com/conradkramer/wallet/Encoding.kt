@@ -8,7 +8,7 @@ internal fun ByteArray.encodeHex(allowPadding: Boolean = true): String {
     return if (allowPadding) { string } else { string.dropWhile { it == '0' } }
 }
 
-internal fun String.decodeHex(allowNibbles: Boolean = false): ByteArray {
+fun String.decodeHex(allowNibbles: Boolean = false): ByteArray {
     val string = when (length % 2 to allowNibbles) {
         (1 to true) -> "0$this"
         (1 to false) -> throw Exception("Must have an even length")
