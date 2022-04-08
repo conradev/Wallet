@@ -14,6 +14,7 @@ object Versions {
     const val ktor = "2.0.0-beta-1"
     const val koin = "3.2.0-beta-1"
     const val sqldelight = "1.5.3"
+    const val datetime = "0.3.2"
 }
 
 kotlin {
@@ -36,6 +37,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
                 implementation("com.squareup.sqldelight:coroutines-extensions:${Versions.sqldelight}")
                 implementation("io.insert-koin:koin-core:${Versions.koin}")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:${Versions.datetime}")
             }
         }
         val commonTest by getting {

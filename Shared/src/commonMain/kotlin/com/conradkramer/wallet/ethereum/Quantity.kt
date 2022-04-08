@@ -11,7 +11,7 @@ internal class QuantitySerializer : HexademicalValueSerializer<Quantity>() {
 }
 
 @Serializable(with = QuantitySerializer::class)
-internal class Quantity(bytes: ByteArray) : HexademicalValue(bytes) {
+class Quantity(bytes: ByteArray) : HexademicalValue(bytes) {
 
     override fun toString(): String {
         return "0x${data.encodeHex(false)}"

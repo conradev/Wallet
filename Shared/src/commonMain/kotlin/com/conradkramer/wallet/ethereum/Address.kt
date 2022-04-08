@@ -5,6 +5,7 @@ import com.conradkramer.wallet.platform.Keccak256Digest
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 
 internal class AddressSerializer : HexademicalValueSerializer<Address>() {
     override fun deserialize(decoder: Decoder): Address {
@@ -13,7 +14,7 @@ internal class AddressSerializer : HexademicalValueSerializer<Address>() {
 }
 
 @Serializable(with = AddressSerializer::class)
-internal class Address(bytes: ByteArray) : HexademicalValue(bytes) {
+class Address(bytes: ByteArray) : HexademicalValue(bytes) {
     init {
         if (data.size != 20) {
             throw Exception("Address is incorrect length")

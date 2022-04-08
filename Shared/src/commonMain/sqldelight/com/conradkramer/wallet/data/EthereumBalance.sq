@@ -1,0 +1,25 @@
+CREATE TABLE ethereum_balance (
+    address TEXT AS com.conradkramer.wallet.ethereum.Address NOT NULL,
+    contract_address TEXT AS com.conradkramer.wallet.ethereum.Address NOT NULL,
+    balance BLOB AS com.conradkramer.wallet.ethereum.Quantity NOT NULL,
+    timestamp TEXT AS kotlinx.datetime.LocalDateTime NOT NULL
+);
+
+CREATE UNIQUE INDEX balance_address_contract_address
+ON ethereum_balance (address, contract_address);
+
+insert:
+INSERT INTO ethereum_balance(address, contract_address, balance, timestamp)
+VALUES (?, ?, ?, datetime('now'))
+ON CONFLICT(address, contract_address) DO UPDATE
+SET balance = excluded.balance, timestamp = excluded.timestamp;
+
+balancesForAddress:
+SELECT * FROM ethereum_balance
+WHERE address = ?
+ORDER BY balance, contract_address;
+
+balanceFor:
+SELECT * FROM ethereum_balance
+WHERE address = ? AND contract_address = ?
+ORDER BY balance, contract_address;
