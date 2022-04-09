@@ -14,16 +14,13 @@ import mu.OSLogSubsystemAppender
 import org.koin.core.Koin
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import platform.Foundation.NSFileManager
 
-data class ApplicationGroup(val value: String)
-
 private fun databaseModule() = module {
     factory<SqlDriver> {
-        val applicationGroup: ApplicationGroup = get()
-        val basePath = NSFileManager.defaultManager.containerURLForSecurityApplicationGroupIdentifier(applicationGroup.value)?.path
+        val applicationGroup: String = getProperty("app_group_identifier")
+        val basePath = NSFileManager.defaultManager.containerURLForSecurityApplicationGroupIdentifier(applicationGroup)?.path
             ?: throw Exception("Unable to get path for application group container")
 
         val schema = Database.Schema
@@ -47,19 +44,15 @@ private fun databaseModule() = module {
 
 internal fun iosModule() = module {
     includes(sharedModule(), databaseModule())
-    singleOf(::KeyStoreContext)
 }
 
 fun KoinApplication.Companion.start(applicationGroup: String, subsystem: String): KoinApplication {
     KotlinLoggingConfiguration.appender = OSLogSubsystemAppender(subsystem)
-
-    val injected = module {
-        factory { ApplicationGroup(applicationGroup) }
-    }
     return startKoin {
         logger(KLoggerLogger())
+        properties(mapOf("app_group_identifier" to applicationGroup))
         allowOverride(false)
-        modules(iosModule(), injected)
+        modules(iosModule())
     }
 }
 

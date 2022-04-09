@@ -15,16 +15,16 @@ import org.koin.core.logger.Level
 import org.koin.core.logger.Logger
 import org.koin.core.logger.MESSAGE
 import org.koin.core.module.dsl.factoryOf
-import org.koin.core.module.dsl.singleOf
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.Qualifier
 import org.koin.core.qualifier.TypeQualifier
 import org.koin.core.qualifier.named
 import org.koin.core.scope.Scope
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 internal fun sharedModule() = module {
-    singleOf(::KeyStore)
+    includes(keyStoreModule())
     single<AccountStore> { DatabaseAccountStore(get(), get(), logger<AccountStore>()) }
 
     // View Models
@@ -34,8 +34,8 @@ internal fun sharedModule() = module {
     factoryOf(::WelcomeViewModel)
 
     single { Database.invoke(get()) }
-    single<RpcProvider> { AlchemyProvider("tbOMWQYmtAGuUDnDOhoJFYxXIKctXij3") }
-    single<RpcProvider>(named("infura")) { InfuraProvider("ef01c7a0107b41deb6f77b00bda654b1") }
+    single { AlchemyProvider("tbOMWQYmtAGuUDnDOhoJFYxXIKctXij3") } bind RpcProvider::class
+    single(named("infura")) { InfuraProvider("ef01c7a0107b41deb6f77b00bda654b1") } bind RpcProvider::class
     factory { RpcClient(get<RpcProvider>().endpointUrl) }
 
     factory { params -> KotlinLogging.logger(params.get<String>()) }

@@ -11,6 +11,7 @@ import kotlinx.cinterop.ptr
 import kotlinx.cinterop.usePinned
 import kotlinx.cinterop.utf8
 import kotlinx.cinterop.value
+import org.koin.dsl.module
 import platform.CoreFoundation.CFArrayGetCount
 import platform.CoreFoundation.CFArrayGetValueAtIndex
 import platform.CoreFoundation.CFArrayRef
@@ -78,12 +79,8 @@ import platform.Security.kSecValueRef
 
 internal actual data class Authentication(val context: LAContext)
 
-internal actual data class KeyStoreContext(val applicationGroup: ApplicationGroup)
-
 @Suppress("UNCHECKED_CAST")
-internal actual class KeyStore actual constructor(keyStoreContext: KeyStoreContext) {
-
-    private val applicationGroup: String = keyStoreContext.applicationGroup.value
+internal actual class KeyStore(private val applicationGroup: String) {
 
     actual val canStore: Boolean
         get() = LAContext().canEvaluatePolicy(kLAPolicyDeviceOwnerAuthentication.convert(), null)
@@ -287,6 +284,10 @@ internal actual class KeyStore actual constructor(keyStoreContext: KeyStoreConte
             use(data.toByteArray())
         }
     }
+}
+
+internal actual fun keyStoreModule() = module {
+    single { KeyStore(getProperty("app_group_identifier")) }
 }
 
 internal expect fun keyStoreAccessControlCreate(): CFTypeRef?
