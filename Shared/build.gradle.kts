@@ -13,6 +13,7 @@ object Versions {
     const val coroutines = "1.6.0"
     const val ktor = "2.0.0-beta-1"
     const val koin = "3.2.0-beta-1"
+    const val slf4j = "1.7.36"
     const val sqldelight = "1.5.3"
 }
 
@@ -36,6 +37,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
                 implementation("com.squareup.sqldelight:coroutines-extensions:${Versions.sqldelight}")
                 implementation("io.insert-koin:koin-core:${Versions.koin}")
+                implementation(project(":kotlin-logging"))
             }
         }
         val commonTest by getting {
@@ -57,6 +59,7 @@ kotlin {
                 implementation("com.squareup.sqldelight:android-driver:${Versions.sqldelight}")
                 implementation("io.insert-koin:koin-android:${Versions.koin}")
                 implementation("io.insert-koin:koin-androidx-compose:${Versions.koin}")
+                implementation("org.slf4j:slf4j-android:${Versions.slf4j}")
             }
         }
         val androidTest by getting

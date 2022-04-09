@@ -7,3 +7,6 @@
 [submodule "External/bitcoin"]
 	path = External/bitcoin
 	url = https://github.com/bitcoin/bitcoin.git
+[submodule "External/kotlin-logging"]
+	path = External/kotlin-logging
+	url = https://github.com/conradev/kotlin-logging.git
