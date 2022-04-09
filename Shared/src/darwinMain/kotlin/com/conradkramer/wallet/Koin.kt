@@ -9,6 +9,8 @@ import com.conradkramer.wallet.viewmodel.WelcomeViewModel
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
 import com.squareup.sqldelight.drivers.native.wrapConnection
+import mu.KotlinLoggingConfiguration
+import mu.OSLogSubsystemAppender
 import org.koin.core.Koin
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
@@ -49,11 +51,13 @@ val iosModule = module {
 }
 
 fun KoinApplication.Companion.start(applicationGroup: String, subsystem: String): KoinApplication {
+    KotlinLoggingConfiguration.appender = OSLogSubsystemAppender(subsystem)
+
     val injected = module {
         factory { ApplicationGroup(applicationGroup) }
     }
     return startKoin {
-        logger(OSLogLogger(subsystem))
+        logger(KLoggerLogger())
         allowOverride(false)
         modules(iosModule, injected)
     }

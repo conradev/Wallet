@@ -6,7 +6,6 @@ import com.conradkramer.wallet.sql.Database
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.factoryOf
@@ -20,7 +19,7 @@ val androidModule = module {
 
 fun startKoin(context: Context): KoinApplication {
     return startKoin {
-        androidLogger()
+        logger(KLoggerLogger())
         androidContext(context)
         allowOverride(false)
         modules(androidModule)

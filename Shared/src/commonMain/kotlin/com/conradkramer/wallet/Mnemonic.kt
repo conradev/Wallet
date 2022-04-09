@@ -13,6 +13,7 @@ import kotlin.random.Random
 internal class Mnemonic @Throws(Exception::class) constructor(phrase: String) {
 
     val phrase: String
+    val length: Length
 
     constructor(length: Length) : this(generate(length))
     constructor() : this(Length.TWENTY_FOUR)
@@ -52,6 +53,7 @@ internal class Mnemonic @Throws(Exception::class) constructor(phrase: String) {
         }
 
         this.phrase = words.joinToString(" ")
+        this.length = length
     }
 
     fun seed(passphrase: String = ""): ByteArray {
