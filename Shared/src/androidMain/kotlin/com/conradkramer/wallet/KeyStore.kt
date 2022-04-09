@@ -12,16 +12,16 @@ import androidx.biometric.BiometricPrompt
 import com.conradkramer.wallet.platform.SHA256Digest
 import io.ktor.util.decodeBase64Bytes
 import io.ktor.util.encodeBase64
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.module
 import java.security.Key
 import java.security.KeyPairGenerator
 import java.security.KeyStore
 import javax.crypto.Cipher
 
-internal actual data class KeyStoreContext(val context: Context)
-
 internal actual data class Authentication(val result: BiometricPrompt.AuthenticationResult)
 
-internal actual class KeyStore actual constructor(keyStoreContext: KeyStoreContext) {
+internal actual class KeyStore(private val context: Context) {
     private companion object {
         fun cipher(encryptMode: Int, key: Key): Cipher {
             return Cipher.getInstance("RSA/ECB/PKCS1Padding")
@@ -30,8 +30,6 @@ internal actual class KeyStore actual constructor(keyStoreContext: KeyStoreConte
 
         const val ANDROID_KEYSTORE = "AndroidKeyStore"
     }
-
-    private val context = keyStoreContext.context
 
     private val isStrongBoxBacked by lazy {
         if (BuildConfig.DEBUG) {
@@ -124,4 +122,8 @@ internal actual class KeyStore actual constructor(keyStoreContext: KeyStoreConte
         val decryptedBytes = cipher.doFinal(encryptedSeed)
         use(decryptedBytes)
     }
+}
+
+internal actual fun keyStoreModule() = module {
+    singleOf(::KeyStore)
 }

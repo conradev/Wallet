@@ -1,9 +1,10 @@
 package com.conradkramer.wallet
 
-internal expect class Authentication
-internal expect class KeyStoreContext
+import org.koin.core.module.Module
 
-internal expect class KeyStore(keyStoreContext: KeyStoreContext) {
+internal expect class Authentication
+
+internal expect class KeyStore {
     val canStore: Boolean
 
     val all: List<String>
@@ -12,3 +13,5 @@ internal expect class KeyStore(keyStoreContext: KeyStoreContext) {
     fun delete(id: String)
     fun use(authentication: Authentication, id: String, use: (data: ByteArray) -> Unit)
 }
+
+internal expect fun keyStoreModule(): Module
