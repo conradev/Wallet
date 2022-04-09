@@ -11,8 +11,8 @@ import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
-val androidModule = module {
-    includes(sharedModule)
+internal fun androidModule() = module {
+    includes(sharedModule())
     factory<SqlDriver> { AndroidSqliteDriver(Database.Schema, get(), Database.FILE_NAME) }
     factoryOf(::KeyStoreContext)
 }
@@ -22,6 +22,6 @@ fun startKoin(context: Context): KoinApplication {
         logger(KLoggerLogger())
         androidContext(context)
         allowOverride(false)
-        modules(androidModule)
+        modules(androidModule())
     }
 }

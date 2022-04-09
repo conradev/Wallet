@@ -20,7 +20,7 @@ import platform.Foundation.NSFileManager
 
 data class ApplicationGroup(val value: String)
 
-private val databaseModule = module {
+private fun databaseModule() = module {
     factory<SqlDriver> {
         val applicationGroup: ApplicationGroup = get()
         val basePath = NSFileManager.defaultManager.containerURLForSecurityApplicationGroupIdentifier(applicationGroup.value)?.path
@@ -45,8 +45,8 @@ private val databaseModule = module {
     }
 }
 
-val iosModule = module {
-    includes(sharedModule, databaseModule)
+internal fun iosModule() = module {
+    includes(sharedModule(), databaseModule())
     singleOf(::KeyStoreContext)
 }
 
@@ -59,7 +59,7 @@ fun KoinApplication.Companion.start(applicationGroup: String, subsystem: String)
     return startKoin {
         logger(KLoggerLogger())
         allowOverride(false)
-        modules(iosModule, injected)
+        modules(iosModule(), injected)
     }
 }
 

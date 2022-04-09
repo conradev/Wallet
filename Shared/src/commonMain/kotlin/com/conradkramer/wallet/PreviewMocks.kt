@@ -3,6 +3,7 @@ package com.conradkramer.wallet
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.Koin
+import org.koin.core.KoinApplication
 import org.koin.dsl.koinApplication
 import org.koin.dsl.module
 
@@ -18,12 +19,14 @@ internal class MockAccountStore : AccountStore {
 
 class PreviewMocks {
     companion object {
-        private val mockModule = module {
+        private fun mockModule() = module {
             single<AccountStore> { MockAccountStore() }
         }
 
-        private val application = koinApplication {
-            modules(sharedModule, mockModule)
+        private val application: KoinApplication by lazy {
+            koinApplication {
+                modules(sharedModule(), mockModule())
+            }
         }
 
         val koin: Koin
