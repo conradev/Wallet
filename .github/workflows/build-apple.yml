@@ -23,15 +23,18 @@ jobs:
         - scheme: App (iOS)
           destination: generic/platform=iOS
           platform: iOS
+          sdk-name: iphoneos
         - scheme: App (iOS)
           destination: platform=iOS Simulator,OS=15.2,name=iPhone 13 Pro
           platform: iOS Simulator
+          sdk-name: iphonesimulator
           xcode-unit-test: UnitTests
           xcode-ui-test: UITests-iOS
           gradle-test: iosX64Test
         - scheme: App (macOS)
           destination: platform=macOS
           platform: macOS
+          sdk-name: macos
           xcode-unit-test: UnitTests
           gradle-test: macosX64Test
     env:
@@ -74,7 +77,7 @@ jobs:
         scheme: ${{ matrix.configuration['scheme'] }}
         destination: ${{ matrix.configuration['destination'] }}
         test-plan: ${{ matrix.configuration['xcode-unit-test'] }}
-        artifact-name: ${{ matrix.configuration['xcode-unit-test'] }}-${{ matrix.configuration['platform'] }}
+        artifact-prefix: unit-tests-${{ matrix.configuration['sdk-name'] }}
         check-name: Xcode Unit Tests (${{ matrix.configuration['platform'] }})
     - name: Kotlin Unit Test
       if: ${{ matrix.configuration['gradle-test'] != '' }}
@@ -91,5 +94,5 @@ jobs:
         scheme: ${{ matrix.configuration['scheme'] }}
         destination: ${{ matrix.configuration['destination'] }}
         test-plan: ${{ matrix.configuration['xcode-ui-test'] }}
-        artifact-name: ${{ matrix.configuration['xcode-ui-test'] }}-${{ matrix.configuration['platform'] }}
+        artifact-prefix: ui-tests-${{ matrix.configuration['sdk-name'] }}
         check-name: Xcode UI Tests (${{ matrix.configuration['platform'] }})
