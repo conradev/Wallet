@@ -306,6 +306,7 @@
 		D07F238E27595E1200E2C42C /* Wallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D07F238F27595E1500E2C42C /* Wallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D080E17327F2830F0024944D /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
+		D0871A932802589C003D47C4 /* WebExtension-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WebExtension-iOS.entitlements"; sourceTree = "<group>"; };
 		D08CF09927603AF300E978CF /* Tests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Tests.xcconfig; sourceTree = "<group>"; };
 		D0981F5226E1DEFC00CDD5CA /* Signer.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Signer.xcconfig; sourceTree = "<group>"; };
 		D0981F5626E2689000CDD5CA /* WebExtension-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WebExtension-Info.plist"; sourceTree = "<group>"; };
@@ -535,6 +536,7 @@
 				D07C8D0E26E1C86200D4D339 /* WebExtension.xcconfig */,
 				D02D63A8272685720050BEA8 /* WebExtension-iOS.xcconfig */,
 				D02D63A7272685720050BEA8 /* WebExtension-macOS.xcconfig */,
+				D0871A932802589C003D47C4 /* WebExtension-iOS.entitlements */,
 				D0E52433272CE3C600A3370B /* WebExtension-macOS.entitlements */,
 				D0981F5626E2689000CDD5CA /* WebExtension-Info.plist */,
 				D072B10726D252A700DA1C47 /* Resources */,

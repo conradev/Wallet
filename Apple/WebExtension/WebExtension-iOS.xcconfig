@@ -6,3 +6,5 @@
 SDKROOT = iphoneos
 SUPPORTED_PLATFORMS = iphoneos iphonesimulator
 IPHONEOS_DEPLOYMENT_TARGET = 15.0
+
+CODE_SIGN_ENTITLEMENTS = WebExtension/WebExtension-iOS.entitlements
