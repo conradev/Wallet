@@ -1,7 +1,7 @@
 package com.conradkramer.wallet
 
 import com.conradkramer.wallet.data.Public_key
-import com.conradkramer.wallet.platform.PublicKey
+import com.conradkramer.wallet.crypto.PublicKey
 import com.conradkramer.wallet.sql.Database
 import com.squareup.sqldelight.ColumnAdapter
 import com.squareup.sqldelight.db.SqlDriver

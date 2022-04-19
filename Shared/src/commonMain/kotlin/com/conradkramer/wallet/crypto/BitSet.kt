@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.platform
+package com.conradkramer.wallet.crypto
 
 @OptIn(ExperimentalUnsignedTypes::class)
 internal fun BitSet.toSeedByteArray(): ByteArray {

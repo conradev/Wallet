@@ -1,5 +1,6 @@
-package com.conradkramer.wallet.platform
+package com.conradkramer.wallet.crypto
 
+import com.conradkramer.wallet.crypto.PrivateKey
 import com.conradkramer.wallet.decodeHex
 import com.conradkramer.wallet.encodeHex
 import kotlin.test.Test

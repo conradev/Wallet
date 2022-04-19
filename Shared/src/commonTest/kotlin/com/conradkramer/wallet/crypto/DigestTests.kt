@@ -1,5 +1,8 @@
-package com.conradkramer.wallet.platform
+package com.conradkramer.wallet.crypto
 
+import com.conradkramer.wallet.crypto.Keccak256Digest
+import com.conradkramer.wallet.crypto.RIPEMD160Digest
+import com.conradkramer.wallet.crypto.SHA512Mac
 import com.conradkramer.wallet.encodeHex
 import io.ktor.utils.io.core.toByteArray
 import kotlin.test.Test

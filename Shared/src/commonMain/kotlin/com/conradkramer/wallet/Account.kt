@@ -4,8 +4,8 @@ package com.conradkramer.wallet
 
 import com.conradkramer.wallet.data.Public_key
 import com.conradkramer.wallet.ethereum.Address
-import com.conradkramer.wallet.platform.PublicKey
-import com.conradkramer.wallet.platform.ethereumAddress
+import com.conradkramer.wallet.crypto.PublicKey
+import com.conradkramer.wallet.crypto.ethereumAddress
 
 internal class Account(val id: String, keys: List<PublicKeyRecord> = listOf()) {
 

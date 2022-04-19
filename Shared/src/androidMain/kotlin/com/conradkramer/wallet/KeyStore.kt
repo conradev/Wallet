@@ -9,7 +9,7 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
 import androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS
 import androidx.biometric.BiometricPrompt
-import com.conradkramer.wallet.platform.SHA256Digest
+import com.conradkramer.wallet.crypto.SHA256Digest
 import io.ktor.util.decodeBase64Bytes
 import io.ktor.util.encodeBase64
 import org.koin.core.module.dsl.singleOf
@@ -119,8 +119,7 @@ internal actual class KeyStore(private val context: Context) {
         val encryptedSeed = sharedPreferences.getString(id, null)?.decodeBase64Bytes()
             ?: throw Exception("Key not found for id: $id")
 
-        val decryptedBytes = cipher.doFinal(encryptedSeed)
-        use(decryptedBytes)
+        use(cipher.doFinal(encryptedSeed))
     }
 }
 

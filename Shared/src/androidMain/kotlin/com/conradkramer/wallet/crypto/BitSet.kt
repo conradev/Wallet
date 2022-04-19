@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.platform
+package com.conradkramer.wallet.crypto
 
 import java.util.BitSet
 

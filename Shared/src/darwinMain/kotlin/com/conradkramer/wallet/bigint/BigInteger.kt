@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.platform
+package com.conradkramer.wallet.bigint
 
 import gmp.__mpz_struct
 import gmp.mpz_clear
@@ -25,16 +25,16 @@ actual class BigInteger() {
         nativeHeap.free(mpz.rawPtr)
     }
 
-    actual constructor(bytes: ByteArray) : this() {
-        bytes.asUByteArray().usePinned { pinnedBytes ->
+    actual constructor(data: ByteArray) : this() {
+        data.asUByteArray().usePinned { pinnedData ->
             mpz_import!!(
                 mpz.ptr,
                 1.convert(),
                 1.convert(),
-                bytes.size.convert(),
+                data.size.convert(),
                 1.convert(),
                 0.convert(),
-                pinnedBytes.addressOf(0)
+                pinnedData.addressOf(0)
             )
         }
     }

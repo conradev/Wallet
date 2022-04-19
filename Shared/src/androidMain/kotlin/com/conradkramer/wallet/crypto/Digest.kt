@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.platform
+package com.conradkramer.wallet.crypto
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.MessageDigest

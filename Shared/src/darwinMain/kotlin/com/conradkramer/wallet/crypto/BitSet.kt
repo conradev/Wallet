@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.platform
+package com.conradkramer.wallet.crypto
 
 internal actual class BitSet actual constructor(size: Int) {
 

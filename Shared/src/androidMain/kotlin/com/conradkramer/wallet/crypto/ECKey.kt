@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.platform
+package com.conradkramer.wallet.crypto
 
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey
@@ -35,11 +35,11 @@ internal actual class PrivateKey internal constructor(private val inner: BCECPri
 
     actual val encoded: ByteArray
         get() {
-            val bytes = inner.d.toByteArray()
-            val zeroes = bytes
+            val data = inner.d.toByteArray()
+            val zeroes = data
                 .takeWhile { it == 0.toByte() }
                 .count()
-            return bytes.copyOfRange(min(bytes.size - 32, zeroes), bytes.size)
+            return data.copyOfRange(min(data.size - 32, zeroes), data.size)
         }
 
     actual val publicKey: PublicKey
