@@ -22,7 +22,8 @@ struct MainSplitView: View, MainViewProvider {
         NavigationView {
             List {
                 ForEach(MainViewModel.Tab.allCases, id: \.self) { tab in
-                    NavigationLink {
+                    // swiftlint:disable:next multiline_arguments
+                    NavigationLink(isActive: isActive(tab: tab)) {
                         view(for: tab)
                     } label: {
                         label(for: tab)
@@ -48,6 +49,15 @@ struct MainSplitView: View, MainViewProvider {
             #if os(macOS)
             .padding(.vertical, 5)
             #endif
+    }
+
+    private func isActive(tab: MainViewModel.Tab) -> Binding<Bool> {
+        .init {
+            observable.selectedTab == tab
+        } set: { newValue in
+            guard newValue else { return }
+            observable.selectedTab = tab
+        }
     }
 }
 
