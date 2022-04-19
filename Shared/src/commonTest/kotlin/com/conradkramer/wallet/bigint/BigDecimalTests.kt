@@ -1,5 +1,7 @@
-package com.conradkramer.wallet.platform
+package com.conradkramer.wallet.bigint
 
+import com.conradkramer.wallet.bigint.BigDecimal
+import com.conradkramer.wallet.bigint.BigInteger
 import com.conradkramer.wallet.decodeHex
 import kotlin.test.Test
 import kotlin.test.assertEquals

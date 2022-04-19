@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.platform
+package com.conradkramer.wallet.bigint
 
 import java.math.MathContext
 import java.math.RoundingMode

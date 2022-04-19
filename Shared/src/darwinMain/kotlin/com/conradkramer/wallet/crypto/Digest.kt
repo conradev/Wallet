@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.platform
+package com.conradkramer.wallet.crypto
 
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.alloc

@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.platform
+package com.conradkramer.wallet.bigint
 
 import gmp.__mpf_struct
 import gmp.mpf_clear

@@ -1,6 +1,6 @@
 package com.conradkramer.wallet
 
-import com.conradkramer.wallet.platform.SHA256Digest
+import com.conradkramer.wallet.crypto.SHA256Digest
 
 private const val alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 

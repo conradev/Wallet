@@ -1,6 +1,6 @@
 package com.conradkramer.wallet
 
-import com.conradkramer.wallet.platform.SHA256Digest
+import com.conradkramer.wallet.crypto.SHA256Digest
 import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.MemScope
 import kotlinx.cinterop.addressOf

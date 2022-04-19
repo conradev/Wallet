@@ -1,10 +1,10 @@
 package com.conradkramer.wallet
 
-import com.conradkramer.wallet.platform.PrivateKey
-import com.conradkramer.wallet.platform.PublicKey
-import com.conradkramer.wallet.platform.RIPEMD160Digest
-import com.conradkramer.wallet.platform.SHA256Digest
-import com.conradkramer.wallet.platform.SHA512Mac
+import com.conradkramer.wallet.crypto.PrivateKey
+import com.conradkramer.wallet.crypto.PublicKey
+import com.conradkramer.wallet.crypto.RIPEMD160Digest
+import com.conradkramer.wallet.crypto.SHA256Digest
+import com.conradkramer.wallet.crypto.SHA512Mac
 import io.ktor.utils.io.core.ByteOrder
 import io.ktor.utils.io.core.toByteArray
 

@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.platform
+package com.conradkramer.wallet.crypto
 
 internal expect class SHA256Digest() {
     fun digest(data: ByteArray): ByteArray

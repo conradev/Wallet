@@ -1,9 +1,9 @@
 package com.conradkramer.wallet
 
-import com.conradkramer.wallet.platform.BitSet
-import com.conradkramer.wallet.platform.PBKDF2SHA512Derivation
-import com.conradkramer.wallet.platform.SHA256Digest
-import com.conradkramer.wallet.platform.toSeedByteArray
+import com.conradkramer.wallet.crypto.BitSet
+import com.conradkramer.wallet.crypto.PBKDF2SHA512Derivation
+import com.conradkramer.wallet.crypto.SHA256Digest
+import com.conradkramer.wallet.crypto.toSeedByteArray
 import io.ktor.utils.io.core.ByteOrder
 import io.ktor.utils.io.core.toByteArray
 import kotlin.math.min
@@ -44,10 +44,10 @@ internal class Mnemonic @Throws(Exception::class) constructor(phrase: String) {
             }
         }
 
-        val bytesWithChecksum = bits.toSeedByteArray()
-        val bytes = bytesWithChecksum.copyOfRange(0, bytesWithChecksum.size - 1)
-        val checksum = (bytesWithChecksum.last().toUInt() shr (BITS_PER_BYTE - length.checksumBits)).toUByte()
-        val computedChecksum = (SHA256Digest().digest(bytes).first().toUInt() shr (BITS_PER_BYTE - length.checksumBits)).toUByte()
+        val dataWithChecksum = bits.toSeedByteArray()
+        val data = dataWithChecksum.copyOfRange(0, dataWithChecksum.size - 1)
+        val checksum = (dataWithChecksum.last().toUInt() shr (BITS_PER_BYTE - length.checksumBits)).toUByte()
+        val computedChecksum = (SHA256Digest().digest(data).first().toUInt() shr (BITS_PER_BYTE - length.checksumBits)).toUByte()
         if (checksum != computedChecksum) {
             throw Exception("Provided checksum $checksum does not match computed checksum $computedChecksum")
         }
@@ -91,19 +91,19 @@ internal class Mnemonic @Throws(Exception::class) constructor(phrase: String) {
         val WORD_BITMASK = (2.0.pow(BITS_PER_WORD) - 1).toUInt()
 
         fun generate(length: Length): String {
-            var bytes = Random.Default.nextBytes(length.bits / BITS_PER_BYTE)
-            bytes += SHA256Digest().digest(bytes).first()
+            var data = Random.Default.nextBytes(length.bits / BITS_PER_BYTE)
+            data += SHA256Digest().digest(data).first()
             return (0 until length.value)
-                .map { index(bytes, it) }
+                .map { index(data, it) }
                 .joinToString(" ") { Wordlist.english.words[it] }
         }
 
-        fun index(bytes: ByteArray, offset: Int): Int {
+        fun index(data: ByteArray, offset: Int): Int {
             val startBit = offset * BITS_PER_WORD
-            val byteReadOffset = min(startBit / BITS_PER_BYTE, bytes.size - UInt.SIZE_BYTES)
+            val byteReadOffset = min(startBit / BITS_PER_BYTE, data.size - UInt.SIZE_BYTES)
             val ignoredBits = startBit - (byteReadOffset * BITS_PER_BYTE)
             val rightShift = UInt.SIZE_BITS - ignoredBits - BITS_PER_WORD
-            return bytes
+            return data
                 .sliceArray(byteReadOffset until byteReadOffset + UInt.SIZE_BYTES)
                 .toUInt(ByteOrder.BIG_ENDIAN)
                 .shr(rightShift)
