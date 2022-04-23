@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
 
 plugins {
     kotlin("multiplatform")
-    kotlin("plugin.serialization") version "1.6.10"
+    kotlin("plugin.serialization") version "1.6.20"
     id("com.android.library")
     id("com.squareup.sqldelight")
     id("com.rickclephas.kmp.nativecoroutines") version "0.11.3-new-mm"

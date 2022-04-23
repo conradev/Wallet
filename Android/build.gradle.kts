@@ -4,9 +4,14 @@ plugins {
 }
 
 object Versions {
-    const val compose = "1.1.1"
+    const val activity = "1.4.0"
+    const val appcompat = "1.4.1"
+    const val biometric = "1.2.0-alpha04"
+    const val compose = "1.2.0-alpha08"
     const val koin = "3.2.0-beta-1"
+    const val material = "1.5.0"
     const val material3 = "1.0.0-alpha08"
+    const val navigation = "2.4.2"
 }
 
 android {
@@ -57,12 +62,10 @@ kotlin {
 
 dependencies {
     implementation(project(":Shared"))
-    implementation("com.google.android.material:material:1.5.0")
-    implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
-    implementation("androidx.biometric:biometric:1.1.0")
-    implementation("androidx.biometric:biometric:1.2.0-alpha04")
-    implementation("androidx.biometric:biometric-ktx:1.2.0-alpha04")
+    implementation("com.google.android.material:material:${Versions.material}")
+    implementation("androidx.appcompat:appcompat:${Versions.appcompat}")
+    implementation("androidx.biometric:biometric:${Versions.biometric}")
+    implementation("androidx.biometric:biometric-ktx:${Versions.biometric}")
     implementation("androidx.compose.ui:ui:${Versions.compose}")
     implementation("androidx.compose.ui:ui-tooling:${Versions.compose}")
     implementation("androidx.compose.foundation:foundation:${Versions.compose}")
@@ -70,8 +73,8 @@ dependencies {
     implementation("androidx.compose.material:material-icons-core:${Versions.compose}")
     implementation("androidx.compose.material:material-icons-extended:${Versions.compose}")
     implementation("androidx.compose.material3:material3:${Versions.material3}")
-    implementation("androidx.activity:activity-compose:1.4.0")
-    implementation("androidx.navigation:navigation-compose:2.4.1")
+    implementation("androidx.activity:activity-compose:${Versions.activity}")
+    implementation("androidx.navigation:navigation-compose:${Versions.navigation}")
     implementation("io.insert-koin:koin-android:${Versions.koin}")
     implementation("io.insert-koin:koin-androidx-compose:${Versions.koin}")
 }
