@@ -1,6 +1,5 @@
 import LocalAuthentication
 import SwiftUI
-import WalletUICore
 
 public struct SignDataPromptView: View {
     @ObservedObject
