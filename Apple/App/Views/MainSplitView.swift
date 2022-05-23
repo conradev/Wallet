@@ -8,8 +8,13 @@ protocol MainViewProvider {
 }
 
 extension MainViewProvider {
-    @ViewBuilder
     func view(for tab: MainViewModel.Tab) -> some View {
+        contentView(for: tab)
+            .accessibilityIdentifier(.mainView(tab))
+    }
+
+    @ViewBuilder
+    func contentView(for tab: MainViewModel.Tab) -> some View {
         #if os(macOS)
         Text(tab.title)
         #else

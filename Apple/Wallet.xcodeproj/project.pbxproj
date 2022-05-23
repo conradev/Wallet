@@ -62,6 +62,12 @@
 		D05E1B5727E14C8800BDE97F /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05E1B5627E14C8800BDE97F /* WelcomeView.swift */; };
 		D05E1B5827E14C8800BDE97F /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05E1B5627E14C8800BDE97F /* WelcomeView.swift */; };
 		D05E1B5A27E1ACFB00BDE97F /* ImportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05E1B5927E1ACFB00BDE97F /* ImportViewController.swift */; };
+		D062695F283A0900000B62E6 /* WalletCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D0BF411B28274264001180E3 /* WalletCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D0626961283A0A47000B62E6 /* AccessibilityIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0626960283A0A47000B62E6 /* AccessibilityIdentifiers.swift */; };
+		D0626964283A1317000B62E6 /* WalletUICore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D0BF417B2827447B001180E3 /* WalletUICore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D0626965283A131B000B62E6 /* WalletCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D0BF411B28274264001180E3 /* WalletCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D0626968283BE977000B62E6 /* WalletCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D0BF411B28274264001180E3 /* WalletCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D0626969283BE977000B62E6 /* WalletUICore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D0BF417B2827447B001180E3 /* WalletUICore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D072B0F326D2520900DA1C47 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D072B0E426D2520800DA1C47 /* OnboardingView.swift */; };
 		D072B0F526D2520900DA1C47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D072B0E526D2520900DA1C47 /* Assets.xcassets */; };
 		D072B10626D252A700DA1C47 /* WebExtensionRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D072B10526D252A700DA1C47 /* WebExtensionRequestHandler.swift */; };
@@ -236,6 +242,41 @@
 			name = "Embed Native Messaging Host";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D062695E283A08F0000B62E6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				D062695F283A0900000B62E6 /* WalletCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0626963283A130B000B62E6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				D0626965283A131B000B62E6 /* WalletCore.framework in Embed Frameworks */,
+				D0626964283A1317000B62E6 /* WalletUICore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0626967283BE957000B62E6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D0626968283BE977000B62E6 /* WalletCore.framework in Embed Frameworks */,
+				D0626969283BE977000B62E6 /* WalletUICore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D072B11F26D252A700DA1C47 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -339,6 +380,7 @@
 		D05E1B5327E129B100BDE97F /* AutoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayout.swift; sourceTree = "<group>"; };
 		D05E1B5627E14C8800BDE97F /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		D05E1B5927E1ACFB00BDE97F /* ImportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportViewController.swift; sourceTree = "<group>"; };
+		D0626960283A0A47000B62E6 /* AccessibilityIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifiers.swift; sourceTree = "<group>"; };
 		D070D39E272A7BEA00597E87 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		D070D39F272A7BEA00597E87 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		D070D3A2272A7F3200597E87 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -723,6 +765,7 @@
 			children = (
 				D031A7F727DBDF320009C6BF /* Koin.swift */,
 				D028F28E281CE2410042C687 /* PromptView.swift */,
+				D0626960283A0A47000B62E6 /* AccessibilityIdentifiers.swift */,
 				D0EE2397281B9F18004FCB52 /* PermissionPromptView.swift */,
 				D028F2AA281E5FA70042C687 /* SignDataPromptView.swift */,
 				D0EE239A281C9463004FCB52 /* FloatingButtonStyle.swift */,
@@ -743,7 +786,8 @@
 			buildPhases = (
 				D00D377D27746CA40050F5A4 /* Sources */,
 				D00D377E27746CA40050F5A4 /* Frameworks */,
-				D00D377F27746CA40050F5A4 /* Resources */,
+				D062695D283A08D5000B62E6 /* Embed Kotlin Frameworks */,
+				D062695E283A08F0000B62E6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -761,7 +805,8 @@
 			buildPhases = (
 				D0271CCE27D15778002FF5B1 /* Sources */,
 				D0271CCF27D15778002FF5B1 /* Frameworks */,
-				D0271CD027D15778002FF5B1 /* Resources */,
+				D0626966283BE936000B62E6 /* Embed Kotlin Frameworks */,
+				D0626967283BE957000B62E6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -779,7 +824,8 @@
 			buildPhases = (
 				D0271CF327D1AD08002FF5B1 /* Sources */,
 				D0271CF427D1AD08002FF5B1 /* Frameworks */,
-				D0271CF527D1AD08002FF5B1 /* Resources */,
+				D0626962283A12F8000B62E6 /* Embed Kotlin Frameworks */,
+				D0626963283A130B000B62E6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1073,27 +1119,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		D00D377F27746CA40050F5A4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D0271CD027D15778002FF5B1 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D0271CF527D1AD08002FF5B1 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D02D63F92726932A0050BEA8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1139,6 +1164,60 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		D062695D283A08D5000B62E6 /* Embed Kotlin Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Kotlin Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+		};
+		D0626962283A12F8000B62E6 /* Embed Kotlin Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Kotlin Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+		};
+		D0626966283BE936000B62E6 /* Embed Kotlin Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Kotlin Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+		};
 		D09974EC280F3DD900AB4C1B /* Compile TypeScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1453,6 +1532,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0626961283A0A47000B62E6 /* AccessibilityIdentifiers.swift in Sources */,
 				D0BF41902828495D001180E3 /* PromptView.swift in Sources */,
 				D032D842282D1A950000CE6B /* Location+UIKit.swift in Sources */,
 				D0BF4181282744D8001180E3 /* Koin.swift in Sources */,

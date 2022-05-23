@@ -26,6 +26,7 @@ struct WelcomeView: View {
                 }
                 .buttonStyle(CellButtonStyle(selected: observable.selectedOption == option))
                 .frame(maxWidth: 300)
+                .accessibilityIdentifier(.welcomeOption(option))
             }
             Spacer()
         }

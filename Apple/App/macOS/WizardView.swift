@@ -34,6 +34,7 @@ struct WizardView<Content: View>: View {
             .disabled(next == nil)
             .controlSize(.large)
             .keyboardShortcut(.defaultAction)
+            .accessibilityIdentifier(.wizardNextButton)
         }
         .controlSize(.large)
         .padding(.horizontal)

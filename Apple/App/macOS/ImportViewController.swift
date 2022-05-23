@@ -63,6 +63,7 @@ class ImportViewController: NSViewController, NSTextViewDelegate {
         textView.isRichText = false
         textView.isGrammarCheckingEnabled = false
         textView.isContinuousSpellCheckingEnabled = false
+        textView.setAccessibilityIdentifier(.importPhraseField)
         return textView
     }()
 

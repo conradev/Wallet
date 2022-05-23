@@ -70,12 +70,18 @@ internal fun mockApplication(): KoinApplication {
 }
 
 internal fun startKoinShared(declaration: KoinAppDeclaration): KoinApplication {
-    return startKoin {
+    val application = startKoin {
         declaration()
         logger(KLoggerLogger())
         allowOverride(false)
         modules(platformModule(), sharedModule())
     }
+
+    if (LaunchOptions.current.reset) {
+        application.koin.get<AccountStore>().reset()
+    }
+
+    return application
 }
 
 internal fun Scope.logger(qualifier: Qualifier) = get<KLogger> {

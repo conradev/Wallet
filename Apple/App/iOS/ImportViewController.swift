@@ -71,6 +71,7 @@ class ImportViewController: UIViewController, UITextViewDelegate {
                 .withSymbolicTraits([.traitBold, .traitMonoSpace])!,
             size: UIFont.preferredFont(forTextStyle: .title2).pointSize
         )
+        textView.setAccessibilityIdentifier(.importPhraseField)
         return textView
     }()
 
@@ -102,6 +103,7 @@ class ImportViewController: UIViewController, UITextViewDelegate {
         button.setBackgroundColor(.tintColor, cornerRadius: 15, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isEnabled = false
+        button.setAccessibilityIdentifier(.importPhraseButton)
         return button
     }()
 

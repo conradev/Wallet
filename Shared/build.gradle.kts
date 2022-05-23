@@ -130,6 +130,7 @@ kotlin {
                 kotlinOptions {
                     freeCompilerArgs = listOf("-linker-options", "-application_extension")
                 }
+                enableEndorsedLibs = true
             }
             it.binaries {
                 framework {
