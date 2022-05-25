@@ -41,9 +41,9 @@ internal sealed class BlockSpecifier {
     }
 
     companion object {
-        val EARLIEST = Tag(BlockTag.EARLIEST)
-        val LATEST = Tag(BlockTag.LATEST)
-        val PENDING = Tag(BlockTag.PENDING)
+        val EARLIEST: BlockSpecifier = Tag(BlockTag.EARLIEST)
+        val LATEST: BlockSpecifier = Tag(BlockTag.LATEST)
+        val PENDING: BlockSpecifier = Tag(BlockTag.PENDING)
 
         fun fromString(string: String): BlockSpecifier {
             return BlockTag.fromString(string)?.let(::Tag)

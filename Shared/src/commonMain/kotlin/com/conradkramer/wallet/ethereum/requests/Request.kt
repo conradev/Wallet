@@ -64,18 +64,15 @@ internal abstract class Request {
             }
         }
 
-        private val mapping: Map<String, (List<JsonElement>) -> Request> = mapOf(
-            (GetBalance.method to ::GetBalance),
-            (Call.method to ::Call),
-            (Accounts.method to ::Accounts),
-            (Sign.method to ::Sign),
-            ("eth_requestAccounts" to ::Accounts)
-        )
-
         fun fromMethodAndParams(method: String, params: List<JsonElement>?): Request {
-            val constructor = mapping[method]
-                ?: return AnyRequest(method, params ?: listOf())
-
+            val constructor: (List<JsonElement>) -> Request = when (method) {
+                GetBalance.method -> ::GetBalance
+                Call.method -> ::Call
+                Accounts.method -> ::Accounts
+                Sign.method -> ::Sign
+                "eth_requestAccounts" -> ::Accounts
+                else -> { it -> AnyRequest(method, it) }
+            }
             return constructor(params ?: listOf())
         }
 
