@@ -29,6 +29,8 @@ jobs:
         cache: gradle
     - name: Build
       run: ./gradlew assembleDebug
+    - name: Build Unit Tests
+      run: ./gradlew assembleAndroidTest
     - name: Unit Test
       continue-on-error: true
       uses: ./.github/actions/gradle-test

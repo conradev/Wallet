@@ -83,6 +83,10 @@ jobs:
         test-plan: ${{ matrix.configuration['xcode-unit-test'] }}
         artifact-prefix: unit-tests-${{ matrix.configuration['sdk-name'] }}
         check-name: Xcode Unit Tests (${{ matrix.configuration['platform'] }})
+    - name: Build Kotlin Tests
+      if: ${{ matrix.configuration['gradle-test'] != '' }}
+      shell: bash
+      run: ./gradlew :Shared:${{ matrix.configuration['gradle-test'] }}Klibrary
     - name: Kotlin Unit Test
       if: ${{ matrix.configuration['gradle-test'] != '' }}
       continue-on-error: true
