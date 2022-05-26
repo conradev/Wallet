@@ -67,6 +67,7 @@ import platform.Security.kSecAttrAccessControl
 import platform.Security.kSecAttrAccessGroup
 import platform.Security.kSecAttrAccessibleWhenUnlockedThisDeviceOnly
 import platform.Security.kSecAttrApplicationLabel
+import platform.Security.kSecAttrIsPermanent
 import platform.Security.kSecAttrKeyClass
 import platform.Security.kSecAttrKeyClassPrivate
 import platform.Security.kSecAttrKeySizeInBits
@@ -138,6 +139,10 @@ internal actual data class HardwareKeyStore(
         }
 
     override fun generate(id: String) {
+        generate(id, true)
+    }
+
+    private fun generate(id: String, secure: Boolean = true) {
         logger.info { "Generating key $id" }
 
         memScoped {
@@ -146,27 +151,32 @@ internal actual data class HardwareKeyStore(
             val create = dictionary(id).autorelease(this)
             CFDictionarySetValue(create, kSecAttrKeyType, kSecAttrKeyTypeEC)
             CFDictionarySetValue(create, kSecAttrKeySizeInBits, bitsRef)
-            if (!Platform.isSimulator) {
-                val privateKeyAttributes = CFDictionaryCreateMutable(
-                    null,
-                    3,
-                    kCFTypeDictionaryKeyCallBacks.ptr,
-                    kCFTypeDictionaryValueCallBacks.ptr
-                )?.autorelease(this)
+            CFDictionarySetValue(create, kSecAttrIsPermanent, kCFBooleanTrue)
+            if (secure) {
+                if (!Platform.isSimulator) {
+                    val privateKeyAttributes = CFDictionaryCreateMutable(
+                        null,
+                        3,
+                        kCFTypeDictionaryKeyCallBacks.ptr,
+                        kCFTypeDictionaryValueCallBacks.ptr
+                    )?.autorelease(this)
 
-                val accessControl = SecAccessControlCreateWithFlags(
-                    null,
-                    kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
-                    kSecAccessControlPrivateKeyUsage or kSecAccessControlUserPresence,
-                    null
-                )!!.autorelease(this)
+                    val accessControl = SecAccessControlCreateWithFlags(
+                        null,
+                        kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+                        kSecAccessControlPrivateKeyUsage or kSecAccessControlUserPresence,
+                        null
+                    )!!.autorelease(this)
 
-                CFDictionarySetValue(
-                    privateKeyAttributes,
-                    kSecAttrAccessControl,
-                    accessControl
-                )
-                CFDictionarySetValue(create, kSecPrivateKeyAttrs, privateKeyAttributes)
+                    CFDictionarySetValue(
+                        privateKeyAttributes,
+                        kSecAttrAccessControl,
+                        accessControl
+                    )
+                    CFDictionarySetValue(create, kSecPrivateKeyAttrs, privateKeyAttributes)
+                }
+
+                CFDictionarySetValue(create, kSecAttrTokenID, kSecAttrTokenIDSecureEnclave)
             }
 
             val error = alloc<CFErrorRefVar>()
@@ -176,6 +186,11 @@ internal actual data class HardwareKeyStore(
                         logger.info { "Key $id already exists in the keychain" }
                         delete(id)
                         generate(id)
+                        return
+                    }
+                    errSecItemNotFound -> {
+                        logger.info { "Key $id could not be made in the secure enclave, making an insecure key" }
+                        generate(id, false)
                         return
                     }
                     else -> throw Exception("Error generating key: $generateStatus")
@@ -318,7 +333,6 @@ internal actual data class HardwareKeyStore(
             )!!
             CFDictionarySetValue(dictionary, kSecAttrAccessGroup, groupRef)
             CFDictionarySetValue(dictionary, kSecClass, kSecClassKey)
-            CFDictionarySetValue(dictionary, kSecAttrTokenID, kSecAttrTokenIDSecureEnclave)
             CFDictionarySetValue(dictionary, kSecUseDataProtectionKeychain, kCFBooleanTrue)
             dictionary
         }
