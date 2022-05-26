@@ -58,6 +58,7 @@ fun KoinApplication.Companion.start(
     subsystem: String
 ): KoinApplication {
     KotlinLoggingConfiguration.appender = OSLogSubsystemAppender(subsystem)
+    CrashReporterClient.installHook()
     return startKoinShared {
         properties(
             mapOf(
