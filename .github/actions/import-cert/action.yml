@@ -23,4 +23,4 @@ runs:
       -T /usr/bin/security \
       -P ${{ inputs.password }}
       security set-key-partition-list -S apple-tool:,apple: -k password Developer.keychain
-      security list-keychains -d user -s Developer.keychain login.keychain
+      security list-keychains -d user -s login.keychain Developer.keychain
