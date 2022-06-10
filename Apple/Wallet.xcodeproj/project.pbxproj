@@ -74,7 +74,7 @@
 		D080E17427F2830F0024944D /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D080E17327F2830F0024944D /* MainWindowController.swift */; };
 		D080E17527F2830F0024944D /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D080E17327F2830F0024944D /* MainWindowController.swift */; };
 		D0A05DE7282927C50059D2AA /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A05DE6282927C50059D2AA /* AuthenticationView.swift */; };
-		D0AD260127AA0BEA00010783 /* WalletWebExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D07F238B27595E0800E2C42C /* WalletWebExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D0AD260127AA0BEA00010783 /* WalletWebExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D07F238B27595E0800E2C42C /* WalletWebExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D0BF40F828273D3D001180E3 /* PromptWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF40F728273D3D001180E3 /* PromptWindowController.swift */; };
 		D0BF412E2827427A001180E3 /* LoginItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D078248C27FF90D5006736D4 /* LoginItem.swift */; };
 		D0BF412F2827427A001180E3 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0981F5C26E26B1400CDD5CA /* Logger.swift */; };
@@ -103,7 +103,7 @@
 		D0BFF2FC280398D7004D90D8 /* WebExtensionHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BFF2FA280398D7004D90D8 /* WebExtensionHost.swift */; };
 		D0BFF2FE2803A90A004D90D8 /* NSExtensionItem+Safari.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BFF2FD2803A90A004D90D8 /* NSExtensionItem+Safari.swift */; };
 		D0BFF2FF2803A90A004D90D8 /* NSExtensionItem+Safari.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BFF2FD2803A90A004D90D8 /* NSExtensionItem+Safari.swift */; };
-		D0BFF3012803AFB4004D90D8 /* WalletWebExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D07F238C27595E0D00E2C42C /* WalletWebExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D0BFF3012803AFB4004D90D8 /* WalletWebExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D07F238C27595E0D00E2C42C /* WalletWebExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D0BFF30328063B5B004D90D8 /* NSExtensionContext+Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BFF30228063B5B004D90D8 /* NSExtensionContext+Connection.swift */; };
 		D0BFF30428063B5B004D90D8 /* NSExtensionContext+Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BFF30228063B5B004D90D8 /* NSExtensionContext+Connection.swift */; };
 		D0EE239E281CADAE004FCB52 /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EE239D281CADAE004FCB52 /* BrowserView.swift */; };
@@ -220,15 +220,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D02D64132726966C0050BEA8 /* Embed App Extensions */ = {
+		D02D64132726966C0050BEA8 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				D0BFF3012803AFB4004D90D8 /* WalletWebExtension.appex in Embed App Extensions */,
+				D0BFF3012803AFB4004D90D8 /* WalletWebExtension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D0501F962726BF8E00311D6F /* Embed Native Messaging Host */ = {
@@ -277,15 +277,15 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D072B11F26D252A700DA1C47 /* Embed App Extensions */ = {
+		D072B11F26D252A700DA1C47 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				D0AD260127AA0BEA00010783 /* WalletWebExtension.appex in Embed App Extensions */,
+				D0AD260127AA0BEA00010783 /* WalletWebExtension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D0BF414828274337001180E3 /* Embed Frameworks */ = {
@@ -858,7 +858,7 @@
 				D02D63F92726932A0050BEA8 /* Resources */,
 				D0B463EC27C362BE00481E0A /* Embed Kotlin Frameworks */,
 				D0BF414828274337001180E3 /* Embed Frameworks */,
-				D02D64132726966C0050BEA8 /* Embed App Extensions */,
+				D02D64132726966C0050BEA8 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -922,7 +922,7 @@
 				D072B0E826D2520900DA1C47 /* Resources */,
 				D0B463EF27C376E800481E0A /* Embed Kotlin Frameworks */,
 				D0BF414B28274375001180E3 /* Embed Frameworks */,
-				D072B11F26D252A700DA1C47 /* Embed App Extensions */,
+				D072B11F26D252A700DA1C47 /* Embed Foundation Extensions */,
 				D0501F962726BF8E00311D6F /* Embed Native Messaging Host */,
 				D0E5247D272D137000A3370B /* Embed Login Items */,
 			);
