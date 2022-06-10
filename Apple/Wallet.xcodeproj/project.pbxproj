@@ -393,7 +393,6 @@
 		D07C8D1026E1C88C00D4D339 /* Compiler.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Compiler.xcconfig; sourceTree = "<group>"; };
 		D07C8D1126E1CB5600D4D339 /* Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Framework.xcconfig; sourceTree = "<group>"; };
 		D07C8D1226E1CC1F00D4D339 /* Local.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Local.xcconfig; sourceTree = "<group>"; };
-		D07F238727595DF200E2C42C /* libsecp256k1.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsecp256k1.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D07F238B27595E0800E2C42C /* WalletWebExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WalletWebExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D07F238C27595E0D00E2C42C /* WalletWebExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WalletWebExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D07F238D27595E1000E2C42C /* WalletNativeMessageHost */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WalletNativeMessageHost; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -496,13 +495,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D072B10026D252A700DA1C47 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D09820CB26E589BA00CDD5CA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -735,7 +727,6 @@
 		D09C9E6F27595CC000BA3DA9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D07F238727595DF200E2C42C /* libsecp256k1.a */,
 				D07F238B27595E0800E2C42C /* WalletWebExtension.appex */,
 				D07F238C27595E0D00E2C42C /* WalletWebExtension.appex */,
 				D07F238D27595E1000E2C42C /* WalletNativeMessageHost */,
@@ -972,22 +963,6 @@
 			productReference = D07F238C27595E0D00E2C42C /* WalletWebExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		D09820CD26E589BA00CDD5CA /* secp256k1 */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D09820D426E589BA00CDD5CA /* Build configuration list for PBXNativeTarget "secp256k1" */;
-			buildPhases = (
-				D09820CA26E589BA00CDD5CA /* Sources */,
-				D09820CB26E589BA00CDD5CA /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = secp256k1;
-			productName = secp256k1;
-			productReference = D07F238727595DF200E2C42C /* libsecp256k1.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		D0BF411A28274264001180E3 /* Core */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D0BF411F28274264001180E3 /* Build configuration list for PBXNativeTarget "Core" */;
@@ -1076,10 +1051,6 @@
 					D072B10226D252A700DA1C47 = {
 						CreatedOnToolsVersion = 13.0;
 					};
-					D09820CD26E589BA00CDD5CA = {
-						CreatedOnToolsVersion = 13.0;
-						LastSwiftMigration = 1310;
-					};
 					D0BF411A28274264001180E3 = {
 						CreatedOnToolsVersion = 13.3;
 					};
@@ -1113,7 +1084,6 @@
 				D0BF415C2827447B001180E3 /* UICore */,
 				D0BF411A28274264001180E3 /* Core */,
 				D00D378027746CA40050F5A4 /* CoreTests */,
-				D09820CD26E589BA00CDD5CA /* secp256k1 */,
 			);
 		};
 /* End PBXProject section */
@@ -1507,13 +1477,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D09820CA26E589BA00CDD5CA /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D0BF411728274264001180E3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1803,18 +1766,6 @@
 			};
 			name = Release;
 		};
-		D09820D526E589BA00CDD5CA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		D09820D626E589BA00CDD5CA /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Release;
-		};
 		D0BF412028274264001180E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D02D63B327268A6E0050BEA8 /* Core.xcconfig */;
@@ -1932,15 +1883,6 @@
 			buildConfigurations = (
 				D072B11D26D252A700DA1C47 /* Debug */,
 				D072B11E26D252A700DA1C47 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D09820D426E589BA00CDD5CA /* Build configuration list for PBXNativeTarget "secp256k1" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D09820D526E589BA00CDD5CA /* Debug */,
-				D09820D626E589BA00CDD5CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
