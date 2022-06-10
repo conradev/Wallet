@@ -18,7 +18,7 @@ CODE_SIGN_IDENTITY = Apple Development
 
 INFOPLIST_FILE = Configuration/Info.plist
 GENERATE_INFOPLIST_FILE = YES
-INFOPLIST_KEY_NSHumanReadableCopyright = Copyright © 2021 Conrad Kramer
+INFOPLIST_KEY_NSHumanReadableCopyright = Copyright © 2021-2022 Conrad Kramer
 INFOPLIST_KEY_CFBundleDisplayName = Walleth
 
 ENABLE_BITCODE = NO
