@@ -32,5 +32,5 @@ build() {
 
 
 build macosx '-arch arm64 -arch x86_64 -mmacos-version-min=10.7'
-build iphoneos '-arch arm64 -fembed-bitcode -mios-version-min=7.0'
+build iphoneos '-arch arm64 -mios-version-min=7.0'
 build iphonesimulator '-arch arm64 -arch x86_64 -mios-simulator-version-min=7.0'
