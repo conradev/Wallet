@@ -1190,6 +1190,7 @@
 		};
 		D09974EC280F3DD900AB4C1B /* Compile TypeScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1208,6 +1209,7 @@
 		};
 		D09974EE280F3FE200AB4C1B /* Embed Web Extension */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1226,6 +1228,7 @@
 		};
 		D09974F0280F410A00AB4C1B /* Compile TypeScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1244,6 +1247,7 @@
 		};
 		D09974F1280F410B00AB4C1B /* Embed Web Extension */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1262,6 +1266,7 @@
 		};
 		D0B463EC27C362BE00481E0A /* Embed Kotlin Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1281,6 +1286,7 @@
 		};
 		D0B463EF27C376E800481E0A /* Embed Kotlin Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1300,6 +1306,7 @@
 		};
 		D0BF41352827429D001180E3 /* Lint Swift */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1318,6 +1325,7 @@
 		};
 		D0BF4136282742BD001180E3 /* Compile External Dependencies */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1336,6 +1344,7 @@
 		};
 		D0BF4137282742E3001180E3 /* Compile Kotlin */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
