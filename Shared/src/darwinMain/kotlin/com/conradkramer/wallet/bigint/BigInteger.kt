@@ -1,6 +1,7 @@
 package com.conradkramer.wallet.bigint
 
 import gmp.__mpz_struct
+import gmp._mpz_cmp_si
 import gmp.mpz_clear
 import gmp.mpz_export
 import gmp.mpz_import
@@ -27,6 +28,10 @@ actual class BigInteger() {
 
     actual val data: ByteArray
         get() = memScoped {
+            if (_mpz_cmp_si!!(mpz.ptr, 0) == 0) {
+                return ByteArray(0)
+            }
+
             val count = alloc<size_tVar>()
             val size = (mpz_sizeinbase!!(mpz.ptr, 2) + 7u) / 8u
             val data = ByteArray(size.convert())
@@ -52,6 +57,7 @@ actual class BigInteger() {
     }
 
     actual constructor(data: ByteArray) : this() {
+        if (data.isEmpty()) return
         data.asUByteArray().usePinned { pinnedData ->
             mpz_import!!(
                 mpz.ptr,

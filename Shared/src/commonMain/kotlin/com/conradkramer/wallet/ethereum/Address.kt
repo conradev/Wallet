@@ -13,7 +13,7 @@ internal class AddressSerializer : HexademicalValueSerializer<Address>() {
 }
 
 @Serializable(with = AddressSerializer::class)
-class Address(data: ByteArray) : HexademicalValue(data) {
+class Address(override val data: ByteArray) : HexadecimalValue() {
     init {
         if (data.size != 20) {
             throw Exception("Address is incorrect length")

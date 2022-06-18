@@ -11,14 +11,19 @@ internal class QuantitySerializer : HexademicalValueSerializer<Quantity>() {
 }
 
 @Serializable(with = QuantitySerializer::class)
-internal class Quantity(data: ByteArray) : HexademicalValue(data) {
+internal class Quantity(val value: BigInteger) : HexadecimalValue() {
+
+    constructor(data: ByteArray) : this(BigInteger(data))
+
+    override val data: ByteArray
+        get() = value.data
 
     override fun toString(): String {
         return "0x${data.encodeHex(false)}"
     }
 
     companion object {
-        private val regex = "^0x[0-9a-f]+$".toRegex(option = RegexOption.IGNORE_CASE)
+        private val regex = "^0x[0-9a-f]*$".toRegex(option = RegexOption.IGNORE_CASE)
 
         fun fromString(string: String): Quantity {
             return fromString(string, true, regex, ::Quantity)
