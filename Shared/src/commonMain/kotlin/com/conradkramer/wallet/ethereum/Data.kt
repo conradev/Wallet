@@ -11,7 +11,7 @@ internal class DataSerializer : HexademicalValueSerializer<Data>() {
 }
 
 @Serializable(with = DataSerializer::class)
-class Data(data: ByteArray) : HexademicalValue(data) {
+class Data(override val data: ByteArray) : HexadecimalValue() {
     override fun toString(): String {
         return "0x${data.encodeHex()}"
     }

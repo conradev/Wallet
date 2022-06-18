@@ -7,6 +7,15 @@ import kotlin.test.assertEquals
 
 class BigDecimalTests {
     @Test
+    fun testIntegerZeroSerialization() {
+        val empty = ByteArray(0)
+        val zero = ByteArray(1) { 0 }
+        val integer = BigInteger(zero)
+
+        assertContentEquals(empty, integer.data)
+    }
+
+    @Test
     fun testIntegerSerialization() {
         val data = "1bceedbd796a74fb831".decodeHex(true)
         val integer = BigInteger(data)
