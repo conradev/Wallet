@@ -15,6 +15,10 @@ xcuserdata
 .externalNativeBuild
 .cxx
 
+# Rust
+debug/
+target/
+
 # Yarn
 **/.yarn/*
 !.yarn/releases
