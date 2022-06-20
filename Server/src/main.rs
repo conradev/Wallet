@@ -1,8 +1,9 @@
 use crate::oneshot::Canceled;
+use client::Client;
+use console_subscriber;
 use ethereum_types::{Address, U256};
 use futures::channel::oneshot;
 use futures::channel::oneshot::Sender;
-use futures::future::Ready;
 use futures::stream::SplitSink;
 use futures::{future, stream, AsyncWriteExt, SinkExt, StreamExt, TryStreamExt};
 use rand::Rng;
@@ -21,6 +22,9 @@ use tokio::sync::Mutex;
 use tokio::task::JoinHandle;
 use tokio::time::Instant;
 use tokio_util::codec::{Decoder, Encoder, Framed, LinesCodec, LinesCodecError};
+use tracing::instrument;
+
+mod client;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Quantity(U256);
@@ -57,81 +61,6 @@ impl<T> RpcBody<T> {
 #[derive(Serialize, Deserialize)]
 struct JsonResult<T> {
     result: T,
-}
-
-struct Client {
-    sender: SplitSink<Framed<UnixStream, LinesCodec>, String>,
-    listener: JoinHandle<()>,
-    continuations: Arc<Mutex<HashMap<i64, Sender<String>>>>,
-}
-
-impl Drop for Client {
-    fn drop(&mut self) {
-        self.listener.abort();
-    }
-}
-
-impl Client {
-    async fn new() -> Result<Client, Box<dyn Error>> {
-        #[derive(Deserialize)]
-        struct Identifier {
-            id: i64,
-        }
-
-        let continuations = Arc::new(Mutex::new(HashMap::<i64, Sender<String>>::new()));
-        let stream = UnixStream::connect("/Users/conradev/Library/Ethereum/geth.ipc").await?;
-        let (sender, mut read) = LinesCodec::new().framed(stream).split();
-
-        let clone = continuations.clone();
-        let listener = tokio::spawn(async move {
-            while let Some(value) = read.next().await {
-                let response = match value {
-                    Ok(v) => v,
-                    Err(e) => return,
-                };
-
-                let id = match serde_json::from_slice::<Identifier>(response.as_bytes()) {
-                    Ok(v) => v.id,
-                    Err(e) => continue,
-                };
-
-                let mut continuations = clone.lock().await;
-                if let Some(sender) = continuations.remove(&id) {
-                    let a = sender.send(response);
-                }
-            }
-        });
-
-        return Ok(Client {
-            sender,
-            listener,
-            continuations,
-        });
-    }
-
-    async fn request<T, U: Debug>(&mut self, request: T) -> Result<U, Box<dyn Error>>
-    where
-        T: Serialize,
-        U: DeserializeOwned,
-    {
-        let id = rand::thread_rng().gen();
-
-        let (sender, receiver) = oneshot::channel();
-        self.continuations.lock().await.insert(id, sender);
-
-        let body = RpcBody::new(id, request);
-        let string = serde_json::to_string(&body)?;
-        self.sender.send(string).await?;
-
-        #[derive(Debug, Deserialize)]
-        struct Response<T> {
-            result: T,
-        }
-        let response_body = receiver.await?;
-
-        let response: Response<U> = serde_json::from_reader(Cursor::new(response_body))?;
-        Ok(response.result)
-    }
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -178,30 +107,29 @@ struct Block {
 }
 
 #[tokio::main]
+#[instrument]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let mut client = Arc::new(Mutex::new(Client::new().await?));
+    // console_subscriber::init();
+
+    let client = Arc::new(Mutex::new(Client::new().await?));
 
     let number: U256 = client.lock().await.request(BlockNumber::default()).await?;
 
-    let mut instant = Instant::now();
-    let mut count = 0;
     let mut current = U256::zero();
+    let mut handles = Vec::new();
     while current < number {
         let clone = client.clone();
-        tokio::spawn(async move {
+        let handle = tokio::spawn(async move {
             let mut client = clone.lock().await;
             let block: Block = match client.request(GetBlockByNumber::new(current, true)).await {
                 Ok(b) => b,
                 Err(ee) => return,
             };
-            count += 1;
-            println!("{:?}", block);
-            if count % 100_000 == 0 {
-                println!("{:?}: {:?}", count, instant.elapsed());
-                instant = Instant::now();
-            }
         });
+        handles.push(handle);
         current += U256::one();
     }
+
+    future::join_all(handles).await;
     Ok(())
 }
