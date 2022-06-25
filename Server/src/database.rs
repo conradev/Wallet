@@ -7,6 +7,7 @@ use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 use std::os::macos::raw::stat;
 use std::path::{Path, PathBuf};
+use std::time::Instant;
 
 #[derive(Debug, Copy, Clone)]
 enum Operation {
@@ -51,21 +52,13 @@ impl Database {
     }
 
     pub fn consume<I: Iterator<Item = IndexedLog>>(&mut self, iter: I) {
-        let mut idx = 0;
-        let tx_size = 1_000_000;
+        let instant = Instant::now();
 
+        let mut total = 0;
         let mut insert_token = Operation::InsertERC20Transfer.prepare(&self.conn);
         let mut transaction = self.conn.unchecked_transaction().unwrap();
         for item in iter {
-            if idx < tx_size {
-                idx += 1;
-            } else {
-                idx = 0;
-                transaction.commit().unwrap();
-                info!("Committed transaction with {} items", tx_size);
-                transaction = self.conn.unchecked_transaction().unwrap();
-            }
-
+            total += 1;
             let result = match item.log {
                 Log::TokenTransfer(transfer) => {
                     let mut value = [0u8; 32];
@@ -89,5 +82,10 @@ impl Database {
         }
 
         transaction.commit().unwrap();
+        info!(
+            "Writing {} transfers to the database took {}s",
+            total,
+            instant.elapsed().as_secs_f64()
+        );
     }
 }

@@ -44,11 +44,11 @@ impl Decodable for Receipt {
             .at(2)?
             .iter()
             .map(|r| Log::decode(&r))
-            .inspect(|r| {
-                if let Err(e) = r {
-                    error!("Failed to read log from RLP data: {:?}", e);
-                }
-            })
+            // .inspect(|r| {
+            //     if let Err(e) = r {
+            //         error!("Failed to read log from RLP data: {:?}", e);
+            //     }
+            // })
             .filter_map(|r| r.ok())
             .filter(|l| l.is_known())
             .collect();
