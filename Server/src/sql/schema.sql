@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS erc20_transfer (
+CREATE TABLE IF NOT EXISTS token_transfer (
     block INTEGER NOT NULL,
     [transaction] INTEGER NOT NULL,
     log INTEGER NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS erc20_transfer (
     PRIMARY KEY (block, [transaction], log)
 ) WITHOUT ROWID;
 
-CREATE INDEX IF NOT EXISTS idx_erc20_transfer_contract ON erc20_transfer(contract);
-CREATE INDEX IF NOT EXISTS idx_erc20_transfer_from ON erc20_transfer([from]);
-CREATE INDEX IF NOT EXISTS idx_erc20_transfer_to ON erc20_transfer([to]);
-CREATE INDEX IF NOT EXISTS idx_erc20_transfer_to_from ON erc20_transfer([to], [from]);
+CREATE INDEX IF NOT EXISTS idx_toke_transfer_contract ON token_transfer(contract);
+CREATE INDEX IF NOT EXISTS idx_toke_transfer_from ON token_transfer([from]);
+CREATE INDEX IF NOT EXISTS idx_toke_transfer_to ON token_transfer([to]);
+CREATE INDEX IF NOT EXISTS idx_toke_transfer_to_from ON token_transfer([to], [from]);
