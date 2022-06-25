@@ -1,5 +1,6 @@
 package com.conradkramer.wallet.ethereum
 
+import com.conradkramer.wallet.bigint.BigInteger
 import com.conradkramer.wallet.encoding.encodeHex
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encoding.Decoder
