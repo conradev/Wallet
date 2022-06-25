@@ -7,21 +7,21 @@ object Versions {
     const val activity = "1.4.0"
     const val appcompat = "1.4.1"
     const val biometric = "1.2.0-alpha04"
-    const val compose = "1.2.0-beta02"
+    const val compose = "1.2.0-rc02"
     const val dbtoolsRoom = "7.0.1"
     const val koin = "3.2.0-beta-1"
-    const val material = "1.5.0"
-    const val material3 = "1.0.0-alpha12"
+    const val material = "1.6.1"
+    const val material3 = "1.0.0-alpha13"
     const val navigation = "2.4.2"
     const val sqldelight = "2.0.0-alpha02"
 }
 
 android {
-    compileSdk = 31
+    compileSdk = 32
     defaultConfig {
         applicationId = "com.conradkramer.wallet.android"
         minSdk = 28
-        targetSdk = 31
+        targetSdk = 32
         versionCode = 1
         versionName = "0.1"
     }

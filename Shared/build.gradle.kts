@@ -144,11 +144,11 @@ kotlin {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = 32
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 28
-        targetSdk = 31
+        targetSdk = 32
     }
     namespace = "com.conradkramer.wallet"
 }
