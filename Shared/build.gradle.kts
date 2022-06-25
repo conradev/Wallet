@@ -15,6 +15,7 @@ object Versions {
     const val coroutines = "1.6.1"
     const val ktor = "2.0.0"
     const val koin = "3.2.0-beta-1"
+    const val logging = "2.1.23"
     const val serialization = "1.3.2"
     const val slf4j = "1.7.36"
     const val sqldelight = "2.0.0-alpha02"
@@ -41,7 +42,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
                 implementation("app.cash.sqldelight:coroutines-extensions:${Versions.sqldelight}")
                 implementation("io.insert-koin:koin-core:${Versions.koin}")
-                implementation(project(":kotlin-logging"))
+                implementation("io.github.microutils:kotlin-logging:${Versions.logging}")
             }
         }
         val commonTest by getting {
