@@ -12,9 +12,10 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/WalletTheme"
+        android:enableOnBackInvokedCallback="true"
         tools:ignore="MissingApplicationIcon"
-        tools:targetApi="s" >
+        tools:targetApi="tiramisu" >
         <activity
             android:name=".MainActivity"
             android:exported="true" >
