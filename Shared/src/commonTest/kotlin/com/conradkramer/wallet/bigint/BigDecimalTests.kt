@@ -1,6 +1,7 @@
 package com.conradkramer.wallet.bigint
 
 import com.conradkramer.wallet.encoding.decodeHex
+import com.conradkramer.wallet.encoding.encodeHex
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -13,6 +14,14 @@ class BigDecimalTests {
         val integer = BigInteger(zero)
 
         assertContentEquals(empty, integer.data)
+    }
+
+    @Test
+    fun testIntegerLongSerialization() {
+        val long = 2760025901180515233
+        val integer = BigInteger.valueOf(long)
+        assertEquals(long, integer.toLong())
+        assertEquals("264d94ef12bdf3a1", integer.data.encodeHex())
     }
 
     @Test
