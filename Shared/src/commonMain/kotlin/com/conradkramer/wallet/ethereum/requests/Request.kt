@@ -67,6 +67,7 @@ internal abstract class Request {
         fun fromMethodAndParams(method: String, params: List<JsonElement>?): Request {
             val constructor: (List<JsonElement>) -> Request = when (method) {
                 GetBalance.method -> ::GetBalance
+                GetBlockByNumber.method -> ::GetBlockByNumber
                 Call.method -> ::Call
                 Accounts.method -> ::Accounts
                 Sign.method -> ::Sign
