@@ -23,12 +23,8 @@ internal class RpcClient(val endpointUrl: Url, private val nativeLogger: KLogger
 
     val client = HttpClient {
         install(Logging) {
-            logger = object : Logger {
-                override fun log(message: String) {
-                    nativeLogger.info { message }
-                }
-            }
-            level = LogLevel.INFO
+            klogger(nativeLogger)
+            level = LogLevel.ALL
         }
         install(ContentNegotiation) {
             json(Request.json)
@@ -52,5 +48,13 @@ internal class RpcClient(val endpointUrl: Url, private val nativeLogger: KLogger
 
         return jsonRpcResponse.result
             ?: throw Exception("Result and error were both null")
+    }
+}
+
+fun Logging.Config.klogger(klogger: KLogger) {
+    logger = object : Logger {
+        override fun log(message: String) {
+            klogger.info { message }
+        }
     }
 }

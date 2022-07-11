@@ -1,0 +1,121 @@
+CREATE TABLE eth_block (
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
+    number INTEGER NOT NULL,
+    timestamp TEXT AS kotlinx.datetime.Instant NOT NULL,
+
+    PRIMARY KEY (chain_id, number)
+);
+
+CREATE TABLE eth_transaction (
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
+    block INTEGER NOT NULL,
+    tx_index INTEGER NOT NULL,
+    hash BLOB AS com.conradkramer.wallet.ethereum.Data UNIQUE NOT NULL,
+    [from] BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
+    [to] BLOB AS com.conradkramer.wallet.ethereum.Address,
+    value BLOB AS com.conradkramer.wallet.ethereum.Quantity NOT NULL,
+
+    PRIMARY KEY (chain_id, block, tx_index),
+    FOREIGN KEY (chain_id, block) REFERENCES eth_block(chain_id, number) ON DELETE CASCADE
+);
+
+CREATE TABLE eth_token_transfer (
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
+    block INTEGER NOT NULL,
+    tx_index INTEGER NOT NULL,
+    log_index INTEGER NOT NULL,
+    [from] BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
+    [to] BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
+    value BLOB AS com.conradkramer.wallet.ethereum.Quantity,
+
+    PRIMARY KEY (chain_id, block, tx_index, log_index)
+);
+
+CREATE TABLE erc20_contract (
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
+    address BLOB AS com.conradkramer.wallet.ethereum.Address,
+    symbol TEXT,
+    decimals INTEGER,
+    name TEXT,
+
+    PRIMARY KEY (chain_id, address)
+);
+
+CREATE TABLE erc721_contract (
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
+    address BLOB AS com.conradkramer.wallet.ethereum.Address,
+    symbol TEXT,
+    name TEXT,
+    total_supply INTEGER,
+
+    PRIMARY KEY (chain_id, address)
+);
+
+CREATE TABLE erc721_token (
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
+    contract BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
+    id BLOB AS com.conradkramer.wallet.ethereum.Quantity NOT NULL,
+    owner BLOB AS com.conradkramer.wallet.ethereum.Address,
+    name TEXT,
+    description TEXT,
+    image TEXT,
+    external_uri TEXT,
+    attributes TEXT,
+    token_uri TEXT,
+
+    PRIMARY KEY (contract, id),
+    FOREIGN KEY (chain_id, contract) REFERENCES erc721_contract(chain_id, address) ON DELETE CASCADE
+);
+
+CREATE TABLE erc20_balance (
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
+    contract BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
+    address BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
+    balance BLOB AS com.conradkramer.wallet.ethereum.Quantity NOT NULL,
+    block INTEGER NOT NULL,
+
+    PRIMARY KEY (chain_id, address, contract),
+    FOREIGN KEY (chain_id, contract) REFERENCES erc20_contract(chain_id, address) ON DELETE CASCADE
+);
+
+CREATE TABLE ens_lookup (
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
+    name TEXT NOT NULL,
+    address BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
+    block INTEGER NOT NULL,
+    avatar TEXT,
+    description TEXT,
+    display TEXT,
+    email TEXT,
+    notice TEXT,
+    location TEXT,
+    phone TEXT,
+    url TEXT,
+
+    PRIMARY KEY (chain_id, name)
+);
+
+CREATE TABLE ens_reverse_lookup (
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
+    address BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
+    name TEXT NOT NULL,
+    block INTEGER NOT NULL,
+
+    PRIMARY KEY (chain_id, address)
+);
+
+lol2:
+SELECT * FROM eth_block;
+
+lol:
+SELECT * FROM eth_transaction;
+
+insertBlock:
+INSERT INTO eth_block(chain_id, number, timestamp)
+VALUES ?
+ON CONFLICT(chain_id, number) DO NOTHING;
+
+insertTransaction:
+INSERT INTO eth_transaction(chain_id, block, tx_index, hash, [from], [to], value)
+VALUES ?
+ON CONFLICT (chain_id, block, tx_index) DO NOTHING;

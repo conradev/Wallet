@@ -3,10 +3,16 @@ package com.conradkramer.wallet
 import app.cash.sqldelight.Query
 import com.conradkramer.wallet.crypto.SHA256Digest
 import com.conradkramer.wallet.encoding.encodeHex
+import com.conradkramer.wallet.ethereum.AlchemyProvider
+import com.conradkramer.wallet.ethereum.Chain
+import com.conradkramer.wallet.ethereum.ChainIndexer
+import com.conradkramer.wallet.ethereum.Cloudflare
+import com.conradkramer.wallet.ethereum.InfuraProvider
 import com.conradkramer.wallet.sql.Database
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import mu.KLogger
+import org.koin.core.component.KoinComponent
 import kotlin.coroutines.EmptyCoroutineContext
 
 internal interface AccountStore {
@@ -31,12 +37,21 @@ internal class DatabaseAccountStore(
     private val database: Database,
     private val keyStore: KeyStore<AuthenticationContext>,
     private val logger: KLogger
-) : AccountStore {
+) : AccountStore, KoinComponent {
+
+    private var indexer: ChainIndexer? = null
     init {
         database.accountQueries.prune(keyStore.all)
         keyStore.all
-            .subtract(database.accountQueries.accountIds().executeAsList())
+            .subtract(database.accountQueries.accountIds().executeAsList().toSet())
             .forEach { keyStore.delete(it) }
+
+        val koin = getKoin()
+        val infura: InfuraProvider = koin.get()
+        val alchemy: AlchemyProvider = koin.get()
+        val cloudflare: Cloudflare = koin.get()
+        val providers = setOf(infura, alchemy, cloudflare)
+        indexer = ChainIndexer(Chain.MAINNET, providers, database, logger)
     }
 
     private val scope = CoroutineScope(EmptyCoroutineContext)

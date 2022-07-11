@@ -5,10 +5,19 @@ import com.conradkramer.wallet.browser.BrowserPermissionStore
 import com.conradkramer.wallet.browser.BrowserPromptExecutor
 import com.conradkramer.wallet.browser.BrowserPromptHost
 import com.conradkramer.wallet.ethereum.AlchemyProvider
+import com.conradkramer.wallet.ethereum.BalanceUpdater
+import com.conradkramer.wallet.ethereum.Chain
+import com.conradkramer.wallet.ethereum.Cloudflare
+import com.conradkramer.wallet.ethereum.CmcClient
+import com.conradkramer.wallet.ethereum.CmcTokenUpdater
 import com.conradkramer.wallet.ethereum.InfuraProvider
+import com.conradkramer.wallet.ethereum.RpcBalanceUpdater
 import com.conradkramer.wallet.ethereum.RpcClient
 import com.conradkramer.wallet.ethereum.RpcProvider
+import com.conradkramer.wallet.ethereum.TokenStore
+import com.conradkramer.wallet.ethereum.TokenUpdater
 import com.conradkramer.wallet.sql.Database
+import com.conradkramer.wallet.viewmodel.BalancesViewModel
 import com.conradkramer.wallet.viewmodel.BrowserViewModel
 import com.conradkramer.wallet.viewmodel.ImportViewModel
 import com.conradkramer.wallet.viewmodel.MainViewModel
@@ -45,19 +54,25 @@ private fun sharedModule() = module {
     factoryOf(::OnboardingViewModel)
     factoryOf(::WelcomeViewModel)
     factoryOf(::BrowserViewModel)
+    factoryOf(::BalancesViewModel)
+    factory { params -> DatabaseBalanceStore(params.get(), get(), get()) } bind BalanceStore::class
+    factory { params -> RpcBalanceUpdater(params.get(), get(), get(), logger<RpcBalanceUpdater>()) } bind BalanceUpdater::class
     factory { params -> PermissionPromptViewModel(params.get()) }
     factory { params -> SignDataPromptViewModel(params.get(), get(), params.getOrNull(), get()) }
+    factory { CmcClient("a84704ea-bd55-453f-893d-31fb9a60e283", logger<CmcClient>()) }
+    factoryOf(::CmcTokenUpdater) bind TokenUpdater::class
 
-    single { Database.invoke(get()) }
-    single { AlchemyProvider("tbOMWQYmtAGuUDnDOhoJFYxXIKctXij3") } bind RpcProvider::class
-    single(named("infura")) { InfuraProvider("ef01c7a0107b41deb6f77b00bda654b1") } bind RpcProvider::class
-    factory { RpcClient(get<RpcProvider>().endpointUrl, logger<RpcClient>()) }
+    single { Database.with_adapters(get()) }
+    single { AlchemyProvider(mapOf(Chain.MAINNET to "tbOMWQYmtAGuUDnDOhoJFYxXIKctXij3")) }
+    single { InfuraProvider("ef01c7a0107b41deb6f77b00bda654b1") }
+    singleOf(::Cloudflare) bind RpcProvider::class
+    factory { RpcClient(get<RpcProvider>().endpointUrl(Chain.MAINNET), logger<RpcClient>()) }
 
+    factoryOf(::TokenStore)
     factoryOf(::BrowserPromptExecutor)
     factoryOf(::BrowserPromptHost)
     singleOf(::BrowserMessageHost)
     factoryOf(::BrowserPermissionStore)
-
     factory { params -> KotlinLogging.logger(if (params.isNotEmpty()) params.get() else "General") }
 }
 

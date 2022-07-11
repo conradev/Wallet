@@ -12,7 +12,7 @@ internal class QuantitySerializer : HexademicalValueSerializer<Quantity>() {
 }
 
 @Serializable(with = QuantitySerializer::class)
-internal class Quantity(val value: BigInteger) : HexadecimalValue() {
+class Quantity(val value: BigInteger) : HexadecimalValue() {
 
     constructor(data: ByteArray) : this(BigInteger(data))
 
@@ -21,6 +21,10 @@ internal class Quantity(val value: BigInteger) : HexadecimalValue() {
 
     override fun toString(): String {
         return "0x${data.encodeHex(false)}"
+    }
+
+    fun toLong(): Long {
+        return value.toLong()
     }
 
     companion object {

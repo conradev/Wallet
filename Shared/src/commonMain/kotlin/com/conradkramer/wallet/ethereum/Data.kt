@@ -17,7 +17,7 @@ class Data(override val data: ByteArray) : HexadecimalValue() {
     }
 
     companion object {
-        private val regex = "^0x[0-9a-f]+$".toRegex(option = RegexOption.IGNORE_CASE)
+        private val regex = "^0x([0-9a-f][0-9a-f])*$".toRegex(option = RegexOption.IGNORE_CASE)
 
         fun fromString(string: String): Data {
             return fromString(string, false, regex, ::Data)

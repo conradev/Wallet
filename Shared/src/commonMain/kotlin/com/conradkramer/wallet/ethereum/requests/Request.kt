@@ -68,6 +68,7 @@ internal abstract class Request {
             val constructor: (List<JsonElement>) -> Request = when (method) {
                 GetBalance.method -> ::GetBalance
                 GetBlockByNumber.method -> ::GetBlockByNumber
+                GetTransactionReceipt.method -> ::GetTransactionReceipt
                 Call.method -> ::Call
                 Accounts.method -> ::Accounts
                 Sign.method -> ::Sign
@@ -81,6 +82,7 @@ internal abstract class Request {
         val json = Json {
             encodeDefaults = true
             explicitNulls = false
+            ignoreUnknownKeys = true
             serializersModule = SerializersModule {
                 include(serializersModuleOf(Address.serializer()))
                 include(serializersModuleOf(Quantity.serializer()))

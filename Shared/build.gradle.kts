@@ -13,6 +13,7 @@ object Versions {
     const val biometric = "1.2.0-alpha04"
     const val bouncycastle = "1.71"
     const val coroutines = "1.6.3"
+    const val datetime = "0.3.2"
     const val ktor = "2.0.0"
     const val koin = "3.2.0-beta-1"
     const val logging = "2.1.23"
@@ -42,6 +43,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
                 implementation("app.cash.sqldelight:coroutines-extensions:${Versions.sqldelight}")
                 implementation("io.insert-koin:koin-core:${Versions.koin}")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:${Versions.datetime}")
                 implementation("io.github.microutils:kotlin-logging:${Versions.logging}")
             }
         }

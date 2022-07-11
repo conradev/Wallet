@@ -24,7 +24,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.conradkramer.wallet.viewmodel.BalancesViewModel
 import com.conradkramer.wallet.viewmodel.MainViewModel
+import org.koin.androidx.compose.inject
 
 @Composable
 fun MainView(mainViewModel: MainViewModel) {
@@ -55,7 +57,8 @@ fun MainView(mainViewModel: MainViewModel) {
             startDestination = currentTab.value.route
         ) {
             composable(MainViewModel.Tab.BALANCE.route) {
-                Text("Balance")
+                val viewModel: BalancesViewModel by inject()
+                BalanceView(viewModel = viewModel)
             }
             composable(MainViewModel.Tab.COLLECTIBLES.route) {
                 Text("NFTs")

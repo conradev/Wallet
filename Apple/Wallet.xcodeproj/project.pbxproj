@@ -75,6 +75,10 @@
 		D080E17527F2830F0024944D /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D080E17327F2830F0024944D /* MainWindowController.swift */; };
 		D0A05DE7282927C50059D2AA /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A05DE6282927C50059D2AA /* AuthenticationView.swift */; };
 		D0AD260127AA0BEA00010783 /* WalletWebExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D07F238B27595E0800E2C42C /* WalletWebExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D0B1C8C62842AB5200A45377 /* BalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B1C8C52842AB5200A45377 /* BalanceView.swift */; };
+		D0B1C8C72842AB5200A45377 /* BalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B1C8C52842AB5200A45377 /* BalanceView.swift */; };
+		D0B1C8C92842D19400A45377 /* Location+App.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B1C8C82842D19400A45377 /* Location+App.swift */; };
+		D0B1C8CA2842D19400A45377 /* Location+App.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B1C8C82842D19400A45377 /* Location+App.swift */; };
 		D0BF40F828273D3D001180E3 /* PromptWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF40F728273D3D001180E3 /* PromptWindowController.swift */; };
 		D0BF412E2827427A001180E3 /* LoginItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D078248C27FF90D5006736D4 /* LoginItem.swift */; };
 		D0BF412F2827427A001180E3 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0981F5C26E26B1400CDD5CA /* Logger.swift */; };
@@ -406,6 +410,8 @@
 		D0A05DE6282927C50059D2AA /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		D0A8B07227267F9200711F08 /* App-macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "App-macOS.xcconfig"; sourceTree = "<group>"; };
 		D0A8B07327267F9200711F08 /* App-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "App-iOS.xcconfig"; sourceTree = "<group>"; };
+		D0B1C8C52842AB5200A45377 /* BalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceView.swift; sourceTree = "<group>"; };
+		D0B1C8C82842D19400A45377 /* Location+App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Location+App.swift"; sourceTree = "<group>"; };
 		D0BF40F728273D3D001180E3 /* PromptWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptWindowController.swift; sourceTree = "<group>"; };
 		D0BF411B28274264001180E3 /* WalletCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WalletCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0BF417B2827447B001180E3 /* WalletUICore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WalletUICore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -531,6 +537,8 @@
 				D072B0E426D2520800DA1C47 /* OnboardingView.swift */,
 				D05E1B5627E14C8800BDE97F /* WelcomeView.swift */,
 				D00AD07827E293EA001FA45A /* ImportView.swift */,
+				D0B1C8C52842AB5200A45377 /* BalanceView.swift */,
+				D0EE239D281CADAE004FCB52 /* BrowserView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -679,7 +687,6 @@
 				D028F27A281CCB9B0042C687 /* MainTabView.swift */,
 				D05E1B5027E04FC000BDE97F /* ImportViewController.swift */,
 				D01361E927E64A280039DFCB /* NavigationStackView.swift */,
-				D0EE239D281CADAE004FCB52 /* BrowserView.swift */,
 				D02B2DED2839CA6400723FB3 /* Location+App.swift */,
 				D028F27D281CCE930042C687 /* LaunchScreen.storyboard */,
 				D0A8B07327267F9200711F08 /* App-iOS.xcconfig */,
@@ -698,6 +705,7 @@
 				D080E17327F2830F0024944D /* MainWindowController.swift */,
 				D00AD07527E23F55001FA45A /* OnboardingWindowController.swift */,
 				D05E1B5927E1ACFB00BDE97F /* ImportViewController.swift */,
+				D0B1C8C82842D19400A45377 /* Location+App.swift */,
 				D00AD07D27E29602001FA45A /* WizardView.swift */,
 				D0FA5FAC27F2886A00EC86E5 /* MainMenu.xib */,
 				D0A8B07227267F9200711F08 /* App-macOS.xcconfig */,
@@ -1416,9 +1424,11 @@
 				D080E17427F2830F0024944D /* MainWindowController.swift in Sources */,
 				D00AD07E27E29602001FA45A /* WizardView.swift in Sources */,
 				D02D640E272696540050BEA8 /* OnboardingView.swift in Sources */,
+				D0B1C8C62842AB5200A45377 /* BalanceView.swift in Sources */,
 				D01361EA27E64A280039DFCB /* NavigationStackView.swift in Sources */,
 				D00AD07627E23F55001FA45A /* OnboardingWindowController.swift in Sources */,
 				D05E1B5727E14C8800BDE97F /* WelcomeView.swift in Sources */,
+				D0B1C8C92842D19400A45377 /* Location+App.swift in Sources */,
 				D02B2DEE2839CA6400723FB3 /* Location+App.swift in Sources */,
 				D00AD07927E293EA001FA45A /* ImportView.swift in Sources */,
 				D05E1B5427E129B100BDE97F /* AutoLayout.swift in Sources */,
@@ -1464,9 +1474,11 @@
 				D080E17527F2830F0024944D /* MainWindowController.swift in Sources */,
 				D00AD07F27E29602001FA45A /* WizardView.swift in Sources */,
 				D05E1B5827E14C8800BDE97F /* WelcomeView.swift in Sources */,
+				D0B1C8C72842AB5200A45377 /* BalanceView.swift in Sources */,
 				D01361EB27E64A280039DFCB /* NavigationStackView.swift in Sources */,
 				D00AD07727E23F55001FA45A /* OnboardingWindowController.swift in Sources */,
 				D05E1B5A27E1ACFB00BDE97F /* ImportViewController.swift in Sources */,
+				D0B1C8CA2842D19400A45377 /* Location+App.swift in Sources */,
 				D02B2DEF2839CA6400723FB3 /* Location+App.swift in Sources */,
 				D00AD07A27E293EA001FA45A /* ImportView.swift in Sources */,
 				D0F7A81527ECEDC3007A60EA /* MainSplitView.swift in Sources */,

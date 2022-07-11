@@ -4,7 +4,11 @@ import com.conradkramer.wallet.browser.message.Frame
 import com.conradkramer.wallet.browser.message.PageIdentifier
 import com.conradkramer.wallet.browser.prompt.PermissionPrompt
 import com.conradkramer.wallet.browser.prompt.SignDataPrompt
+import com.conradkramer.wallet.ethereum.Address
+import com.conradkramer.wallet.ethereum.BalanceUpdater
 import com.conradkramer.wallet.ethereum.Data
+import com.conradkramer.wallet.ethereum.Ethereum
+import com.conradkramer.wallet.ethereum.Quantity
 import com.conradkramer.wallet.ethereum.requests.Accounts
 import com.conradkramer.wallet.viewmodel.PermissionPromptViewModel
 import com.conradkramer.wallet.viewmodel.SignDataPromptViewModel
@@ -13,9 +17,10 @@ import kotlinx.coroutines.flow.StateFlow
 import org.koin.core.Koin
 import org.koin.core.KoinApplication
 import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
-private fun Account.Companion.random(): Account {
+internal fun Account.Companion.random(): Account {
     return Account(
         "id", 0,
         ExtendedPrivateKey
@@ -53,10 +58,32 @@ private class MockAccountStore(val account: Account) : AccountStore {
     }
 }
 
+internal class MockBalanceStore(
+    val account: Account,
+    override val address: Address = account.ethereumAddress
+) : BalanceStore {
+    override val balances: StateFlow<List<Balance>>
+        get() = MutableStateFlow(
+            listOf(
+                Balance(Ethereum, Quantity.fromString("0x7c2562030800")),
+            )
+        )
+
+    override fun add(currency: Currency, balance: Quantity) {
+    }
+}
+
+internal class MockBalanceUpdater(override val address: Address) : BalanceUpdater {
+    override fun update() {
+    }
+}
+
 internal fun mockModule() = module {
     val account = Account.random()
 
-    single<AccountStore> { MockAccountStore(account) }
+    single { MockAccountStore(account) } bind AccountStore::class
+    single { MockBalanceStore(account) } bind BalanceStore::class
+    single { MockBalanceUpdater(account.ethereumAddress) } bind BalanceUpdater::class
     factory { PermissionPrompt("1234", Frame.zero, PageIdentifier("", 0), "app.ens.domains", listOf(Accounts.method)) }
     factory {
         SignDataPrompt(
