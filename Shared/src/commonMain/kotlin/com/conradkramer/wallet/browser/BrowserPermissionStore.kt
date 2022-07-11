@@ -72,5 +72,5 @@ private fun SqlDriver.permissions(domain: String, allowed: Boolean): Set<String>
     val mapper = { cursor: SqlCursor -> cursor.rows { it.getString(0) }.filterNotNull().toSet() }
     return executeQuery(null, sql, mapper, 1) {
         bindString(1, domain)
-    }
+    }.value
 }
