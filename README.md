@@ -1,6 +1,6 @@
 # Wallet
 
-![License](https://img.shields.io/github/license/conradev/Wallet) ![Kotlin](https://img.shields.io/badge/kotlin-1.6.21-blue?logo=kotlin&logoColor=white) ![Apple Build Status](https://img.shields.io/github/workflow/status/conradev/Wallet/Apple%20Build?label=macos%2C%20ios&logo=Apple) ![Android Build Status](https://img.shields.io/github/workflow/status/conradev/Wallet/Android%20Build?label=android&logo=Android&logoColor=white)
+![License](https://img.shields.io/github/license/conradev/Wallet) ![Kotlin](https://img.shields.io/badge/kotlin-1.7.0-blue?logo=kotlin&logoColor=white) ![Apple Build Status](https://img.shields.io/github/workflow/status/conradev/Wallet/Apple%20Build?label=macos%2C%20ios&logo=Apple) ![Android Build Status](https://img.shields.io/github/workflow/status/conradev/Wallet/Android%20Build?label=android&logo=Android&logoColor=white)
 
 Wallet is an as-of-yet unnamed cryptocurrency wallet. It will initially be released with Ethereum support on macOS, iOS and Android. It is still _**very early**_ and not yet in a state where anyone can use it for anything.
 

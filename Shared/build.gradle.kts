@@ -2,23 +2,23 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
 
 plugins {
     kotlin("multiplatform")
-    kotlin("plugin.serialization") version "1.6.21"
+    kotlin("plugin.serialization") version "1.7.0"
     id("com.android.library")
     id("app.cash.sqldelight")
-    id("com.rickclephas.kmp.nativecoroutines") version "0.12.2-new-mm"
+    id("com.rickclephas.kmp.nativecoroutines") version "0.12.4-new-mm"
     id("org.jmailen.kotlinter")
 }
 
 object Versions {
     const val biometric = "1.2.0-alpha04"
     const val bouncycastle = "1.71"
-    const val coroutines = "1.6.1"
+    const val coroutines = "1.6.3"
     const val ktor = "2.0.0"
     const val koin = "3.2.0-beta-1"
     const val logging = "2.1.23"
     const val serialization = "1.3.2"
     const val slf4j = "1.7.36"
-    const val sqldelight = "2.0.0-alpha02"
+    const val sqldelight = "2.0.0-alpha03"
 }
 
 kotlin {
@@ -155,7 +155,7 @@ android {
 
 sqldelight {
     database("Database") {
-        dialect = "app.cash.sqldelight:sqlite-3-35-dialect:${Versions.sqldelight}"
+        dialect("app.cash.sqldelight:sqlite-3-35-dialect:${Versions.sqldelight}")
         packageName = "com.conradkramer.wallet.sql"
     }
 }
