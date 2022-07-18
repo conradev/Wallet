@@ -10,6 +10,10 @@ internal interface RpcProvider {
     fun endpointUrl(chain: Chain): Url
 }
 
+/**
+ * Errata:
+ * - Block parameters are not required and default to "current". Geth requires the block parameter.
+ */
 internal data class AlchemyProvider(val apiKeys: Map<Chain, String>) : RpcProvider {
     override val supportedChains = apiKeys.keys
 
@@ -26,6 +30,10 @@ internal data class InfuraProvider(val projectId: String) : RpcProvider {
         .build()
 }
 
+/**
+ * Errata:
+ * - Negative `id` values return a "problem parsing request body" error
+ */
 internal class Cloudflare : ChainRpcProvider(Url("https://cloudflare-eth.com"), Chain.MAINNET)
 
 internal open class ChainRpcProvider(

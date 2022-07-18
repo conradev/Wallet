@@ -62,7 +62,7 @@ private fun sharedModule() = module {
     factory { CmcClient("a84704ea-bd55-453f-893d-31fb9a60e283", logger<CmcClient>()) }
     factoryOf(::CmcTokenUpdater) bind TokenUpdater::class
 
-    single { Database.with_adapters(get()) }
+    single { Database.withAdapters(get()) }
     single { AlchemyProvider(mapOf(Chain.MAINNET to "tbOMWQYmtAGuUDnDOhoJFYxXIKctXij3")) }
     single { InfuraProvider("ef01c7a0107b41deb6f77b00bda654b1") }
     singleOf(::Cloudflare) bind RpcProvider::class

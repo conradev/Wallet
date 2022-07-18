@@ -13,11 +13,11 @@ object Versions {
     const val biometric = "1.2.0-alpha04"
     const val bouncycastle = "1.71"
     const val coroutines = "1.6.3"
-    const val datetime = "0.3.2"
-    const val ktor = "2.0.0"
-    const val koin = "3.2.0-beta-1"
+    const val datetime = "0.4.0"
+    const val ktor = "2.0.3"
+    const val koin = "3.2.0"
     const val logging = "2.1.23"
-    const val serialization = "1.3.2"
+    const val serialization = "1.3.3"
     const val slf4j = "1.7.36"
     const val sqldelight = "2.0.0-alpha03"
 }
@@ -146,11 +146,11 @@ kotlin {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 33
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 28
-        targetSdk = 32
+        targetSdk = 33
     }
     namespace = "com.conradkramer.wallet"
 }

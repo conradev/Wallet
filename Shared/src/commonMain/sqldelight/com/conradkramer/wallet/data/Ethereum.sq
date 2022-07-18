@@ -24,6 +24,7 @@ CREATE TABLE eth_token_transfer (
     block INTEGER NOT NULL,
     tx_index INTEGER NOT NULL,
     log_index INTEGER NOT NULL,
+    contract BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
     [from] BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
     [to] BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
     value BLOB AS com.conradkramer.wallet.ethereum.Quantity,
@@ -33,7 +34,7 @@ CREATE TABLE eth_token_transfer (
 
 CREATE TABLE erc20_contract (
     chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
-    address BLOB AS com.conradkramer.wallet.ethereum.Address,
+    address BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
     symbol TEXT,
     decimals INTEGER,
     name TEXT,
@@ -43,7 +44,7 @@ CREATE TABLE erc20_contract (
 
 CREATE TABLE erc721_contract (
     chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
-    address BLOB AS com.conradkramer.wallet.ethereum.Address,
+    address BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
     symbol TEXT,
     name TEXT,
     total_supply INTEGER,
@@ -119,3 +120,14 @@ insertTransaction:
 INSERT INTO eth_transaction(chain_id, block, tx_index, hash, [from], [to], value)
 VALUES ?
 ON CONFLICT (chain_id, block, tx_index) DO NOTHING;
+
+insertTokenTransfer:
+INSERT INTO eth_token_transfer(chain_id, block, tx_index, log_index, contract, [from], [to], value)
+VALUES ?
+ON CONFLICT (chain_id, block, tx_index, log_index) DO NOTHING;
+
+tokenContractsToIndex:
+SELECT contract FROM eth_token_transfer AS transfer
+LEFT JOIN erc20_contract AS erc20 ON erc20.chain_id == transfer.chain_id AND erc20.address == transfer.contract
+LEFT JOIN erc721_contract AS erc721 ON erc721.chain_id == transfer.chain_id AND erc721.address == transfer.contract
+WHERE erc20.chain_id IS NULL AND erc721.chain_id IS NULL;

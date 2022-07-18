@@ -27,6 +27,14 @@ class Quantity(val value: BigInteger) : HexadecimalValue() {
         return value.toLong()
     }
 
+    fun toInt(): Int {
+        return toLong().toInt()
+    }
+
+    fun toBool(): Boolean {
+        return toLong() > 0
+    }
+
     companion object {
         private val regex = "^0x[0-9a-f]*$".toRegex(option = RegexOption.IGNORE_CASE)
 

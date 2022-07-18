@@ -36,5 +36,6 @@ internal data class Log(
     val transactionIndex: Quantity,
     val logIndex: Quantity,
     val address: Address,
+    val topics: List<Data>,
     val data: Data
 )

@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.Instant
+import kotlin.contracts.contract
 
 typealias PublicKeyRecord = Public_key
 typealias AccountRecord = Account
@@ -77,53 +78,34 @@ private val chainAdapter = object : ColumnAdapter<Chain, Long> {
     override fun encode(value: Chain) = value.id
 }
 
-internal fun Database.Companion.with_adapters(driver: SqlDriver): Database {
+internal fun Database.Companion.withAdapters(driver: SqlDriver): Database {
     return Database(
         driver,
         browser_promptAdapter = Browser_prompt.Adapter(
             promptAdapter = promptAdapter
         ),
-        ens_lookupAdapter = Ens_lookup.Adapter(
-            chain_idAdapter = chainAdapter,
-            addressAdapter = addressAdapter
-        ),
-        ens_reverse_lookupAdapter = Ens_reverse_lookup.Adapter(
-            chain_idAdapter = chainAdapter,
-            addressAdapter = addressAdapter
-        ),
-        erc20_balanceAdapter = Erc20_balance.Adapter(
-            chain_idAdapter = chainAdapter,
-            contractAdapter = addressAdapter,
-            addressAdapter = addressAdapter,
-            balanceAdapter = quantityAdapter
-        ),
-        erc20_contractAdapter = Erc20_contract.Adapter(
-            chain_idAdapter = chainAdapter,
-            addressAdapter = addressAdapter
-        ),
-        erc721_contractAdapter = Erc721_contract.Adapter(
-            chain_idAdapter = chainAdapter,
-            addressAdapter = addressAdapter
-        ),
-        erc721_tokenAdapter = Erc721_token.Adapter(
-            chain_idAdapter = chainAdapter,
-            contractAdapter = addressAdapter,
-            idAdapter = quantityAdapter,
-            ownerAdapter = addressAdapter
-        ),
+//        erc20_contractAdapter = Erc20_contract.Adapter(
+//            chain_idAdapter = chainAdapter,
+//            addressAdapter = addressAdapter
+//        ),
+//        erc721_contractAdapter = Erc721_contract.Adapter(
+//            chain_idAdapter = chainAdapter,
+//            addressAdapter = addressAdapter
+//        ),
         eth_blockAdapter = Eth_block.Adapter(
             chain_idAdapter = chainAdapter,
             timestampAdapter = timestampAdapter
         ),
-        eth_token_transferAdapter = Eth_token_transfer.Adapter(
+        eth_transactionAdapter = Eth_transaction.Adapter(
             chain_idAdapter = chainAdapter,
+            hashAdapter = dataAdapter,
             fromAdapter = addressAdapter,
             toAdapter = addressAdapter,
             value_Adapter = quantityAdapter
         ),
-        eth_transactionAdapter = Eth_transaction.Adapter(
+        eth_token_transferAdapter = Eth_token_transfer.Adapter(
             chain_idAdapter = chainAdapter,
-            hashAdapter = dataAdapter,
+            contractAdapter = addressAdapter,
             fromAdapter = addressAdapter,
             toAdapter = addressAdapter,
             value_Adapter = quantityAdapter

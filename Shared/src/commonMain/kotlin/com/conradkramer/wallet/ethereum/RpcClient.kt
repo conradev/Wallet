@@ -17,6 +17,7 @@ import io.ktor.http.Url
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import mu.KLogger
+import kotlin.math.absoluteValue
 import kotlin.random.Random
 
 internal class RpcClient(val endpointUrl: Url, private val nativeLogger: KLogger) {
@@ -32,7 +33,10 @@ internal class RpcClient(val endpointUrl: Url, private val nativeLogger: KLogger
     }
 
     suspend inline fun <reified Response> send(request: Request): Response {
-        val jsonRpcRequest = request.jsonRpcRequest(Random.nextInt())
+        /**
+         * We need the absolute value because Cloudflare's API does not like negative IDs
+         */
+        val jsonRpcRequest = request.jsonRpcRequest(Random.nextInt().absoluteValue)
         nativeLogger.info { "Sending request $jsonRpcRequest" }
 
         val jsonRpcResponse = client
@@ -43,8 +47,8 @@ internal class RpcClient(val endpointUrl: Url, private val nativeLogger: KLogger
             .body<JsonRpcResponse<Response>>()
         nativeLogger.info { "Received response $jsonRpcResponse" }
 
-        jsonRpcRequest.validate(jsonRpcResponse)
         jsonRpcResponse.error?.let { throw JsonRpcException(it) }
+        jsonRpcRequest.validate(jsonRpcResponse)
 
         return jsonRpcResponse.result
             ?: throw Exception("Result and error were both null")
