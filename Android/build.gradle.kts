@@ -4,6 +4,7 @@ plugins {
 }
 
 object Versions {
+    const val accompanist = "0.24.13-rc"
     const val activity = "1.4.0"
     const val appcompat = "1.4.1"
     const val biometric = "1.2.0-alpha05"
@@ -70,6 +71,7 @@ dependencies {
     implementation("org.dbtools:dbtools-room-sqliteorg:${Versions.dbtoolsRoom}")
     implementation("app.cash.sqldelight:android-driver:${Versions.sqldelight}")
     implementation("com.google.android.material:material:${Versions.material}")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanist}")
     implementation("androidx.appcompat:appcompat:${Versions.appcompat}")
     implementation("androidx.biometric:biometric:${Versions.biometric}")
     implementation("androidx.biometric:biometric-ktx:${Versions.biometric}")
