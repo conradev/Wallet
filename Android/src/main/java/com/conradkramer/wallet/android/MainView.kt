@@ -1,28 +1,38 @@
 package com.conradkramer.wallet.android
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Paid
 import androidx.compose.material.icons.filled.SwapVert
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.conradkramer.wallet.viewmodel.MainViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlin.math.ln
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,8 +43,17 @@ fun MainView(mainViewModel: MainViewModel) {
         mainViewModel.bind(navController)
     }
 
+    val systemUiController = rememberSystemUiController()
+    val colorScheme = MaterialTheme.colorScheme
+    SideEffect {
+        systemUiController.setStatusBarColor(colorScheme.surface)
+        systemUiController.setNavigationBarColor(colorScheme.surfaceColorAtElevation(3.0.dp))
+    }
+
     val currentTab = mainViewModel.selectedTab.collectAsState()
     Scaffold(
+        modifier = Modifier
+            .systemBarsPadding(),
         bottomBar = {
             NavigationBar {
                 MainViewModel.Tab.values().forEach { tab ->
@@ -91,3 +110,16 @@ val MainViewModel.Tab.icon: ImageVector
         MainViewModel.Tab.UTILITY -> Icons.Default.Language
         MainViewModel.Tab.TRANSACTIONS -> Icons.Default.AccountCircle
     }
+
+/**
+ * Copied from the MaterialTheme source code. I need the raw
+ * color in order to make the bottom navigation bar match the app's
+ * elevated bottom bar
+ */
+private fun ColorScheme.surfaceColorAtElevation(
+    elevation: Dp,
+): Color {
+    if (elevation == 0.dp) return surface
+    val alpha = ((4.5f * ln(elevation.value + 1)) + 2f) / 100f
+    return surfaceTint.copy(alpha = alpha).compositeOver(surface)
+}

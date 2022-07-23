@@ -19,7 +19,9 @@ class MainActivity : AppCompatActivity(), AndroidScopeComponent {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MainView(mainViewModel)
+            AppTheme {
+                MainView(mainViewModel)
+            }
         }
 
         if (mainViewModel.showOnboarding.value) {
