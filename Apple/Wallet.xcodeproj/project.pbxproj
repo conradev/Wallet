@@ -1921,16 +1921,16 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rickclephas/KMP-NativeCoroutines.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.12.2;
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.13.2;
 			};
 		};
 		D078248927FF90C0006736D4 /* XCRemoteSwiftPackageReference "DictionaryCoding" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/elegantchaos/DictionaryCoding.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.0.9;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

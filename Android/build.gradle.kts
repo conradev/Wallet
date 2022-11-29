@@ -6,22 +6,22 @@ plugins {
 object Versions {
     const val activity = "1.4.0"
     const val appcompat = "1.4.1"
-    const val biometric = "1.2.0-alpha04"
-    const val compose = "1.2.0-rc03"
+    const val biometric = "1.2.0-alpha05"
+    const val compose = "1.3.1"
     const val dbtoolsRoom = "7.0.1"
-    const val koin = "3.2.0-beta-1"
-    const val material = "1.6.1"
-    const val material3 = "1.0.0-alpha13"
+    const val koin = "3.2.2"
+    const val material = "1.7.0"
+    const val material3 = "1.0.1"
     const val navigation = "2.4.2"
-    const val sqldelight = "2.0.0-alpha03"
+    const val sqldelight = "2.0.0-alpha04"
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 33
     defaultConfig {
         applicationId = "com.conradkramer.wallet.android"
         minSdk = 28
-        targetSdk = 32
+        targetSdk = 33
         versionCode = 1
         versionName = "0.1"
     }
@@ -50,7 +50,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0"
+        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
     }
 
     namespace = "com.conradkramer.wallet.android"
@@ -66,7 +66,7 @@ kotlin {
 
 dependencies {
     implementation(project(":Shared"))
-    implementation(files("../External/sqlite/sqlite-android-3380300.aar"))
+    implementation(files("../External/sqlite/sqlite-android-3400000.aar"))
     implementation("org.dbtools:dbtools-room-sqliteorg:${Versions.dbtoolsRoom}")
     implementation("app.cash.sqldelight:android-driver:${Versions.sqldelight}")
     implementation("com.google.android.material:material:${Versions.material}")
@@ -76,7 +76,6 @@ dependencies {
     implementation("androidx.compose.ui:ui:${Versions.compose}")
     implementation("androidx.compose.ui:ui-tooling:${Versions.compose}")
     implementation("androidx.compose.foundation:foundation:${Versions.compose}")
-    implementation("androidx.compose.material:material:${Versions.compose}")
     implementation("androidx.compose.material:material-icons-core:${Versions.compose}")
     implementation("androidx.compose.material:material-icons-extended:${Versions.compose}")
     implementation("androidx.compose.material3:material3:${Versions.material3}")

@@ -82,9 +82,10 @@ class ImportViewController: UIViewController, UITextViewDelegate {
             identifier: nil,
             discoverabilityTitle: nil,
             attributes: [],
-            state: .on) { [weak self] action in
-                guard let self = self else { return }
-                self.delegate?.action(string: self.textView.text)
+            state: .on
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            self.delegate?.action(string: self.textView.text)
         }
         let button = UIButton(type: .custom, primaryAction: buttonAction)
         button.setAttributedTitle(
