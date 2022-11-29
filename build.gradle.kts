@@ -6,8 +6,8 @@ buildscript {
     }
     dependencies {
         classpath(kotlin("gradle-plugin", findProperty("kotlin.version").toString()))
-        classpath("app.cash.sqldelight:gradle-plugin:2.0.0-alpha03")
-        classpath("com.android.tools.build:gradle:7.2.1")
+        classpath("app.cash.sqldelight:gradle-plugin:2.0.0-alpha04")
+        classpath("com.android.tools.build:gradle:7.3.1")
         classpath("org.jmailen.gradle:kotlinter-gradle:3.9.0")
         classpath("com.dorongold.plugins:task-tree:2.1.0")
     }

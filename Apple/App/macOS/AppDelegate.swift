@@ -28,7 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, OnboardingWindowControllerDe
         return observable
             .objectWillChange
             .delay(for: 0, scheduler: RunLoop.main)
-            .sink { [weak self] showOnboarding in
+            .sink { [weak self] _ in
                 guard !observable.showOnboarding else { return }
                 self?.finishOnboarding()
             }

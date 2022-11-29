@@ -75,7 +75,7 @@ extension NSObject {
         return instanceVariables
             .compactMap { $0 as? NSObject }
             .map { matches.union($0.findInstanceVariable(predicate, depth: depth - 1)) }
-            .reduce(Set()) { $0.union($1) }
+            .reduce(into: Set()) { $0.formUnion($1) }
     }
 
     private subscript(variable variable: Ivar) -> AnyObject? {

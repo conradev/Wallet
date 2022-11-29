@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/elegantchaos/DictionaryCoding.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "d011b097bc36bb9d34dd7587283790a960b9f30f"
+        "revision" : "ae19e456bd550fed8f341e5bae4318333c53a5b4",
+        "version" : "1.0.9"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/rickclephas/KMP-NativeCoroutines.git",
       "state" : {
-        "revision" : "3bbea7d59681140caba3d552383fc30d8fddb7ec",
-        "version" : "0.12.2"
+        "revision" : "f0d9c952ee0b27b30dc4e2b704d91b242a14b20e",
+        "version" : "0.13.2"
       }
     },
     {

@@ -1,6 +1,5 @@
 opt_in_rules:
 - anonymous_argument_in_multiline_closure
-- anyobject_protocol
 - array_init
 - attributes
 - capture_variable
