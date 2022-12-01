@@ -1,8 +1,10 @@
-import validateTabMessage from "./schemas/tab-message"
-import validateNativeMessage from "./schemas/native-message"
-import validateResponsePayload from "./schemas/response-payload"
-import validateOpenURLPayload from "./schemas/openurl-payload"
-import validatePageConnect from "./schemas/page-connect-message"
+import {
+    validateTabMessage,
+    validateNativeMessage,
+    validateResponsePayload,
+    validateOpenURLPayload,
+    validatePageConnect,
+} from "./validators.js"
 
 export class Frame {
     x: number

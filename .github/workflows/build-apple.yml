@@ -61,9 +61,9 @@ jobs:
       with:
         certificate: ${{ secrets.DEVELOPER_CERT }}
         password: ${{ secrets.DEVELOPER_CERT_PASSWORD }}
-    - name: Yarn Install
+    - name: NPM Install
       shell: bash
-      run: yarn install
+      run: npm install
     - name: Build
       id: build
       uses: ./.github/actions/build-for-testing

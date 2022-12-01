@@ -1,5 +1,3 @@
-
-import { pnpPlugin } from "@yarnpkg/esbuild-plugin-pnp";
 import { build } from "esbuild";
 
 await build({
@@ -10,5 +8,4 @@ await build({
     target: 'es2020',
     platform: 'browser',
     outdir: "build",
-    plugins: [pnpPlugin()],
 });

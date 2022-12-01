@@ -1205,7 +1205,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"${PATH}:/opt/homebrew/bin\"\n\nyarn --cwd \"${PROJECT_DIR}/../Extension\" package\n";
+			shellScript = "export PATH=\"${PATH}:/opt/homebrew/bin\"\n\nnpm run --prefix \"${PROJECT_DIR}/../Extension\" package\n";
 		};
 		D09974EE280F3FE200AB4C1B /* Embed Web Extension */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1243,7 +1243,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"${PATH}:/opt/homebrew/bin\"\n\nyarn --cwd \"${PROJECT_DIR}/../Extension\" package\n";
+			shellScript = "export PATH=\"${PATH}:/opt/homebrew/bin\"\n\nnpm run --prefix \"${PROJECT_DIR}/../Extension\" package\n";
 		};
 		D09974F1280F410B00AB4C1B /* Embed Web Extension */ = {
 			isa = PBXShellScriptBuildPhase;

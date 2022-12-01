@@ -1,9 +1,7 @@
 {
   "name": "wallet-extension",
   "type": "module",
-  "packageManager": "yarn@3.2.0",
   "dependencies": {
-    "@yarnpkg/esbuild-plugin-pnp": "^3.0.0-rc.2",
     "ajv": "^8.11.0",
     "webextension-polyfill": "^0.9.0"
   },
@@ -11,20 +9,18 @@
     "@types/webextension-polyfill": "^0.8.3",
     "@typescript-eslint/eslint-plugin": "^5.21.0",
     "@typescript-eslint/parser": "^5.21.0",
-    "ajv-cli": "^5.0.0",
     "esbuild": "^0.14.36",
     "eslint": "^8.14.0",
-    "eslint-import-resolver-node": "^0.3.6",
     "typescript": "^4.6.3"
   },
   "scripts": {
-    "generate": "bash -c 'for SCHEMA in \"./schemas/\"*.json; do ajv compile -s $SCHEMA -o ${SCHEMA%.*}.js; done'",
+    "generate": "node generate_validators.mjs",
     "lint": "eslint --ext .ts .",
     "compile": "tsc",
     "bundle": "node esbuild.config.js",
     "resources": "cp -R _locales images manifest.json build/",
-    "package": "yarn generate && yarn bundle && yarn resources",
-    "build": "yarn generate && yarn compile && yarn lint && yarn bundle && yarn resources",
-    "clean": "bash -c 'rm -rf build schemas/*.js'"
+    "package": "npm run generate && npm run bundle && npm run resources",
+    "build": "npm run generate && npm run compile && npm run lint && npm run bundle && npm run resources",
+    "clean": "rm validators.js"
   }
 }
