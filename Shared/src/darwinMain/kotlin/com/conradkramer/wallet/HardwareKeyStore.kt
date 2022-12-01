@@ -250,8 +250,6 @@ internal actual data class HardwareKeyStore(
         logger.info { "Deleting all keys" }
         memScoped {
             val query = dictionary().autorelease(this)
-            CFDictionarySetValue(query, kSecMatchLimit, kSecMatchLimitAll)
-
             when (val status = SecItemDelete(query)) {
                 errSecSuccess -> logger.info { "Deleted all keys successfully" }
                 errSecItemNotFound -> logger.warn { "No keys were found" }
