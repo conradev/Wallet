@@ -1,22 +1,22 @@
 import SwiftUI
+import WalletCore
 
-struct NavigationStackView<Content, Tag>: View
-    where Content: View, Tag: CaseIterable & Hashable, Tag.AllCases: RandomAccessCollection {
+struct NavigationStackView<Content, Tag>: View where Content: View, Tag: KotlinCaseIterable, Tag.Value: Hashable {
     @Binding
-    var stack: [Tag]
+    var stack: [Tag.Value]
 
     private var depth: Int = 0
-    private var content: (Tag) -> Content
+    private var content: (Tag.Value) -> Content
 
     private var isRoot: Bool {
         depth == 0
     }
 
-    private var current: Tag? {
+    private var current: Tag.Value? {
         component(at: depth).wrappedValue
     }
 
-    private var next: Binding<Tag?> {
+    private var next: Binding<Tag.Value?> {
         component(at: depth + 1)
     }
 
@@ -55,17 +55,17 @@ struct NavigationStackView<Content, Tag>: View
         }
     }
 
-    init(stack: Binding<[Tag]>, @ViewBuilder content: @escaping (Tag) -> Content) {
+    init(_: Tag.Type, stack: Binding<[Tag.Value]>, @ViewBuilder content: @escaping (Tag.Value) -> Content) {
         self.init(stack: stack, depth: 0, content: content)
     }
 
-    private init(stack: Binding<[Tag]>, depth: Int, @ViewBuilder content: @escaping (Tag) -> Content) {
+    private init(stack: Binding<[Tag.Value]>, depth: Int, @ViewBuilder content: @escaping (Tag.Value) -> Content) {
         self._stack = stack
         self.depth = depth
         self.content = content
     }
 
-    private func component(at index: Int) -> Binding<Tag?> {
+    private func component(at index: Int) -> Binding<Tag.Value?> {
         .init {
             if index < stack.count {
                 return stack[index]
