@@ -7,7 +7,7 @@ import WalletCore
 class AppDelegate: NSObject, NSApplicationDelegate, OnboardingWindowControllerDelegate, MainWindowControllerDelegate {
     let app = KoinApplication.start()
 
-    let observable: MainViewModel.Observable = KoinApplication.observable()
+    let observable: MainViewModel.Observable = KoinApplication.observable(MainViewModel.self)
 
     private lazy var onboardingWindowController: OnboardingWindowController = {
         let controller = OnboardingWindowController()

@@ -4,6 +4,7 @@ import WalletUICore
 struct WelcomeView: View {
     @ObservedObject
     var observable: WelcomeViewModel.Observable
+    var viewModel: WelcomeViewModel { observable.viewModel() }
 
     #if !os(macOS)
     var action: ((WelcomeViewModel.Option) -> Void)?
@@ -11,13 +12,13 @@ struct WelcomeView: View {
 
     var body: some View {
         VStack(spacing: 10) {
-            Text(observable.viewModel.title)
+            Text(viewModel.title)
                 .font(.init(OnboardingView.titleFont))
-            Text(observable.viewModel.subtitle)
+            Text(viewModel.subtitle)
                 .font(.title3)
                 .frame(maxWidth: 500)
             Spacer()
-            ForEach(observable.viewModel.options) { option in
+            ForEach(viewModel.options) { option in
                 Button(.init(option.title), symbolName: option.symbolName) {
                     observable.selectedOption = option
                     #if !os(macOS)
@@ -35,7 +36,7 @@ struct WelcomeView: View {
 }
 
 extension WelcomeViewModel: KotlinViewModel {
-    public final class Observable: KotlinObservableObject<WelcomeViewModel> {
+    public final class Observable: KotlinObservableObject {
         @Published
         var selectedOption: Option = .importPhrase
     }

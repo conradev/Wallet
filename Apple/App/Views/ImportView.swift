@@ -13,7 +13,7 @@ struct ImportView: NativeViewControllerRepresentable {
         let parent: ImportView
 
         var viewModel: ImportViewModel {
-            parent.observable.viewModel
+            parent.observable.viewModel()
         }
 
         init(parent: ImportView) {
@@ -78,7 +78,7 @@ struct ImportView: NativeViewControllerRepresentable {
 }
 
 extension ImportViewModel: KotlinViewModel {
-    public final class Observable: KotlinObservableObject<ImportViewModel> { }
+    public final class Observable: KotlinObservableObject { }
 
     public static let bindings: [KotlinBinding] = []
 }

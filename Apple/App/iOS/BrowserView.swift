@@ -3,8 +3,8 @@ import WalletUICore
 
 struct BrowserView: View {
     @ObservedObject
-    var observable: BrowserViewModel.Observable = KoinApplication.observable()
-    var viewModel: BrowserViewModel { observable.viewModel }
+    var observable: BrowserViewModel.Observable = KoinApplication.observable(BrowserViewModel.self)
+    var viewModel: BrowserViewModel { observable.viewModel() }
 
     @State
     var visiblePrompt: Prompt?
@@ -36,7 +36,7 @@ struct BrowserView: View {
 extension Prompt: Identifiable { }
 
 extension BrowserViewModel: KotlinViewModel {
-    public final class Observable: KotlinObservableObject<BrowserViewModel> {
+    public final class Observable: KotlinObservableObject {
         @Published
         var prompts: [Prompt] = []
     }

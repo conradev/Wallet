@@ -19,13 +19,14 @@ struct OnboardingView: View {
 #endif
 
     @StateObject
-    private var observable: OnboardingViewModel.Observable = KoinApplication.observable()
+    private var observable: OnboardingViewModel.Observable = KoinApplication.observable(OnboardingViewModel.self)
+    private var viewModel: OnboardingViewModel { observable.viewModel() }
 
     @StateObject
-    private var welcomeViewObservable: WelcomeViewModel.Observable = KoinApplication.observable()
+    private var welcomeViewObservable: WelcomeViewModel.Observable = KoinApplication.observable(WelcomeViewModel.self)
 
     @StateObject
-    private var importViewObservable: ImportViewModel.Observable = KoinApplication.observable()
+    private var importViewObservable: ImportViewModel.Observable = KoinApplication.observable(ImportViewModel.self)
 
 #if os(macOS)
     @State
@@ -51,7 +52,7 @@ struct OnboardingView: View {
 #if os(macOS)
     private var back: (() -> Void)? {
         guard observable.screens.count > 1 else { return nil }
-        return { observable.viewModel.back() }
+        return { viewModel.back() }
     }
 
     private var next: (() -> Void)? {
@@ -95,7 +96,7 @@ struct OnboardingView: View {
     private func welcomeAction(option: WelcomeViewModel.Option) -> (() -> Void)? {
         switch option {
         case .importPhrase:
-            return { observable.viewModel.import() }
+            return { viewModel.import() }
         default:
             return nil
         }
@@ -103,7 +104,7 @@ struct OnboardingView: View {
 }
 
 extension OnboardingViewModel: KotlinViewModel {
-    public final class Observable: KotlinObservableObject<OnboardingViewModel> {
+    public final class Observable: KotlinObservableObject {
         @Published
         var screens: [Screen] = [.welcome]
 
