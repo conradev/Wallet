@@ -3,7 +3,7 @@ import SwiftUI
 struct PermissionPromptView: View {
     @ObservedObject
     var observable: PermissionPromptViewModel.Observable
-    var viewModel: PermissionPromptViewModel { observable.viewModel }
+    var viewModel: PermissionPromptViewModel { observable.viewModel() }
 
     var body: some View {
         VStack {
@@ -77,7 +77,7 @@ extension HorizontalAlignment {
 }
 
 extension PermissionPromptViewModel: KotlinViewModel {
-    public final class Observable: KotlinObservableObject<PermissionPromptViewModel> { }
+    public final class Observable: KotlinObservableObject { }
 
     public static let bindings: [KotlinBinding] = []
 }

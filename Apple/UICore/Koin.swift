@@ -74,16 +74,23 @@ public struct KotlinBinding {
     }
 }
 
-open class KotlinObservableObject<ViewModel>: ObservableObject {
-    public var viewModel: ViewModel! // swiftlint:disable:this implicitly_unwrapped_optional
+open class KotlinObservableObject: ObservableObject {
+    public var viewModelStorage: Any?
     public var bindings: [AnyCancellable] = []
 
     public required init() {
     }
+
+    public func viewModel<T>() -> T {
+        guard let viewModel = viewModelStorage as? T else {
+            fatalError("Failed to cast viewModel to correct type")
+        }
+        return viewModel
+    }
 }
 
 public protocol KotlinViewModel: ObservableObject {
-    associatedtype Observable: KotlinObservableObject<Self>
+    associatedtype Observable: KotlinObservableObject
 
     static var bindings: [KotlinBinding] { get }
 }
@@ -91,7 +98,7 @@ public protocol KotlinViewModel: ObservableObject {
 extension KotlinViewModel {
     public var observable: Observable {
         let observable = Observable()
-        observable.viewModel = self
+        observable.viewModelStorage = self
         bind(to: observable)
         return observable
     }
@@ -102,13 +109,11 @@ extension KotlinViewModel {
 }
 
 extension KoinApplication {
-    public static func observable<T, ViewModel: KotlinViewModel>() -> T where T: KotlinObservableObject<ViewModel> {
+    public static func observable<ViewModel: KotlinViewModel>(
+        _: ViewModel.Type
+    ) -> ViewModel.Observable {
         let viewModel: ViewModel = inject()
-        if let observable = viewModel.observable as? T {
-            return observable
-        } else {
-            fatalError("Unable to generate observable of type \(T.self)")
-        }
+        return viewModel.observable
     }
 }
 

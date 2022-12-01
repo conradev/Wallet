@@ -76,7 +76,7 @@ struct MainSplitView: View, MainViewProvider {
 }
 
 extension MainViewModel: KotlinViewModel {
-    public final class Observable: KotlinObservableObject<MainViewModel> {
+    public final class Observable: KotlinObservableObject {
         @Published
         var showOnboarding = false
 

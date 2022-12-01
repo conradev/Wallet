@@ -4,7 +4,7 @@ import SwiftUI
 public struct SignDataPromptView: View {
     @ObservedObject
     var observable: SignDataPromptViewModel.Observable
-    var viewModel: SignDataPromptViewModel { observable.viewModel }
+    var viewModel: SignDataPromptViewModel { observable.viewModel() }
 
     private var symbolName: String {
         switch viewModel.biometryType {
@@ -102,7 +102,7 @@ public struct SignDataPromptView: View {
 }
 
 extension SignDataPromptViewModel: KotlinViewModel {
-    public final class Observable: KotlinObservableObject<SignDataPromptViewModel> { }
+    public final class Observable: KotlinObservableObject { }
 
     public static let bindings: [KotlinBinding] = []
 }

@@ -6,7 +6,7 @@ struct MainView: View {
     var horizontalSizeClass
 
     @StateObject
-    var observable: MainViewModel.Observable = KoinApplication.observable()
+    var observable: MainViewModel.Observable = KoinApplication.observable(MainViewModel.self)
 
     var body: some View {
         content
