@@ -42,7 +42,7 @@ struct OnboardingView: View {
     }
 #else
     var body: some View {
-        NavigationStackView(stack: $observable.screens) { screen in
+        NavigationStackView(OnboardingViewModel.Screen.self, stack: $observable.screens) { screen in
             view(for: screen)
         }
     }

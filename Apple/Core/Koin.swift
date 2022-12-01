@@ -11,7 +11,7 @@ extension Array where Element: AnyObject {
     }
 }
 
-public protocol KotlinCaseIterable: CaseIterable, AnyObject {
+public protocol KotlinCaseIterable: AnyObject {
     associatedtype Value: AnyObject
 
     static func values() -> KotlinArray<Value>
