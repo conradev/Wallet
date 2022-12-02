@@ -46,10 +46,9 @@ import platform.Foundation.NSNumber
 import platform.Foundation.NSString
 import platform.Foundation.numberWithInt
 import platform.Foundation.stringWithUTF8String
-import platform.LocalAuthentication.LABiometryTypeFaceID
-import platform.LocalAuthentication.LABiometryTypeTouchID
 import platform.LocalAuthentication.LAContext
 import platform.LocalAuthentication.LAPolicyDeviceOwnerAuthentication
+import platform.LocalAuthentication.LAPolicyDeviceOwnerAuthenticationWithBiometrics
 import platform.Security.SecAccessControlCreateWithFlags
 import platform.Security.SecItemCopyMatching
 import platform.Security.SecItemDelete
@@ -95,19 +94,7 @@ internal actual data class HardwareKeyStore(
     private val logger: KLogger
 ) : KeyStore<AuthenticationContext> {
     override val canStore: Boolean
-        get() = LAContext().canEvaluatePolicy(policy, null)
-
-    override val biometryType: BiometryType
-        get() {
-            val biometryType = LAContext()
-                .apply { canEvaluatePolicy(policy, null) }
-                .biometryType
-            return when (biometryType) {
-                LABiometryTypeFaceID -> BiometryType.FACEPRINT
-                LABiometryTypeTouchID -> BiometryType.FINGERPRINT
-                else -> throw Exception("Unknown biometry type $biometryType")
-            }
-        }
+        get() = LAContext().canEvaluatePolicy(LAPolicyDeviceOwnerAuthentication, null)
 
     override val all: Set<String>
         get() = memScoped {
@@ -267,10 +254,10 @@ internal actual data class HardwareKeyStore(
         host: BiometricPromptHost?,
         info: BiometricPromptInfo
     ): Boolean {
-        return suspendCancellableCoroutine<Boolean> { continuation ->
+        return suspendCancellableCoroutine { continuation ->
             val inner = context.context
             inner.localizedCancelTitle = info.cancelTitle
-            inner.evaluatePolicy(policy, info.reason) { success, error ->
+            inner.evaluatePolicy(context.policy, info.reason) { success, error ->
                 if (!success) logger.error { "Failed to evaluate local authentication policy: $error" }
                 continuation.resume(success)
             }
@@ -335,14 +322,18 @@ internal actual data class HardwareKeyStore(
             dictionary
         }
     }
-
-    companion object {
-        private const val policy = LAPolicyDeviceOwnerAuthentication
-    }
 }
 
 actual class AuthenticationContext(actual val id: String, val context: LAContext) {
     actual constructor(id: String) : this(id, LAContext())
+
+    val policy = if (context.canEvaluatePolicy(LAPolicyDeviceOwnerAuthenticationWithBiometrics, null)) {
+        LAPolicyDeviceOwnerAuthenticationWithBiometrics
+    } else {
+        LAPolicyDeviceOwnerAuthentication
+    }
+
+    val biometricsAvailable = (policy == LAPolicyDeviceOwnerAuthenticationWithBiometrics)
 }
 
 private fun <T : CPointer<U>, U> MemScope.autorelease(value: T): T {

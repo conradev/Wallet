@@ -10,7 +10,6 @@ import mu.KLogger
 import kotlin.coroutines.EmptyCoroutineContext
 
 internal interface AccountStore {
-    val biometryType: BiometryType
     val canStore: Boolean
     val accounts: StateFlow<List<Account>>
 
@@ -40,9 +39,6 @@ internal class DatabaseAccountStore(
     }
 
     private val scope = CoroutineScope(EmptyCoroutineContext)
-
-    override val biometryType: BiometryType
-        get() = keyStore.biometryType
 
     override val canStore: Boolean
         get() = keyStore.canStore

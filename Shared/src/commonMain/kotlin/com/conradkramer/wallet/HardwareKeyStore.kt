@@ -1,11 +1,5 @@
 package com.conradkramer.wallet
 
-enum class BiometryType {
-    UNKNOWN,
-    FINGERPRINT,
-    FACEPRINT
-}
-
 internal data class BiometricPromptInfo(
     val title: String,
     val subtitle: String,
@@ -16,8 +10,6 @@ internal data class BiometricPromptInfo(
 expect class BiometricPromptHost
 
 internal interface BiometricAuthenticator<Context> {
-    val biometryType: BiometryType
-
     fun context(id: String): Context
     suspend fun prompt(context: Context, host: BiometricPromptHost?, info: BiometricPromptInfo): Boolean
     fun <R> decrypt(context: Context, data: ByteArray, handler: (data: ByteArray) -> R): R

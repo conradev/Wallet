@@ -10,11 +10,6 @@ struct AuthenticationView: NSViewRepresentable {
         }
     }
 
-    static var functional: Bool {
-        // TODO: Pending resolution of FB10013283
-        ProcessInfo.processInfo.isOperatingSystemAtLeast(.init(majorVersion: 16, minorVersion: 0, patchVersion: 0))
-    }
-
     var context: LAContext
 
     func makeNSView(context: Context) -> LAAuthenticationView {

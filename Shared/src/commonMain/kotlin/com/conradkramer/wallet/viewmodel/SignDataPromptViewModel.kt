@@ -1,5 +1,6 @@
 package com.conradkramer.wallet.viewmodel
 
+import com.conradkramer.wallet.Account
 import com.conradkramer.wallet.AccountStore
 import com.conradkramer.wallet.BiometricPromptHost
 import com.conradkramer.wallet.BiometricPromptInfo
@@ -7,7 +8,6 @@ import com.conradkramer.wallet.Coin
 import com.conradkramer.wallet.browser.prompt.SignDataPrompt
 import com.conradkramer.wallet.ethereum.Data
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import mu.KLogger
 import kotlin.coroutines.EmptyCoroutineContext
@@ -26,16 +26,9 @@ class SignDataPromptViewModel internal constructor(
     private val info = BiometricPromptInfo(
         "Sign Data",
         prompt.domain,
-        "“${prompt.domain}” would like to sign a message",
+        "sign a message for “${prompt.domain}”",
         "Cancel"
     )
-
-    val biometryType = accountStore.biometryType
-
-    private val account = accountStore.accounts.value
-        .first { it.ethereumAddress == prompt.address }
-
-    val context = accountStore.context(account)
 
     val data: String = try {
         prompt.data.data.decodeToString(throwOnInvalidSequence = true)
@@ -43,9 +36,19 @@ class SignDataPromptViewModel internal constructor(
         prompt.data.toString()
     }
 
+    private val account: Account?
+        get() = accountStore.accounts.value.firstOrNull { it.ethereumAddress == prompt.address }
+
+    val context = account?.let { accountStore.context(it) }
+
     private val scope = CoroutineScope(EmptyCoroutineContext)
 
     fun sign() {
+        if (context == null) {
+            respond(SignDataPrompt.Response(null))
+            return
+        }
+
         scope.launch {
             accountStore.authenticate(context, info, host) { keyOrNull ->
                 val rootKey = keyOrNull ?: return@authenticate respond(SignDataPrompt.Response(null))

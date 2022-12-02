@@ -6,19 +6,19 @@ public struct SignDataPromptView: View {
     var observable: SignDataPromptViewModel.Observable
     var viewModel: SignDataPromptViewModel { observable.viewModel() }
 
+    private var context: AuthenticationContext? {
+        viewModel.context
+    }
+
     private var symbolName: String {
-        switch viewModel.biometryType {
-        case .faceprint:
+        switch context?.context.biometryType {
+        case .some(.faceID):
             return "faceid"
-        case .fingerprint:
+        case .some(.touchID):
             return "touchid"
         default:
             return "globe"
         }
-    }
-
-    private var context: LAContext {
-        viewModel.context.context
     }
 
     #if os(macOS)
@@ -44,8 +44,8 @@ public struct SignDataPromptView: View {
                 Text(viewModel.warning)
             }
             Spacer()
-            if AuthenticationView.functional {
-                AuthenticationView(context: context)
+            if let context = context, context.biometricsAvailable {
+                AuthenticationView(context: context.context)
             } else {
                 signButton
                     .keyboardShortcut(.defaultAction)
@@ -55,7 +55,7 @@ public struct SignDataPromptView: View {
         .padding()
         .frame(minWidth: 450, minHeight: 330)
         .onAppear {
-            if AuthenticationView.functional { viewModel.sign() }
+            if let context = context, context.biometricsAvailable { viewModel.sign() }
         }
     }
     #else

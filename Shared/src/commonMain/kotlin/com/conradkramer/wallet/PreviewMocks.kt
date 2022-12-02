@@ -25,7 +25,6 @@ private fun Account.Companion.random(): Account {
 }
 
 private class MockAccountStore(val account: Account) : AccountStore {
-    override val biometryType = BiometryType.FACEPRINT
     override val canStore = true
     override val accounts: StateFlow<List<Account>> = MutableStateFlow(listOf(account))
 
