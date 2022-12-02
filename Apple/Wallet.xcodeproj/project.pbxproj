@@ -1151,6 +1151,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+			showEnvVarsInLog = 0;
 		};
 		D0626962283A12F8000B62E6 /* Embed Kotlin Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1169,6 +1170,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+			showEnvVarsInLog = 0;
 		};
 		D0626966283BE936000B62E6 /* Embed Kotlin Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1187,6 +1189,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+			showEnvVarsInLog = 0;
 		};
 		D09974EC280F3DD900AB4C1B /* Compile TypeScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1206,6 +1209,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export PATH=\"${PATH}:/opt/homebrew/bin\"\n\nnpm run --prefix \"${PROJECT_DIR}/../Extension\" package\n";
+			showEnvVarsInLog = 0;
 		};
 		D09974EE280F3FE200AB4C1B /* Embed Web Extension */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1244,6 +1248,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export PATH=\"${PATH}:/opt/homebrew/bin\"\n\nnpm run --prefix \"${PROJECT_DIR}/../Extension\" package\n";
+			showEnvVarsInLog = 0;
 		};
 		D09974F1280F410B00AB4C1B /* Embed Web Extension */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1322,6 +1327,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\ncd \"${PROJECT_DIR}/..\"\n\nif [[ -x \"$(command -v swiftlint)\" && \"${CI}\" != \"true\" ]]; then\n    swiftlint\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 		D0BF4136282742BD001180E3 /* Compile External Dependencies */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1341,6 +1347,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/bin/env -i /bin/bash ../External/build-darwin.sh $PLATFORM_NAME\n";
+			showEnvVarsInLog = 0;
 		};
 		D0BF4137282742E3001180E3 /* Compile Kotlin */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1360,6 +1367,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export FRAMEWORKS_FOLDER_PATH=Kotlin\nexport EXPANDED_CODE_SIGN_IDENTITY=\"-\"\n../gradlew :shared:embedAndSignAppleFrameworkForXcode \n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
