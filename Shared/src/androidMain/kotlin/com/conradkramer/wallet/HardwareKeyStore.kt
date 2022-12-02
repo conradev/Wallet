@@ -32,8 +32,6 @@ internal actual class HardwareKeyStore(context: Context) : KeyStore<Authenticati
     override val canStore: Boolean
         get() = biometricManager.canAuthenticate(authenticators) == BIOMETRIC_SUCCESS
 
-    override val biometryType = BiometryType.UNKNOWN
-
     override val all: Set<String>
         get() = keyStore.aliases().toList().toSet()
 
