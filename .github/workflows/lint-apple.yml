@@ -14,7 +14,7 @@ jobs:
       image: ghcr.io/realm/swiftlint:latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         ssh-key: ${{ secrets.DEPLOY_KEY }}
     - name: Lint

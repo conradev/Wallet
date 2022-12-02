@@ -4,7 +4,7 @@ runs:
   steps:
   - shell: bash
     run: ./gradlew lint
-  - uses: yutailang0119/action-android-lint@v2
+  - uses: yutailang0119/action-android-lint@v3
     if: always()
     with:
       report-path: '**/build/reports/*.xml'

@@ -20,7 +20,7 @@ runs:
   steps:
   - shell: bash
     id: vars
-    run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+    run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
   - shell: bash
     working-directory: Apple
     run: |

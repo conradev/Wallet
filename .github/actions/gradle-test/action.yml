@@ -11,7 +11,7 @@ runs:
   steps:
   - shell: bash
     run: ./gradlew ${{ inputs.task }}
-  - uses: mikepenz/action-junit-report@v2
+  - uses: mikepenz/action-junit-report@v3
     if: always()
     with:
       check_name: ${{ inputs.check-name }}
