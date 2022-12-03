@@ -1,10 +1,4 @@
 name: Kotlin Lint
-permissions:
-  contents: read
-  statuses: read
-  pull-requests: read
-  actions: read
-  checks: write
 on:
   push:
     branches:

@@ -16,11 +16,11 @@ runs:
       security set-keychain-settings -lut 21600 Developer.keychain
       security unlock-keychain -p password Developer.keychain
       security import Developer.p12 \
-      -k Developer.keychain \
-      -f pkcs12 \
-      -A \
-      -T /usr/bin/codesign \
-      -T /usr/bin/security \
-      -P ${{ inputs.password }}
+        -k Developer.keychain \
+        -f pkcs12 \
+        -A \
+        -T /usr/bin/codesign \
+        -T /usr/bin/security \
+        -P ${{ inputs.password }}
       security set-key-partition-list -S apple-tool:,apple: -k password Developer.keychain
       security list-keychains -d user -s login.keychain Developer.keychain

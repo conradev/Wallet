@@ -1,4 +1,4 @@
-name: Build For Testing
+name: Archive
 inputs:
   scheme:
     description: Scheme
@@ -15,6 +15,9 @@ inputs:
   app-store-key-issuer-id:
     description: App Store key issuer ID
     required: true
+  archive-path:
+    description: Xcode archive path
+    required: true
 runs:
   using: composite
   steps:
@@ -23,7 +26,7 @@ runs:
     run: |
       echo "${{ inputs.app-store-key }}" > AuthKey_${{ inputs.app-store-key-id }}.p8
 
-      xcodebuild clean build-for-testing \
+      xcodebuild archive \
         -allowProvisioningUpdates \
         -allowProvisioningDeviceRegistration \
         -authenticationKeyID ${{ inputs.app-store-key-id }} \
@@ -32,6 +35,7 @@ runs:
         -onlyUsePackageVersionsFromResolvedFile \
         -scheme '${{ inputs.scheme }}' \
         -destination '${{ inputs.destination }}' \
+        -archivePath '${{ inputs.archive-path }}' \
         -resultBundlePath BuildResults.xcresult
 
       ./Tools/xcresulttool-github BuildResults.xcresult
