@@ -6,6 +6,20 @@ import {
     validatePageConnect,
 } from "./validators.js"
 
+function parser<T>(validator: (input) => boolean): ((input) => T | undefined) {
+    return (input) => {
+        const string = JSON.stringify(input)
+        if (!string) {
+            return undefined
+        }
+        const clone = JSON.parse(string)
+        if (!validator(clone)) {
+            return undefined
+        }
+        return clone as T
+    }
+}
+
 export class Frame {
     x: number
     y: number
@@ -21,9 +35,7 @@ export class Frame {
 }
 
 export class TabMessage {
-    static validate = (object) => {
-        return validateTabMessage(JSON.parse(JSON.stringify(object)))
-    }
+    static parse = parser<TabMessage>(validateTabMessage)
 
     id: number
     type: string
@@ -39,9 +51,7 @@ export class TabMessage {
 }
 
 export class NativeMessage implements TabMessage {
-    static validate = (object) => {
-        return validateNativeMessage(JSON.parse(JSON.stringify(object)))
-    }
+    static parse = parser<NativeMessage>(validateNativeMessage)
 
     id: number
     type: string
@@ -50,7 +60,14 @@ export class NativeMessage implements TabMessage {
     url?: string
     payload: object
 
-    public constructor(id: number, type: string, frame: Frame, frame_id: string, url: string, payload: object) {
+    public constructor(
+        id: number,
+        type: string,
+        frame: Frame | undefined,
+        frame_id: string,
+        url: string,
+        payload: object,
+    ) {
         this.id = id
         this.type = type
         this.frame = frame
@@ -61,26 +78,20 @@ export class NativeMessage implements TabMessage {
 }
 
 export class RPCResponsePayload {
-    static validate = (object) => {
-        return validateResponsePayload(JSON.parse(JSON.stringify(object)))
-    }
+    static parse = parser<RPCResponsePayload>(validateResponsePayload)
 
     request_id: string
-    result: any
+    result: any // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export class OpenURLPayload {
-    static validate = (object) => {
-        return validateOpenURLPayload(JSON.parse(JSON.stringify(object)))
-    }
+    static parse = parser<OpenURLPayload>(validateOpenURLPayload)
 
     url: string
 }
 
 export class PageConnectMessage {
-    static validate = (object) => {
-        return validatePageConnect(JSON.parse(JSON.stringify(object)))
-    }
+    static parse = parser<PageConnectMessage>(validatePageConnect)
 
     type = "page_connect_message"
 }

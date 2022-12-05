@@ -49,7 +49,7 @@ class NativeHostMessageRelay {
         }
 
         const unwrappedPortId = portId
-        port.onMessage.addListener((message: object, port: Runtime.Port) => {
+        port.onMessage.addListener((message, port: Runtime.Port) => {
             if (!port.sender) {
                 return
             }
@@ -62,43 +62,48 @@ class NativeHostMessageRelay {
         this.contentScriptPorts[portId] = port
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private handleTabMessage(portId: string, message: any, sender: Runtime.MessageSender) {
-        if (!TabMessage.validate(message) || !sender.url) {
+    private handleTabMessage(portId: string, message, sender: Runtime.MessageSender) {
+        const tabMessage = TabMessage.parse(message)
+        if (!tabMessage || !sender.url) {
             return
         }
 
         this.nativePort.postMessage(
             new NativeMessage(
-                message.id,
-                message.type,
-                message.frame,
+                tabMessage.id,
+                tabMessage.type,
+                tabMessage.frame,
                 portId,
                 sender.url,
-                message.payload,
+                tabMessage.payload,
             ),
         )
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private handleNativeMessage(message: any) {
-        if (Object.keys(message).length === 0) {
+    private handleNativeMessage(message) {
+        if (message && typeof message === "object" && Object.keys(message).length === 0) {
             console.log("Receiving placeholder message, sending two in response")
             this.nativePort.postMessage({})
             this.nativePort.postMessage({})
             return
         }
 
-        if (!NativeMessage.validate(message)) {
+        const nativeMessage = NativeMessage.parse(message)
+        if (!nativeMessage) {
             return
         }
 
-        const port = this.contentScriptPorts[message.frame_id]
+        const port = this.contentScriptPorts[nativeMessage.frame_id]
         if (!port) {
             return
         }
 
-        port.postMessage(new TabMessage(message.id, message.type, message.payload, message.frame))
+        port.postMessage(new TabMessage(
+            nativeMessage.id,
+            nativeMessage.type,
+            nativeMessage.payload,
+            nativeMessage.frame,
+        ))
     }
 }
 

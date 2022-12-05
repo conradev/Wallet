@@ -8,6 +8,9 @@ class Ethereum {
     private readonly contentScriptPort: MessagePort
     private readonly promises: Record<number, [(response: object) => void, (reason?: string) => void]> = {}
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private readonly eventHandlers: Record<string, [(response) => void]> = {}
+
     public constructor() {
         const channel = new MessageChannel()
         this.contentScriptPort = channel.port1
@@ -22,14 +25,14 @@ class Ethereum {
     }
 
     private handleContentMessage(event: MessageEvent<TabMessage>) {
-        const message: TabMessage = event.data
-        if (!TabMessage.validate(message)) {
+        const message = TabMessage.parse(event.data)
+        if (!message) {
             return
         }
 
         if (message.type === Ethereum.RPC_RESPONSE_MESSAGE) {
-            const payload: any = message.payload
-            if (!RPCResponsePayload.validate(payload)) {
+            const payload = RPCResponsePayload.parse(message.payload)
+            if (!payload) {
                 return
             }
 
@@ -45,13 +48,18 @@ class Ethereum {
         }
 
         if (message.type === Ethereum.OPEN_URL_MESSAGE) {
-            const payload: any = message.payload
-            if (!OpenURLPayload.validate(payload)) {
+            const payload = OpenURLPayload.parse(message.payload)
+            if (!payload) {
                 return
             }
 
-            window.location = payload.url
+            window.location.assign(payload.url)
         }
+    }
+
+    on(event: string, handler: (value) => void) {
+        this.eventHandlers[event] = this.eventHandlers[event] || []
+        this.eventHandlers[event].push(handler)
     }
 
     async request(request: object): Promise<object> {
@@ -76,7 +84,7 @@ class MetaMask {
     }
 }
 
-export class Lazy {
+export class LazyEthereum {
     _metamask = new MetaMask()
     private _ethereum: Ethereum | undefined = undefined
 
@@ -94,7 +102,7 @@ export class Lazy {
 }
 
 declare global {
-    interface Window { ethereum: Lazy }
+    interface Window { ethereum: LazyEthereum }
 }
 
-window.ethereum = new Lazy()
+window.ethereum = new LazyEthereum()

@@ -48,7 +48,11 @@ class BackgroundWorkerMessageRelay {
     }
 
     private handlePageConnection(event: MessageEvent<object>) {
-        if (event.source !== window || !PageConnectMessage.validate(event.data)) {
+        if (event.source !== window) {
+            return
+        }
+        const connectMessage = PageConnectMessage.parse(event.data)
+        if (!connectMessage) {
             return
         }
 
