@@ -1,0 +1,38 @@
+name: Build Android Release
+on:
+  release:
+    types:
+    - created
+jobs:
+  build:
+    name: Build Android Release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        ssh-key: ${{ secrets.DEPLOY_KEY }}
+        submodules: recursive
+    - uses: actions/setup-java@v3
+      with:
+        distribution: temurin
+        java-version: '17'
+        cache: gradle
+    - name: Prepare Key
+      run: |
+        KEY_PROPS=Android/keystore.properties
+        echo "${{ secrets.ANDROID_KEY_STORE }}" | base64 -d > Android/key-store.jks
+        echo "storeFile=key-store.jks" >> $KEY_PROPS
+        echo "storePassword=${{ secrets.ANDROID_KEY_STORE_PASSWORD }}" >> $KEY_PROPS
+        echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> $KEY_PROPS
+        echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> $KEY_PROPS
+    - name: Build
+      run: |
+        ./gradlew assembleRelease
+        mv Android/build/outputs/apk/release/Android-release.apk Wallet.apk
+    - name: Attach Artifact
+      uses: SierraSoftworks/gh-releases@v1.0.6
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        overwrite: 'false'
+        files: Wallet.apk

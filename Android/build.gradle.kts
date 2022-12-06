@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -17,6 +20,9 @@ object Versions {
     const val sqldelight = "2.0.0-alpha04"
 }
 
+val keystore = Properties()
+    .also { it.load(FileInputStream(project.file("keystore.properties"))) }
+
 android {
     compileSdk = 33
     defaultConfig {
@@ -26,10 +32,19 @@ android {
         versionCode = 1
         versionName = "0.1"
     }
+    signingConfigs {
+        create("release") {
+            storeFile = keystore["storeFile"]?.let { project.file(it) }
+            storePassword = keystore["storePassword"] as String?
+            keyAlias = keystore["keyAlias"] as String?
+            keyPassword = keystore["keyPassword"] as String?
+        }
+    }
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
