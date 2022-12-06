@@ -1136,6 +1136,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		D062695D283A08D5000B62E6 /* Embed Kotlin Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1155,6 +1156,7 @@
 		};
 		D0626962283A12F8000B62E6 /* Embed Kotlin Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1174,6 +1176,7 @@
 		};
 		D0626966283BE936000B62E6 /* Embed Kotlin Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
