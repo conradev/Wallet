@@ -392,7 +392,7 @@
 		D07C8D0E26E1C86200D4D339 /* WebExtension.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = WebExtension.xcconfig; sourceTree = "<group>"; };
 		D07C8D1026E1C88C00D4D339 /* Compiler.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Compiler.xcconfig; sourceTree = "<group>"; };
 		D07C8D1126E1CB5600D4D339 /* Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Framework.xcconfig; sourceTree = "<group>"; };
-		D07C8D1226E1CC1F00D4D339 /* Local.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Local.xcconfig; sourceTree = "<group>"; };
+		D07C8D1226E1CC1F00D4D339 /* Identity.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Identity.xcconfig; sourceTree = "<group>"; };
 		D07F238B27595E0800E2C42C /* WalletWebExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WalletWebExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D07F238C27595E0D00E2C42C /* WalletWebExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WalletWebExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D07F238D27595E1000E2C42C /* WalletNativeMessageHost */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WalletNativeMessageHost; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -557,7 +557,7 @@
 				D0271CF027D159BE002FF5B1 /* UnitTests.xctestplan */,
 				D0271CEE27D159A1002FF5B1 /* UITests-iOS.xctestplan */,
 				D0271CEF27D159A1002FF5B1 /* UITests-macOS.xctestplan */,
-				D07C8D1226E1CC1F00D4D339 /* Local.xcconfig */,
+				D07C8D1226E1CC1F00D4D339 /* Identity.xcconfig */,
 				D07C8D1026E1C88C00D4D339 /* Compiler.xcconfig */,
 				D08CF09927603AF300E978CF /* Tests.xcconfig */,
 				D02D63C527268B2D0050BEA8 /* Extension.xcconfig */,
