@@ -5,7 +5,7 @@ plugins {
     kotlin("plugin.serialization") version "1.7.21"
     id("com.android.library")
     id("app.cash.sqldelight")
-    id("com.rickclephas.kmp.nativecoroutines") version "0.13.2"
+    id("com.rickclephas.kmp.nativecoroutines") version "0.13.2-kotlin-1.8.0-Beta"
     id("org.jmailen.kotlinter")
 }
 
@@ -31,11 +31,7 @@ kotlin {
         }
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}") {
-                    version {
-                        strictly(Versions.coroutines)
-                    }
-                }
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}")
                 implementation("io.ktor:ktor-client-core:${Versions.ktor}")
                 implementation("io.ktor:ktor-client-logging:${Versions.ktor}")
                 implementation("io.ktor:ktor-client-content-negotiation:${Versions.ktor}")
@@ -129,7 +125,7 @@ kotlin {
                     val xkcp by creating
                 }
                 kotlinOptions {
-                    freeCompilerArgs = listOf("-linker-options", "-application_extension")
+                    freeCompilerArgs = listOf("-linker-option", "-application_extension")
                 }
                 enableEndorsedLibs = true
             }

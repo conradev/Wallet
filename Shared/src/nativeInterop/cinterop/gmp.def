@@ -1,7 +1,7 @@
 headers = gmp.h
 compilerOpts = -I../External/src/gmp
-linkerOpts.macos_x64 = -lgmp -L../External/build/macosx -LExternal/build/macosx
-linkerOpts.macos_arm64 = -lgmp -L../External/build/macosx -LExternal/build/macosx
-linkerOpts.ios_arm64 = -lgmp -L../External/build/iphoneos -LExternal/build/iphoneos
-linkerOpts.ios_simulator_arm64 = -lgmp -L../External/build/iphonesimulator -LExternal/build/iphonesimulator
-linkerOpts.ios_x64 = -lgmp -L../External/build/iphonesimulator -LExternal/build/iphonesimulator
+linkerOpts.macos_x64 = -lgmp -lsqlite3 -L../External/build/macosx -LExternal/build/macosx
+linkerOpts.macos_arm64 = -lgmp -lsqlite3 -L../External/build/macosx -LExternal/build/macosx
+linkerOpts.ios_arm64 = -lgmp -lsqlite3 -L../External/build/iphoneos -LExternal/build/iphoneos
+linkerOpts.ios_simulator_arm64 = -lgmp -lsqlite3 -L../External/build/iphonesimulator -LExternal/build/iphonesimulator
+linkerOpts.ios_x64 = -lgmp -lsqlite3 -L../External/build/iphonesimulator -LExternal/build/iphonesimulator
