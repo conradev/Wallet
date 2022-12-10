@@ -11,8 +11,9 @@ import kotlin.math.min
 import kotlin.math.pow
 import kotlin.random.Random
 
-internal class Mnemonic @Throws(Exception::class) constructor(phrase: String) {
-
+internal class Mnemonic
+@Throws(Exception::class)
+constructor(phrase: String) {
     val phrase: String
     val length: Length
 

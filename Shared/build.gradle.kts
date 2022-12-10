@@ -1,25 +1,12 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
 
 plugins {
-    kotlin("multiplatform")
-    kotlin("plugin.serialization") version "1.7.21"
-    id("com.android.library")
-    id("app.cash.sqldelight")
-    id("com.rickclephas.kmp.nativecoroutines") version "0.13.2-kotlin-1.8.0-Beta"
-    id("org.jmailen.kotlinter")
-}
-
-object Versions {
-    const val biometric = "1.2.0-alpha04"
-    const val bouncycastle = "1.72"
-    const val coroutines = "1.6.4"
-    const val ktor = "2.1.3"
-    const val koin = "3.2.2"
-    const val logging = "2.1.23"
-    const val serialization = "1.3.2"
-    const val slf4j = "2.0.5"
-    const val slf4j_android = "1.7.36"
-    const val sqldelight = "2.0.0-alpha04"
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.sqldelight)
+    alias(libs.plugins.native.coroutines)
+    alias(libs.plugins.kotlinter)
 }
 
 kotlin {
@@ -31,21 +18,17 @@ kotlin {
         }
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}")
-                implementation("io.ktor:ktor-client-core:${Versions.ktor}")
-                implementation("io.ktor:ktor-client-logging:${Versions.ktor}")
-                implementation("io.ktor:ktor-client-content-negotiation:${Versions.ktor}")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:${Versions.ktor}")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
-                implementation("app.cash.sqldelight:coroutines-extensions:${Versions.sqldelight}")
-                implementation("io.insert-koin:koin-core:${Versions.koin}")
-                implementation("io.github.microutils:kotlin-logging:${Versions.logging}")
+                implementation(libs.bundles.kotlinx)
+                implementation(libs.bundles.ktor)
+                implementation(libs.sqldelight.coroutines)
+                implementation(libs.koin)
+                implementation(libs.kotlin.logging)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("io.insert-koin:koin-test:${Versions.koin}")
+                implementation(libs.koin.test)
             }
         }
         val macosTest by creating {
@@ -55,22 +38,20 @@ kotlin {
         val androidMain by getting {
             dependsOn(commonMain)
             dependencies {
-                implementation("androidx.biometric:biometric:${Versions.biometric}")
-                implementation("androidx.biometric:biometric-ktx:${Versions.biometric}")
-                implementation("org.bouncycastle:bcprov-jdk15to18:${Versions.bouncycastle}")
-                implementation("io.ktor:ktor-client-okhttp:${Versions.ktor}")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}")
-                implementation("io.insert-koin:koin-android:${Versions.koin}")
-                implementation("io.insert-koin:koin-androidx-compose:${Versions.koin}")
-                implementation("org.slf4j:slf4j-android:${Versions.slf4j_android}")
+                implementation(libs.bouncycastle)
+                implementation(libs.bundles.androidx.biometric)
+                implementation(libs.bundles.koin.android)
+                implementation(libs.bundles.ktor.android)
+                implementation(libs.kotlinx.coroutines.android)
+                implementation(libs.slf4j.android)
             }
         }
 
         val darwinMain by creating {
             dependsOn(commonMain)
             dependencies {
-                implementation("io.ktor:ktor-client-ios:${Versions.ktor}")
-                implementation("app.cash.sqldelight:native-driver:${Versions.sqldelight}")
+                implementation(libs.ktor.client.ios)
+                implementation(libs.sqldelight.driver.native)
             }
         }
         val macosMain by creating {
@@ -151,7 +132,7 @@ android {
 
 sqldelight {
     database("Database") {
-        dialect("app.cash.sqldelight:sqlite-3-35-dialect:${Versions.sqldelight}")
+        dialect("app.cash.sqldelight:sqlite-3-35-dialect:${libs.versions.sqldelight.get()}")
         packageName = "com.conradkramer.wallet.sql"
     }
 }

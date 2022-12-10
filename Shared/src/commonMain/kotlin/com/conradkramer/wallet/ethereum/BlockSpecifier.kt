@@ -12,9 +12,14 @@ import kotlinx.serialization.encoding.Encoder
 
 @Serializable
 internal enum class BlockTag {
-    @SerialName("earliest") EARLIEST,
-    @SerialName("latest") LATEST,
-    @SerialName("pending") PENDING;
+    @SerialName("earliest")
+    EARLIEST,
+
+    @SerialName("latest")
+    LATEST,
+
+    @SerialName("pending")
+    PENDING;
 
     override fun toString(): String {
         return name.lowercase()

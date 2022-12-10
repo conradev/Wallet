@@ -23,14 +23,20 @@ class ExtendedKeyTests {
     fun testKeySerialization() {
         val key = ExtendedPrivateKey.fromSeed(seed)
 
-        assertEquals("xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi", key.encodedString)
+        assertEquals(
+            "xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi",
+            key.encodedString
+        )
     }
 
     @Test
     fun testPublicKeyGeneration() {
         val key = ExtendedPrivateKey.fromSeed(seed).publicKey
 
-        assertEquals("xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8", key.encodedString)
+        assertEquals(
+            "xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8",
+            key.encodedString
+        )
     }
 
     @Test
@@ -38,7 +44,10 @@ class ExtendedKeyTests {
         val key = ExtendedPrivateKey.fromSeed(seed)
         val child = key.child(0u, true)
 
-        assertEquals("xprv9uHRZZhk6KAJC1avXpDAp4MDc3sQKNxDiPvvkX8Br5ngLNv1TxvUxt4cV1rGL5hj6KCesnDYUhd7oWgT11eZG7XnxHrnYeSvkzY7d2bhkJ7", child.encodedString)
+        assertEquals(
+            "xprv9uHRZZhk6KAJC1avXpDAp4MDc3sQKNxDiPvvkX8Br5ngLNv1TxvUxt4cV1rGL5hj6KCesnDYUhd7oWgT11eZG7XnxHrnYeSvkzY7d2bhkJ7",
+            child.encodedString
+        )
     }
 
     @Test
@@ -48,6 +57,9 @@ class ExtendedKeyTests {
             .child(0u, true)
             .child(1u, false)
 
-        assertEquals("xprv9wTYmMFdV23N2TdNG573QoEsfRrWKQgWeibmLntzniatZvR9BmLnvSxqu53Kw1UmYPxLgboyZQaXwTCg8MSY3H2EU4pWcQDnRnrVA1xe8fs", child.encodedString)
+        assertEquals(
+            "xprv9wTYmMFdV23N2TdNG573QoEsfRrWKQgWeibmLntzniatZvR9BmLnvSxqu53Kw1UmYPxLgboyZQaXwTCg8MSY3H2EU4pWcQDnRnrVA1xe8fs",
+            child.encodedString
+        )
     }
 }

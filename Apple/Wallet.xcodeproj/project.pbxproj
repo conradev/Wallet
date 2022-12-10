@@ -1151,7 +1151,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "../gradlew -Pkotlin.version=1.8.0-Beta :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
 			showEnvVarsInLog = 0;
 		};
 		D0626962283A12F8000B62E6 /* Embed Kotlin Frameworks */ = {
@@ -1171,7 +1171,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "../gradlew -Pkotlin.version=1.8.0-Beta :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
 			showEnvVarsInLog = 0;
 		};
 		D0626966283BE936000B62E6 /* Embed Kotlin Frameworks */ = {
@@ -1191,7 +1191,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "../gradlew -Pkotlin.version=1.8.0-Beta :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
 			showEnvVarsInLog = 0;
 		};
 		D09974EC280F3DD900AB4C1B /* Compile TypeScript */ = {
@@ -1289,7 +1289,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "../gradlew -Pkotlin.version=1.8.0-Beta :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
 			showEnvVarsInLog = 0;
 		};
 		D0B463EF27C376E800481E0A /* Embed Kotlin Frameworks */ = {
@@ -1309,7 +1309,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "../gradlew -Pkotlin.version=1.8.0-Beta :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
 			showEnvVarsInLog = 0;
 		};
 		D0BF41352827429D001180E3 /* Lint Swift */ = {
@@ -1369,7 +1369,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export FRAMEWORKS_FOLDER_PATH=Kotlin\nexport EXPANDED_CODE_SIGN_IDENTITY=\"-\"\n../gradlew -Pkotlin.version=1.8.0-Beta :shared:embedAndSignAppleFrameworkForXcode \n";
+			shellScript = "export FRAMEWORKS_FOLDER_PATH=Kotlin\nexport EXPANDED_CODE_SIGN_IDENTITY=\"-\"\n../gradlew :shared:embedAndSignAppleFrameworkForXcode \n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

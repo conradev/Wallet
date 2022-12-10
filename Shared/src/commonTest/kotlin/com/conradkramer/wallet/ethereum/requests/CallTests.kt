@@ -12,7 +12,12 @@ import kotlin.test.assertEquals
 class CallTests {
     @Test
     fun testSerialization() {
-        val request = Call(Transaction(to = Address.fromString("0x8A6752a88417e8F7D822DaCaeB52Ed8e6e591c43"), data = Data(ByteArray(5))))
+        val request = Call(
+            Transaction(
+                to = Address.fromString("0x8A6752a88417e8F7D822DaCaeB52Ed8e6e591c43"),
+                data = Data(ByteArray(5))
+            )
+        )
         val jsonRpcRequest = Json.decodeFromString<JsonRpcRequest>(
             """{"method":"eth_call", "id": 2, "params": [{"to": "0x8A6752a88417e8F7D822DaCaeB52Ed8e6e591c43", "data": "0x0000000000"}, "latest"], "jsonrpc": "2.0"}"""
         )

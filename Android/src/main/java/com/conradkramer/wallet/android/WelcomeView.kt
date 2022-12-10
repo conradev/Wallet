@@ -40,7 +40,7 @@ fun WelcomeView(viewModel: WelcomeViewModel, onClick: (WelcomeViewModel.Option) 
                 Button(onClick = { onClick(option) }) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Image(
                             option.icon,

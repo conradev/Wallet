@@ -31,7 +31,11 @@ class OnboardingActivity : AppCompatActivity(), AndroidScopeComponent {
 
     private fun finishOnboarding() {
         val intent = Intent(this, MainActivity::class.java)
-            .apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NO_ANIMATION }
+            .apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                    Intent.FLAG_ACTIVITY_NO_ANIMATION
+            }
         startActivity(intent)
     }
 }

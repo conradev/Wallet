@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
-import androidx.navigation.NavControllerVisibleEntries
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -49,7 +48,6 @@ fun OnboardingView(scope: Scope) {
     }
 }
 
-@OptIn(NavControllerVisibleEntries::class)
 suspend fun NavController.bind(viewModel: OnboardingViewModel) {
     visibleEntries.onEach { entries ->
         val screens = viewModel.screens.value
@@ -59,7 +57,6 @@ suspend fun NavController.bind(viewModel: OnboardingViewModel) {
     }.collect()
 }
 
-@OptIn(NavControllerVisibleEntries::class)
 suspend fun OnboardingViewModel.bind(navController: NavController) {
     screens.collect { screens ->
         if (screens.isEmpty() || navController.visibleEntries.value.screens == screens) {

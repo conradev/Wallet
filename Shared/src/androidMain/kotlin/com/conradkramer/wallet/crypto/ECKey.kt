@@ -1,4 +1,5 @@
 @file:JvmName("ECKeyAndroid")
+
 package com.conradkramer.wallet.crypto
 
 import com.conradkramer.wallet.bigint.BigInteger
