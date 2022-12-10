@@ -2,22 +2,9 @@ import java.util.Properties
 import java.io.FileInputStream
 
 plugins {
-    id("com.android.application")
-    kotlin("android")
-}
-
-object Versions {
-    const val accompanist = "0.24.13-rc"
-    const val activity = "1.4.0"
-    const val appcompat = "1.4.1"
-    const val biometric = "1.2.0-alpha05"
-    const val compose = "1.3.1"
-    const val dbtoolsRoom = "7.0.1"
-    const val koin = "3.2.2"
-    const val material = "1.7.0"
-    const val material3 = "1.0.1"
-    const val navigation = "2.4.2"
-    const val sqldelight = "2.0.0-alpha04"
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlinter)
 }
 
 val keystore = Properties()
@@ -53,12 +40,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_19
+        targetCompatibility = JavaVersion.VERSION_19
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "19"
     }
 
     buildFeatures {
@@ -66,7 +53,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
+        kotlinCompilerExtensionVersion = "1.4.0-dev-k1.8.0-RC-4c1865595ed"
     }
 
     namespace = "com.conradkramer.wallet.android"
@@ -83,21 +70,11 @@ kotlin {
 dependencies {
     implementation(project(":Shared"))
     implementation(files("../External/sqlite/sqlite-android-3400000.aar"))
-    implementation("org.dbtools:dbtools-room-sqliteorg:${Versions.dbtoolsRoom}")
-    implementation("app.cash.sqldelight:android-driver:${Versions.sqldelight}")
-    implementation("com.google.android.material:material:${Versions.material}")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanist}")
-    implementation("androidx.appcompat:appcompat:${Versions.appcompat}")
-    implementation("androidx.biometric:biometric:${Versions.biometric}")
-    implementation("androidx.biometric:biometric-ktx:${Versions.biometric}")
-    implementation("androidx.compose.ui:ui:${Versions.compose}")
-    implementation("androidx.compose.ui:ui-tooling:${Versions.compose}")
-    implementation("androidx.compose.foundation:foundation:${Versions.compose}")
-    implementation("androidx.compose.material:material-icons-core:${Versions.compose}")
-    implementation("androidx.compose.material:material-icons-extended:${Versions.compose}")
-    implementation("androidx.compose.material3:material3:${Versions.material3}")
-    implementation("androidx.activity:activity-compose:${Versions.activity}")
-    implementation("androidx.navigation:navigation-compose:${Versions.navigation}")
-    implementation("io.insert-koin:koin-android:${Versions.koin}")
-    implementation("io.insert-koin:koin-androidx-compose:${Versions.koin}")
+    implementation(libs.dbtools.room.sqliteorg)
+    implementation(libs.sqldelight.driver.android)
+    implementation(libs.bundles.accompanist)
+    implementation(libs.bundles.androidx)
+    implementation(libs.bundles.androidx.biometric)
+    implementation(libs.bundles.koin.android)
+    debugImplementation(libs.compose.ui.tooling)
 }

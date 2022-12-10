@@ -6,6 +6,14 @@ pluginManagement {
     }
 }
 
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://androidx.dev/storage/compose-compiler/repository/")
+    }
+}
+
 rootProject.name = "Wallet"
 include(":Android")
 include(":Apple")

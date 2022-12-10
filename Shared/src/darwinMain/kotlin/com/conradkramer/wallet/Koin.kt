@@ -24,7 +24,8 @@ import platform.Foundation.NSFileManager
 
 internal fun darwinModule() = module {
     single { HardwareKeyStore(getProperty("app_group_identifier"), logger<HardwareKeyStore>()) } binds arrayOf(
-        BiometricAuthenticator::class, KeyStore::class
+        BiometricAuthenticator::class,
+        KeyStore::class
     )
     factory<SqlDriver> {
         val applicationGroup: String = getProperty("app_group_identifier")

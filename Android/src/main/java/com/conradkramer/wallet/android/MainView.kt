@@ -117,7 +117,7 @@ val MainViewModel.Tab.icon: ImageVector
  * elevated bottom bar
  */
 private fun ColorScheme.surfaceColorAtElevation(
-    elevation: Dp,
+    elevation: Dp
 ): Color {
     if (elevation == 0.dp) return surface
     val alpha = ((4.5f * ln(elevation.value + 1)) + 2f) / 100f

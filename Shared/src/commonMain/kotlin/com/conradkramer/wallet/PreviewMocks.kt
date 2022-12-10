@@ -17,7 +17,8 @@ import org.koin.dsl.module
 
 private fun Account.Companion.random(): Account {
     return Account(
-        "id", 0,
+        "id",
+        0,
         ExtendedPrivateKey
             .fromSeed(Mnemonic().seed())
             .publicKeys("id", 0)

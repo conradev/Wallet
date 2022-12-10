@@ -23,8 +23,9 @@ internal data class OpenURLMessage(
         prompt.pageId.browserPid,
         Payload(url)
     )
+
     @Serializable
     internal data class Payload(
-        val url: String,
+        val url: String
     )
 }
