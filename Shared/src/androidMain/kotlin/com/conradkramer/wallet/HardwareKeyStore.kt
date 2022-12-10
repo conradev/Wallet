@@ -41,10 +41,9 @@ internal actual class HardwareKeyStore(context: Context) : KeyStore<Authenticati
         keyPairGenerator.initialize(
             KeyGenParameterSpec.Builder(id, purposes)
                 .setDigests(KeyProperties.DIGEST_SHA256)
-                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1)
+                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
                 .setUserAuthenticationRequired(true)
                 .setIsStrongBoxBacked(isStrongBoxBacked)
-                .setKeySize(4096)
                 .build()
         )
         keyPairGenerator.generateKeyPair()
@@ -118,7 +117,7 @@ actual class AuthenticationContext(
     actual constructor(id: String) : this(
         id,
         BiometricPrompt.CryptoObject(
-            Cipher.getInstance("RSA/ECB/PKCS1Padding")
+            Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding")
         )
     )
 
