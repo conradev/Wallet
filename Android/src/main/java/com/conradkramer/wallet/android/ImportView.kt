@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.conradkramer.wallet.PreviewMocks
@@ -64,7 +65,10 @@ fun ImportView(viewModel: ImportViewModel) {
                 singleLine = false,
                 value = phrase,
                 onValueChange = { phrase = viewModel.clean(it) },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Go,
+                    keyboardType = KeyboardType.Password
+                ),
                 keyboardActions = KeyboardActions(onGo = { import() })
             )
             Button(
