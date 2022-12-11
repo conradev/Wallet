@@ -1,4 +1,4 @@
-import { PageConnectMessage, RPCResponsePayload, OpenURLPayload, TabMessage, Frame } from "./messages"
+import { PageConnectMessage, RPCResponsePayload, OpenURLPayload, TabMessage, Frame } from "../shared/messages"
 
 class Ethereum {
     private static readonly RPC_REQUEST_MESSAGE = "rpc_request"

@@ -1,5 +1,5 @@
 import { runtime, Runtime, tabs } from "webextension-polyfill"
-import { TabMessage, NativeMessage } from "./messages"
+import { TabMessage, NativeMessage } from "../shared/messages"
 
 class NativeHostMessageRelay {
     private static readonly extensionId = "com.conradkramer.wallet"

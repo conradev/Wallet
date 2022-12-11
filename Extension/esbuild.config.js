@@ -1,11 +1,11 @@
-import { build } from "esbuild";
+import { build } from "esbuild"
 
 await build({
-    entryPoints: ["page.ts", "content.ts", "background.ts"],
+    entryPoints: ["page/page.ts", "content/content.ts", "background/background.ts"],
     bundle: true,
     minify: true,
-    sourcemap: 'inline',
-    target: 'es2020',
-    platform: 'browser',
+    sourcemap: "inline",
+    target: "es2020",
+    platform: "browser",
     outdir: "build",
-});
+})
