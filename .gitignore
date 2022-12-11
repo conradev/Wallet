@@ -17,7 +17,7 @@ xcuserdata
 
 # NPM
 node_modules
-Extension/validators.js
+validators.js
 
 # direnv
 .direnv

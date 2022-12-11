@@ -4,7 +4,7 @@ import {
     validateResponsePayload,
     validateOpenURLPayload,
     validatePageConnect,
-} from "./validators.js"
+} from "./validators"
 
 function parser<T>(validator: (input) => boolean): ((input) => T | undefined) {
     return (input) => {

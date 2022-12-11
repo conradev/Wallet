@@ -14,13 +14,13 @@
     "typescript": "^4.6.3"
   },
   "scripts": {
-    "generate": "node generate_validators.mjs",
+    "generate": "node shared/generate_validators.mjs",
     "lint": "eslint --ext .ts .",
     "compile": "tsc",
     "bundle": "node esbuild.config.js",
-    "resources": "cp -R _locales images manifest.json build/",
+    "resources": "cp -R resources/* build/",
     "package": "npm run generate && npm run bundle && npm run resources",
     "build": "npm run generate && npm run compile && npm run lint && npm run bundle && npm run resources",
-    "clean": "rm validators.js"
+    "clean": "rm -f shared/validators.js"
   }
 }

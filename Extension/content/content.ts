@@ -1,5 +1,5 @@
 import { Runtime, runtime } from "webextension-polyfill"
-import { PageConnectMessage } from "./messages"
+import { PageConnectMessage } from "../shared/messages"
 
 class BackgroundWorkerMessageRelay {
     private _backgroundWorkerPort?: Runtime.Port = undefined
