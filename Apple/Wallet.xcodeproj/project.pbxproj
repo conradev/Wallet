@@ -1151,7 +1151,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "export PATH=\"${PATH}:/etc/profiles/per-user/${USER}/bin\"\n\nif [[ -x $(command -v direnv) ]]; then\n    export JAVA_HOME=\"$(direnv exec . sh -c 'echo $JAVA_HOME')\"\nfi\n\n../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
 			showEnvVarsInLog = 0;
 		};
 		D0626962283A12F8000B62E6 /* Embed Kotlin Frameworks */ = {
@@ -1171,7 +1171,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "export PATH=\"${PATH}:/etc/profiles/per-user/${USER}/bin\"\n\nif [[ -x $(command -v direnv) ]]; then\n    export JAVA_HOME=\"$(direnv exec . sh -c 'echo $JAVA_HOME')\"\nfi\n\n../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
 			showEnvVarsInLog = 0;
 		};
 		D0626966283BE936000B62E6 /* Embed Kotlin Frameworks */ = {
@@ -1191,7 +1191,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "export PATH=\"${PATH}:/etc/profiles/per-user/${USER}/bin\"\n\nif [[ -x $(command -v direnv) ]]; then\n    export JAVA_HOME=\"$(direnv exec . sh -c 'echo $JAVA_HOME')\"\nfi\n\n../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
 			showEnvVarsInLog = 0;
 		};
 		D09974EC280F3DD900AB4C1B /* Compile TypeScript */ = {
@@ -1211,7 +1211,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"${PATH}:/opt/homebrew/bin\"\n\nnpm run --prefix \"${PROJECT_DIR}/../Extension\" package\n";
+			shellScript = "export PATH=\"${PATH}:/opt/homebrew/bin:/etc/profiles/per-user/$USER/bin\"\n\nif [[ -x $(command -v direnv) ]]; then\n    export PATH=\"${PATH}:$(direnv exec . sh -c 'echo $PATH')\"\nfi\n\nnpm run --prefix \"${PROJECT_DIR}/../Extension\" package\n";
 			showEnvVarsInLog = 0;
 		};
 		D09974EE280F3FE200AB4C1B /* Embed Web Extension */ = {
@@ -1250,7 +1250,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"${PATH}:/opt/homebrew/bin\"\n\nnpm run --prefix \"${PROJECT_DIR}/../Extension\" package\n";
+			shellScript = "export PATH=\"${PATH}:/opt/homebrew/bin:/etc/profiles/per-user/$USER/bin\"\n\nif [[ -x $(command -v direnv) ]]; then\n    export PATH=\"${PATH}:$(direnv exec . sh -c 'echo $PATH')\"\nfi\n\nnpm run --prefix \"${PROJECT_DIR}/../Extension\" package\n";
 			showEnvVarsInLog = 0;
 		};
 		D09974F1280F410B00AB4C1B /* Embed Web Extension */ = {
@@ -1289,7 +1289,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "export PATH=\"${PATH}:/etc/profiles/per-user/${USER}/bin\"\n\nif [[ -x $(command -v direnv) ]]; then\n    export JAVA_HOME=\"$(direnv exec . sh -c 'echo $JAVA_HOME')\"\nfi\n\n../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
 			showEnvVarsInLog = 0;
 		};
 		D0B463EF27C376E800481E0A /* Embed Kotlin Frameworks */ = {
@@ -1309,7 +1309,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "export PATH=\"${PATH}:/etc/profiles/per-user/${USER}/bin\"\n\nif [[ -x $(command -v direnv) ]]; then\n    export JAVA_HOME=\"$(direnv exec . sh -c 'echo $JAVA_HOME')\"\nfi\n\n../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
 			showEnvVarsInLog = 0;
 		};
 		D0BF41352827429D001180E3 /* Lint Swift */ = {
@@ -1369,7 +1369,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export FRAMEWORKS_FOLDER_PATH=Kotlin\nexport EXPANDED_CODE_SIGN_IDENTITY=\"-\"\n../gradlew :shared:embedAndSignAppleFrameworkForXcode \n";
+			shellScript = "export PATH=\"${PATH}:/etc/profiles/per-user/${USER}/bin\"\n\nif [[ -x $(command -v direnv) ]]; then\n    export JAVA_HOME=\"$(direnv exec . sh -c 'echo $JAVA_HOME')\"\nfi\n\nexport FRAMEWORKS_FOLDER_PATH=Kotlin\nexport EXPANDED_CODE_SIGN_IDENTITY=\"-\"\n../gradlew :shared:embedAndSignAppleFrameworkForXcode \n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
