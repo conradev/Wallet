@@ -35,7 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     private func handle(prompt: Prompt) {
         let bounds = prompt.frame.rect
         guard let window = Window.onScreen
-            .filter({ $0.processIdentifier == prompt.pageId.browserPid })
+            .filter({ $0.processIdentifier == prompt.session.browserPid })
             .min(by: { $0.bounds.distance(bounds) < $1.bounds.distance(bounds) }) else {
             Logger.default.error("Could not find target window to attach to for prompt \(prompt.id)")
             return

@@ -27,7 +27,7 @@ internal fun darwinModule() = module {
         BiometricAuthenticator::class,
         KeyStore::class
     )
-    factory<SqlDriver> {
+    single<SqlDriver> {
         val applicationGroup: String = getProperty("app_group_identifier")
         val basePath = NSFileManager
             .defaultManager

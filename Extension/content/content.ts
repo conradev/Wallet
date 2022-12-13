@@ -1,14 +1,16 @@
 import { Runtime, runtime } from "webextension-polyfill"
-import { PageConnectMessage } from "../shared/messages"
+import { BaseMessage, PageConnectMessage, StartSessionMessage } from "../page/messages"
+import { ContentPageMessage } from "./messages"
 
 class BackgroundWorkerMessageRelay {
     private _backgroundWorkerPort?: Runtime.Port = undefined
     private _pageScriptPort?: MessagePort = undefined
 
     public constructor() {
-        window.addEventListener("message", (event) => {
+        const listener = (event) => {
             this.handlePageConnection(event)
-        })
+        }
+        window.addEventListener("message", listener)
     }
 
     private get backgroundWorkerPort(): Runtime.Port {
@@ -16,14 +18,18 @@ class BackgroundWorkerMessageRelay {
             return this._backgroundWorkerPort
         }
 
-        const port = runtime.connect()
-        port.onMessage.addListener((message: object) => {
+        const onMessage = (message) => {
             this.handleBackgroundMessage(message)
-        })
-        port.onDisconnect.addListener(() => {
+        }
+        const onDisconnect = () => {
             this._backgroundWorkerPort = undefined
-        })
+        }
+
+        const port = runtime.connect()
+        port.onMessage.addListener(onMessage)
+        port.onDisconnect.addListener(onDisconnect)
         this._backgroundWorkerPort = port
+
         return port
     }
 
@@ -38,7 +44,7 @@ class BackgroundWorkerMessageRelay {
             existing.onmessageerror = null
         }
         if (pageScriptPort) {
-            const handler = (event: MessageEvent<object>) => {
+            const handler = (event: MessageEvent) => {
                 this.handlePageMessage(event)
             }
             pageScriptPort.onmessage = handler
@@ -47,24 +53,37 @@ class BackgroundWorkerMessageRelay {
         this._pageScriptPort = pageScriptPort
     }
 
-    private handlePageConnection(event: MessageEvent<object>) {
+    private handlePageConnection(event: MessageEvent) {
         if (event.source !== window) {
             return
         }
-        const connectMessage = PageConnectMessage.parse(event.data)
-        if (!connectMessage) {
+        const message = PageConnectMessage.parse(event.data)
+        if (!message) {
             return
         }
 
         this.pageScriptPort = event.ports[0]
+
+        this.backgroundWorkerPort.postMessage(ContentPageMessage.from(new StartSessionMessage(), window))
     }
 
-    private handlePageMessage(event: MessageEvent<object>) {
-        this.backgroundWorkerPort.postMessage(event.data)
+    private handlePageMessage(event: MessageEvent) {
+        const pageMessage = BaseMessage.parse(event.data)
+        if (!pageMessage) {
+            return
+        }
+
+        const contentPageMessage = ContentPageMessage.from(pageMessage, window)
+        this.backgroundWorkerPort.postMessage(contentPageMessage)
     }
 
-    private handleBackgroundMessage(message: object) {
-        this.pageScriptPort?.postMessage(message)
+    private handleBackgroundMessage(data) {
+        const pageMessage = BaseMessage.parse(data)
+        if (!pageMessage) {
+            return
+        }
+
+        this.pageScriptPort?.postMessage(pageMessage)
     }
 }
 

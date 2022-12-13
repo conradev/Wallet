@@ -4,8 +4,10 @@ import app.cash.sqldelight.ColumnAdapter
 import app.cash.sqldelight.Query
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.db.SqlDriver
+import com.conradkramer.wallet.browser.BrowserPermission
 import com.conradkramer.wallet.browser.prompt.Prompt
 import com.conradkramer.wallet.crypto.PublicKey
+import com.conradkramer.wallet.data.Browser_permission
 import com.conradkramer.wallet.data.Browser_prompt
 import com.conradkramer.wallet.data.Public_key
 import com.conradkramer.wallet.sql.Database
@@ -20,6 +22,18 @@ typealias AccountRecord = com.conradkramer.wallet.data.Account
 
 val Database.Companion.FILE_NAME: String
     get() = "Wallet.db"
+
+private val permissionAdapter = object : ColumnAdapter<BrowserPermission, String> {
+    override fun decode(databaseValue: String) = BrowserPermission.values()
+        .first { it.value == databaseValue }
+    override fun encode(value: BrowserPermission) = value.value
+}
+
+private val stateAdapter = object : ColumnAdapter<BrowserPermission.State, Long> {
+    override fun decode(databaseValue: Long) = BrowserPermission.State.values()
+        .firstOrNull { it.value.toLong() == databaseValue } ?: BrowserPermission.State.UNSPECIFIED
+    override fun encode(value: BrowserPermission.State) = value.value.toLong()
+}
 
 private val promptAdapter = object : ColumnAdapter<Prompt, String> {
     override fun decode(databaseValue: String) = Prompt.decodeFromString<Prompt>(databaseValue)
@@ -40,6 +54,10 @@ private val encodedAdapter = object : ColumnAdapter<PublicKey, ByteArray> {
 internal fun Database.Companion.invoke(driver: SqlDriver): Database {
     return Database(
         driver,
+        browser_permissionAdapter = Browser_permission.Adapter(
+            permissionAdapter = permissionAdapter,
+            stateAdapter = stateAdapter
+        ),
         browser_promptAdapter = Browser_prompt.Adapter(
             promptAdapter = promptAdapter
         ),

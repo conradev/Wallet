@@ -38,7 +38,7 @@ class WebExtensionHost {
                 try await connection.send(message: .prompt(prompt.id))
             } catch AppConnection.ConnectionError.requestTimedOut {
                 guard let host = handler as? BrowserMessageHost else { return }
-                host.openURL(url: PromptLocation(prompt).directURL.absoluteString, prompt: prompt)
+                host.openURL(prompt: prompt, url: PromptLocation(prompt).directURL.absoluteString)
             }
         }
     }

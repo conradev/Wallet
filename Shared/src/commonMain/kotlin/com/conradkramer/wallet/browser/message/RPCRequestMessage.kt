@@ -9,12 +9,9 @@ import kotlinx.serialization.json.JsonElement
 @SerialName("rpc_request")
 internal data class RPCRequestMessage(
     override val id: Long,
-    override val frame: Frame,
-    @SerialName("frame_id")
-    override val frameId: String,
     override val url: String,
-    @SerialName("browser_pid")
-    override val browserPid: Int,
+    override val frame: Frame,
+    override val session: Session,
     val payload: Payload
 ) : RequestMessage() {
     @Serializable

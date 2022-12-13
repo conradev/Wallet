@@ -1,5 +1,18 @@
 CREATE TABLE browser_permission (
-    domain TEXT PRIMARY KEY NOT NULL,
-    allow TEXT DEFAULT "[]" NOT NULL,
-    deny TEXT DEFAULT "[]" NOT NULL
+    account_id TEXT NOT NULL,
+    domain TEXT NOT NULL,
+    permission TEXT AS com.conradkramer.wallet.browser.BrowserPermission NOT NULL,
+    state INTEGER AS com.conradkramer.wallet.browser.BrowserPermission.State NOT NULL,
+
+    FOREIGN KEY (account_id) REFERENCES account(id) ON DELETE CASCADE,
+    PRIMARY KEY(account_id, domain, permission)
 );
+
+allow:
+REPLACE INTO browser_permission(account_id, domain, permission, state) VALUES (?, ?, ?, 1);
+
+deny:
+REPLACE INTO browser_permission(account_id, domain, permission, state) VALUES (?, ?, ?, -1);
+
+state:
+SELECT state FROM browser_permission WHERE account_id = ? AND domain = ? AND permission = ?;

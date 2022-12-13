@@ -18,6 +18,7 @@ import com.conradkramer.wallet.viewmodel.SignDataPromptViewModel
 import com.conradkramer.wallet.viewmodel.WelcomeViewModel
 import mu.KLogger
 import mu.KotlinLogging
+import org.koin.core.Koin
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
@@ -49,14 +50,14 @@ private fun sharedModule() = module {
     factory { params -> SignDataPromptViewModel(params.get(), get(), params.getOrNull(), get()) }
 
     single { Database.invoke(get()) }
-    single { AlchemyProvider("tbOMWQYmtAGuUDnDOhoJFYxXIKctXij3") } bind RpcProvider::class
+    single(named("alchemy")) { AlchemyProvider("tbOMWQYmtAGuUDnDOhoJFYxXIKctXij3") } bind RpcProvider::class
     single(named("infura")) { InfuraProvider("ef01c7a0107b41deb6f77b00bda654b1") } bind RpcProvider::class
-    factory { RpcClient(get<RpcProvider>().endpointUrl, logger<RpcClient>()) }
+    factory { RpcClient(get<RpcProvider>(named("infura")).endpointUrl, logger<RpcClient>()) }
 
     factoryOf(::BrowserPromptExecutor)
     factoryOf(::BrowserPromptHost)
     singleOf(::BrowserMessageHost)
-    factoryOf(::BrowserPermissionStore)
+    factory { BrowserPermissionStore(get(), logger<BrowserPermissionStore>()) }
 
     factory { params -> KotlinLogging.logger(if (params.isNotEmpty()) params.get() else "General") }
 }
@@ -93,7 +94,17 @@ internal fun Scope.logger(qualifier: Qualifier) = get<KLogger> {
     )
 }
 
+internal fun Koin.logger(qualifier: Qualifier) = get<KLogger> {
+    parametersOf(
+        when (qualifier) {
+            is TypeQualifier -> qualifier.type.simpleName ?: qualifier.value
+            else -> qualifier.value
+        }
+    )
+}
+
 internal inline fun <reified T> Scope.logger() = logger(named<T>())
+internal inline fun <reified T> Koin.logger() = logger(named<T>())
 
 private class KLoggerLogger(private val logger: KLogger) : Logger() {
     constructor(name: String) : this(KotlinLogging.logger(name))

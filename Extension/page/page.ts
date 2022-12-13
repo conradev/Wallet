@@ -1,91 +1,128 @@
-import { PageConnectMessage, RPCResponsePayload, OpenURLPayload, TabMessage, Frame } from "../shared/messages"
+import {
+    parseMessage,
+    PageConnectMessage,
+    RPCRequestMessage,
+    RPCResponseMessage,
+    EventMessage,
+    OpenURLMessage,
+} from "./messages"
+import { parseEvent, ConnectEvent, EthereumEvent } from "./events"
 
 class Ethereum {
-    private static readonly RPC_REQUEST_MESSAGE = "rpc_request"
-    private static readonly RPC_RESPONSE_MESSAGE = "rpc_response"
-    private static readonly OPEN_URL_MESSAGE = "open_url"
-
     private readonly contentScriptPort: MessagePort
-    private readonly promises: Record<number, [(response: object) => void, (reason?: string) => void]> = {}
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private readonly requests: Record<number, [(response: object) => void, (reason?: string) => void]> = {}
     private readonly eventHandlers: Record<string, [(response) => void]> = {}
+
+    private connectEvent?: ConnectEvent
 
     public constructor() {
         const channel = new MessageChannel()
-        this.contentScriptPort = channel.port1
 
         const handler = (event) => {
             this.handleContentMessage(event)
         }
-        this.contentScriptPort.onmessage = handler
-        this.contentScriptPort.onmessageerror = handler
+        channel.port1.onmessage = handler
+        channel.port1.onmessageerror = handler
 
+        this.contentScriptPort = channel.port1
         window.postMessage(new PageConnectMessage(), "*", [channel.port2])
     }
 
-    private handleContentMessage(event: MessageEvent<TabMessage>) {
-        const message = TabMessage.parse(event.data)
+    private handleContentMessage(event: MessageEvent) {
+        const message = parseMessage(event.data)
         if (!message) {
             return
         }
 
-        if (message.type === Ethereum.RPC_RESPONSE_MESSAGE) {
-            const payload = RPCResponsePayload.parse(message.payload)
-            if (!payload) {
-                return
-            }
+        switch (message.type) {
+        case RPCResponseMessage.type:
+            this.handleRPCResponse(message)
+            break
+        case EventMessage.type:
+            this.handleEventMessage(message)
+            break
+        case OpenURLMessage.type:
+            window.location.assign(message.payload.url)
+            break
+        }
+    }
 
-            const promise = this.promises[payload.request_id]
-            if (!promise) {
-                return
-            }
+    private handleRPCResponse(message: RPCResponseMessage) {
+        const promise = this.requests[message.payload.request_id]
+        if (!promise) {
+            return
+        }
+        const [respond, _reject] = promise
+        respond(message.payload.result)
 
-            const [respond, _reject] = promise
-            respond(payload.result)
-            delete this.promises[payload.request_id]
+        delete this.requests[message.payload.request_id]
+    }
+
+    private handleEventMessage(message: EventMessage) {
+        const handlers = this.eventHandlers[message.payload.name]
+        if (!handlers) {
             return
         }
 
-        if (message.type === Ethereum.OPEN_URL_MESSAGE) {
-            const payload = OpenURLPayload.parse(message.payload)
-            if (!payload) {
-                return
-            }
+        const event = parseEvent(message.payload)
+        if (event) {
+            this.handleEvent(event)
+        }
 
-            window.location.assign(payload.url)
+        for (const handler of [...handlers]) {
+            handler(message.payload.value)
         }
     }
 
-    on(event: string, handler: (value) => void) {
+    private handleEvent(event: EthereumEvent) {
+        if (event instanceof ConnectEvent) {
+            this.connectEvent = event
+        }
+    }
+
+    isConnected(): boolean {
+        return this.connectEvent !== undefined
+    }
+
+    on(event: string, handler: (value) => void): Ethereum {
         this.eventHandlers[event] = this.eventHandlers[event] || []
         this.eventHandlers[event].push(handler)
+
+        if (event === ConnectEvent.type && this.connectEvent) {
+            handler(this.connectEvent)
+        }
+
+        return this
+    }
+
+    removeListener(event: string, handler: (value) => void): Ethereum {
+        const handlers = this.eventHandlers[event]
+        if (!handlers) {
+            return this
+        }
+
+        const index = handlers.indexOf(handler)
+        if (index > -1) {
+            handlers.splice(index, 1)
+        }
+        if (!handlers.length) {
+            delete this.eventHandlers[event]
+        }
+
+        return this
     }
 
     async request(request: object): Promise<object> {
-        const id = Math.floor(Math.random() * 4294967295)
         return new Promise((resolve, reject) => {
-            this.promises[id] = [resolve, reject]
-            this.contentScriptPort.postMessage(
-                new TabMessage(
-                    id,
-                    Ethereum.RPC_REQUEST_MESSAGE,
-                    request,
-                    new Frame(window),
-                ),
-            )
+            const message = new RPCRequestMessage(request)
+            this.requests[message.id] = [resolve, reject]
+            this.contentScriptPort.postMessage(message)
         })
     }
 }
 
-class MetaMask {
-    async isUnlocked(): Promise<boolean> {
-        return Promise.resolve(true)
-    }
-}
-
 export class LazyEthereum {
-    _metamask = new MetaMask()
     private _ethereum: Ethereum | undefined = undefined
 
     private get ethereum(): Ethereum {
@@ -93,7 +130,15 @@ export class LazyEthereum {
     }
 
     isConnected(): boolean {
-        return true
+        return this.ethereum.isConnected()
+    }
+
+    on(event: string, handler: (value) => void) {
+        return this.ethereum.on(event, handler)
+    }
+
+    removeListener(event: string, handler: (value) => void): Ethereum {
+        return this.ethereum.removeListener(event, handler)
     }
 
     async request(request: object): Promise<object> {

@@ -1,27 +1,27 @@
 package com.conradkramer.wallet.browser.message
 
+import com.conradkramer.wallet.browser.event.Event
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 import kotlin.random.Random
 
 @Serializable
-@SerialName("rpc_response")
-internal data class RPCResponseMessage(
+@SerialName("event")
+internal data class EventMessage(
     override val id: Long,
     override val session: Session,
     val payload: Payload
 ) : Message() {
-    constructor(message: RPCRequestMessage, result: JsonElement) : this(
+    constructor(session: Session, event: Event) : this(
         Random.nextLong(),
-        message.session,
-        Payload(message.id, result)
+        session,
+        Payload(event.name, event.value)
     )
 
     @Serializable
     internal data class Payload(
-        @SerialName("request_id")
-        val requestId: Long,
-        val result: JsonElement
+        val name: String,
+        val value: JsonElement
     )
 }
