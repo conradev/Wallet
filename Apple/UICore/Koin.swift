@@ -18,7 +18,7 @@ public struct KotlinBinding {
             guard
                 let viewModel = foo as? ViewModel,
                 let observable = bar as? ViewModel.Observable else { fatalError("Failed to bind \(foo) and \(bar)") }
-            if let currentValue = viewModel[keyPath: viewModelKeyPath].value as? T {
+            if let currentValue = viewModel[keyPath: viewModelKeyPath].value_ as? T {
                 observable[keyPath: valueKeyPath] = content(currentValue)
             }
             let read = createPublisher(for: viewModel[keyPath: viewModelNativeKeyPath])
@@ -48,7 +48,7 @@ public struct KotlinBinding {
             guard
                 let viewModel = foo as? ViewModel,
                 let observable = bar as? ViewModel.Observable else { fatalError("Failed to bind \(foo) and \(bar)") }
-            if let currentValue = viewModel[keyPath: viewModelKeyPath].value as? T {
+            if let currentValue = viewModel[keyPath: viewModelKeyPath].value_ as? T {
                 observable[keyPath: valueKeyPath] = content(currentValue)
             }
             let read = createPublisher(for: viewModel[keyPath: viewModelNativeKeyPath])

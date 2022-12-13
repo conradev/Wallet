@@ -6,6 +6,7 @@
     "webextension-polyfill": "^0.9.0"
   },
   "devDependencies": {
+    "@types/node": "^18.11.13",
     "@types/webextension-polyfill": "^0.8.3",
     "@typescript-eslint/eslint-plugin": "^5.21.0",
     "@typescript-eslint/parser": "^5.21.0",
@@ -14,13 +15,13 @@
     "typescript": "^4.6.3"
   },
   "scripts": {
-    "generate": "node shared/generate_validators.mjs",
+    "generate": "node page/generator.mjs && node content/generator.mjs && node background/generator.mjs",
+    "clean": "rm -rf build/ page/validators.js content/validators.js background/validators.js",
     "lint": "eslint --ext .ts .",
     "compile": "tsc",
-    "bundle": "node esbuild.config.js",
+    "bundle": "node esbuild.config.mjs",
     "resources": "cp -R resources/* build/",
     "package": "npm run generate && npm run bundle && npm run resources",
-    "build": "npm run generate && npm run compile && npm run lint && npm run bundle && npm run resources",
-    "clean": "rm -f shared/validators.js"
+    "build": "npm run generate && npm run compile && npm run lint && npm run bundle && npm run resources"
   }
 }

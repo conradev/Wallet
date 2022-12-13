@@ -70,7 +70,7 @@ internal abstract class Request {
                 Call.method -> ::Call
                 Accounts.method -> ::Accounts
                 Sign.method -> ::Sign
-                "eth_requestAccounts" -> ::Accounts
+                RequestAccounts.method -> ::RequestAccounts
                 else -> { it -> AnyRequest(method, it) }
             }
             return constructor(params ?: listOf())

@@ -3,7 +3,7 @@
 package com.conradkramer.wallet.browser.prompt
 
 import com.conradkramer.wallet.browser.message.Frame
-import com.conradkramer.wallet.browser.message.PageIdentifier
+import com.conradkramer.wallet.browser.message.Session
 import com.conradkramer.wallet.ethereum.Address
 import com.conradkramer.wallet.ethereum.Data
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -22,7 +22,7 @@ import kotlinx.serialization.modules.subclass
 sealed class Prompt {
     abstract val id: String
     abstract val frame: Frame
-    abstract val pageId: PageIdentifier
+    abstract val session: Session
 
     fun encodeToString(): String {
         return json.encodeToString(serializer(), this)
@@ -31,7 +31,7 @@ sealed class Prompt {
     companion object {
         val json = Json {
             serializersModule = SerializersModule {
-                include(serializersModuleOf(PageIdentifier.serializer()))
+                include(serializersModuleOf(Session.serializer()))
                 include(serializersModuleOf(Address.serializer()))
                 include(serializersModuleOf(Data.serializer()))
                 include(serializersModuleOf(PermissionPrompt.Response.serializer()))

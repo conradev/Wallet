@@ -1,6 +1,6 @@
 package com.conradkramer.wallet
 
-import com.conradkramer.wallet.browser.insertBrowserPid
+import com.conradkramer.wallet.browser.message.Message
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -59,7 +59,7 @@ class ViewServiceConnection(machService: String, private val logger: KLogger) {
     }
 
     internal fun send(data: ByteArray, browserPid: Int) {
-        val event = data.insertBrowserPid(browserPid).xpc
+        val event = Message.injectBrowserPid(data, browserPid, logger).xpc
         connection.send(event)
         logger.debug { "Sent message to view service: $event" }
     }

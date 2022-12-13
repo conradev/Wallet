@@ -17,6 +17,7 @@ import io.ktor.http.Url
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import mu.KLogger
+import kotlin.math.absoluteValue
 import kotlin.random.Random
 
 internal class RpcClient(val endpointUrl: Url, private val nativeLogger: KLogger) {
@@ -36,7 +37,7 @@ internal class RpcClient(val endpointUrl: Url, private val nativeLogger: KLogger
     }
 
     suspend inline fun <reified Response> send(request: Request): Response {
-        val jsonRpcRequest = request.jsonRpcRequest(Random.nextInt())
+        val jsonRpcRequest = request.jsonRpcRequest(Random.nextInt().absoluteValue)
         nativeLogger.info { "Sending request $jsonRpcRequest" }
 
         val jsonRpcResponse = client

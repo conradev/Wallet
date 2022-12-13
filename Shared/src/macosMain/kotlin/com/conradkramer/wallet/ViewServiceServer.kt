@@ -2,7 +2,7 @@ package com.conradkramer.wallet
 
 import com.conradkramer.wallet.browser.BrowserMessageHost
 import com.conradkramer.wallet.browser.message.Message
-import com.conradkramer.wallet.browser.message.PageIdentifier
+import com.conradkramer.wallet.browser.message.Session
 import mu.KLogger
 import platform.darwin.XPC_CONNECTION_MACH_SERVICE_LISTENER
 import platform.darwin.XPC_TYPE_CONNECTION
@@ -26,7 +26,7 @@ class ViewServiceServer internal constructor(
     private val listener =
         xpc_connection_create_mach_service(machService, queue, XPC_CONNECTION_MACH_SERVICE_LISTENER)
 
-    private val connections: MutableMap<PageIdentifier, xpc_connection_t> = mutableMapOf()
+    private val connections: MutableMap<Session, xpc_connection_t> = mutableMapOf()
 
     init {
         host.setSender { this.send(it) }
@@ -59,11 +59,16 @@ class ViewServiceServer internal constructor(
     }
 
     private fun connectionError(connection: xpc_connection_t, error: xpc_object_t) {
-        logger.error { "Received error $error on $connection" }
+        connections
+            .filterValues { it == connection }
+            .keys
+            .forEach { connections.remove(it) }
+
+        logger.error { "Received error $error on $connection, ${connections.count()} connections remaining" }
     }
 
     private fun send(message: Message) {
-        val connection = connections[PageIdentifier(message)] ?: return
+        val connection = connections[message.session] ?: return
         val event = message.encodeToJsonElement().xpc
         xpc_connection_send_message(connection, event)
         logger.debug { "Sent message $event to $connection" }
@@ -72,7 +77,7 @@ class ViewServiceServer internal constructor(
     private fun receive(connection: xpc_connection_t, event: xpc_object_t) {
         logger.debug { "Received message $event from $connection" }
         val message = host.decode(event.json) ?: return
-        connections[PageIdentifier(message)] = connection
+        connections[message.session] = connection
         host.receive(message)
     }
 

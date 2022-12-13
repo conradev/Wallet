@@ -1,11 +1,10 @@
 package com.conradkramer.wallet
 
 import com.conradkramer.wallet.browser.message.Frame
-import com.conradkramer.wallet.browser.message.PageIdentifier
+import com.conradkramer.wallet.browser.message.Session
 import com.conradkramer.wallet.browser.prompt.PermissionPrompt
 import com.conradkramer.wallet.browser.prompt.SignDataPrompt
 import com.conradkramer.wallet.ethereum.Data
-import com.conradkramer.wallet.ethereum.requests.Accounts
 import com.conradkramer.wallet.viewmodel.PermissionPromptViewModel
 import com.conradkramer.wallet.viewmodel.SignDataPromptViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,13 +56,13 @@ internal fun mockModule() = module {
     val account = Account.random()
 
     single<AccountStore> { MockAccountStore(account) }
-    factory { PermissionPrompt("1234", Frame.zero, PageIdentifier("", 0), "app.ens.domains", listOf(Accounts.method)) }
+    factory { PermissionPrompt(Frame.zero, Session(0, 0, 0), "app.ens.domains") }
     factory {
         SignDataPrompt(
             "1234",
             Frame.zero,
-            PageIdentifier("", 0),
-            "context.app",
+            Session(0, 0, 0),
+            "mint.fun",
             account.ethereumAddress,
             Data.fromString("0x9b2055d370f73ec7d8a03e965129118dc8f5bf83")
         )

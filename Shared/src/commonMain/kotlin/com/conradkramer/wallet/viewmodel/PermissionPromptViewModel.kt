@@ -1,7 +1,6 @@
 package com.conradkramer.wallet.viewmodel
 
 import com.conradkramer.wallet.browser.prompt.PermissionPrompt
-import com.conradkramer.wallet.ethereum.requests.Accounts
 
 class PermissionPromptViewModel(
     prompt: PermissionPrompt
@@ -9,9 +8,7 @@ class PermissionPromptViewModel(
     val title = "“${prompt.domain}” would like to access your:"
     val allowTitle = "Allow"
     val denyTitle = "Don't Allow"
-    val permissions = prompt.permissions.flatMap {
-        mapping[it] ?: throw Exception("Unrecognized permission $it")
-    }
+    val permissions = listOf(Permission.ADDRESS, Permission.ACCOUNT_BALANCE, Permission.ACTIVITY)
 
     fun allow() {
         respond(PermissionPrompt.Response.ALLOW)
@@ -23,12 +20,6 @@ class PermissionPromptViewModel(
 
     override fun cancel() {
         respond(PermissionPrompt.Response.CANCEL)
-    }
-
-    companion object {
-        private val mapping = mapOf(
-            Accounts.method to listOf(Permission.ADDRESS, Permission.ACCOUNT_BALANCE, Permission.ACTIVITY)
-        )
     }
 
     enum class Permission {
