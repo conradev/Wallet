@@ -40,8 +40,9 @@ const rpcResponseMessage = {
             properties: {
                 request_id: { type: "number" },
                 result: {},
+                error: {},
             },
-            required: ["request_id", "result"],
+            required: ["request_id"],
             additionalProperties: false,
         },
     },

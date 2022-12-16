@@ -53,8 +53,12 @@ class Ethereum {
         if (!promise) {
             return
         }
-        const [respond, _reject] = promise
-        respond(message.payload.result)
+        const [respond, reject] = promise
+        if (message.payload.error) {
+            reject(message.payload.error)
+        } else {
+            respond(message.payload.result)
+        }
 
         delete this.requests[message.payload.request_id]
     }

@@ -1,23 +1,20 @@
 package com.conradkramer.wallet.ethereum.requests
 
-import com.conradkramer.wallet.ethereum.Address
 import com.conradkramer.wallet.ethereum.Data
 import kotlinx.serialization.json.JsonElement
 
-internal data class Sign(
-    val address: Address,
+internal data class SHA3(
     val data: Data
 ) : Request() {
     constructor(params: List<JsonElement>) : this(
-        decode(params, 0),
-        decode(params, 1)
+        decode<Data>(params, 0)
     )
 
     override val method = Companion.method
     override val params: List<JsonElement>
-        get() = listOf(encode(address), encode(data))
+        get() = listOf(encode(data))
 
     companion object {
-        const val method = "eth_sign"
+        const val method = "web3_sha3"
     }
 }

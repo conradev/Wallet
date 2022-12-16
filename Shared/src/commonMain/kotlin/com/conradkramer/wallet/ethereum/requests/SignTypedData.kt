@@ -1,23 +1,22 @@
 package com.conradkramer.wallet.ethereum.requests
 
 import com.conradkramer.wallet.ethereum.Address
-import com.conradkramer.wallet.ethereum.BlockSpecifier
 import kotlinx.serialization.json.JsonElement
 
-internal data class GetBalance(
+internal data class SignTypedData(
     val address: Address,
-    val specifier: BlockSpecifier = BlockSpecifier.LATEST
+    val data: JsonElement
 ) : Request() {
     constructor(params: List<JsonElement>) : this(
         decode(params, 0),
-        decode(params, 1, BlockSpecifier.LATEST)
+        decode(params, 1)
     )
 
     override val method = Companion.method
     override val params: List<JsonElement>
-        get() = listOf(encode(address), encode(specifier))
+        get() = listOf(encode(address), encode(data))
 
     companion object {
-        const val method = "eth_getBalance"
+        const val method = "eth_signTypedData"
     }
 }

@@ -1,6 +1,5 @@
 package com.conradkramer.wallet.ethereum
 
-import com.conradkramer.wallet.ethereum.requests.JsonRpcException
 import com.conradkramer.wallet.ethereum.requests.JsonRpcResponse
 import com.conradkramer.wallet.ethereum.requests.Request
 import com.conradkramer.wallet.ethereum.requests.validate
@@ -49,7 +48,7 @@ internal class RpcClient(val endpointUrl: Url, private val nativeLogger: KLogger
         nativeLogger.info { "Received response $jsonRpcResponse" }
 
         jsonRpcRequest.validate(jsonRpcResponse)
-        jsonRpcResponse.error?.let { throw JsonRpcException(it) }
+        jsonRpcResponse.error?.let { throw it }
 
         return jsonRpcResponse.result
             ?: throw Exception("Result and error were both null")

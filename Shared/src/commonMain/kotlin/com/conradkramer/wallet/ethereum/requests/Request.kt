@@ -5,6 +5,7 @@ import com.conradkramer.wallet.ethereum.BlockSpecifier
 import com.conradkramer.wallet.ethereum.BlockTag
 import com.conradkramer.wallet.ethereum.Data
 import com.conradkramer.wallet.ethereum.Quantity
+import com.conradkramer.wallet.ethereum.Transaction
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -46,6 +47,12 @@ internal abstract class Request {
         }
 
         inline fun <reified T> decode(
+            value: JsonElement
+        ): T {
+            return json.decodeFromJsonElement(value)
+        }
+
+        inline fun <reified T> decode(
             params: List<JsonElement>,
             index: Int
         ): T {
@@ -66,14 +73,23 @@ internal abstract class Request {
 
         fun fromMethodAndParams(method: String, params: List<JsonElement>?): Request {
             val constructor: (List<JsonElement>) -> Request = when (method) {
-                GetBalance.method -> ::GetBalance
-                Call.method -> ::Call
                 Accounts.method -> ::Accounts
-                Sign.method -> ::Sign
+                Call.method -> ::Call
+                ChainId.method -> ::ChainId
+                ClientVersion.method -> ::ClientVersion
+                GetBalance.method -> ::GetBalance
+                GetPermissions.method -> ::GetPermissions
                 RequestAccounts.method -> ::RequestAccounts
+                RequestPermissions.method -> ::RequestPermissions
+                SendTransaction.method -> ::SendTransaction
+                SHA3.method -> ::SHA3
+                Sign.method -> ::Sign
+                SignTransaction.method -> ::SignTransaction
+                SignTypedData.method -> ::SignTypedData
+                Subscribe.method -> ::Subscribe
                 else -> { it -> AnyRequest(method, it) }
             }
-            return constructor(params ?: listOf())
+            return constructor(params ?: emptyList())
         }
 
         @OptIn(ExperimentalSerializationApi::class)
@@ -86,6 +102,7 @@ internal abstract class Request {
                 include(serializersModuleOf(Data.serializer()))
                 include(serializersModuleOf(BlockSpecifier.serializer()))
                 include(serializersModuleOf(BlockTag.serializer()))
+                include(serializersModuleOf(Transaction.serializer()))
                 include(serializersModuleOf(JsonRpcRequest.serializer()))
             }
         }
@@ -109,7 +126,11 @@ internal data class JsonRpcRequest(
 }
 
 @Serializable
-internal data class JsonRpcError(var code: Int, var message: String)
+internal data class JsonRpcError(
+    val code: Int,
+    override val message: String,
+    val data: JsonElement? = null
+) : Throwable(message)
 
 @Serializable
 internal data class JsonRpcResponse<Result>(
@@ -124,5 +145,3 @@ internal fun JsonRpcRequest.validate(response: JsonRpcResponse<*>) {
         throw Exception("JSON RPC response ID does not match request ID")
     }
 }
-
-internal class JsonRpcException(error: JsonRpcError) : Exception(error.message)

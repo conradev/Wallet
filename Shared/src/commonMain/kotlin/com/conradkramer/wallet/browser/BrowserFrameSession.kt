@@ -12,23 +12,29 @@ import com.conradkramer.wallet.browser.message.Session
 import com.conradkramer.wallet.browser.message.StartSessionMessage
 import com.conradkramer.wallet.browser.prompt.PermissionPrompt
 import com.conradkramer.wallet.browser.prompt.SignDataPrompt
+import com.conradkramer.wallet.ethereum.Address
+import com.conradkramer.wallet.ethereum.Data
 import com.conradkramer.wallet.ethereum.Quantity
 import com.conradkramer.wallet.ethereum.RpcClient
 import com.conradkramer.wallet.ethereum.requests.Accounts
-import com.conradkramer.wallet.ethereum.requests.Call
 import com.conradkramer.wallet.ethereum.requests.ChainId
-import com.conradkramer.wallet.ethereum.requests.GetBalance
+import com.conradkramer.wallet.ethereum.requests.JsonRpcError
 import com.conradkramer.wallet.ethereum.requests.Request
 import com.conradkramer.wallet.ethereum.requests.RequestAccounts
+import com.conradkramer.wallet.ethereum.requests.SendTransaction
 import com.conradkramer.wallet.ethereum.requests.Sign
+import com.conradkramer.wallet.ethereum.requests.SignTransaction
+import com.conradkramer.wallet.ethereum.requests.SignTypedData
+import com.conradkramer.wallet.ethereum.requests.Subscribe
 import io.ktor.http.ParametersBuilder
 import io.ktor.http.URLBuilder
 import io.ktor.http.Url
+import io.ktor.util.Identity.encode
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonNull
-import kotlinx.serialization.json.JsonPrimitive
 import mu.KLogger
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -43,12 +49,18 @@ internal class BrowserFrameSession(
 ) {
     private val scope = CoroutineScope(EmptyCoroutineContext)
 
+    private val accounts = accountStore.accounts
+
     init {
         logger.info { "Starting browser session $session" }
 
         scope.launch {
-            val response: Quantity = rpcClient.send(ChainId())
-            send(EventMessage(session, ConnectEvent(response)))
+            try {
+                val response: Quantity = rpcClient.send(ChainId())
+                send(EventMessage(session, ConnectEvent(response)))
+            } catch (e: Exception) {
+                logger.error { "Failed to get Chain ID and send the connect event: $e" }
+            }
         }
     }
 
@@ -71,109 +83,87 @@ internal class BrowserFrameSession(
     }
 
     private fun handleRPCMessage(message: RPCRequestMessage) {
-        val request = try { message.request } catch (e: Exception) {
-            logger.error { "Failed to deserialize request: $e" }
-            return
-        }
-        logger.info { "Received ${request.method} RPC request: $request" }
-
         scope.launch {
             try {
-                val response: JsonElement = if (permissible(request, message)) {
-                    when (request) {
-                        is RequestAccounts -> accountsRequest(message)
-                        is Accounts -> accountsRequest(message)
-                        is Sign -> signRequest(request, message)
-                        else -> proxyRequest(request)
-                    }
-                } else {
-                    JsonNull
+                val request = try {
+                    message.request
+                } catch (e: Exception) {
+                    throw ProviderError.invalid
+                }
+
+                logger.info { "Received ${request.method} RPC request: $request" }
+
+                val response: JsonElement = when (request) {
+                    is RequestAccounts -> Request.encode(requestAccounts(message))
+                    is Accounts -> Request.encode(accounts(message))
+                    is Sign -> Request.encode(sign(request, message))
+                    is SignTypedData -> unsupported(request)
+                    is SignTransaction -> unsupported(request)
+                    is SendTransaction -> unsupported(request)
+                    is Subscribe -> unsupported(request)
+                    else -> proxy(request, message)
                 }
                 send(RPCResponseMessage(message, response))
+            } catch (error: JsonRpcError) {
+                send(RPCResponseMessage(message, error))
             } catch (e: Exception) {
-                logger.error { "Failed to handle RPC message $e" }
+                logger.error { "Request ${message.id} failed: $e" }
+                send(RPCResponseMessage(message, JsonRpcError(0, "An unknown error occurred")))
             }
         }
     }
-    private suspend fun permissible(request: Request, message: RPCRequestMessage): Boolean {
-        logger.info { "Checking if request is allowed" }
 
-        if (request.proxied) {
-            logger.info { "${request::class.simpleName} is proxied, skipping permission check" }
-            return true
-        }
-        if (request.filtered) {
-            logger.info { "${request::class.simpleName} handles permissions on its own, skipping explicit check" }
-            return true
-        }
-
-        val accounts = request.filter(accountStore.accounts.value)
-        val statuses = accounts.associate {
-            Pair(
-                it,
-                permissionStore.state(it, message.domain, BrowserPermission.ACCOUNTS)
-            )
-        }
-
-        for (status in statuses) {
-            when (status.value) {
-                BrowserPermission.State.ALLOWED -> continue
-                BrowserPermission.State.DENIED -> return false
-                BrowserPermission.State.UNSPECIFIED -> {
-                    when (permissionPrompt(message)) {
-                        PermissionPrompt.Response.ALLOW -> {
-                            permissionStore.allow(status.key, message.domain, BrowserPermission.ACCOUNTS)
-                        }
-                        PermissionPrompt.Response.DENY -> {
-                            permissionStore.deny(status.key, message.domain, BrowserPermission.ACCOUNTS)
-                            return false
-                        }
-                        PermissionPrompt.Response.CANCEL -> return false
-                    }
-                }
+    private suspend fun prompt(account: Account, message: RPCRequestMessage): Boolean {
+        val prompt = PermissionPrompt(message.frame, message.session, account.id, message.domain)
+        return when (executor.executePrompt<PermissionPrompt.Response>(prompt)) {
+            PermissionPrompt.Response.ALLOW -> {
+                permissionStore.allow(account, message.domain)
+                true
             }
-        }
-
-        return true
-    }
-
-    private suspend fun permissionPrompt(message: RPCRequestMessage): PermissionPrompt.Response {
-        return executor.executePrompt(PermissionPrompt(message.frame, message.session, message.domain))
-    }
-    private suspend fun proxyRequest(request: Request): JsonElement {
-        return try {
-            logger.info { "Proxying request $request" }
-            val response: JsonElement = rpcClient.send(request)
-            logger.info { "Received response: $response" }
-            response
-        } catch (e: Exception) {
-            logger.error { "Failed to proxy request: $e" }
-            JsonNull
-        }
-    }
-
-    private fun accountsRequest(message: RPCRequestMessage): JsonElement {
-        logger.warn { "Received account request" }
-
-        val filtered = accountStore.accounts.value
-            .filter {
-                permissionStore.state(it, message.domain, BrowserPermission.ACCOUNTS) == BrowserPermission.State.ALLOWED
+            PermissionPrompt.Response.DENY -> {
+                permissionStore.deny(account, message.domain)
+                false
             }
-
-        return Request.encode(filtered.map { it.ethereumAddress })
+            PermissionPrompt.Response.CANCEL -> false
+        }
     }
 
-    private suspend fun signRequest(request: Sign, message: RPCRequestMessage): JsonElement {
+    private suspend fun proxy(request: Request, message: RPCRequestMessage): JsonElement {
+        logger.info { "Proxying request ${message.id}" }
+        return rpcClient.send(request)
+    }
+
+    private suspend fun requestAccounts(message: RPCRequestMessage): List<Address> {
+        accountStore.accounts.value
+            .filter { permissionStore.state(it, message.domain) == BrowserPermissionStore.State.UNSPECIFIED }
+            .forEach { prompt(it, message) }
+
+        return accounts(message)
+    }
+
+    private fun accounts(message: RPCRequestMessage): List<Address> {
+        return accountStore.accounts.value
+            .filter { permissionStore.state(it, message.domain) == BrowserPermissionStore.State.ALLOWED }
+            .map { it.ethereumAddress }
+    }
+
+    private suspend fun sign(request: Sign, message: RPCRequestMessage): Data {
+        val account = accountStore.accounts.value
+            .filter { permissionStore.state(it, message.domain) == BrowserPermissionStore.State.ALLOWED }
+            .firstOrNull { it.ethereumAddress == request.address } ?: throw ProviderError.unauthorized(message.domain)
+
         val prompt = SignDataPrompt(
             message.frame,
             message.session,
             message.domain,
-            request.address,
+            account.ethereumAddress,
             request.data
         )
-        val response = executor.executePrompt<SignDataPrompt.Response>(prompt)
-        val signature = response.signature ?: return JsonNull // TODO: Handle error
-        return JsonPrimitive(signature.toString()) // TODO: Do not encode manually
+        return executor.executePrompt<SignDataPrompt.Response>(prompt).signature ?: throw ProviderError.cancelled
+    }
+
+    private fun unsupported(request: Request): JsonElement {
+        throw ProviderError.unsupported(request)
     }
 }
 
@@ -190,23 +180,24 @@ private val RequestMessage.domain: String
         .build()
         .toString()
 
-private fun Request.filter(accounts: List<Account>): List<Account> {
-    return when (this) {
-        is Sign -> accounts.filter { it.ethereumAddress == address }
-        else -> accounts
+@Serializable
+internal enum class ProviderError(private val code: Int) {
+    UNKNOWN(0),
+    INVALID_REQUEST(-32600),
+    USER_REJECTED_REQUEST(4001),
+    UNAUTHORIZED(4100),
+    UNSUPPORTED_METHOD(4200),
+    DISCONNECTED(4900),
+    CHAIN_DISCONNECTED(4901);
+
+    fun message(message: String, data: JsonElement? = null): JsonRpcError {
+        return JsonRpcError(code, message, data)
+    }
+
+    companion object {
+        val cancelled = USER_REJECTED_REQUEST.message("User cancelled operation")
+        val invalid = INVALID_REQUEST.message("The request is invalid")
+        fun unauthorized(domain: String) = UNAUTHORIZED.message("$domain is not authorized to perform this operation")
+        fun unsupported(request: Request) = UNSUPPORTED_METHOD.message("${request.method} is not supported")
     }
 }
-
-private val Request.proxied: Boolean
-    get() = when (this) {
-        is Call -> true
-        is ChainId -> true
-        is GetBalance -> true
-        else -> false
-    }
-
-private val Request.filtered: Boolean
-    get() = when (this) {
-        is Accounts -> true
-        else -> false
-    }

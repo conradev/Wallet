@@ -1,5 +1,6 @@
 package com.conradkramer.wallet.browser.message
 
+import com.conradkramer.wallet.ethereum.requests.JsonRpcError
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
@@ -15,13 +16,27 @@ internal data class RPCResponseMessage(
     constructor(message: RPCRequestMessage, result: JsonElement) : this(
         Random.nextLong(),
         message.session,
-        Payload(message.id, result)
+        Payload(message.id, result, null)
+    )
+
+    constructor(message: RPCRequestMessage, error: JsonRpcError) : this(
+        Random.nextLong(),
+        message.session,
+        Payload(message.id, null, error)
     )
 
     @Serializable
     internal data class Payload(
         @SerialName("request_id")
         val requestId: Long,
-        val result: JsonElement
+        val result: JsonElement? = null,
+        val error: JsonRpcError? = null
     )
+
+    @Serializable
+    internal data class RPCError(
+        val code: Int,
+        override val message: String,
+        val data: JsonElement? = null
+    ) : Throwable(message)
 }

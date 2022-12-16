@@ -4,23 +4,30 @@ import com.conradkramer.wallet.Account
 import com.conradkramer.wallet.sql.Database
 import mu.KLogger
 
-internal class BrowserPermissionStore(private val database: Database, private val logger: KLogger) {
-
-    fun allow(account: Account, domain: String, permission: BrowserPermission) {
-        database.browserPermissionQueries.allow(account.id, domain, permission)
-        logger.info { "Granted $domain permission $permission" }
+class BrowserPermissionStore internal constructor(
+    private val database: Database,
+    private val logger: KLogger
+) {
+    enum class State(val value: Long) {
+        ALLOWED(1),
+        DENIED(-1),
+        UNSPECIFIED(0);
     }
 
-    fun deny(account: Account, domain: String, permission: BrowserPermission) {
-        database.browserPermissionQueries.deny(account.id, domain, permission)
-        logger.info { "Denied $domain permission $permission" }
+    internal fun allow(account: Account, domain: String) {
+        database.browserPermissionQueries.allow(account.id, domain)
+        logger.info { "Granted \"$domain\" permission for ${account.ethereumAddress}" }
     }
 
-    fun state(account: Account, domain: String, permission: BrowserPermission): BrowserPermission.State {
-        logger.info { "Checking $permission for ${account.ethereumAddress} on \"$domain\"" }
-        val state = database.browserPermissionQueries.state(account.id, domain, permission)
-            .executeAsOneOrNull() ?: BrowserPermission.State.UNSPECIFIED
-        logger.info { "$permission for ${account.ethereumAddress} on \"$domain\": $state" }
+    internal fun deny(account: Account, domain: String) {
+        database.browserPermissionQueries.deny(account.id, domain)
+        logger.info { "Denied \"$domain\" permission for ${account.ethereumAddress}" }
+    }
+
+    internal fun state(account: Account, domain: String): State {
+        val state = database.browserPermissionQueries.state(account.id, domain)
+            .executeAsOneOrNull() ?: State.UNSPECIFIED
+        logger.info { "${account.ethereumAddress} is $state on \"$domain\"" }
         return state
     }
 }

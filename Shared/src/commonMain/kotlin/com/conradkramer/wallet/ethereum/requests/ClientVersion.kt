@@ -2,7 +2,7 @@ package com.conradkramer.wallet.ethereum.requests
 
 import kotlinx.serialization.json.JsonElement
 
-internal class RequestAccounts() : Request() {
+internal class ClientVersion() : Request() {
     @Suppress("UNUSED_PARAMETER")
     constructor(params: List<JsonElement>) : this()
 
@@ -10,6 +10,6 @@ internal class RequestAccounts() : Request() {
     override val params: List<JsonElement> = emptyList()
 
     companion object {
-        const val method = "eth_requestAccounts"
+        const val method = "web3_clientVersion"
     }
 }
