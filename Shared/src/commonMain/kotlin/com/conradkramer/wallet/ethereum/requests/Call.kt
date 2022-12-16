@@ -18,6 +18,6 @@ internal data class Call(
         get() = listOf(encode(transaction), encode(specifier))
 
     companion object {
-        val method = "eth_call"
+        const val method = "eth_call"
     }
 }

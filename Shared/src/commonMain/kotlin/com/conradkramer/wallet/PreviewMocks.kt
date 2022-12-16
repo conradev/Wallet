@@ -56,7 +56,7 @@ internal fun mockModule() = module {
     val account = Account.random()
 
     single<AccountStore> { MockAccountStore(account) }
-    factory { PermissionPrompt(Frame.zero, Session(0, 0, 0), "app.ens.domains") }
+    factory { PermissionPrompt(Frame.zero, Session(0, 0, 0), account.id, "app.ens.domains") }
     factory {
         SignDataPrompt(
             "1234",

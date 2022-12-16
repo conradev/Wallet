@@ -7,9 +7,9 @@ internal class ChainId() : Request() {
     constructor(params: List<JsonElement>) : this()
 
     override val method = Companion.method
-    override val params: List<JsonElement> = listOf()
+    override val params: List<JsonElement> = emptyList()
 
     companion object {
-        val method = "eth_chainId"
+        const val method = "eth_chainId"
     }
 }

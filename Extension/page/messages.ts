@@ -79,11 +79,13 @@ export class RPCRequestMessage extends BaseMessage {
 
 class RPCResponsePayload {
     readonly request_id: string
-    readonly result: any // eslint-disable-line @typescript-eslint/no-explicit-any
+    readonly result?: any // eslint-disable-line @typescript-eslint/no-explicit-any
+    readonly error?: object
 
     constructor(payload: RPCResponsePayload) {
         this.request_id = payload.request_id
         this.result = payload.result
+        this.error = payload.error
     }
 }
 
