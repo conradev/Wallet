@@ -7,13 +7,21 @@ import kotlinx.serialization.json.JsonElement
 
 @Serializable
 @SerialName("rpc_request")
-internal data class RPCRequestMessage(
+internal data class RPCRequestMessage protected constructor(
     override val id: Long,
     override val url: String,
     override val frame: Frame,
     override val session: Session,
     val payload: Payload
 ) : RequestMessage() {
+    constructor(id: Long, url: String, frame: Frame, session: Session, request: Request) : this(
+        id,
+        url,
+        frame,
+        session,
+        Payload(request.method, request.params)
+    )
+
     @Serializable
     internal data class Payload(
         val method: String,

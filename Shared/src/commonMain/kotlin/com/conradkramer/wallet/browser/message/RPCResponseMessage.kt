@@ -13,17 +13,19 @@ internal data class RPCResponseMessage(
     override val session: Session,
     val payload: Payload
 ) : Message() {
-    constructor(message: RPCRequestMessage, result: JsonElement) : this(
-        Random.nextLong(),
+    constructor(id: Long, message: RPCRequestMessage, result: JsonElement) : this(
+        id,
         message.session,
         Payload(message.id, result, null)
     )
-
-    constructor(message: RPCRequestMessage, error: JsonRpcError) : this(
-        Random.nextLong(),
+    constructor(id: Long, message: RPCRequestMessage, error: JsonRpcError) : this(
+        id,
         message.session,
         Payload(message.id, null, error)
     )
+
+    constructor(message: RPCRequestMessage, result: JsonElement) : this(Random.nextLong(), message, result)
+    constructor(message: RPCRequestMessage, error: JsonRpcError) : this(Random.nextLong(), message, error)
 
     @Serializable
     internal data class Payload(
