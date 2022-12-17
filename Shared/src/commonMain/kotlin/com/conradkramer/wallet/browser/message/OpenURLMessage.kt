@@ -6,16 +6,13 @@ import kotlin.random.Random
 
 @Serializable
 @SerialName("open_url")
-internal data class OpenURLMessage(
+internal data class OpenURLMessage protected constructor(
     override val id: Long,
     override val session: Session,
-    val url: Payload
+    val payload: Payload
 ) : Message() {
-    constructor(session: Session, url: String) : this(
-        Random.nextLong(),
-        session,
-        Payload(url)
-    )
+    constructor(id: Long, session: Session, url: String) : this(id, session, Payload(url))
+    constructor(session: Session, url: String) : this(Random.nextLong(), session, url)
 
     @Serializable
     internal data class Payload(
