@@ -1,10 +1,16 @@
 package com.conradkramer.wallet.bigint
 
-import java.math.BigInteger
-
 actual data class BigInteger(val inner: java.math.BigInteger) {
     actual constructor(data: ByteArray) : this(java.math.BigInteger(1, data))
 
+    actual fun toLong(): Long = inner.toLong()
+
     actual val data: ByteArray
-        get() = if (inner == BigInteger.ZERO) ByteArray(0) else inner.toByteArray()
+        get() = if (inner == java.math.BigInteger.ZERO) ByteArray(0) else inner.toByteArray()
+
+    actual companion object {
+        actual fun valueOf(value: Long): BigInteger {
+            return BigInteger(java.math.BigInteger.valueOf(value))
+        }
+    }
 }
