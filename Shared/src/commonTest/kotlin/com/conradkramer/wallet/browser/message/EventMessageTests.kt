@@ -11,7 +11,7 @@ internal class EventMessageTests() : MessageTests() {
         val message = EventMessage(
             20,
             session,
-            ConnectEvent(Quantity.fromString("0x1"))
+            ConnectEvent(Quantity(1))
         )
         val jsonMessage = decode(
             """{

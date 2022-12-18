@@ -4,8 +4,10 @@ import gmp.__mpz_struct
 import gmp._mpz_cmp_si
 import gmp.mpz_clear
 import gmp.mpz_export
+import gmp.mpz_get_si
 import gmp.mpz_import
 import gmp.mpz_init
+import gmp.mpz_set_si
 import gmp.mpz_sizeinbase
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.alloc
@@ -68,6 +70,16 @@ actual class BigInteger() {
                 0.convert(),
                 pinnedData.addressOf(0)
             )
+        }
+    }
+
+    actual fun toLong(): Long {
+        return mpz_get_si!!(mpz.ptr)
+    }
+
+    actual companion object {
+        actual fun valueOf(value: Long): BigInteger {
+            return BigInteger().also { mpz_set_si!!(it.mpz.ptr, value) }
         }
     }
 }
