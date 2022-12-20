@@ -8,12 +8,19 @@ internal expect class PrivateKey(data: ByteArray) {
 
     operator fun plus(increment: PrivateKey): PrivateKey
     fun sign(data: ByteArray): Signature
+
+    override fun equals(other: Any?): Boolean
+    override fun hashCode(): Int
 }
 
 expect class PublicKey(data: ByteArray) {
     fun encoded(compressed: Boolean = true): ByteArray
 
     internal fun verify(data: ByteArray, signature: Signature): Boolean
+
+    internal companion object {
+        fun recover(data: ByteArray, signature: Signature): PublicKey
+    }
 }
 
 internal val PublicKey.ethereumAddress: Address
