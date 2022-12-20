@@ -1,5 +1,7 @@
 package com.conradkramer.wallet.ethereum
 
+import com.conradkramer.wallet.encoding.RLP
+import com.conradkramer.wallet.encoding.RLPRepresentable
 import com.conradkramer.wallet.encoding.decodeHex
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -15,9 +17,12 @@ internal abstract class HexademicalValueSerializer<T : HexadecimalValue> : KSeri
     }
 }
 
-abstract class HexadecimalValue {
+abstract class HexadecimalValue : RLPRepresentable {
     abstract val data: ByteArray
     abstract override fun toString(): String
+
+    override val rlp: RLP.Item
+        get() = RLP.Item.Data(data)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

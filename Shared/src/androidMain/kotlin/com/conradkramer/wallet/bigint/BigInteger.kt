@@ -1,11 +1,18 @@
+@file:JvmName("BigIntegerAndroid")
+
 package com.conradkramer.wallet.bigint
 
+import com.conradkramer.wallet.encoding.RLP
+import com.conradkramer.wallet.encoding.RLPRepresentable
 
 actual data class BigInteger(val inner: java.math.BigInteger) : RLPRepresentable {
     actual constructor(data: ByteArray) : this(java.math.BigInteger(1, data))
 
     actual val data: ByteArray
         get() = if (inner == java.math.BigInteger.ZERO) ByteArray(0) else inner.toByteArray()
+
+    override val rlp: RLP.Item
+        get() = RLP.Item.Data(data)
 
     actual fun toLong(): Long = inner.toLong()
 
