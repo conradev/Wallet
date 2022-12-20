@@ -38,4 +38,12 @@ class BigIntegerTests {
 
         assertContentEquals(data, integer.data)
     }
+
+    @Test
+    fun testIntegerEquality() {
+        val integer = BigInteger("519828f8e33dd14".decodeHex(true))
+        val other = BigInteger.valueOf(367468397685103892L)
+
+        assertEquals(integer, other)
+    }
 }
