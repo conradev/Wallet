@@ -8,9 +8,11 @@ import gmp.mpz_clear
 import gmp.mpz_cmp
 import gmp.mpz_export
 import gmp.mpz_get_si
+import gmp.mpz_get_ui
 import gmp.mpz_import
 import gmp.mpz_init
 import gmp.mpz_set_si
+import gmp.mpz_set_ui
 import gmp.mpz_sizeinbase
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.alloc
@@ -83,6 +85,10 @@ actual class BigInteger() : RLPRepresentable {
         return mpz_get_si!!(mpz.ptr)
     }
 
+    actual fun toULong(): ULong {
+        return mpz_get_ui!!(mpz.ptr)
+    }
+
     actual override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
@@ -101,6 +107,10 @@ actual class BigInteger() : RLPRepresentable {
     actual companion object {
         actual fun valueOf(value: Long): BigInteger {
             return BigInteger().also { mpz_set_si!!(it.mpz.ptr, value) }
+        }
+
+        actual fun valueOf(value: ULong): BigInteger {
+            return BigInteger().also { mpz_set_ui!!(it.mpz.ptr, value) }
         }
     }
 }

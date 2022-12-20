@@ -2,6 +2,7 @@
 
 package com.conradkramer.wallet.crypto
 
+import com.conradkramer.wallet.bigint.toUnsignedByteArray
 import com.conradkramer.wallet.bigint.wrap
 import org.bouncycastle.asn1.x9.X9IntegerConverter
 import org.bouncycastle.crypto.params.ECDomainParameters
@@ -44,13 +45,7 @@ internal actual class PrivateKey internal constructor(private val inner: BCECPri
     }
 
     actual val encoded: ByteArray
-        get() {
-            val data = inner.d.toByteArray()
-            val zeroes = data
-                .takeWhile { it == 0.toByte() }
-                .count()
-            return data.copyOfRange(min(data.size - 32, zeroes), data.size)
-        }
+        get() = inner.d.toUnsignedByteArray()
 
     actual val publicKey: PublicKey
         get() {
