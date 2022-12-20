@@ -29,6 +29,12 @@ object RLP {
         data class List(val value: kotlin.collections.List<Item>) : Item() {
             constructor() : this(emptyList())
         }
+
+        val data: ByteArray
+            get() = if (this is Data) { this.value } else { throw Exception("RLP Item was not data") }
+
+        val values: kotlin.collections.List<Item>
+            get() = if (this is List) { this.value } else { throw Exception("RLP Item was not a list") }
     }
 
     fun encode(item: Item): ByteArray {
