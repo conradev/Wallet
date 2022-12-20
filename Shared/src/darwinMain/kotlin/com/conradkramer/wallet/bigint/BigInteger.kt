@@ -3,6 +3,7 @@ package com.conradkramer.wallet.bigint
 import gmp.__mpz_struct
 import gmp._mpz_cmp_si
 import gmp.mpz_clear
+import gmp.mpz_cmp
 import gmp.mpz_export
 import gmp.mpz_get_si
 import gmp.mpz_import
@@ -75,6 +76,21 @@ actual class BigInteger() {
 
     actual fun toLong(): Long {
         return mpz_get_si!!(mpz.ptr)
+    }
+
+    actual override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as BigInteger
+
+        if (mpz_cmp!!(mpz.ptr, other.mpz.ptr) != 0) return false
+
+        return true
+    }
+
+    actual override fun hashCode(): Int {
+        return mpz.hashCode()
     }
 
     actual companion object {
