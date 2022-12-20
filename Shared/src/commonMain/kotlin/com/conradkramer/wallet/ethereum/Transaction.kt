@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class Transaction(
-    val from: Address? = null,
+    val from: Address,
     val to: Address? = null,
     val gas: Quantity? = null,
     val gasPrice: Quantity? = null,
