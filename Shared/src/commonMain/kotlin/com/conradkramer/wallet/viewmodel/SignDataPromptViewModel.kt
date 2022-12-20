@@ -6,7 +6,7 @@ import com.conradkramer.wallet.BiometricPromptHost
 import com.conradkramer.wallet.BiometricPromptInfo
 import com.conradkramer.wallet.Coin
 import com.conradkramer.wallet.browser.prompt.SignDataPrompt
-import com.conradkramer.wallet.ethereum.Data
+import com.conradkramer.wallet.ethereum.signMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import mu.KLogger
@@ -50,16 +50,14 @@ class SignDataPromptViewModel internal constructor(
         }
 
         scope.launch {
-            accountStore.authenticate(context, info, host) { keyOrNull ->
-                val rootKey = keyOrNull ?: return@authenticate respond(SignDataPrompt.Response(null))
-                val signature = rootKey
+            val signature = accountStore.authenticate(context, info, host) { keyOrNull ->
+                val rootKey = keyOrNull ?: return@authenticate null
+                val ethereumKey = rootKey
                     .child(Coin.ETHEREUM, 0, false, 0)
                     .key
-                    .sign(prompt.data.data)
-                    .toByteArray()
-                    .let(::Data)
-                respond(SignDataPrompt.Response(signature))
+                ethereumKey.signMessage(prompt.data.data)
             }
+            respond(SignDataPrompt.Response(signature))
         }
     }
 
