@@ -2,6 +2,7 @@ package com.conradkramer.wallet.browser.prompt
 
 import com.conradkramer.wallet.browser.message.Frame
 import com.conradkramer.wallet.browser.message.Session
+import com.conradkramer.wallet.crypto.Signature
 import com.conradkramer.wallet.encoding.encodeHex
 import com.conradkramer.wallet.ethereum.Address
 import com.conradkramer.wallet.ethereum.Data
@@ -29,7 +30,9 @@ data class SignDataPrompt internal constructor(
     )
 
     @Serializable
-    data class Response(
+    data class Response protected constructor(
         val signature: Data? = null
-    )
+    ) {
+        internal constructor(signature: Signature?) : this(signature?.let { Data(it.toByteArray()) })
+    }
 }
