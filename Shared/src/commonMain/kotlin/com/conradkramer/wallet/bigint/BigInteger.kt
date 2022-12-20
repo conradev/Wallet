@@ -1,6 +1,8 @@
 package com.conradkramer.wallet.bigint
 
-expect class BigInteger(data: ByteArray) {
+import com.conradkramer.wallet.encoding.RLPRepresentable
+
+expect class BigInteger(data: ByteArray) : RLPRepresentable {
     val data: ByteArray
 
     fun toLong(): Long

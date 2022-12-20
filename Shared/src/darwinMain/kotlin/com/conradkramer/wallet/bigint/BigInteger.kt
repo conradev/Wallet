@@ -1,5 +1,7 @@
 package com.conradkramer.wallet.bigint
 
+import com.conradkramer.wallet.encoding.RLP
+import com.conradkramer.wallet.encoding.RLPRepresentable
 import gmp.__mpz_struct
 import gmp._mpz_cmp_si
 import gmp.mpz_clear
@@ -22,7 +24,7 @@ import kotlinx.cinterop.value
 import platform.posix.size_tVar
 
 @OptIn(ExperimentalUnsignedTypes::class)
-actual class BigInteger() {
+actual class BigInteger() : RLPRepresentable {
     val mpz: __mpz_struct = nativeHeap.alloc()
 
     init {
@@ -53,6 +55,9 @@ actual class BigInteger() {
             if (count.value.toInt() != 1) throw Exception("Failed to export integer")
             data
         }
+
+    override val rlp: RLP.Item
+        get() = RLP.Item.Data(data)
 
     fun finalize() {
         mpz_clear!!(mpz.ptr)

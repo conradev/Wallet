@@ -38,7 +38,7 @@ internal sealed class Message {
                 ?.let { json.encodeToJsonElement(it) }
 
             return if (session != null) {
-                JsonObject(message + Pair("session", session))
+                JsonObject(message + ("session" to session))
             } else {
                 logger.error { "Failed to annotate message with browser PID $pid" }
                 JsonObject(message)

@@ -2,9 +2,13 @@ package com.conradkramer.wallet.encoding
 
 import io.ktor.utils.io.core.ByteOrder
 
+internal interface RLPRepresentable {
+    val rlp: RLP.Item
+}
+
 @OptIn(ExperimentalUnsignedTypes::class)
-internal object RLP {
-    internal sealed class Item {
+object RLP {
+    sealed class Item {
         data class Data(val value: ByteArray) : Item() {
             override fun equals(other: Any?): Boolean {
                 if (this === other) return true
