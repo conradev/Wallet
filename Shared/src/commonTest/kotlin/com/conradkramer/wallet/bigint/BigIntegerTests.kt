@@ -32,9 +32,25 @@ class BigIntegerTests {
     }
 
     @Test
+    fun testIntegerToULongConversion() {
+        val integer = BigInteger("ffffffffffffffff".decodeHex())
+        val long = integer.toULong()
+
+        assertEquals(18446744073709551615UL, long)
+    }
+
+    @Test
     fun testLongToIntegerConversion() {
         val integer = BigInteger.valueOf(367468397685103892L)
         val data = "519828f8e33dd14".decodeHex(true)
+
+        assertContentEquals(data, integer.data)
+    }
+
+    @Test
+    fun testULongToIntegerConversion() {
+        val integer = BigInteger.valueOf(18446744073709551615UL)
+        val data = "ffffffffffffffff".decodeHex(true)
 
         assertContentEquals(data, integer.data)
     }

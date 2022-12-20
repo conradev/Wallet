@@ -1,5 +1,6 @@
 package com.conradkramer.wallet.browser.message
 
+import com.conradkramer.wallet.bigint.BigInteger
 import com.conradkramer.wallet.browser.event.ConnectEvent
 import com.conradkramer.wallet.ethereum.Quantity
 import kotlin.test.Test
@@ -11,7 +12,7 @@ internal class EventMessageTests() : MessageTests() {
         val message = EventMessage(
             20,
             session,
-            ConnectEvent(Quantity(1))
+            ConnectEvent(Quantity(BigInteger.valueOf(1)))
         )
         val jsonMessage = decode(
             """{

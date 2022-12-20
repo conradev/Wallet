@@ -15,10 +15,12 @@ internal class QuantitySerializer : HexademicalValueSerializer<Quantity>() {
 internal class Quantity(val value: BigInteger) : HexadecimalValue() {
 
     constructor(data: ByteArray) : this(BigInteger(data))
-    constructor(value: Long) : this(BigInteger.valueOf(value))
 
     override val data: ByteArray
         get() = value.data
+
+    fun toLong(): Long = value.toLong()
+    fun toULong(): ULong = value.toULong()
 
     override fun toString(): String {
         return "0x${data.encodeHex(false)}"
