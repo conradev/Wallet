@@ -12,7 +12,7 @@ There are a few general conventions that the project tries to adhere to when wri
 
 - **If code can be written in Kotlin, write it in Kotlin**. If it is not written in Kotlin, it will have to be duplicated across platforms.
 
-- **Support all platforms in parallel**. If you are going to write a new feature for iOS, take the time to write the code for macOS and Android as well. It is okay to put changes up for review with a single platform, but it will only be merged once full platform support is done. Letting platforms become out of sync on the main branch is a bad precedent to set.
+- **Support all platforms in parallel**. If you are going to write a new feature for iOS, take the time to write the code for macOS and Android as well. It is okay to put changes up for review with a single platform, but it will only be merged once full platform support is done. Letting platforms become out of sync on the main branch is a slippery slope.
 
 - **Code should be simple, well-designed and easy to understand**. Google's [Code Review Guidelines](https://google.github.io/eng-practices/review/reviewer/looking-for.html) are a great reference here. If any point from that should be emphasized, it is simplicity: do not over-engineer code.
 
@@ -39,7 +39,6 @@ $ ./gradlew lintKotlin
 ```
 
 ```bash
-$ brew install swiftlint
 $ swiftlint
 ```
 
