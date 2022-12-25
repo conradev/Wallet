@@ -79,6 +79,7 @@ internal abstract class Request {
                 ClientVersion.method -> ::ClientVersion
                 GetBalance.method -> ::GetBalance
                 GetPermissions.method -> ::GetPermissions
+                PersonalSign.method -> ::PersonalSign
                 RequestAccounts.method -> ::RequestAccounts
                 RequestPermissions.method -> ::RequestPermissions
                 SendTransaction.method -> ::SendTransaction

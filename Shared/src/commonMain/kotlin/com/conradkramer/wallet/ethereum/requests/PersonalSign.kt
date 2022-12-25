@@ -4,14 +4,9 @@ import com.conradkramer.wallet.ethereum.Address
 import com.conradkramer.wallet.ethereum.Data
 import kotlinx.serialization.json.JsonElement
 
-internal interface SignRequest {
-    val address: Address
-    val data: Data
-}
-
-internal data class Sign(
-    override val address: Address,
-    override val data: Data
+internal data class PersonalSign(
+    override val data: Data,
+    override val address: Address
 ) : Request(), SignRequest {
     constructor(params: List<JsonElement>) : this(
         decode(params, 0),
@@ -23,6 +18,6 @@ internal data class Sign(
         get() = listOf(encode(address), encode(data))
 
     companion object {
-        const val method = "eth_sign"
+        const val method = "personal_sign"
     }
 }

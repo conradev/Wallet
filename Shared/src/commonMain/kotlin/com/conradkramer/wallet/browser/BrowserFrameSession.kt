@@ -19,10 +19,12 @@ import com.conradkramer.wallet.ethereum.RpcClient
 import com.conradkramer.wallet.ethereum.requests.Accounts
 import com.conradkramer.wallet.ethereum.requests.ChainId
 import com.conradkramer.wallet.ethereum.requests.JsonRpcError
+import com.conradkramer.wallet.ethereum.requests.PersonalSign
 import com.conradkramer.wallet.ethereum.requests.Request
 import com.conradkramer.wallet.ethereum.requests.RequestAccounts
 import com.conradkramer.wallet.ethereum.requests.SendTransaction
 import com.conradkramer.wallet.ethereum.requests.Sign
+import com.conradkramer.wallet.ethereum.requests.SignRequest
 import com.conradkramer.wallet.ethereum.requests.SignTransaction
 import com.conradkramer.wallet.ethereum.requests.SignTypedData
 import com.conradkramer.wallet.ethereum.requests.Subscribe
@@ -75,41 +77,40 @@ internal class BrowserFrameSession(
             is StartSessionMessage -> {
                 logger.info { "Received start session message" }
             }
-            is RPCRequestMessage -> handleRPCMessage(message)
+            is RPCRequestMessage -> scope.launch { handleRPCMessage(message) }
             else -> {
                 logger.info { "Received unexpected message $message" }
             }
         }
     }
 
-    private fun handleRPCMessage(message: RPCRequestMessage) {
-        scope.launch {
-            try {
-                val request = try {
-                    message.request
-                } catch (e: Exception) {
-                    throw ProviderError.invalid
-                }
-
-                logger.info { "Received ${request.method} RPC request: $request" }
-
-                val response: JsonElement = when (request) {
-                    is RequestAccounts -> Request.encode(requestAccounts(message))
-                    is Accounts -> Request.encode(accounts(message))
-                    is Sign -> Request.encode(sign(request, message))
-                    is SignTypedData -> unsupported(request)
-                    is SignTransaction -> unsupported(request)
-                    is SendTransaction -> unsupported(request)
-                    is Subscribe -> unsupported(request)
-                    else -> proxy(request, message)
-                }
-                send(RPCResponseMessage(message, response))
-            } catch (error: JsonRpcError) {
-                send(RPCResponseMessage(message, error))
+    private suspend fun handleRPCMessage(message: RPCRequestMessage) {
+        try {
+            val request = try {
+                message.request
             } catch (e: Exception) {
-                logger.error { "Request ${message.id} failed: $e" }
-                send(RPCResponseMessage(message, JsonRpcError(0, "An unknown error occurred")))
+                throw ProviderError.invalid
             }
+
+            logger.info { "Received ${request.method} RPC request: $request" }
+
+            val response: JsonElement = when (request) {
+                is RequestAccounts -> Request.encode(requestAccounts(message))
+                is Accounts -> Request.encode(accounts(message))
+                is PersonalSign -> Request.encode(sign(request, message))
+                is Sign -> Request.encode(sign(request, message))
+                is SignTypedData -> unsupported(request)
+                is SignTransaction -> unsupported(request)
+                is SendTransaction -> unsupported(request)
+                is Subscribe -> unsupported(request)
+                else -> proxy(request, message)
+            }
+            send(RPCResponseMessage(message, response))
+        } catch (error: JsonRpcError) {
+            send(RPCResponseMessage(message, error))
+        } catch (e: Exception) {
+            logger.error { "Request ${message.id} failed: $e" }
+            send(RPCResponseMessage(message, JsonRpcError(0, "An unknown error occurred")))
         }
     }
 
@@ -147,7 +148,7 @@ internal class BrowserFrameSession(
             .map { it.ethereumAddress }
     }
 
-    private suspend fun sign(request: Sign, message: RPCRequestMessage): Data {
+    private suspend fun sign(request: SignRequest, message: RPCRequestMessage): Data {
         val account = accountStore.accounts.value
             .filter { permissionStore.state(it, message.domain) == BrowserPermissionStore.State.ALLOWED }
             .firstOrNull { it.ethereumAddress == request.address } ?: throw ProviderError.unauthorized(message.domain)
