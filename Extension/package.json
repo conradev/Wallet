@@ -11,7 +11,9 @@
     "@typescript-eslint/eslint-plugin": "^5.21.0",
     "@typescript-eslint/parser": "^5.21.0",
     "esbuild": "^0.14.36",
+    "esbuild-svelte": "^0.7.3",
     "eslint": "^8.14.0",
+    "svelte-preprocess": "^5.0.0",
     "typescript": "^4.6.3"
   },
   "scripts": {
@@ -20,8 +22,7 @@
     "lint": "eslint --ext .ts .",
     "compile": "tsc",
     "bundle": "node esbuild.config.mjs",
-    "resources": "cp -R resources/* build/",
-    "package": "npm run generate && npm run bundle && npm run resources",
-    "build": "npm run generate && npm run compile && npm run lint && npm run bundle && npm run resources"
+    "package": "npm run generate && npm run bundle",
+    "build": "npm run generate && npm run compile && npm run lint && npm run bundle"
   }
 }

@@ -1231,7 +1231,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "RESOURCES_DIR=\"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\n\nmkdir -p \"${RESOURCES_DIR}\"\ncp -R \"${PROJECT_DIR}/../Extension/build/\" \"${RESOURCES_DIR}\"\n";
+			shellScript = "RESOURCES_DIR=\"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\n\nmkdir -p \"${RESOURCES_DIR}\"\ncp -R \"${PROJECT_DIR}/../Extension/build/safari/\" \"${RESOURCES_DIR}\"\n";
 		};
 		D09974F0280F410A00AB4C1B /* Compile TypeScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1270,7 +1270,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "RESOURCES_DIR=\"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\n\nmkdir -p \"${RESOURCES_DIR}\"\ncp -R \"${PROJECT_DIR}/../Extension/build/\" \"${RESOURCES_DIR}\"\n";
+			shellScript = "RESOURCES_DIR=\"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\n\nmkdir -p \"${RESOURCES_DIR}\"\ncp -R \"${PROJECT_DIR}/../Extension/build/safari/\" \"${RESOURCES_DIR}\"\n";
 		};
 		D0B463EC27C362BE00481E0A /* Embed Kotlin Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

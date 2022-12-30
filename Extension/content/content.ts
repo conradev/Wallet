@@ -94,7 +94,8 @@ declare global {
 window.relay = new BackgroundWorkerMessageRelay()
 
 const script = document.createElement("script")
-script.src = runtime.getURL("page.js")
+script.type = "module"
+script.src = runtime.getURL("page/page.js")
 script.onload = () => {
     script.remove()
 };

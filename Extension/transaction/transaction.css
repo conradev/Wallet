@@ -1,0 +1,43 @@
+:root {
+  font-family: San Francisco, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+
+  color-scheme: light dark;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  touch-action: none;
+}
+
+body {
+  place-items: center;
+  overflow: hidden;
+  display:block;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: max(1em, env(safe-area-inset-left));
+  padding-right: max(1em, env(safe-area-inset-right));
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: max(1em, env(safe-area-inset-bottom));
+}
+
+#app {
+  height: 100%;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+}

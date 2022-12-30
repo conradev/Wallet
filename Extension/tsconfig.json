@@ -7,4 +7,9 @@
     "strictNullChecks": true,
     "noEmit": true
   },
+  "files": [
+    "page/page.ts",
+    "content/content.ts",
+    "background/background.ts",
+  ]
 }
