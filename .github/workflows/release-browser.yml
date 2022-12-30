@@ -1,0 +1,39 @@
+name: Build Browser Release
+on:
+  release:
+    types:
+    - created
+jobs:
+  build:
+    name: Build Browser Release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        ssh-key: ${{ secrets.DEPLOY_KEY }}
+        submodules: recursive
+    - name: Prepare Key
+      run: echo "${{ secrets.CHROME_KEY }}" > key.pem
+    - name: NPM Install
+      shell: bash
+      run: npm install
+    - name: Build
+      shell: bash
+      run: npm run --prefix Extension build
+    - name: Package Chrome Extension
+      shell: bash
+      run: npx crx pack Extension/build/chrome -p key.pem
+    - name: Package Firefox Extension
+      shell: bash
+      run: |
+        npx web-ext build -s Extension/build/firefox -n wallet.xpi
+        mv web-ext-artifacts/wallet.xpi Wallet.xpi
+    - name: Attach Artifact
+      uses: SierraSoftworks/gh-releases@v1.0.6
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        overwrite: 'false'
+        files: |
+          Wallet.crx
+          Wallet.xpi

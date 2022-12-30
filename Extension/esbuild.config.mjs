@@ -36,18 +36,21 @@ const webExtensionPlugin = {
                     }
                 } else {
                     delete manifest["key"]
-                    manifest["background"] = {
-                        page: "background/background.html",
-                        persistent: false,
-                    }
-                    extras.push("background/background.html")
                 }
 
                 if (build === "safari") {
                     delete manifest["browser_specific_settings"]["gecko"]
+                    manifest["background"] = {
+                        page: "background/background.html",
+                        persistent: false,
+                    }
                 }
                 if (build === "firefox") {
                     delete manifest["browser_specific_settings"]["safari"]
+                    manifest["background"] = {
+                        page: "background/background.html",
+                    }
+                    extras.push("background/background.html")
                 }
 
                 await fs.cp(join(path, "resources"), buildDir, { recursive: true })
