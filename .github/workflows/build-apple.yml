@@ -19,7 +19,7 @@ jobs:
           platform: iOS
           sdk-name: iphoneos
         - scheme: App (iOS)
-          destination: platform=iOS Simulator,OS=16.1,name=iPhone 14 Pro
+          destination: platform=iOS Simulator,OS=16.2,name=iPhone 14 Pro
           platform: iOS Simulator
           sdk-name: iphonesimulator
           xcode-unit-test: UnitTests
@@ -33,7 +33,7 @@ jobs:
           xcode-ui-test: UITests-macOS
           gradle-test: macosX64Test
     env:
-      DEVELOPER_DIR: /Applications/Xcode_14.1.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_14.2.app/Contents/Developer
     steps:
     - name: Checkout
       uses: actions/checkout@v3
