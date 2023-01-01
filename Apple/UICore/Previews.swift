@@ -12,9 +12,9 @@ private struct DeviceNamesKey: EnvironmentKey {
     static let defaultValue = ["Mac"]
 #else
     static let defaultValue = [
-        "iPhone SE (2nd generation)",
-        "iPhone 13 Pro Max",
-        "iPad Air (4th generation)"
+        "iPhone SE (3rd generation)",
+        "iPhone 14 Pro Max",
+        "iPad (10th generation)"
     ]
 #endif
 }
