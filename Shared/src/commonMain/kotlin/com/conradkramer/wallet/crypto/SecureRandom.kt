@@ -7,5 +7,5 @@ expect object SecureRandom {
 }
 
 internal fun SecureRandom.nextULong(): ULong {
-    return nextBytes(8).toULong()
+    return nextBytes(ULong.SIZE_BYTES).toULong()
 }

@@ -77,6 +77,7 @@ internal abstract class Request {
                 Call.method -> ::Call
                 ChainId.method -> ::ChainId
                 ClientVersion.method -> ::ClientVersion
+                GasPrice.method -> ::GasPrice
                 GetBalance.method -> ::GetBalance
                 GetPermissions.method -> ::GetPermissions
                 PersonalSign.method -> ::PersonalSign
