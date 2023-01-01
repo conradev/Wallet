@@ -91,7 +91,7 @@ internal data class Envelope1559(
         AccessList(base.values[8])
     ) {
         val fields = base.values.size
-        if (fields != 12) throw Exception("${Envelope1559::class} is expecting 12 fields, not $fields")
+        if (fields != 12) throw Exception("${this::class} is expecting 12 fields, not $fields")
     }
 
     constructor(data: ByteArray) : this(RLP.decode(data))
