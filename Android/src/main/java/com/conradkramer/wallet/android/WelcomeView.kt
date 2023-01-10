@@ -1,8 +1,11 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.conradkramer.wallet.android
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,8 +16,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.Input
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,29 +31,30 @@ import com.conradkramer.wallet.PreviewMocks
 import com.conradkramer.wallet.viewmodel.WelcomeViewModel
 
 @Composable
-fun WelcomeView(viewModel: WelcomeViewModel, onClick: (WelcomeViewModel.Option) -> Unit = { }) {
-    Surface(color = MaterialTheme.colorScheme.background) {
-        Column(
-            modifier = Modifier.fillMaxSize().padding(16.dp),
-            verticalArrangement = Arrangement.SpaceEvenly,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(viewModel.title, style = MaterialTheme.typography.headlineLarge)
-            Text(viewModel.subtitle, style = MaterialTheme.typography.headlineSmall)
-            viewModel.options.forEach { option ->
-                Button(onClick = { onClick(option) }) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Image(
-                            option.icon,
-                            null,
-                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary)
-                        )
-                        Spacer(Modifier.width(10.dp))
-                        Text(option.title, style = MaterialTheme.typography.titleLarge)
-                    }
+fun WelcomeView(padding: PaddingValues, viewModel: WelcomeViewModel, onClick: (WelcomeViewModel.Option) -> Unit = { }) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(padding)
+            .padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.SpaceEvenly,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(viewModel.title, style = MaterialTheme.typography.headlineLarge)
+        Text(viewModel.subtitle, style = MaterialTheme.typography.headlineSmall)
+        viewModel.options.forEach { option ->
+            Button(onClick = { onClick(option) }) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        option.icon,
+                        null,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary)
+                    )
+                    Spacer(Modifier.width(10.dp))
+                    Text(option.title, style = MaterialTheme.typography.titleLarge)
                 }
             }
         }
@@ -65,5 +70,7 @@ val WelcomeViewModel.Option.icon: ImageVector
 @Preview(showSystemUi = true)
 @Composable
 fun WelcomeViewPreview() {
-    WelcomeView(PreviewMocks.get())
+    Scaffold(
+        content = { padding -> WelcomeView(padding, PreviewMocks.get()) }
+    )
 }

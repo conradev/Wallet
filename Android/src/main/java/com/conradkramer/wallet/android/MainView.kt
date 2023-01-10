@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.conradkramer.wallet.android
 
 import androidx.compose.foundation.layout.padding
@@ -34,7 +36,6 @@ import com.conradkramer.wallet.viewmodel.MainViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlin.math.ln
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainView(mainViewModel: MainViewModel) {
     val navController = rememberNavController()
