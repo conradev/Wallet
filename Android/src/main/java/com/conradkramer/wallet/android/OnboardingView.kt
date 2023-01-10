@@ -1,5 +1,9 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.conradkramer.wallet.android
 
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavBackStackEntry
@@ -30,20 +34,22 @@ fun OnboardingView(scope: Scope) {
         navController.bind(onboardingViewModel)
     }
 
-    NavHost(
-        navController = navController,
-        startDestination = Screen.WELCOME.route
-    ) {
-        composable(Screen.WELCOME.route) {
-            WelcomeView(welcomeViewModel) { option ->
-                when (option) {
-                    WelcomeViewModel.Option.IMPORT_PHRASE -> onboardingViewModel.import()
-                    else -> {}
+    Scaffold { padding ->
+        NavHost(
+            navController = navController,
+            startDestination = Screen.WELCOME.route
+        ) {
+            composable(Screen.WELCOME.route) {
+                WelcomeView(padding, welcomeViewModel) { option ->
+                    when (option) {
+                        WelcomeViewModel.Option.IMPORT_PHRASE -> onboardingViewModel.import()
+                        else -> {}
+                    }
                 }
             }
-        }
-        composable(Screen.IMPORT_PHRASE.route) {
-            ImportView(importViewModel)
+            composable(Screen.IMPORT_PHRASE.route) {
+                ImportView(padding, importViewModel)
+            }
         }
     }
 }

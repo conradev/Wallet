@@ -59,14 +59,6 @@ android {
     namespace = "com.conradkramer.wallet.android"
 }
 
-kotlin {
-    sourceSets {
-        all {
-            languageSettings.optIn("kotlin.RequiresOptIn")
-        }
-    }
-}
-
 dependencies {
     implementation(project(":Shared"))
     implementation(files("../External/sqlite/sqlite-android-3400000.aar"))
