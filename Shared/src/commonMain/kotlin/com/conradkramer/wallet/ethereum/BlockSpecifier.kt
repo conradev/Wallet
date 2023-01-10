@@ -1,5 +1,6 @@
 package com.conradkramer.wallet.ethereum
 
+import com.conradkramer.wallet.bigint.BigInteger
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -49,6 +50,10 @@ internal sealed class BlockSpecifier {
         val EARLIEST: BlockSpecifier = Tag(BlockTag.EARLIEST)
         val LATEST: BlockSpecifier = Tag(BlockTag.LATEST)
         val PENDING: BlockSpecifier = Tag(BlockTag.PENDING)
+
+        fun fromNumber(number: Long): BlockSpecifier {
+            return Number(Quantity(BigInteger.valueOf(number)))
+        }
 
         fun fromString(string: String): BlockSpecifier {
             return BlockTag.fromString(string)?.let(::Tag)
