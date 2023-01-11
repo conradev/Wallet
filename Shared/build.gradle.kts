@@ -13,9 +13,6 @@ kotlin {
     android()
 
     sourceSets {
-        all {
-            languageSettings.optIn("kotlin.RequiresOptIn")
-        }
         val commonMain by getting {
             dependencies {
                 implementation(libs.bundles.kotlinx)

@@ -7,17 +7,13 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.encoding.Decoder
 
 internal class AddressSerializer : HexademicalValueSerializer<Address>() {
-    override fun deserialize(decoder: Decoder): Address {
-        return Address.fromString(decoder.decodeString())
-    }
+    override fun deserialize(decoder: Decoder) = Address.fromString(decoder.decodeString())
 }
 
 @Serializable(with = AddressSerializer::class)
 class Address(override val data: ByteArray) : HexadecimalValue() {
     init {
-        if (data.size != 20) {
-            throw Exception("Address is incorrect length")
-        }
+        if (data.size != 20) throw Exception("Address is incorrect length")
     }
 
     override fun toString(): String {
