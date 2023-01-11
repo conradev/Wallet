@@ -44,13 +44,13 @@ internal class RpcClient(val endpointUrl: Url, private val nativeLogger: KLogger
                 contentType(ContentType.Application.Json)
                 setBody(jsonRpcRequest)
             }
-            .body<JsonRpcResponse<Response>>()
+            .body<JsonRpcResponse>()
         nativeLogger.info { "Received response $jsonRpcResponse" }
 
         jsonRpcRequest.validate(jsonRpcResponse)
         jsonRpcResponse.error?.let { throw it }
 
-        return jsonRpcResponse.result
+        return jsonRpcResponse.result?.let { Request.decode(it) }
             ?: throw Exception("Result and error were both null")
     }
 }

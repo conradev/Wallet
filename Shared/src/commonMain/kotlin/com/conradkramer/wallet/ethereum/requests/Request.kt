@@ -100,6 +100,7 @@ internal abstract class Request {
         val json = Json {
             encodeDefaults = true
             explicitNulls = false
+            ignoreUnknownKeys = true
             serializersModule = SerializersModule {
                 include(serializersModuleOf(Address.serializer()))
                 include(serializersModuleOf(Quantity.serializer()))
@@ -108,6 +109,7 @@ internal abstract class Request {
                 include(serializersModuleOf(BlockTag.serializer()))
                 include(serializersModuleOf(Transaction.serializer()))
                 include(serializersModuleOf(JsonRpcRequest.serializer()))
+                include(serializersModuleOf(JsonRpcResponse.serializer()))
             }
         }
     }
@@ -137,14 +139,14 @@ internal data class JsonRpcError(
 ) : Throwable(message)
 
 @Serializable
-internal data class JsonRpcResponse<Result>(
+internal data class JsonRpcResponse(
     var jsonrpc: String = "2.0",
     var id: Int,
-    var result: Result? = null,
+    var result: JsonElement? = null,
     var error: JsonRpcError? = null
 )
 
-internal fun JsonRpcRequest.validate(response: JsonRpcResponse<*>) {
+internal fun JsonRpcRequest.validate(response: JsonRpcResponse) {
     if (this.id != response.id) {
         throw Exception("JSON RPC response ID does not match request ID")
     }
