@@ -47,7 +47,9 @@ abstract class HexadecimalValue : RLPRepresentable {
             constructor: (ByteArray) -> T
         ): T {
             if (!regex.matches(string)) {
-                throw Exception("\"$string\" is not the correct format for ${T::class.simpleName}")
+                throw Exception(
+                    "String of length ${string.length} is not the correct format for ${T::class.simpleName}"
+                )
             }
 
             return string
