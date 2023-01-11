@@ -81,6 +81,7 @@ internal abstract class Request {
                 GetBalance.method -> ::GetBalance
                 GetBlockByNumber.method -> ::GetBlockByNumber
                 GetPermissions.method -> ::GetPermissions
+                GetTransactionReceipt.method -> ::GetTransactionReceipt
                 PersonalSign.method -> ::PersonalSign
                 RequestAccounts.method -> ::RequestAccounts
                 RequestPermissions.method -> ::RequestPermissions
