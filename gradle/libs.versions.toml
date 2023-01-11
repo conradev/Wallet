@@ -19,6 +19,7 @@ koin = "3.2.2"
 kotlin = "1.8.0"
 kotlin-logging = "2.1.23"
 kotlinx-coroutines = "1.6.4"
+kotlinx-datetime = "0.4.0"
 kotlinx-serialization = "1.4.1"
 kotlinter = "3.12.0"
 ktor = "2.2.1"
@@ -59,6 +60,7 @@ material3 = { module = "androidx.compose.material3:material3", version.ref = "co
 
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 accompanist-systemui = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
@@ -72,7 +74,7 @@ accompanist = ["accompanist-systemui"]
 androidx = ["androidx-activity", "androidx-appcompat", "androidx-navigation", "compose-ui", "compose-ui-tooling-preview", "compose-foundation", "material-icons-core", "material-icons-extended", "material", "material3"]
 androidx-biometric = ["androidx-biometric", "androidx-biometric-ktx"]
 koin-android = ["koin-android", "koin-android-compose"]
-kotlinx = ["kotlinx-coroutines-core", "kotlinx-serialization-json"]
+kotlinx = ["kotlinx-coroutines-core", "kotlinx-datetime", "kotlinx-serialization-json"]
 ktor = ["ktor-client-core", "ktor-client-logging", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json"]
 ktor-android = ["ktor-client-okhttp"]
 
