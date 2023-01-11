@@ -10,8 +10,8 @@ internal abstract class Contract(
     val client: RpcClient,
     val address: Address
 ) {
-    protected suspend inline fun <reified T> invoke(invocation: Invocation): T {
-        return client.send(
+    protected suspend inline fun <T> invoke(invocation: Invocation, decode: (ByteArray) -> T): T {
+        val result: Data = client.send(
             Call(
                 Transaction(
                     to = address,
@@ -19,5 +19,6 @@ internal abstract class Contract(
                 )
             )
         )
+        return decode(result.data)
     }
 }

@@ -18,5 +18,5 @@ internal data class Invocation(
     private fun selector() = Keccak256Digest.digest("${name}${Type.Tuple(types)}".toByteArray())
         .copyOfRange(0, 4)
 
-    fun build() = selector() + arguments.reduce(ByteArray::plus)
+    fun build() = selector() + if (arguments.isNotEmpty()) arguments.reduce(ByteArray::plus) else ByteArray(0)
 }
