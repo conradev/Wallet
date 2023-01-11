@@ -12,6 +12,12 @@ class BrowserPermissionStore internal constructor(
         ALLOWED(1),
         DENIED(-1),
         UNSPECIFIED(0);
+
+        companion object {
+            private val mapping = State.values().associate { it.value to it }
+
+            operator fun invoke(value: Long) = mapping[value]
+        }
     }
 
     internal fun allow(account: Account, domain: String) {

@@ -24,8 +24,7 @@ val Database.Companion.FILE_NAME: String
     get() = "Wallet.db"
 
 private val stateAdapter = object : ColumnAdapter<BrowserPermissionStore.State, Long> {
-    override fun decode(databaseValue: Long) = BrowserPermissionStore.State.values()
-        .firstOrNull { it.value == databaseValue } ?: BrowserPermissionStore.State.UNSPECIFIED
+    override fun decode(databaseValue: Long) = BrowserPermissionStore.State(databaseValue) ?: BrowserPermissionStore.State.UNSPECIFIED
     override fun encode(value: BrowserPermissionStore.State) = value.value
 }
 
@@ -35,9 +34,8 @@ private val promptAdapter = object : ColumnAdapter<Prompt, String> {
 }
 
 private val coinAdapter = object : ColumnAdapter<Coin, Long> {
-    override fun decode(databaseValue: Long) =
-        Coin.values().first { it.number.toLong() == databaseValue }
-    override fun encode(value: Coin) = value.number.toLong()
+    override fun decode(databaseValue: Long) = Coin(databaseValue)
+    override fun encode(value: Coin) = value.number
 }
 
 private val encodedAdapter = object : ColumnAdapter<PublicKey, ByteArray> {
