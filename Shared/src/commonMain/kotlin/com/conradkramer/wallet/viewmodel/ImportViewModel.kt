@@ -2,7 +2,9 @@ package com.conradkramer.wallet.viewmodel
 
 import com.conradkramer.wallet.AccountStore
 import com.conradkramer.wallet.Mnemonic
+import org.koin.core.annotation.Factory
 
+@Factory
 class ImportViewModel internal constructor(private val accountStore: AccountStore) {
 
     val title = "Import Recovery Phrase"

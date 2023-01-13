@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.android.library)
     alias(libs.plugins.sqldelight)
     alias(libs.plugins.native.coroutines)
@@ -15,10 +16,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(libs.bundles.koin)
                 implementation(libs.bundles.kotlinx)
                 implementation(libs.bundles.ktor)
                 implementation(libs.sqldelight.coroutines)
-                implementation(libs.koin)
                 implementation(libs.kotlin.logging)
             }
         }
@@ -95,6 +96,10 @@ kotlin {
             }
         }
         nativeTargets.forEach {
+            getByName("${it.targetName}Main") {
+                kotlin.srcDir("${buildDir.absolutePath}/generated/ksp/${it.targetName}/${it.targetName}Main/kotlin")
+            }
+
             it.compilations.getByName("main") {
                 cinterops {
                     val gmp by creating
@@ -132,6 +137,11 @@ sqldelight {
         dialect("app.cash.sqldelight:sqlite-3-35-dialect:${libs.versions.sqldelight.get()}")
         packageName = "com.conradkramer.wallet.sql"
     }
+}
+
+dependencies {
+    listOf("kspMacosX64", "kspMacosArm64", "kspIosArm64", "kspIosX64", "kspIosSimulatorArm64", "kspAndroid")
+        .forEach { add(it, libs.koin.compiler) }
 }
 
 tasks.lintKotlinCommonMain {
