@@ -2,7 +2,9 @@ package com.conradkramer.wallet.viewmodel
 
 import com.conradkramer.wallet.AccountStore
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.koin.core.annotation.Factory
 
+@Factory
 class WelcomeViewModel internal constructor(private val accountStore: AccountStore) {
     enum class Option {
         IMPORT_PHRASE,

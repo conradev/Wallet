@@ -16,12 +16,14 @@ compose-ui = "1.3.2"
 material = "1.8.0-rc01"
 dbtools-room = "7.0.1"
 koin = "3.2.2"
+koin-annotations = "1.1.0"
 kotlin = "1.8.0"
 kotlin-logging = "2.1.23"
 kotlinx-coroutines = "1.6.4"
 kotlinx-datetime = "0.4.0"
 kotlinx-serialization = "1.4.1"
 kotlinter = "3.12.0"
+ksp = "1.8.0-1.0.8"
 ktor = "2.2.1"
 sqldelight = "2.0.0-alpha04"
 sl4f-android = "1.7.36"
@@ -29,6 +31,8 @@ native-coroutines = "0.13.3"
 
 [libraries]
 koin = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+koin-annotations = { group = "io.insert-koin", name = "koin-annotations", version.ref = "koin-annotations" }
+koin-compiler = { group = "io.insert-koin", name = "koin-ksp-compiler", version.ref = "koin-annotations" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-android-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
@@ -73,6 +77,7 @@ slf4j-android = { module = "org.slf4j:slf4j-android", version.ref = "sl4f-androi
 accompanist = ["accompanist-systemui"]
 androidx = ["androidx-activity", "androidx-appcompat", "androidx-navigation", "compose-ui", "compose-ui-tooling-preview", "compose-foundation", "material-icons-core", "material-icons-extended", "material", "material3"]
 androidx-biometric = ["androidx-biometric", "androidx-biometric-ktx"]
+koin = ["koin", "koin-annotations"]
 koin-android = ["koin-android", "koin-android-compose"]
 kotlinx = ["kotlinx-coroutines-core", "kotlinx-datetime", "kotlinx-serialization-json"]
 ktor = ["ktor-client-core", "ktor-client-logging", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json"]
@@ -85,5 +90,6 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 native-coroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "native-coroutines" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }

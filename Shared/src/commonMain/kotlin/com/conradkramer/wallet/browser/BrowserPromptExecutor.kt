@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.merge
 import mu.KLogger
+import org.koin.core.annotation.Factory
 
+@Factory
 internal class BrowserPromptExecutor constructor(
     private val database: Database,
     private val logger: KLogger

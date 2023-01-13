@@ -3,7 +3,9 @@ package com.conradkramer.wallet.viewmodel
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import org.koin.core.annotation.Factory
 
+@Factory
 class OnboardingViewModel {
     enum class Screen {
         WELCOME,

@@ -6,8 +6,10 @@ import com.conradkramer.wallet.mapState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.koin.core.annotation.Factory
 import kotlin.coroutines.EmptyCoroutineContext
 
+@Factory
 class MainViewModel internal constructor(private val accountStore: AccountStore) {
     enum class Tab {
         BALANCE,
