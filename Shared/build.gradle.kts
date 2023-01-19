@@ -97,7 +97,7 @@ kotlin {
         }
         nativeTargets.forEach {
             getByName("${it.targetName}Main") {
-                kotlin.srcDir("${buildDir.absolutePath}/generated/ksp/${it.targetName}/${it.targetName}Main/kotlin")
+
             }
 
             it.compilations.getByName("main") {
@@ -145,10 +145,9 @@ dependencies {
 }
 
 tasks.lintKotlinCommonMain {
-    exclude("com/conradkramer/wallet/data/**/*.kt")
-    exclude("com/conradkramer/wallet/sql/**/*.kt")
+    exclude { fte -> fte.file.absolutePath.contains("/generated/") }
 }
+
 tasks.formatKotlinCommonMain {
-    exclude("com/conradkramer/wallet/data/**/*.kt")
-    exclude("com/conradkramer/wallet/sql/**/*.kt")
+    exclude { fte -> fte.file.absolutePath.contains("/generated/") }
 }

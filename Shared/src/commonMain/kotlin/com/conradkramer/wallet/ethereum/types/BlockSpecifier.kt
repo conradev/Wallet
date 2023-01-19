@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.ethereum
+package com.conradkramer.wallet.ethereum.types
 
 import com.conradkramer.wallet.bigint.BigInteger
 import kotlinx.serialization.KSerializer
@@ -33,7 +33,7 @@ internal enum class BlockTag {
     }
 }
 
-@Serializable(with = BlockSpecifierSerializer::class)
+@Serializable(BlockSpecifierSerializer::class)
 internal sealed class BlockSpecifier {
     data class Number(val quantity: Quantity) : BlockSpecifier() {
         override fun toString(): String {
@@ -56,7 +56,7 @@ internal sealed class BlockSpecifier {
         }
 
         fun fromString(string: String): BlockSpecifier {
-            return BlockTag.fromString(string)?.let(::Tag)
+            return BlockTag.fromString(string)?.let(BlockSpecifier::Tag)
                 ?: Number(Quantity.fromString(string))
         }
     }

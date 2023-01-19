@@ -1,5 +1,5 @@
 CREATE TABLE eth_block (
-    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
     number INTEGER NOT NULL,
     timestamp TEXT AS kotlinx.datetime.Instant NOT NULL,
 
@@ -7,35 +7,35 @@ CREATE TABLE eth_block (
 );
 
 CREATE TABLE eth_transaction (
-    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
     block INTEGER NOT NULL,
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
     tx_index INTEGER NOT NULL,
-    hash BLOB AS com.conradkramer.wallet.ethereum.Data UNIQUE NOT NULL,
-    [from] BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
-    [to] BLOB AS com.conradkramer.wallet.ethereum.Address,
-    value BLOB AS com.conradkramer.wallet.ethereum.Quantity NOT NULL,
+    hash BLOB AS com.conradkramer.wallet.ethereum.types.Data UNIQUE NOT NULL,
+    [from] BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
+    [to] BLOB AS com.conradkramer.wallet.ethereum.types.Address,
+    value BLOB AS com.conradkramer.wallet.ethereum.types.Quantity NOT NULL,
 
     PRIMARY KEY (chain_id, block, tx_index),
     FOREIGN KEY (chain_id, block) REFERENCES eth_block(chain_id, number) ON DELETE CASCADE
 );
 
 CREATE TABLE eth_token_transfer (
-    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
     block INTEGER NOT NULL,
     tx_index INTEGER NOT NULL,
     log_index INTEGER NOT NULL,
-    contract BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
-    [from] BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
-    [to] BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
-    value BLOB AS com.conradkramer.wallet.ethereum.Quantity,
+    contract BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
+    [from] BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
+    [to] BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
+    value BLOB AS com.conradkramer.wallet.ethereum.types.Quantity,
 
     PRIMARY KEY (chain_id, block, tx_index, log_index)
 );
 
 CREATE TABLE erc20_contract (
-    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
-    address BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
-    total_supply BLOB AS com.conradkramer.wallet.ethereum.Quantity NOT NULL,
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
+    address BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
+    total_supply BLOB AS com.conradkramer.wallet.ethereum.types.Quantity NOT NULL,
     symbol TEXT,
     decimals INTEGER,
     name TEXT,
@@ -44,20 +44,20 @@ CREATE TABLE erc20_contract (
 );
 
 CREATE TABLE erc721_contract (
-    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
-    address BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
+    address BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
     symbol TEXT,
     name TEXT,
-    total_supply BLOB AS com.conradkramer.wallet.ethereum.Quantity,
+    total_supply BLOB AS com.conradkramer.wallet.ethereum.types.Quantity,
 
     PRIMARY KEY (chain_id, address)
 );
 
 CREATE TABLE erc721_token (
-    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
-    contract BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
-    id BLOB AS com.conradkramer.wallet.ethereum.Quantity NOT NULL,
-    owner BLOB AS com.conradkramer.wallet.ethereum.Address,
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
+    contract BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
+    id BLOB AS com.conradkramer.wallet.ethereum.types.Quantity NOT NULL,
+    owner BLOB AS com.conradkramer.wallet.ethereum.types.Address,
     name TEXT,
     description TEXT,
     image TEXT,
@@ -70,10 +70,10 @@ CREATE TABLE erc721_token (
 );
 
 CREATE TABLE erc20_balance (
-    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
-    contract BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
-    address BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
-    balance BLOB AS com.conradkramer.wallet.ethereum.Quantity NOT NULL,
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
+    contract BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
+    address BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
+    balance BLOB AS com.conradkramer.wallet.ethereum.types.Quantity NOT NULL,
     block INTEGER NOT NULL,
 
     PRIMARY KEY (chain_id, address, contract),
@@ -81,9 +81,9 @@ CREATE TABLE erc20_balance (
 );
 
 CREATE TABLE ens_lookup (
-    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
     name TEXT NOT NULL,
-    address BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
+    address BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
     block INTEGER NOT NULL,
     avatar TEXT,
     description TEXT,
@@ -98,8 +98,8 @@ CREATE TABLE ens_lookup (
 );
 
 CREATE TABLE ens_reverse_lookup (
-    chain_id INTEGER AS com.conradkramer.wallet.ethereum.Chain NOT NULL,
-    address BLOB AS com.conradkramer.wallet.ethereum.Address NOT NULL,
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
+    address BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
     name TEXT NOT NULL,
     block INTEGER NOT NULL,
 

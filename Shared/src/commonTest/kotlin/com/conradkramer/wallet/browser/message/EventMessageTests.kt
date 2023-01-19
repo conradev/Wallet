@@ -2,7 +2,7 @@ package com.conradkramer.wallet.browser.message
 
 import com.conradkramer.wallet.bigint.BigInteger
 import com.conradkramer.wallet.browser.event.ConnectEvent
-import com.conradkramer.wallet.ethereum.Quantity
+import com.conradkramer.wallet.ethereum.types.Quantity
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

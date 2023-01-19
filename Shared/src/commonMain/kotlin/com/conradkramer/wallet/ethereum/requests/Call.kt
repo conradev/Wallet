@@ -1,7 +1,7 @@
 package com.conradkramer.wallet.ethereum.requests
 
-import com.conradkramer.wallet.ethereum.BlockSpecifier
-import com.conradkramer.wallet.ethereum.Transaction
+import com.conradkramer.wallet.ethereum.types.BlockSpecifier
+import com.conradkramer.wallet.ethereum.types.Transaction
 import kotlinx.serialization.json.JsonElement
 
 internal data class Call(

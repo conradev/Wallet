@@ -1,7 +1,7 @@
 package com.conradkramer.wallet.ethereum.abi
 
-import com.conradkramer.wallet.ethereum.Address
 import com.conradkramer.wallet.ethereum.RpcClient
+import com.conradkramer.wallet.ethereum.types.Address
 
 internal class ERC20(client: RpcClient, address: Address) : Contract(client, address) {
     suspend fun totalSupply() = invoke(Invocation("totalSupply"), Type.UInt()::decode)

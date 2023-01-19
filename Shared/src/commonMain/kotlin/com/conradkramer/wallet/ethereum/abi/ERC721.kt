@@ -1,8 +1,8 @@
 package com.conradkramer.wallet.ethereum.abi
 
 import com.conradkramer.wallet.bigint.BigInteger
-import com.conradkramer.wallet.ethereum.Address
 import com.conradkramer.wallet.ethereum.RpcClient
+import com.conradkramer.wallet.ethereum.types.Address
 
 internal class ERC721Metadata(client: RpcClient, address: Address) : Contract(client, address) {
     suspend fun name() = invoke(Invocation("name"), Type.String::decode)

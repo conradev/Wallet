@@ -6,9 +6,7 @@ import java.text.NumberFormat
 import java.util.Locale
 
 internal actual class NumberFormatter private constructor(private val inner: NumberFormat) {
-    actual fun string(number: Double): String {
-        return inner.format(number)
-    }
+    actual fun string(number: Double) = inner.format(number)
 
     actual companion object {
         actual val currency = forLocale()
