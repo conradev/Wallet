@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.ethereum
+package com.conradkramer.wallet.ethereum.types
 
 import com.conradkramer.wallet.crypto.Keccak256Digest
 import com.conradkramer.wallet.encoding.encodeHex
@@ -10,7 +10,7 @@ internal class AddressSerializer : HexademicalValueSerializer<Address>() {
     override fun deserialize(decoder: Decoder) = Address.fromString(decoder.decodeString())
 }
 
-@Serializable(with = AddressSerializer::class)
+@Serializable(AddressSerializer::class)
 class Address(override val data: ByteArray) : HexadecimalValue() {
     init {
         if (data.size != 20) throw Exception("Address is incorrect length")

@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.ethereum
+package com.conradkramer.wallet.ethereum.types
 
 import com.conradkramer.wallet.crypto.Keccak256Digest
 import com.conradkramer.wallet.encoding.toUInt
@@ -27,14 +27,10 @@ class LogBloomFilter(val data: ByteArray) {
             }
     }
 
-    fun contains(data: ByteArray): Boolean {
-        return contains(LogBloomFilter().also { it.insert(data) })
-    }
+    fun contains(data: ByteArray) = contains(LogBloomFilter().also { it.insert(data) })
 
-    fun contains(filter: LogBloomFilter): Boolean {
-        return data
-            .zip(filter.data)
-            .map { (it.first and it.second) == it.second }
-            .reduce { first, second -> first and second }
-    }
+    fun contains(filter: LogBloomFilter) = data
+        .zip(filter.data)
+        .map { (it.first and it.second) == it.second }
+        .reduce { first, second -> first and second }
 }

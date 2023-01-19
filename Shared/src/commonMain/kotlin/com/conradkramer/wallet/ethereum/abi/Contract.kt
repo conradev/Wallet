@@ -1,10 +1,10 @@
 package com.conradkramer.wallet.ethereum.abi
 
-import com.conradkramer.wallet.ethereum.Address
-import com.conradkramer.wallet.ethereum.Data
 import com.conradkramer.wallet.ethereum.RpcClient
-import com.conradkramer.wallet.ethereum.Transaction
 import com.conradkramer.wallet.ethereum.requests.Call
+import com.conradkramer.wallet.ethereum.types.Address
+import com.conradkramer.wallet.ethereum.types.Data
+import com.conradkramer.wallet.ethereum.types.Transaction
 
 internal abstract class Contract(
     val client: RpcClient,

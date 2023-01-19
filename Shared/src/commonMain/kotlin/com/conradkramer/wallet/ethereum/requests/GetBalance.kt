@@ -1,7 +1,7 @@
 package com.conradkramer.wallet.ethereum.requests
 
-import com.conradkramer.wallet.ethereum.Address
-import com.conradkramer.wallet.ethereum.BlockSpecifier
+import com.conradkramer.wallet.ethereum.types.Address
+import com.conradkramer.wallet.ethereum.types.BlockSpecifier
 import kotlinx.serialization.json.JsonElement
 
 internal data class GetBalance(

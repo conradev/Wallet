@@ -1,8 +1,8 @@
 package com.conradkramer.wallet.browser.message
 
-import com.conradkramer.wallet.ethereum.Address
 import com.conradkramer.wallet.ethereum.requests.GetBalance
 import com.conradkramer.wallet.ethereum.requests.JsonRpcError
+import com.conradkramer.wallet.ethereum.types.Address
 import kotlinx.serialization.json.JsonPrimitive
 import kotlin.test.Test
 import kotlin.test.assertEquals

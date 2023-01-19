@@ -4,8 +4,8 @@ package com.conradkramer.wallet.browser.prompt
 
 import com.conradkramer.wallet.browser.message.Frame
 import com.conradkramer.wallet.browser.message.Session
-import com.conradkramer.wallet.ethereum.Address
-import com.conradkramer.wallet.ethereum.Data
+import com.conradkramer.wallet.ethereum.types.Address
+import com.conradkramer.wallet.ethereum.types.Data
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString

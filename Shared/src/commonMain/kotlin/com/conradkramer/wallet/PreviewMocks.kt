@@ -4,7 +4,7 @@ import com.conradkramer.wallet.browser.message.Frame
 import com.conradkramer.wallet.browser.message.Session
 import com.conradkramer.wallet.browser.prompt.PermissionPrompt
 import com.conradkramer.wallet.browser.prompt.SignDataPrompt
-import com.conradkramer.wallet.ethereum.Data
+import com.conradkramer.wallet.ethereum.types.Data
 import com.conradkramer.wallet.viewmodel.PermissionPromptViewModel
 import com.conradkramer.wallet.viewmodel.SignDataPromptViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

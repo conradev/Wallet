@@ -5,7 +5,7 @@ package com.conradkramer.wallet
 import com.conradkramer.wallet.crypto.PublicKey
 import com.conradkramer.wallet.crypto.ethereumAddress
 import com.conradkramer.wallet.data.Public_key
-import com.conradkramer.wallet.ethereum.Address
+import com.conradkramer.wallet.ethereum.types.Address
 
 internal data class Account(val id: String, private val keys: Map<Coin, List<PublicKey>>) {
     constructor(id: String, index: Long, keys: List<PublicKeyRecord>) : this(

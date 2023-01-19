@@ -2,7 +2,7 @@ package com.conradkramer.wallet.ethereum.abi
 
 import com.conradkramer.wallet.bigint.BigInteger
 import com.conradkramer.wallet.encoding.toByteArray
-import com.conradkramer.wallet.ethereum.Quantity
+import com.conradkramer.wallet.ethereum.types.Quantity
 import io.ktor.utils.io.core.ByteOrder
 import kotlinx.serialization.Serializable
 

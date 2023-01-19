@@ -1,6 +1,6 @@
 package com.conradkramer.wallet.browser.event
 
-import com.conradkramer.wallet.ethereum.Quantity
+import com.conradkramer.wallet.ethereum.types.Quantity
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json

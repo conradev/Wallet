@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.ethereum
+package com.conradkramer.wallet.ethereum.types
 
 import com.conradkramer.wallet.encoding.encodeHex
 import kotlinx.serialization.Serializable
@@ -8,7 +8,7 @@ internal class DataSerializer : HexademicalValueSerializer<Data>() {
     override fun deserialize(decoder: Decoder) = Data.fromString(decoder.decodeString())
 }
 
-@Serializable(with = DataSerializer::class)
+@Serializable(DataSerializer::class)
 class Data(override val data: ByteArray) : HexadecimalValue() {
 
     constructor() : this(ByteArray(0))

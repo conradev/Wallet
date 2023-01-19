@@ -1,6 +1,6 @@
 package com.conradkramer.wallet.ethereum.requests
 
-import com.conradkramer.wallet.ethereum.Address
+import com.conradkramer.wallet.ethereum.types.Address
 import kotlinx.serialization.json.JsonElement
 
 internal data class SignTypedData(

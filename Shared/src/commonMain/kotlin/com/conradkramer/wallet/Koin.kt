@@ -27,7 +27,7 @@ import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.bind
 import org.koin.dsl.koinApplication
 import org.koin.dsl.module
-import org.koin.ksp.generated.*
+import org.koin.ksp.generated.module
 
 @Module
 @ComponentScan("com.conradkramer.wallet")

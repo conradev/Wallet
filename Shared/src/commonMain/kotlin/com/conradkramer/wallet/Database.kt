@@ -16,10 +16,10 @@ import com.conradkramer.wallet.data.Eth_block
 import com.conradkramer.wallet.data.Eth_token_transfer
 import com.conradkramer.wallet.data.Eth_transaction
 import com.conradkramer.wallet.data.Public_key
-import com.conradkramer.wallet.ethereum.Address
-import com.conradkramer.wallet.ethereum.Chain
-import com.conradkramer.wallet.ethereum.Data
-import com.conradkramer.wallet.ethereum.Quantity
+import com.conradkramer.wallet.ethereum.types.Address
+import com.conradkramer.wallet.ethereum.types.Chain
+import com.conradkramer.wallet.ethereum.types.Data
+import com.conradkramer.wallet.ethereum.types.Quantity
 import com.conradkramer.wallet.sql.Database
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -35,7 +35,8 @@ val Database.Companion.FILE_NAME: String
     get() = "Wallet.db"
 
 private val stateAdapter = object : ColumnAdapter<BrowserPermissionStore.State, Long> {
-    override fun decode(databaseValue: Long) = BrowserPermissionStore.State(databaseValue) ?: BrowserPermissionStore.State.UNSPECIFIED
+    override fun decode(databaseValue: Long) =
+        BrowserPermissionStore.State(databaseValue) ?: BrowserPermissionStore.State.UNSPECIFIED
     override fun encode(value: BrowserPermissionStore.State) = value.value
 }
 
@@ -81,7 +82,7 @@ private val chainAdapter = object : ColumnAdapter<Chain, Long> {
     override fun encode(value: Chain) = value.id
 }
 
-internal fun Database.Companion.withAdapters(driver: SqlDriver): Database {
+internal fun Database.Companion.invoke(driver: SqlDriver): Database {
     return Database(
         driver,
         browser_permissionAdapter = Browser_permission.Adapter(

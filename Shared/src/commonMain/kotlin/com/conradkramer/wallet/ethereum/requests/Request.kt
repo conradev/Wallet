@@ -1,11 +1,11 @@
 package com.conradkramer.wallet.ethereum.requests
 
-import com.conradkramer.wallet.ethereum.Address
-import com.conradkramer.wallet.ethereum.BlockSpecifier
-import com.conradkramer.wallet.ethereum.BlockTag
-import com.conradkramer.wallet.ethereum.Data
-import com.conradkramer.wallet.ethereum.Quantity
-import com.conradkramer.wallet.ethereum.Transaction
+import com.conradkramer.wallet.ethereum.types.Address
+import com.conradkramer.wallet.ethereum.types.BlockSpecifier
+import com.conradkramer.wallet.ethereum.types.BlockTag
+import com.conradkramer.wallet.ethereum.types.Data
+import com.conradkramer.wallet.ethereum.types.Quantity
+import com.conradkramer.wallet.ethereum.types.Transaction
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json

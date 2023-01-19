@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.ethereum
+package com.conradkramer.wallet.ethereum.types
 
 import com.conradkramer.wallet.encoding.decodeHex
 import kotlin.test.Test

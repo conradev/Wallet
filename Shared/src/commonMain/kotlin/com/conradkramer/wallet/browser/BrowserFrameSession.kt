@@ -12,9 +12,6 @@ import com.conradkramer.wallet.browser.message.Session
 import com.conradkramer.wallet.browser.message.StartSessionMessage
 import com.conradkramer.wallet.browser.prompt.PermissionPrompt
 import com.conradkramer.wallet.browser.prompt.SignDataPrompt
-import com.conradkramer.wallet.ethereum.Address
-import com.conradkramer.wallet.ethereum.Data
-import com.conradkramer.wallet.ethereum.Quantity
 import com.conradkramer.wallet.ethereum.RpcClient
 import com.conradkramer.wallet.ethereum.requests.Accounts
 import com.conradkramer.wallet.ethereum.requests.ChainId
@@ -28,6 +25,9 @@ import com.conradkramer.wallet.ethereum.requests.SignRequest
 import com.conradkramer.wallet.ethereum.requests.SignTransaction
 import com.conradkramer.wallet.ethereum.requests.SignTypedData
 import com.conradkramer.wallet.ethereum.requests.Subscribe
+import com.conradkramer.wallet.ethereum.types.Address
+import com.conradkramer.wallet.ethereum.types.Data
+import com.conradkramer.wallet.ethereum.types.Quantity
 import io.ktor.http.ParametersBuilder
 import io.ktor.http.URLBuilder
 import io.ktor.http.Url

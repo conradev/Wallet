@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.ethereum
+package com.conradkramer.wallet.ethereum.types
 
 import com.conradkramer.wallet.encoding.RLP
 import com.conradkramer.wallet.encoding.RLPRepresentable
@@ -12,9 +12,7 @@ import kotlinx.serialization.encoding.Encoder
 internal abstract class HexademicalValueSerializer<T : HexadecimalValue> : KSerializer<T> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("HexademicalValue", PrimitiveKind.STRING)
 
-    override fun serialize(encoder: Encoder, value: T) {
-        encoder.encodeString(value.toString())
-    }
+    override fun serialize(encoder: Encoder, value: T) = encoder.encodeString(value.toString())
 }
 
 abstract class HexadecimalValue : RLPRepresentable {

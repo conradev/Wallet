@@ -1,7 +1,7 @@
 package com.conradkramer.wallet.browser.message
 
-import com.conradkramer.wallet.ethereum.Address
 import com.conradkramer.wallet.ethereum.requests.GetBalance
+import com.conradkramer.wallet.ethereum.types.Address
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

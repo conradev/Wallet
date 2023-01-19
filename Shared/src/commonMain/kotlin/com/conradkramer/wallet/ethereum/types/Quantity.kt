@@ -1,4 +1,4 @@
-package com.conradkramer.wallet.ethereum
+package com.conradkramer.wallet.ethereum.types
 
 import com.conradkramer.wallet.bigint.BigInteger
 import com.conradkramer.wallet.encoding.encodeHex
@@ -9,7 +9,7 @@ internal class QuantitySerializer : HexademicalValueSerializer<Quantity>() {
     override fun deserialize(decoder: Decoder) = Quantity.fromString(decoder.decodeString())
 }
 
-@Serializable(with = QuantitySerializer::class)
+@Serializable(QuantitySerializer::class)
 class Quantity(val value: BigInteger) : HexadecimalValue() {
 
     constructor(data: ByteArray) : this(BigInteger(data))

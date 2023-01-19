@@ -1,7 +1,7 @@
 package com.conradkramer.wallet.encoding
 
-import com.conradkramer.wallet.ethereum.Data
-import com.conradkramer.wallet.ethereum.Quantity
+import com.conradkramer.wallet.ethereum.types.Data
+import com.conradkramer.wallet.ethereum.types.Quantity
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
