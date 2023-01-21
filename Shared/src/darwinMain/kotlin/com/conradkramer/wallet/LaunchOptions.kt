@@ -14,7 +14,8 @@ internal actual fun launchOptionsForCurrentProcess(): LaunchOptions {
         .toTypedArray()
 
     val parser = ArgParser(Wallet.localizedAppName, skipExtraArguments = true)
-    val reset by parser.option(ArgType.Boolean, fullName = "reset").default(default.reset)
+    val resetAccounts by parser.option(ArgType.Boolean, fullName = "reset-accounts").default(default.resetAccounts)
+    val resetIndex by parser.option(ArgType.Boolean, fullName = "reset-index").default(default.resetIndex)
     parser.parse(arguments)
-    return LaunchOptions(reset)
+    return LaunchOptions(resetAccounts, resetIndex)
 }

@@ -69,9 +69,9 @@ internal fun startKoinShared(declaration: KoinAppDeclaration): KoinApplication {
         modules(platformModule(), sharedModule())
     }
 
-    if (LaunchOptions.current.reset) {
-        application.koin.get<AccountStore>().reset()
-    }
+    val options = LaunchOptions.current
+    if (options.resetAccounts) application.koin.get<AccountStore>().reset()
+    if (options.resetIndex) application.koin.get<Database>().ethereumQueries.reset()
 
     return application
 }

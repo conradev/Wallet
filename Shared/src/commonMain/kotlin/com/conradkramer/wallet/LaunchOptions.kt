@@ -1,10 +1,11 @@
 package com.conradkramer.wallet
 
 internal data class LaunchOptions(
-    val reset: Boolean
+    val resetAccounts: Boolean,
+    val resetIndex: Boolean
 ) {
     companion object {
-        val default = LaunchOptions(false)
+        val default = LaunchOptions(false, false)
         val current = launchOptionsForCurrentProcess()
     }
 }
