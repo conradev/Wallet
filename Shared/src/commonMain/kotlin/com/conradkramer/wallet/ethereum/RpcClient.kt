@@ -19,25 +19,41 @@ import mu.KLogger
 import kotlin.math.absoluteValue
 import kotlin.random.Random
 
-internal class RpcClient(val endpointUrl: Url, private val nativeLogger: KLogger) {
+internal class RpcClient(
+    val endpointUrl: Url,
+    private val nativeLogger: KLogger
+) {
 
     val client = HttpClient {
         install(Logging) {
-            logger = object : Logger {
-                override fun log(message: String) {
-                    nativeLogger.info { message }
-                }
-            }
-            level = LogLevel.INFO
+            klogger(nativeLogger)
+            level = LogLevel.NONE
         }
         install(ContentNegotiation) {
             json(Request.json)
         }
     }
 
+    suspend inline fun <reified Response> sendAndRetry(request: Request, maximumRetries: Int = 5): Response {
+        var retries = maximumRetries
+        while (true) {
+            try {
+                return send(request)
+            } catch (e: Exception) {
+                if (retries-- > 0) {
+                    nativeLogger.error { "${request.method} request failed: $e, retrying" }
+                } else {
+                    throw e
+                }
+            }
+        }
+    }
+
     suspend inline fun <reified Response> send(request: Request): Response {
+        /**
+         * We need the absolute value because Cloudflare's API does not like negative IDs
+         */
         val jsonRpcRequest = request.jsonRpcRequest(Random.nextInt().absoluteValue)
-        nativeLogger.info { "Sending request $jsonRpcRequest" }
 
         val jsonRpcResponse = client
             .post(endpointUrl) {
@@ -45,7 +61,6 @@ internal class RpcClient(val endpointUrl: Url, private val nativeLogger: KLogger
                 setBody(jsonRpcRequest)
             }
             .body<JsonRpcResponse>()
-        nativeLogger.info { "Received response $jsonRpcResponse" }
 
         jsonRpcRequest.validate(jsonRpcResponse)
         jsonRpcResponse.error?.let { throw it }
@@ -53,4 +68,8 @@ internal class RpcClient(val endpointUrl: Url, private val nativeLogger: KLogger
         return jsonRpcResponse.result?.let { Request.decode(it) }
             ?: throw Exception("Result and error were both null")
     }
+}
+
+fun Logging.Config.klogger(klogger: KLogger) {
+    logger = object : Logger { override fun log(message: String) = klogger.info { message } }
 }
