@@ -1,10 +1,7 @@
-package com.conradkramer.wallet.ethereum
+package com.conradkramer.wallet.ethereum.abi
 
 import com.conradkramer.wallet.encoding.decodeHex
 import com.conradkramer.wallet.encoding.encodeHex
-import com.conradkramer.wallet.ethereum.abi.Invocation
-import com.conradkramer.wallet.ethereum.abi.Type
-import com.conradkramer.wallet.ethereum.abi.encode
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

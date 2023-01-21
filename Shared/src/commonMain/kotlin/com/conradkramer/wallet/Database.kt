@@ -4,16 +4,21 @@ import app.cash.sqldelight.ColumnAdapter
 import app.cash.sqldelight.Query
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.db.SqlDriver
+import com.conradkramer.wallet.bigint.BigInteger
 import com.conradkramer.wallet.browser.BrowserPermissionStore
 import com.conradkramer.wallet.browser.prompt.Prompt
 import com.conradkramer.wallet.crypto.PublicKey
 import com.conradkramer.wallet.data.Account
 import com.conradkramer.wallet.data.Browser_permission
 import com.conradkramer.wallet.data.Browser_prompt
+import com.conradkramer.wallet.data.Erc20_balance
 import com.conradkramer.wallet.data.Erc20_contract
 import com.conradkramer.wallet.data.Erc721_contract
+import com.conradkramer.wallet.data.Eth_account_transaction
+import com.conradkramer.wallet.data.Eth_balance
 import com.conradkramer.wallet.data.Eth_block
-import com.conradkramer.wallet.data.Eth_token_transfer
+import com.conradkramer.wallet.data.Eth_log
+import com.conradkramer.wallet.data.Eth_receipt
 import com.conradkramer.wallet.data.Eth_transaction
 import com.conradkramer.wallet.data.Public_key
 import com.conradkramer.wallet.ethereum.types.Address
@@ -29,7 +34,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.Instant
 
 typealias PublicKeyRecord = Public_key
-typealias AccountRecord = Account
+internal typealias AccountRecord = Account
 
 val Database.Companion.FILE_NAME: String
     get() = "Wallet.db"
@@ -57,7 +62,9 @@ private val publicKeyAdapter = object : ColumnAdapter<PublicKey, ByteArray> {
 
 private val dataAdapter = object : ColumnAdapter<Data, ByteArray> {
     override fun decode(databaseValue: ByteArray) = Data(databaseValue)
-    override fun encode(value: Data) = value.data
+
+    // https://github.com/touchlab/SQLiter/pull/92
+    override fun encode(value: Data) = if (value.data.isEmpty()) byteArrayOf(0) else value.data
 }
 
 private val addressAdapter = object : ColumnAdapter<Address, ByteArray> {
@@ -68,8 +75,13 @@ private val addressAdapter = object : ColumnAdapter<Address, ByteArray> {
 private val quantityAdapter = object : ColumnAdapter<Quantity, ByteArray> {
     override fun decode(databaseValue: ByteArray) = Quantity(databaseValue)
 
-    // SQLiter seems to crash if we insert empty byte arrays
-    override fun encode(value: Quantity) = if (value.data.isEmpty()) ByteArray(1) else value.data
+    // https://github.com/touchlab/SQLiter/pull/92
+    override fun encode(value: Quantity) = if (value.data.isEmpty()) byteArrayOf(0) else value.data
+}
+
+private val quantityLongAdapter = object : ColumnAdapter<Quantity, Long> {
+    override fun decode(databaseValue: Long) = Quantity(BigInteger.valueOf(databaseValue))
+    override fun encode(value: Quantity) = value.toLong()
 }
 
 private val timestampAdapter = object : ColumnAdapter<Instant, String> {
@@ -91,6 +103,12 @@ internal fun Database.Companion.invoke(driver: SqlDriver): Database {
         browser_promptAdapter = Browser_prompt.Adapter(
             promptAdapter = promptAdapter
         ),
+        erc20_balanceAdapter = Erc20_balance.Adapter(
+            chain_idAdapter = chainAdapter,
+            contractAdapter = addressAdapter,
+            addressAdapter = addressAdapter,
+            balanceAdapter = quantityAdapter
+        ),
         erc20_contractAdapter = Erc20_contract.Adapter(
             chain_idAdapter = chainAdapter,
             addressAdapter = addressAdapter,
@@ -101,23 +119,44 @@ internal fun Database.Companion.invoke(driver: SqlDriver): Database {
             addressAdapter = addressAdapter,
             total_supplyAdapter = quantityAdapter
         ),
+        eth_account_transactionAdapter = Eth_account_transaction.Adapter(
+            chain_idAdapter = chainAdapter,
+            addressAdapter = addressAdapter,
+            blockAdapter = quantityLongAdapter,
+            hashAdapter = dataAdapter
+        ),
+        eth_balanceAdapter = Eth_balance.Adapter(
+            chain_idAdapter = chainAdapter,
+            addressAdapter = addressAdapter,
+            balanceAdapter = quantityAdapter
+        ),
         eth_blockAdapter = Eth_block.Adapter(
             chain_idAdapter = chainAdapter,
             timestampAdapter = timestampAdapter
         ),
+        eth_logAdapter = Eth_log.Adapter(
+            chain_idAdapter = chainAdapter,
+            tx_hashAdapter = dataAdapter,
+            addressAdapter = addressAdapter,
+            topic_0Adapter = dataAdapter,
+            topic_1Adapter = dataAdapter,
+            topic_2Adapter = dataAdapter,
+            topic_3Adapter = dataAdapter,
+            data_Adapter = dataAdapter
+        ),
+        eth_receiptAdapter = Eth_receipt.Adapter(
+            chain_idAdapter = chainAdapter,
+            tx_hashAdapter = dataAdapter,
+            contract_addressAdapter = addressAdapter
+        ),
         eth_transactionAdapter = Eth_transaction.Adapter(
             chain_idAdapter = chainAdapter,
+            blockAdapter = quantityLongAdapter,
             hashAdapter = dataAdapter,
             fromAdapter = addressAdapter,
             toAdapter = addressAdapter,
-            value_Adapter = quantityAdapter
-        ),
-        eth_token_transferAdapter = Eth_token_transfer.Adapter(
-            chain_idAdapter = chainAdapter,
-            contractAdapter = addressAdapter,
-            fromAdapter = addressAdapter,
-            toAdapter = addressAdapter,
-            value_Adapter = quantityAdapter
+            value_Adapter = quantityAdapter,
+            data_Adapter = dataAdapter
         ),
         public_keyAdapter = Public_key.Adapter(
             coinAdapter = coinAdapter,

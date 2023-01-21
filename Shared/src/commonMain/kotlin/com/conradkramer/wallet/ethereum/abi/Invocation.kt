@@ -1,8 +1,5 @@
 package com.conradkramer.wallet.ethereum.abi
 
-import com.conradkramer.wallet.crypto.Keccak256Digest
-import io.ktor.utils.io.core.toByteArray
-
 internal data class Invocation(
     private val name: String
 ) {
@@ -15,8 +12,9 @@ internal data class Invocation(
         return this
     }
 
-    private fun selector() = Keccak256Digest.digest("${name}${Type.Tuple(types)}".toByteArray())
-        .copyOfRange(0, 4)
-
-    fun build() = selector() + if (arguments.isNotEmpty()) arguments.reduce(ByteArray::plus) else ByteArray(0)
+    fun build(): ByteArray {
+        val selector = Selector(name, *types.toTypedArray())
+        val arguments = if (arguments.isNotEmpty()) arguments.reduce(ByteArray::plus) else ByteArray(0)
+        return selector.prefix + arguments
+    }
 }
