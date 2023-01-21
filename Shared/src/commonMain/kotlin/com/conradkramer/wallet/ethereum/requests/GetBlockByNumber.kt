@@ -4,7 +4,10 @@ import com.conradkramer.wallet.ethereum.types.Address
 import com.conradkramer.wallet.ethereum.types.BlockSpecifier
 import com.conradkramer.wallet.ethereum.types.Data
 import com.conradkramer.wallet.ethereum.types.Quantity
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonClassDiscriminator
 import kotlinx.serialization.json.JsonElement
 
 internal data class GetBlockByNumber(
@@ -26,14 +29,17 @@ internal data class GetBlockByNumber(
 }
 
 @Serializable
-internal data class HydratedBlock(
+internal data class Block<Tx>(
     val number: Quantity,
     val timestamp: Quantity,
     val logsBloom: Data,
-    val transactions: List<Transaction>
+    val transactions: List<Tx>
 )
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
+@JsonClassDiscriminator("type")
+@SerialName("0x2")
 internal data class Transaction(
     val blockNumber: Quantity,
     val transactionIndex: Quantity,
@@ -44,6 +50,6 @@ internal data class Transaction(
     val value: Quantity,
     val gas: Quantity,
     val gasPrice: Quantity,
-    val maxFeePerGas: Quantity,
-    val maxPriorityFeePerGas: Quantity
+    val maxFeePerGas: Quantity?,
+    val maxPriorityFeePerGas: Quantity?
 )

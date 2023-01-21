@@ -6,6 +6,7 @@ import com.conradkramer.wallet.ethereum.Cloudflare
 import com.conradkramer.wallet.ethereum.InfuraProvider
 import com.conradkramer.wallet.ethereum.RpcClient
 import com.conradkramer.wallet.ethereum.RpcProvider
+import com.conradkramer.wallet.ethereum.types.Chain
 import com.conradkramer.wallet.sql.Database
 import com.conradkramer.wallet.viewmodel.PermissionPromptViewModel
 import com.conradkramer.wallet.viewmodel.SignDataPromptViewModel
@@ -19,6 +20,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.core.logger.Logger
 import org.koin.core.logger.MESSAGE
+import org.koin.core.module.dsl.singleOf
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.Qualifier
 import org.koin.core.qualifier.TypeQualifier

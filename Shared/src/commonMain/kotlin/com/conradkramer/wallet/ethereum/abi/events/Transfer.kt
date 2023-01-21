@@ -12,7 +12,7 @@ internal class Transfer private constructor(
     val to: Address,
     val value: Quantity
 ) : Event() {
-    constructor(address: Address, topics: List<Data>, _data: Data) : this(
+    constructor(address: Address, topics: List<Data>, @Suppress("UNUSED_PARAMETER") data: Data) : this(
         address,
         decode(topics, 1, ::Address),
         decode(topics, 2, ::Address),

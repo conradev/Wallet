@@ -18,24 +18,25 @@ internal data class GetTransactionReceipt(
         get() = listOf(encode(hash))
 
     companion object {
-        val method = "eth_getTransactionReceipt"
+        const val method = "eth_getTransactionReceipt"
     }
 }
 
 @Serializable
 internal data class Receipt(
-    val status: Quantity?,
+    val transactionHash: Data,
+    val status: Quantity,
     val contractAddress: Address?,
+    val gasUsed: Quantity,
     val logs: List<Log>
 )
 
 @Serializable
 internal data class Log(
-    val removed: Boolean,
-    val blockNumber: Quantity,
-    val transactionIndex: Quantity,
+    val transactionHash: Data,
     val logIndex: Quantity,
     val address: Address,
     val topics: List<Data>,
-    val data: Data
+    val data: Data,
+    val removed: Boolean
 )
