@@ -2,6 +2,7 @@ package com.conradkramer.wallet.ethereum.abi
 
 import com.conradkramer.wallet.bigint.BigInteger
 import com.conradkramer.wallet.encoding.toByteArray
+import com.conradkramer.wallet.ethereum.types.Address
 import com.conradkramer.wallet.ethereum.types.Quantity
 import io.ktor.utils.io.core.ByteOrder
 import kotlinx.serialization.Serializable
@@ -43,37 +44,32 @@ internal sealed class Type {
     }
 }
 
-internal fun Type.UInt.encode(value: BigInteger): ByteArray {
-    val buffer = ByteArray(bits / 8)
-    val encoded = value.data
-    encoded.copyInto(buffer, buffer.size - encoded.size)
-    return encoded
-}
-
-internal fun Type.UInt.encode(value: UInt): ByteArray {
-    val buffer = ByteArray(bits / 8)
-    val encoded = value.toByteArray(ByteOrder.BIG_ENDIAN)
-    encoded.copyInto(buffer, buffer.size - encoded.size)
-    return encoded
+internal fun Type.Address.encode(value: Address) = Type.UInt(160).encode(value.data)
+internal fun Type.UInt.encode(value: BigInteger) = encode(value.data)
+internal fun Type.UInt.encode(value: UInt) = encode(value.toByteArray(ByteOrder.BIG_ENDIAN))
+internal fun Type.UInt.encode(data: ByteArray) = ByteArray(32).also {
+    data.copyInto(
+        it,
+        it.size - data.size,
+        0,
+        bits / 8
+    )
 }
 
 internal fun Type.Bytes.encode(value: ByteArray): ByteArray {
-    size?.let { size ->
-        return value + ByteArray(32 - size)
-    }
+    val size = size
+    if (size != null) return value + ByteArray(32 - size)
 
     TODO()
 }
 
-internal fun Type.Bool.decode(value: ByteArray): Boolean {
-    if (value.size != 32) throw Exception("Invalid data size to turn into a boolean")
-    return BigInteger(value).toLong() == 1L
-}
+internal fun Type.Bool.decode(value: ByteArray) = Type.UInt(8).decode(value).toULong() != 0UL
 
 internal fun Type.Bytes.decode(value: ByteArray): ByteArray {
     val cursor = Cursor(value)
 
-    size?.let { return cursor.read(it) }
+    val typeSize = size
+    if (typeSize != null) return cursor.read(typeSize)
 
     val sizeSize = Quantity(cursor.read(32)).toInt()
     val size = Quantity(cursor.read(sizeSize)).toInt()

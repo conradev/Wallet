@@ -6,36 +6,56 @@ CREATE TABLE eth_block (
     PRIMARY KEY (chain_id, number)
 );
 
-CREATE TABLE eth_transaction (
-    block INTEGER NOT NULL,
+CREATE TABLE eth_account_transaction (
     chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
+    address BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
+    block INTEGER AS com.conradkramer.wallet.ethereum.types.Quantity NOT NULL,
+    hash BLOB AS com.conradkramer.wallet.ethereum.types.Data NOT NULL,
+
+    PRIMARY KEY (chain_id, address, hash)
+);
+
+CREATE TABLE eth_transaction (
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
+    block INTEGER AS com.conradkramer.wallet.ethereum.types.Quantity NOT NULL,
     tx_index INTEGER NOT NULL,
-    hash BLOB AS com.conradkramer.wallet.ethereum.types.Data UNIQUE NOT NULL,
+    hash BLOB AS com.conradkramer.wallet.ethereum.types.Data NOT NULL,
     [from] BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
     [to] BLOB AS com.conradkramer.wallet.ethereum.types.Address,
     value BLOB AS com.conradkramer.wallet.ethereum.types.Quantity NOT NULL,
+    data BLOB AS com.conradkramer.wallet.ethereum.types.Data NOT NULL,
 
-    PRIMARY KEY (chain_id, block, tx_index),
-    FOREIGN KEY (chain_id, block) REFERENCES eth_block(chain_id, number) ON DELETE CASCADE
+    PRIMARY KEY (chain_id, hash)
 );
 
-CREATE TABLE eth_token_transfer (
+CREATE TABLE eth_receipt (
     chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
-    block INTEGER NOT NULL,
-    tx_index INTEGER NOT NULL,
-    log_index INTEGER NOT NULL,
-    contract BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
-    [from] BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
-    [to] BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
-    value BLOB AS com.conradkramer.wallet.ethereum.types.Quantity,
+    tx_hash BLOB AS com.conradkramer.wallet.ethereum.types.Data NOT NULL,
+    gas_used INTEGER NOT NULL,
+    status INTEGER AS kotlin.Boolean NOT NULL,
+    contract_address BLOB AS com.conradkramer.wallet.ethereum.types.Address,
 
-    PRIMARY KEY (chain_id, block, tx_index, log_index)
+    PRIMARY KEY (chain_id, tx_hash)
+);
+
+CREATE TABLE eth_log (
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
+    tx_hash BLOB AS com.conradkramer.wallet.ethereum.types.Data NOT NULL,
+    log_index INTEGER NOT NULL,
+    address BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
+    topic_0 BLOB AS com.conradkramer.wallet.ethereum.types.Data,
+    topic_1 BLOB AS com.conradkramer.wallet.ethereum.types.Data,
+    topic_2 BLOB AS com.conradkramer.wallet.ethereum.types.Data,
+    topic_3 BLOB AS com.conradkramer.wallet.ethereum.types.Data,
+    data BLOB AS com.conradkramer.wallet.ethereum.types.Data,
+
+    PRIMARY KEY (chain_id, tx_hash, log_index)
 );
 
 CREATE TABLE erc20_contract (
     chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
     address BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
-    total_supply BLOB AS com.conradkramer.wallet.ethereum.types.Quantity NOT NULL,
+    total_supply BLOB AS com.conradkramer.wallet.ethereum.types.Quantity,
     symbol TEXT,
     decimals INTEGER,
     name TEXT,
@@ -65,8 +85,16 @@ CREATE TABLE erc721_token (
     attributes TEXT,
     token_uri TEXT,
 
-    PRIMARY KEY (contract, id),
-    FOREIGN KEY (chain_id, contract) REFERENCES erc721_contract(chain_id, address) ON DELETE CASCADE
+    PRIMARY KEY (chain_id, contract, id)
+);
+
+CREATE TABLE eth_balance (
+    chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
+    address BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
+    balance BLOB AS com.conradkramer.wallet.ethereum.types.Quantity NOT NULL,
+    block INTEGER NOT NULL,
+
+    PRIMARY KEY (chain_id, address)
 );
 
 CREATE TABLE erc20_balance (
@@ -76,8 +104,7 @@ CREATE TABLE erc20_balance (
     balance BLOB AS com.conradkramer.wallet.ethereum.types.Quantity NOT NULL,
     block INTEGER NOT NULL,
 
-    PRIMARY KEY (chain_id, address, contract),
-    FOREIGN KEY (chain_id, contract) REFERENCES erc20_contract(chain_id, address) ON DELETE CASCADE
+    PRIMARY KEY (chain_id, address, contract)
 );
 
 CREATE TABLE ens_lookup (
@@ -106,47 +133,106 @@ CREATE TABLE ens_reverse_lookup (
     PRIMARY KEY (chain_id, address)
 );
 
-blocks:
-SELECT count(*) FROM eth_block;
-
-blockTime:
-SELECT timestamp FROM eth_block WHERE number = ?;
-
 insertBlock:
-INSERT INTO eth_block(chain_id, number, timestamp)
-VALUES ?
-ON CONFLICT(chain_id, number) DO NOTHING;
+REPLACE INTO eth_block(chain_id, number, timestamp)
+VALUES ?;
 
 insertTransaction:
-INSERT INTO eth_transaction(chain_id, block, tx_index, hash, [from], [to], value)
-VALUES ?
-ON CONFLICT (chain_id, block, tx_index) DO NOTHING;
+REPLACE INTO eth_transaction(chain_id, block, tx_index, hash, [from], [to], value, data)
+VALUES ?;
 
-insertTokenTransfer:
-INSERT INTO eth_token_transfer(chain_id, block, tx_index, log_index, contract, [from], [to], value)
-VALUES ?
-ON CONFLICT (chain_id, block, tx_index, log_index) DO NOTHING;
+insertReceipt:
+REPLACE INTO eth_receipt(chain_id, tx_hash, gas_used, status, contract_address)
+VALUES ?;
 
-insertTokenContract:
-INSERT INTO erc20_contract(chain_id, address, total_supply, symbol, decimals, name)
-VALUES ?
-ON CONFLICT (chain_id, address)
-DO UPDATE SET total_supply = excluded.total_supply, symbol = excluded.symbol, decimals = excluded.decimals, name = excluded.name;
+insertLog:
+REPLACE INTO eth_log(chain_id, tx_hash, log_index, address, topic_0, topic_1, topic_2, topic_3, data)
+VALUES ?;
+
+insertERC20Contract:
+REPLACE INTO erc20_contract(chain_id, address, total_supply, symbol, decimals, name)
+VALUES ?;
+
+insertERC721Contract:
+REPLACE INTO erc721_contract(chain_id, address, symbol, name, total_supply)
+VALUES ?;
 
 insertNonfungibleTokenContract:
-INSERT INTO erc721_contract(chain_id, address, symbol, name, total_supply)
-VALUES ?
-ON CONFLICT (chain_id, address)
-DO UPDATE SET symbol = excluded.symbol, name = excluded.name, total_supply = excluded.total_supply;
+REPLACE INTO erc721_contract(chain_id, address, total_supply, symbol, name)
+VALUES ?;
 
-tokenContractsToIndex:
-SELECT contract FROM eth_token_transfer AS transfer
-LEFT JOIN erc20_contract AS erc20 ON erc20.chain_id == transfer.chain_id AND erc20.address == transfer.contract
-LEFT JOIN erc721_contract AS erc721 ON erc721.chain_id == transfer.chain_id AND erc721.address == transfer.contract
-WHERE transfer.chain_id = ? AND erc20.chain_id IS NULL AND erc721.chain_id IS NULL;
+erc20ContractsToIndex:
+SELECT log.address FROM eth_log AS log
+LEFT JOIN erc20_contract AS erc20 ON erc20.chain_id == log.chain_id AND erc20.address == log.address
+WHERE
+    log.chain_id = ? AND
+    log.topic_0 = ? AND
+    erc20.chain_id IS NULL;
 
-nonfungibleTokensToIndex:
-SELECT transfer.contract, transfer.value FROM eth_token_transfer AS transfer
-LEFT JOIN erc721_contract ON erc721_contract.chain_id == transfer.chain_id AND erc721_contract.address == transfer.contract
-LEFT JOIN erc721_token AS token ON token.chain_id == transfer.chain_id AND token.contract == transfer.contract AND id == transfer.value
-WHERE transfer.chain_id = ? AND transfer.value IS NOT NULL AND erc721_contract.chain_id IS NOT NULL AND token.chain_id IS NULL;
+erc721ContractsToIndex:
+SELECT log.address FROM eth_log AS log
+LEFT JOIN erc721_contract AS erc721 ON erc721.chain_id == log.chain_id AND erc721.address == log.address
+WHERE
+    log.chain_id = ? AND
+    log.topic_0 = ? AND
+    erc721.chain_id IS NULL;
+
+erc20ContractsForAccount:
+SELECT DISTINCT erc20.address FROM erc20_contract AS erc20
+LEFT JOIN eth_log AS log ON log.chain_id == log.chain_id AND log.address == erc20.address
+WHERE
+    erc20.total_supply IS NOT NULL AND
+    log.chain_id = ?1 AND
+    log.topic_0 = ?2 AND
+    (log.topic_1 = ?3 OR log.topic_2 = ?3);
+
+lastIndexedBlockForAccount:
+SELECT MAX(block) AS block FROM eth_account_transaction
+WHERE chain_id = ? AND address = ?;
+
+insertTransactionForAccount:
+REPLACE INTO eth_account_transaction(chain_id, address, block, hash)
+VALUES ?;
+
+transactionsToIndex:
+SELECT txa.hash FROM eth_account_transaction AS txa
+LEFT JOIN eth_transaction AS tx ON tx.chain_id == txa.chain_id AND tx.hash == txa.hash
+WHERE txa.chain_id = ? AND tx.hash IS NULL;
+
+receiptsToIndex:
+SELECT tx.hash FROM eth_transaction AS tx
+LEFT JOIN eth_receipt AS receipt ON tx.chain_id == receipt.chain_id AND tx.hash == receipt.tx_hash
+WHERE tx.chain_id = ? AND receipt.gas_used IS NULL;
+
+updateTokenBalance:
+REPLACE INTO erc20_balance(chain_id, contract, address, balance, block)
+VALUES ?;
+
+updateBalance:
+REPLACE INTO eth_balance(chain_id, address, balance, block)
+VALUES ?;
+
+tokenBalancesForAddress:
+SELECT contract.name, balance.balance, contract.symbol, contract.decimals FROM erc20_balance AS balance
+LEFT JOIN erc20_contract AS contract ON balance.chain_id == contract.chain_id AND balance.contract == contract.address
+WHERE
+    contract.chain_id = ? AND
+    balance.address = ?;
+
+balanceForAddress:
+SELECT balance.balance FROM eth_balance AS balance
+WHERE balance.chain_id = ? AND balance.address = ?;
+
+reset {
+    DELETE FROM eth_block;
+    DELETE FROM eth_account_transaction;
+    DELETE FROM eth_transaction;
+    DELETE FROM eth_receipt;
+    DELETE FROM eth_log;
+    DELETE FROM erc20_contract;
+    DELETE FROM erc721_contract;
+    DELETE FROM erc721_token;
+    DELETE FROM erc20_balance;
+    DELETE FROM ens_lookup;
+    DELETE FROM ens_reverse_lookup;
+}
