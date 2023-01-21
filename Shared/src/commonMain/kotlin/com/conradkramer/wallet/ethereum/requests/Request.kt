@@ -1,5 +1,7 @@
 package com.conradkramer.wallet.ethereum.requests
 
+import com.conradkramer.wallet.ethereum.requests.alchemy.AssetTransfers
+import com.conradkramer.wallet.ethereum.requests.alchemy.GetAssetTransfers
 import com.conradkramer.wallet.ethereum.types.Address
 import com.conradkramer.wallet.ethereum.types.BlockSpecifier
 import com.conradkramer.wallet.ethereum.types.BlockTag
@@ -79,6 +81,7 @@ internal abstract class Request {
                 ChainId.method -> ::ChainId
                 ClientVersion.method -> ::ClientVersion
                 GasPrice.method -> ::GasPrice
+                GetAssetTransfers.method -> ::GetAssetTransfers
                 GetBalance.method -> ::GetBalance
                 GetBlockByNumber.method -> ::GetBlockByNumber
                 GetPermissions.method -> ::GetPermissions
@@ -109,6 +112,8 @@ internal abstract class Request {
                 include(serializersModuleOf(Quantity.serializer()))
                 include(serializersModuleOf(Data.serializer()))
                 include(serializersModuleOf(BlockSpecifier.serializer()))
+                include(serializersModuleOf(AssetTransfers.serializer()))
+                include(serializersModuleOf(AssetTransfers.Transfer.serializer()))
                 include(serializersModuleOf(BlockTag.serializer()))
                 include(serializersModuleOf(Transaction.serializer()))
                 include(serializersModuleOf(CompletedTransaction.serializer()))
