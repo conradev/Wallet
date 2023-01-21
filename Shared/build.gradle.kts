@@ -108,7 +108,7 @@ kotlin {
                     val xkcp by creating
                 }
                 kotlinOptions {
-                    freeCompilerArgs = listOf("-linker-option", "-application_extension")
+                    freeCompilerArgs = freeCompilerArgs + listOf("-linker-option", "-application_extension")
                 }
                 enableEndorsedLibs = true
             }

@@ -2,6 +2,7 @@ package com.conradkramer.wallet
 
 import com.conradkramer.wallet.browser.BrowserPermissionStore
 import com.conradkramer.wallet.ethereum.AlchemyProvider
+import com.conradkramer.wallet.ethereum.Cloudflare
 import com.conradkramer.wallet.ethereum.InfuraProvider
 import com.conradkramer.wallet.ethereum.RpcClient
 import com.conradkramer.wallet.ethereum.RpcProvider
@@ -29,8 +30,7 @@ import org.koin.dsl.koinApplication
 import org.koin.dsl.module
 import org.koin.ksp.generated.module
 
-@Module
-@ComponentScan("com.conradkramer.wallet")
+@Module @ComponentScan
 internal class AnnotationModule
 
 private fun sharedModule() = module {
@@ -43,9 +43,10 @@ private fun sharedModule() = module {
     factory { params -> SignDataPromptViewModel(params.get(), get(), params.getOrNull(), get()) }
 
     single { Database.invoke(get()) }
-    single(named("alchemy")) { AlchemyProvider("tbOMWQYmtAGuUDnDOhoJFYxXIKctXij3") } bind RpcProvider::class
-    single(named("infura")) { InfuraProvider("ef01c7a0107b41deb6f77b00bda654b1") } bind RpcProvider::class
-    factory { RpcClient(get<RpcProvider>(named("infura")).endpointUrl, logger<RpcClient>()) }
+    single { AlchemyProvider(mapOf(Chain.MAINNET to "tbOMWQYmtAGuUDnDOhoJFYxXIKctXij3")) }
+    single { InfuraProvider("ef01c7a0107b41deb6f77b00bda654b1") }
+    singleOf(::Cloudflare) bind RpcProvider::class
+    factory { RpcClient(get<RpcProvider>().endpointUrl(Chain.MAINNET), logger<RpcClient>()) }
 
     factory { BrowserPermissionStore(get(), logger<BrowserPermissionStore>()) }
 

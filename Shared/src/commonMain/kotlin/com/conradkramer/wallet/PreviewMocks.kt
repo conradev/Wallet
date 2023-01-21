@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import org.koin.core.Koin
 import org.koin.core.KoinApplication
 import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 private fun Account.Companion.random(): Account {
@@ -55,7 +56,7 @@ private class MockAccountStore(val account: Account) : AccountStore {
 internal fun mockModule() = module {
     val account = Account.random()
 
-    single<AccountStore> { MockAccountStore(account) }
+    single { MockAccountStore(account) } bind AccountStore::class
     factory { PermissionPrompt(Frame.zero, Session(0, 0, 0), account.id, "app.ens.domains") }
     factory {
         SignDataPrompt(
