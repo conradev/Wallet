@@ -114,6 +114,8 @@ internal abstract class Request {
                 include(serializersModuleOf(BlockSpecifier.serializer()))
                 include(serializersModuleOf(AssetTransfers.serializer()))
                 include(serializersModuleOf(AssetTransfers.Transfer.serializer()))
+                include(serializersModuleOf(Receipt.serializer()))
+                include(serializersModuleOf(Log.serializer()))
                 include(serializersModuleOf(BlockTag.serializer()))
                 include(serializersModuleOf(Transaction.serializer()))
                 include(serializersModuleOf(CompletedTransaction.serializer()))
