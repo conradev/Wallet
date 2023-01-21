@@ -232,6 +232,7 @@ reset {
     DELETE FROM erc20_contract;
     DELETE FROM erc721_contract;
     DELETE FROM erc721_token;
+    DELETE FROM eth_balance;
     DELETE FROM erc20_balance;
     DELETE FROM ens_lookup;
     DELETE FROM ens_reverse_lookup;

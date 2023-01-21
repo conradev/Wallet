@@ -10,7 +10,7 @@ class AppTests: XCTestCase {
 
     func testImportPhrase() throws {
         let application = XCUIApplication()
-        application.launchArguments = ["--reset"]
+        application.launchArguments = ["--reset-accounts"]
         application.launch()
 
         application.buttons[.welcomeOption(.importPhrase)].tap()
