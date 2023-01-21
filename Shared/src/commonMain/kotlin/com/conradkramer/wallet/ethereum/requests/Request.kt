@@ -3,6 +3,7 @@ package com.conradkramer.wallet.ethereum.requests
 import com.conradkramer.wallet.ethereum.types.Address
 import com.conradkramer.wallet.ethereum.types.BlockSpecifier
 import com.conradkramer.wallet.ethereum.types.BlockTag
+import com.conradkramer.wallet.ethereum.types.Chain
 import com.conradkramer.wallet.ethereum.types.Data
 import com.conradkramer.wallet.ethereum.types.Quantity
 import com.conradkramer.wallet.ethereum.types.Transaction
@@ -81,6 +82,7 @@ internal abstract class Request {
                 GetBalance.method -> ::GetBalance
                 GetBlockByNumber.method -> ::GetBlockByNumber
                 GetPermissions.method -> ::GetPermissions
+                GetTransactionByHash.method -> ::GetTransactionByHash
                 GetTransactionReceipt.method -> ::GetTransactionReceipt
                 PersonalSign.method -> ::PersonalSign
                 RequestAccounts.method -> ::RequestAccounts
@@ -103,11 +105,13 @@ internal abstract class Request {
             ignoreUnknownKeys = true
             serializersModule = SerializersModule {
                 include(serializersModuleOf(Address.serializer()))
+                include(serializersModuleOf(Chain.serializer()))
                 include(serializersModuleOf(Quantity.serializer()))
                 include(serializersModuleOf(Data.serializer()))
                 include(serializersModuleOf(BlockSpecifier.serializer()))
                 include(serializersModuleOf(BlockTag.serializer()))
                 include(serializersModuleOf(Transaction.serializer()))
+                include(serializersModuleOf(CompletedTransaction.serializer()))
                 include(serializersModuleOf(JsonRpcRequest.serializer()))
                 include(serializersModuleOf(JsonRpcResponse.serializer()))
             }
