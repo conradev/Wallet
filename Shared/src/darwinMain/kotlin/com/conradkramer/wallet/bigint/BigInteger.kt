@@ -29,46 +29,41 @@ import platform.posix.size_tVar
 actual class BigInteger() : RLPRepresentable {
     val mpz: __mpz_struct = nativeHeap.alloc()
 
-    init {
-        mpz_init!!(mpz.ptr)
-    }
-
-    actual val data: ByteArray
-        get() = memScoped {
-            if (_mpz_cmp_si!!(mpz.ptr, 0) == 0) {
-                return ByteArray(0)
-            }
-
-            val count = alloc<size_tVar>()
-            val size = (mpz_sizeinbase!!(mpz.ptr, 2) + 7u) / 8u
-            val data = ByteArray(size.convert())
-            data.asUByteArray()
-                .usePinned { pinnedData ->
-                    mpz_export!!(
-                        pinnedData.addressOf(0),
-                        count.ptr,
-                        1.convert(),
-                        data.size.convert(),
-                        1.convert(),
-                        0.convert(),
-                        mpz.ptr
-                    )
-                }
-            if (count.value.toInt() != 1) throw Exception("Failed to export integer")
-            data
-        }
-
-    override val rlp: RLP.Item
-        get() = RLP.Item.Data(data)
+    init { mpz_init!!(mpz.ptr) }
 
     fun finalize() {
         mpz_clear!!(mpz.ptr)
         nativeHeap.free(mpz.rawPtr)
     }
 
+    actual val data: ByteArray
+        get() = memScoped {
+            if (_mpz_cmp_si!!(mpz.ptr, 0) == 0) return byteArrayOf()
+
+            val count = alloc<size_tVar>()
+            val size = (mpz_sizeinbase!!(mpz.ptr, 2) + 7u) / 8u
+            val data = ByteArray(size.convert())
+            data.asUByteArray().usePinned { pinned ->
+                mpz_export!!(
+                    pinned.addressOf(0),
+                    count.ptr,
+                    1.convert(),
+                    data.size.convert(),
+                    1.convert(),
+                    0.convert(),
+                    mpz.ptr
+                )
+            }
+            if (count.value != 1UL) throw Exception("Failed to export integer")
+            data
+        }
+
+    override val rlp: RLP.Item
+        get() = RLP.Item.Data(data)
+
     actual constructor(data: ByteArray) : this() {
         if (data.isEmpty()) return
-        data.asUByteArray().usePinned { pinnedData ->
+        data.asUByteArray().usePinned { pinned ->
             mpz_import!!(
                 mpz.ptr,
                 1.convert(),
@@ -76,18 +71,13 @@ actual class BigInteger() : RLPRepresentable {
                 data.size.convert(),
                 1.convert(),
                 0.convert(),
-                pinnedData.addressOf(0)
+                pinned.addressOf(0)
             )
         }
     }
 
-    actual fun toLong(): Long {
-        return mpz_get_si!!(mpz.ptr)
-    }
-
-    actual fun toULong(): ULong {
-        return mpz_get_ui!!(mpz.ptr)
-    }
+    actual fun toLong() = mpz_get_si!!(mpz.ptr)
+    actual fun toULong() = mpz_get_ui!!(mpz.ptr)
 
     actual override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -100,17 +90,10 @@ actual class BigInteger() : RLPRepresentable {
         return true
     }
 
-    actual override fun hashCode(): Int {
-        return mpz.hashCode()
-    }
+    actual override fun hashCode() = mpz.hashCode()
 
     actual companion object {
-        actual fun valueOf(value: Long): BigInteger {
-            return BigInteger().also { mpz_set_si!!(it.mpz.ptr, value) }
-        }
-
-        actual fun valueOf(value: ULong): BigInteger {
-            return BigInteger().also { mpz_set_ui!!(it.mpz.ptr, value) }
-        }
+        actual fun valueOf(value: Long): BigInteger = BigInteger().also { mpz_set_si!!(it.mpz.ptr, value) }
+        actual fun valueOf(value: ULong): BigInteger = BigInteger().also { mpz_set_ui!!(it.mpz.ptr, value) }
     }
 }

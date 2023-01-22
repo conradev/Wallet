@@ -3,12 +3,11 @@ package com.conradkramer.wallet
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.MemScope
-import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.convert
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.ptr
-import kotlinx.cinterop.usePinned
+import kotlinx.cinterop.refTo
 import kotlinx.cinterop.utf8
 import kotlinx.cinterop.value
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -27,7 +26,6 @@ import platform.CoreFoundation.CFDictionarySetValue
 import platform.CoreFoundation.CFErrorGetCode
 import platform.CoreFoundation.CFErrorRefVar
 import platform.CoreFoundation.CFIndex
-import platform.CoreFoundation.CFMutableDictionaryRef
 import platform.CoreFoundation.CFNumberRef
 import platform.CoreFoundation.CFRangeMake
 import platform.CoreFoundation.CFRelease
@@ -125,202 +123,185 @@ internal actual data class HardwareKeyStore(
                 .toSet()
         }
 
-    override fun generate(id: String) {
-        generate(id, true)
-    }
+    override fun generate(id: String) = generate(id, true)
 
-    private fun generate(id: String, secure: Boolean = true) {
+    private fun generate(id: String, secure: Boolean = true): Unit = memScoped {
         logger.info { "Generating key $id" }
 
-        memScoped {
-            val bitsRef = 256.bridgingRetain().autorelease(this)
+        val bitsRef = 256.bridgingRetain().autorelease(this)
 
-            val create = dictionary(id).autorelease(this)
-            CFDictionarySetValue(create, kSecAttrKeyType, kSecAttrKeyTypeEC)
-            CFDictionarySetValue(create, kSecAttrKeySizeInBits, bitsRef)
-            CFDictionarySetValue(create, kSecAttrIsPermanent, kCFBooleanTrue)
-            if (secure) {
-                if (!Platform.isSimulator) {
-                    val privateKeyAttributes = CFDictionaryCreateMutable(
-                        null,
-                        3,
-                        kCFTypeDictionaryKeyCallBacks.ptr,
-                        kCFTypeDictionaryValueCallBacks.ptr
-                    )?.autorelease(this)
+        val create = dictionary(id).autorelease(this)
+        CFDictionarySetValue(create, kSecAttrKeyType, kSecAttrKeyTypeEC)
+        CFDictionarySetValue(create, kSecAttrKeySizeInBits, bitsRef)
+        CFDictionarySetValue(create, kSecAttrIsPermanent, kCFBooleanTrue)
+        if (secure) {
+            if (!Platform.isSimulator) {
+                val privateKeyAttributes = CFDictionaryCreateMutable(
+                    null,
+                    3,
+                    kCFTypeDictionaryKeyCallBacks.ptr,
+                    kCFTypeDictionaryValueCallBacks.ptr
+                )?.autorelease(this)
 
-                    val accessControl = SecAccessControlCreateWithFlags(
-                        null,
-                        kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
-                        kSecAccessControlPrivateKeyUsage or kSecAccessControlUserPresence,
-                        null
-                    )!!.autorelease(this)
+                val accessControl = SecAccessControlCreateWithFlags(
+                    null,
+                    kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+                    kSecAccessControlPrivateKeyUsage or kSecAccessControlUserPresence,
+                    null
+                )!!.autorelease(this)
 
-                    CFDictionarySetValue(
-                        privateKeyAttributes,
-                        kSecAttrAccessControl,
-                        accessControl
-                    )
-                    CFDictionarySetValue(create, kSecPrivateKeyAttrs, privateKeyAttributes)
-                }
-
-                CFDictionarySetValue(create, kSecAttrTokenID, kSecAttrTokenIDSecureEnclave)
+                CFDictionarySetValue(
+                    privateKeyAttributes,
+                    kSecAttrAccessControl,
+                    accessControl
+                )
+                CFDictionarySetValue(create, kSecPrivateKeyAttrs, privateKeyAttributes)
             }
 
-            val error = alloc<CFErrorRefVar>()
-            val key = SecKeyCreateRandomKey(create, error.ptr)
-                ?: when (val generateStatus = CFErrorGetCode(error.value).toInt()) {
-                    errSecDuplicateItem -> {
-                        logger.info { "Key $id already exists in the keychain" }
-                        delete(id)
-                        generate(id)
-                        return
-                    }
-                    errSecItemNotFound -> {
-                        logger.info { "Key $id could not be made in the secure enclave, making an insecure key" }
-                        generate(id, false)
-                        return
-                    }
-                    else -> throw Exception("Error generating key: $generateStatus")
-                }
-            key.autorelease(this)
-
-            logger.info { "Generated key $id successfully" }
+            CFDictionarySetValue(create, kSecAttrTokenID, kSecAttrTokenIDSecureEnclave)
         }
+
+        val error = alloc<CFErrorRefVar>()
+        val key = SecKeyCreateRandomKey(create, error.ptr)
+            ?: when (val generateStatus = CFErrorGetCode(error.value).toInt()) {
+                errSecDuplicateItem -> {
+                    logger.info { "Key $id already exists in the keychain" }
+                    delete(id)
+                    generate(id)
+                    return
+                }
+                errSecItemNotFound -> {
+                    logger.info { "Key $id could not be made in the secure enclave, making an insecure key" }
+                    generate(id, false)
+                    return
+                }
+                else -> throw Exception("Error generating key: $generateStatus")
+            }
+        key.autorelease(this)
+
+        logger.info { "Generated key $id successfully" }
     }
 
-    override fun encrypt(id: String, data: ByteArray): ByteArray {
+    override fun encrypt(id: String, data: ByteArray) = memScoped {
         logger.info { "Encrypting data of length ${data.size} with key $id" }
 
-        memScoped {
-            val query = dictionary(id).autorelease(this)
-            CFDictionarySetValue(query, kSecAttrKeyClass, kSecAttrKeyClassPrivate)
-            CFDictionarySetValue(query, kSecReturnRef, kCFBooleanTrue)
+        val query = dictionary(id).autorelease(this)
+        CFDictionarySetValue(query, kSecAttrKeyClass, kSecAttrKeyClassPrivate)
+        CFDictionarySetValue(query, kSecReturnRef, kCFBooleanTrue)
 
-            val result = alloc<CFTypeRefVar>()
-            val copyStatus = SecItemCopyMatching(query, result.ptr)
-            val privateKey = result.value as SecKeyRef? ?: throw Exception("Error fetching key $id: $copyStatus")
-            privateKey.autorelease(this)
+        val result = alloc<CFTypeRefVar>()
+        val copyStatus = SecItemCopyMatching(query, result.ptr)
+        val privateKey = result.value as SecKeyRef? ?: throw Exception("Error fetching key $id: $copyStatus")
+        privateKey.autorelease(this)
 
-            val publicKey = SecKeyCopyPublicKey(privateKey)
-                ?: throw Exception("Failed tp copy the public key from the private key")
+        val publicKey = SecKeyCopyPublicKey(privateKey)
+            ?: throw Exception("Failed tp copy the public key from the private key")
 
-            val error = alloc<CFErrorRefVar>()
-            val encryptedData = SecKeyCreateEncryptedData(
-                publicKey,
-                kSecKeyAlgorithmECIESEncryptionCofactorX963SHA256AESGCM,
-                data.bridgingRetain().autorelease(this),
-                error.ptr
-            ) ?: when (val encryptStatus = CFErrorGetCode(error.value).toInt()) {
-                else -> throw Exception("Error encrypting data with key $id: $encryptStatus")
-            }
-            encryptedData.autorelease(this)
-
-            logger.info { "Encrypted data of length ${data.size} with key $id" }
-
-            return encryptedData.toByteArray()
+        val error = alloc<CFErrorRefVar>()
+        val encryptedData = SecKeyCreateEncryptedData(
+            publicKey,
+            kSecKeyAlgorithmECIESEncryptionCofactorX963SHA256AESGCM,
+            data.bridgingRetain().autorelease(this),
+            error.ptr
+        ) ?: when (val encryptStatus = CFErrorGetCode(error.value).toInt()) {
+            else -> throw Exception("Error encrypting data with key $id: $encryptStatus")
         }
+        encryptedData.autorelease(this)
+
+        logger.info { "Encrypted data of length ${data.size} with key $id" }
+
+        encryptedData.toByteArray()
     }
 
-    override fun delete(id: String) {
+    override fun delete(id: String) = memScoped {
         logger.info { "Deleting key $id" }
-        memScoped {
-            val query = dictionary(id).autorelease(this)
-            when (val status = SecItemDelete(query)) {
-                errSecSuccess -> logger.info { "Deleted key $id successfully" }
-                errSecItemNotFound -> logger.warn { "Cannot delete key $id because it does not exist" }
-                else -> throw Exception("Error deleting key $id: $status")
-            }
+
+        val query = dictionary(id).autorelease(this)
+        when (val status = SecItemDelete(query)) {
+            errSecSuccess -> logger.info { "Deleted key $id successfully" }
+            errSecItemNotFound -> logger.warn { "Cannot delete key $id because it does not exist" }
+            else -> throw Exception("Error deleting key $id: $status")
         }
     }
 
-    override fun reset() {
+    override fun reset() = memScoped {
         logger.info { "Deleting all keys" }
-        memScoped {
-            val query = dictionary().autorelease(this)
-            when (val status = SecItemDelete(query)) {
-                errSecSuccess -> logger.info { "Deleted all keys successfully" }
-                errSecItemNotFound -> logger.warn { "No keys were found" }
-                else -> throw Exception("Error deleting all keys: $status")
-            }
+
+        val query = dictionary().autorelease(this)
+        when (val status = SecItemDelete(query)) {
+            errSecSuccess -> logger.info { "Deleted all keys successfully" }
+            errSecItemNotFound -> logger.warn { "No keys were found" }
+            else -> throw Exception("Error deleting all keys: $status")
         }
     }
 
-    override fun context(id: String): AuthenticationContext {
-        return AuthenticationContext(id)
-    }
+    override fun context(id: String) = AuthenticationContext(id)
 
     override suspend fun prompt(
         context: AuthenticationContext,
         host: BiometricPromptHost?,
         info: BiometricPromptInfo
-    ): Boolean {
-        return suspendCancellableCoroutine { continuation ->
-            val inner = context.context
-            inner.localizedCancelTitle = info.cancelTitle
-            inner.evaluatePolicy(context.policy, info.reason) { success, error ->
-                if (!success) logger.error { "Failed to evaluate local authentication policy: $error" }
-                continuation.resume(success)
-            }
-            continuation.invokeOnCancellation { inner.invalidate() }
+    ) = suspendCancellableCoroutine { continuation ->
+        val inner = context.context
+        inner.localizedCancelTitle = info.cancelTitle
+        inner.evaluatePolicy(context.policy, info.reason) { success, error ->
+            if (!success) logger.error { "Failed to evaluate local authentication policy: $error" }
+            continuation.resume(success)
         }
+        continuation.invokeOnCancellation { inner.invalidate() }
     }
 
-    override fun <R> decrypt(context: AuthenticationContext, data: ByteArray, handler: (data: ByteArray) -> R): R {
+    override fun <R> decrypt(context: AuthenticationContext, data: ByteArray, handler: (data: ByteArray) -> R): R = memScoped {
         logger.info { "Decrypting data of size ${data.size} with key ${context.id}" }
-        memScoped {
-            val query = dictionary(context.id).autorelease(this)
-            CFDictionarySetValue(query, kSecAttrKeyClass, kSecAttrKeyClassPrivate)
-            CFDictionarySetValue(query, kSecReturnRef, kCFBooleanTrue)
-            CFDictionarySetValue(
-                query,
-                kSecUseAuthenticationContext,
-                CFBridgingRetain(context.context)?.autorelease(this)
-            )
 
-            val result = alloc<CFTypeRefVar>()
-            val copyStatus = SecItemCopyMatching(query, result.ptr)
-            val key = result.value as SecKeyRef? ?: throw Exception("Error fetching key ${context.id}: $copyStatus")
-            key.autorelease(this)
+        val query = dictionary(context.id).autorelease(this)
+        CFDictionarySetValue(query, kSecAttrKeyClass, kSecAttrKeyClassPrivate)
+        CFDictionarySetValue(query, kSecReturnRef, kCFBooleanTrue)
+        CFDictionarySetValue(
+            query,
+            kSecUseAuthenticationContext,
+            CFBridgingRetain(context.context)?.autorelease(this)
+        )
 
-            val error = alloc<CFErrorRefVar>()
-            val decryptedData = SecKeyCreateDecryptedData(
-                key,
-                kSecKeyAlgorithmECIESEncryptionCofactorX963SHA256AESGCM,
-                data.bridgingRetain().autorelease(this),
-                error.ptr
-            ) ?: when (val decryptStatus = CFErrorGetCode(error.value).toInt()) {
-                else -> throw Exception("Failed to decrypt data with key ${context.id}: $decryptStatus")
-            }
-            decryptedData.autorelease(this)
+        val result = alloc<CFTypeRefVar>()
+        val copyStatus = SecItemCopyMatching(query, result.ptr)
+        val key = result.value as SecKeyRef? ?: throw Exception("Error fetching key ${context.id}: $copyStatus")
+        key.autorelease(this)
 
-            return handler(decryptedData.toByteArray())
+        val error = alloc<CFErrorRefVar>()
+        val decryptedData = SecKeyCreateDecryptedData(
+            key,
+            kSecKeyAlgorithmECIESEncryptionCofactorX963SHA256AESGCM,
+            data.bridgingRetain().autorelease(this),
+            error.ptr
+        ) ?: when (val decryptStatus = CFErrorGetCode(error.value).toInt()) {
+            else -> throw Exception("Failed to decrypt data with key ${context.id}: $decryptStatus")
         }
+        decryptedData.autorelease(this)
+
+        handler(decryptedData.toByteArray())
     }
 
-    private fun dictionary(id: String): CFMutableDictionaryRef {
-        return memScoped {
-            val dictionary = dictionary()
-            val labelRef = id.toByteArray().bridgingRetain().autorelease(this)
-            CFDictionarySetValue(dictionary, kSecAttrApplicationLabel, labelRef)
-            dictionary
-        }
+    private fun dictionary(id: String) = memScoped {
+        val dictionary = dictionary()
+        val labelRef = id.toByteArray().bridgingRetain().autorelease(this)
+        CFDictionarySetValue(dictionary, kSecAttrApplicationLabel, labelRef)
+        dictionary
     }
 
-    private fun dictionary(): CFMutableDictionaryRef {
-        return memScoped {
-            val groupRef = applicationGroup.bridgingRetain().autorelease(this)
+    private fun dictionary() = memScoped {
+        val groupRef = applicationGroup.bridgingRetain().autorelease(this)
 
-            val dictionary = CFDictionaryCreateMutable(
-                null,
-                10,
-                kCFTypeDictionaryKeyCallBacks.ptr,
-                kCFTypeDictionaryValueCallBacks.ptr
-            )!!
-            CFDictionarySetValue(dictionary, kSecAttrAccessGroup, groupRef)
-            CFDictionarySetValue(dictionary, kSecClass, kSecClassKey)
-            CFDictionarySetValue(dictionary, kSecUseDataProtectionKeychain, kCFBooleanTrue)
-            dictionary
-        }
+        val dictionary = CFDictionaryCreateMutable(
+            null,
+            10,
+            kCFTypeDictionaryKeyCallBacks.ptr,
+            kCFTypeDictionaryValueCallBacks.ptr
+        )!!
+        CFDictionarySetValue(dictionary, kSecAttrAccessGroup, groupRef)
+        CFDictionarySetValue(dictionary, kSecClass, kSecClassKey)
+        CFDictionarySetValue(dictionary, kSecUseDataProtectionKeychain, kCFBooleanTrue)
+        dictionary
     }
 }
 
@@ -336,12 +317,12 @@ actual class AuthenticationContext(actual val id: String, val context: LAContext
     val biometricsAvailable = (policy == LAPolicyDeviceOwnerAuthenticationWithBiometrics)
 }
 
-private fun <T : CPointer<U>, U> MemScope.autorelease(value: T): T {
+fun <T : CPointer<U>, U> MemScope.autorelease(value: T): T {
     defer { CFRelease(value as CFTypeRef) }
     return value
 }
 
-private fun <T : CPointer<U>, U> T.autorelease(scope: MemScope): T = scope.autorelease(this)
+fun <T : CPointer<U>, U> T.autorelease(scope: MemScope): T = scope.autorelease(this)
 
 private data class CFArrayIterator(val array: CFArrayRef) : Iterator<CFTypeRef>, Iterable<CFTypeRef> {
     private var index: CFIndex = 0
@@ -363,43 +344,25 @@ private data class CFArrayIterator(val array: CFArrayRef) : Iterator<CFTypeRef>,
 private fun CFArrayRef.iterator() = CFArrayIterator(this)
 
 @Suppress("UNCHECKED_CAST")
-private fun String.bridgingRetain(): CFStringRef {
-    return memScoped {
-        CFBridgingRetain(NSString.stringWithUTF8String(this@bridgingRetain.utf8.getPointer(this))) as CFStringRef
-    }
+private fun String.bridgingRetain() = memScoped {
+    CFBridgingRetain(NSString.stringWithUTF8String(this@bridgingRetain.utf8.getPointer(this))) as CFStringRef
 }
 
 @OptIn(ExperimentalUnsignedTypes::class)
-private fun ByteArray.bridgingRetain(): CFDataRef {
-    return this.toUByteArray().usePinned { pinned ->
-        CFDataCreate(null, pinned.addressOf(0), this@bridgingRetain.size.toLong()) as CFDataRef
-    }
+private fun ByteArray.bridgingRetain() = asUByteArray().let {
+    CFDataCreate(null, it.refTo(0), it.size.convert()) as CFDataRef
 }
 
 @OptIn(ExperimentalUnsignedTypes::class)
-private fun CFDataRef.toByteArray(): ByteArray {
-    val length = CFDataGetLength(this).toInt()
-    val byteArray = UByteArray(length).apply {
-        usePinned {
-            CFDataGetBytes(this@toByteArray, CFRangeMake(0, length.toLong()), it.addressOf(0))
-        }
-    }
-    return byteArray.asByteArray()
-}
+private fun CFDataRef.toByteArray() = ByteArray(CFDataGetLength(this).convert())
+    .also { CFDataGetBytes(this, CFRangeMake(0, it.size.convert()), it.asUByteArray().refTo(0)) }
 
-@OptIn(ExperimentalUnsignedTypes::class)
-private fun CFStringRef.toKotlinString(): String {
-    val length = CFStringGetLength(this)
-    val size = CFStringGetMaximumSizeForEncoding(length, kCFStringEncodingUTF8).toInt()
-    val byteArray = ByteArray(size).apply {
-        usePinned {
-            CFStringGetCString(this@toKotlinString, it.addressOf(0), size.convert(), kCFStringEncodingUTF8)
-        }
-    }
-    return byteArray.decodeToString()
+internal fun CFStringRef.toKotlinString(): String {
+    val size = CFStringGetMaximumSizeForEncoding(CFStringGetLength(this), kCFStringEncodingUTF8).toInt()
+    return ByteArray(size)
+        .also { CFStringGetCString(this@toKotlinString, it.refTo(0), size.convert(), kCFStringEncodingUTF8) }
+        .decodeToString()
 }
 
 @Suppress("UNCHECKED_CAST")
-private fun Int.bridgingRetain(): CFNumberRef {
-    return CFBridgingRetain(NSNumber.numberWithInt(this)) as CFNumberRef
-}
+private fun Int.bridgingRetain() = CFBridgingRetain(NSNumber.numberWithInt(this)) as CFNumberRef
