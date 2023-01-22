@@ -7,11 +7,6 @@ internal actual class BitSet actual constructor(size: Int) {
     actual val size: Int
         get() = inner.size
 
-    actual operator fun get(index: Int): Boolean {
-        return inner[index]
-    }
-
-    actual fun set(index: Int, value: Boolean) {
-        inner.set(index, value)
-    }
+    actual operator fun get(index: Int) = inner[index]
+    actual fun set(index: Int, value: Boolean) = inner.set(index, value)
 }
