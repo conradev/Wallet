@@ -25,6 +25,7 @@
               pkgs.nodejs-19_x
               pkgs.gitlint
               pkgs.temurin-bin-19
+              pkgs.kotlin-native
               android-sdk
             ];
             shellHook = ''
