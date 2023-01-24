@@ -80,7 +80,7 @@ internal actual class PrivateKey actual constructor(private val data: ByteArray)
                     context,
                     it.ptr,
                     hash.asUByteArray().refTo(0),
-                    data.asUByteArray().refTo(0),
+                    encoded.asUByteArray().refTo(0),
                     null,
                     entropy.asUByteArray().refTo(0)
                 )
