@@ -36,9 +36,9 @@ import secp256k1.secp256k1_ecdsa_signature
 import secp256k1.secp256k1_ecdsa_verify
 import secp256k1.secp256k1_pubkey
 
-internal actual class PrivateKey actual constructor(private val data: ByteArray) {
+internal actual class PrivateKey actual constructor(actual val encoded: ByteArray) {
     init {
-        if (data.size != 32) throw Exception("Invalid private key")
+        if (encoded.size != 32) throw Exception("Invalid private key")
     }
 
     actual val publicKey: PublicKey
@@ -46,24 +46,21 @@ internal actual class PrivateKey actual constructor(private val data: ByteArray)
             memScoped {
                 alloc<secp256k1_pubkey>()
                     .also {
-                        secp256k1_ec_pubkey_create(context(), it.ptr, data.asUByteArray().refTo(0))
+                        secp256k1_ec_pubkey_create(context(), it.ptr, encoded.asUByteArray().refTo(0))
                             .also { if (it != 1) throw Exception("Failed to generate public key from private key") }
                     }
                     .readValue()
             }
         )
 
-    actual val encoded: ByteArray
-        get() = data
-
     actual operator fun plus(increment: PrivateKey) = PrivateKey(
         memScoped {
-            data.copyOf()
-                .also {
+            encoded.copyOf()
+                .also { sum ->
                     secp256k1_ec_seckey_tweak_add(
                         context(),
-                        it.asUByteArray().refTo(0),
-                        increment.data.asUByteArray().refTo(0)
+                        sum.asUByteArray().refTo(0),
+                        increment.encoded.asUByteArray().refTo(0)
                     )
                         .also { if (it != 1) throw Exception("Failed add $this to $increment") }
                 }
@@ -75,10 +72,10 @@ internal actual class PrivateKey actual constructor(private val data: ByteArray)
         val entropy = SecureRandom.nextBytes(32)
         val context = context()
         val signature = alloc<secp256k1_ecdsa_recoverable_signature>()
-            .also {
+            .also { signature ->
                 secp256k1_ecdsa_sign_recoverable(
                     context,
-                    it.ptr,
+                    signature.ptr,
                     hash.asUByteArray().refTo(0),
                     encoded.asUByteArray().refTo(0),
                     null,
@@ -89,10 +86,10 @@ internal actual class PrivateKey actual constructor(private val data: ByteArray)
 
         val recoveryId = alloc<IntVar>()
         val output = ByteArray(64)
-            .also {
+            .also { output ->
                 secp256k1_ecdsa_recoverable_signature_serialize_compact(
                     context,
-                    it.asUByteArray().refTo(0),
+                    output.asUByteArray().refTo(0),
                     recoveryId.ptr,
                     signature.ptr
                 )
@@ -112,12 +109,12 @@ internal actual class PrivateKey actual constructor(private val data: ByteArray)
 
         other as PrivateKey
 
-        if (!data.contentEquals(other.data)) return false
+        if (!encoded.contentEquals(other.encoded)) return false
 
         return true
     }
 
-    actual override fun hashCode() = data.contentHashCode()
+    actual override fun hashCode() = encoded.contentHashCode()
 }
 
 actual class PublicKey(private val key: CValue<secp256k1_pubkey>) {

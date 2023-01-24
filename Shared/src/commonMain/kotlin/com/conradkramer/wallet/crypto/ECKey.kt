@@ -2,7 +2,7 @@ package com.conradkramer.wallet.crypto
 
 import com.conradkramer.wallet.ethereum.types.Address
 
-internal expect class PrivateKey(data: ByteArray) {
+internal expect class PrivateKey(encoded: ByteArray) {
     val publicKey: PublicKey
     val encoded: ByteArray
 

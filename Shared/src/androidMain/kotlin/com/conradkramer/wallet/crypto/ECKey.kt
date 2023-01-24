@@ -38,9 +38,9 @@ internal actual class PrivateKey internal constructor(private val inner: BCECPri
         )
     )
 
-    actual constructor (data: ByteArray) : this(BigInteger(1, data)) {
-        if (data.size != 32) {
-            throw Exception("Invalid key length (${data.size})")
+    actual constructor (encoded: ByteArray) : this(BigInteger(1, encoded)) {
+        if (encoded.size != 32) {
+            throw Exception("Invalid key length (${encoded.size})")
         }
     }
 
