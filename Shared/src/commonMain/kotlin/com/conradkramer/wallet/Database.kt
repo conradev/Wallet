@@ -11,6 +11,8 @@ import com.conradkramer.wallet.crypto.PublicKey
 import com.conradkramer.wallet.data.Account
 import com.conradkramer.wallet.data.Browser_permission
 import com.conradkramer.wallet.data.Browser_prompt
+import com.conradkramer.wallet.data.Cb_crypto_currency
+import com.conradkramer.wallet.data.Cb_exchange_rate
 import com.conradkramer.wallet.data.Erc20_balance
 import com.conradkramer.wallet.data.Erc20_contract
 import com.conradkramer.wallet.data.Erc721_contract
@@ -102,6 +104,12 @@ internal fun Database.Companion.invoke(driver: SqlDriver): Database {
         ),
         browser_promptAdapter = Browser_prompt.Adapter(
             promptAdapter = promptAdapter
+        ),
+        cb_crypto_currencyAdapter = Cb_crypto_currency.Adapter(
+            updated_atAdapter = timestampAdapter
+        ),
+        cb_exchange_rateAdapter = Cb_exchange_rate.Adapter(
+            updated_atAdapter = timestampAdapter
         ),
         erc20_balanceAdapter = Erc20_balance.Adapter(
             chain_idAdapter = chainAdapter,

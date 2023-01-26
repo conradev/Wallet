@@ -8,17 +8,19 @@ import com.conradkramer.wallet.ethereum.types.Address
 import com.conradkramer.wallet.ethereum.types.BlockSpecifier
 import com.conradkramer.wallet.ethereum.types.Chain
 import com.conradkramer.wallet.sql.Database
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import mu.KLogger
 
 internal class AccountTransactionIndexer(
-    val address: Address,
-    private val client: RpcClient,
-    database: Database,
     chain: Chain,
+    scope: CoroutineScope,
+    database: Database,
+    private val client: RpcClient,
+    val address: Address,
     logger: KLogger
-) : Indexer(chain, logger, database) {
+) : Indexer(chain, scope, database, logger) {
     init { refresh() }
 
     override suspend fun index() {

@@ -4,6 +4,7 @@ import app.cash.sqldelight.Query
 import app.cash.sqldelight.coroutines.asFlow
 import com.conradkramer.wallet.ethereum.types.Chain
 import com.conradkramer.wallet.sql.Database
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -16,12 +17,13 @@ import kotlinx.coroutines.sync.withLock
 import mu.KLogger
 
 internal abstract class QueryIndexer<RowType : Any>(
-    database: Database,
     chain: Chain,
+    scope: CoroutineScope,
+    database: Database,
     val query: Query<RowType>,
     val identifier: (RowType) -> String,
     logger: KLogger
-) : Indexer(chain, logger, database) {
+) : Indexer(chain, scope, database, logger) {
 
     private val tasks: MutableMap<String, Deferred<Result<Unit>>> = mutableMapOf()
     private val mutex = Mutex()

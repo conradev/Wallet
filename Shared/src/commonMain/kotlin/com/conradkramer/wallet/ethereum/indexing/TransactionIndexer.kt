@@ -7,16 +7,19 @@ import com.conradkramer.wallet.ethereum.requests.GetTransactionByHash
 import com.conradkramer.wallet.ethereum.types.Chain
 import com.conradkramer.wallet.ethereum.types.Data
 import com.conradkramer.wallet.sql.Database
+import kotlinx.coroutines.CoroutineScope
 import mu.KLogger
 
 internal class TransactionIndexer(
-    private val client: RpcClient,
-    database: Database,
     chain: Chain,
+    scope: CoroutineScope,
+    database: Database,
+    private val client: RpcClient,
     logger: KLogger
 ) : QueryIndexer<Data>(
-    database,
     chain,
+    scope,
+    database,
     database.ethereumQueries.transactionsToIndex(chain),
     Data::toString,
     logger

@@ -5,7 +5,7 @@ enum class Coin(val number: Long) {
     ETHEREUM(60);
 
     companion object {
-        private val mapping = values().associate { it.number to it }
+        private val mapping = values().associateBy(Coin::number)
 
         operator fun invoke(number: Long) = mapping[number] ?: throw Exception("Unrecognized coin identifier $number")
     }

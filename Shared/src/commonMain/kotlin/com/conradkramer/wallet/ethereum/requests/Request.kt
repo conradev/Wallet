@@ -22,9 +22,7 @@ internal abstract class Request {
     abstract val method: String
     abstract val params: List<JsonElement>
 
-    fun jsonRpcRequest(id: Int): JsonRpcRequest {
-        return JsonRpcRequest(method = method, params = params, id = id)
-    }
+    fun jsonRpcRequest(id: Int) = JsonRpcRequest(JsonRpcRequest.VERSION, method, id, params)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -45,33 +43,18 @@ internal abstract class Request {
     }
 
     companion object {
-        inline fun <reified T> encode(value: T): JsonElement {
-            return json.encodeToJsonElement(value)
-        }
-
-        inline fun <reified T> decode(
-            value: JsonElement
-        ): T {
-            return json.decodeFromJsonElement(value)
-        }
-
-        inline fun <reified T> decode(
-            params: List<JsonElement>,
-            index: Int
-        ): T {
-            return json.decodeFromJsonElement(params[index])
-        }
-
-        inline fun <reified T> decode(
-            params: List<JsonElement>,
-            index: Int,
-            default: T
-        ): T {
-            return if (index < params.size) {
-                decode(params, index)
-            } else {
-                default
-            }
+        inline fun <reified T> encode(value: T) = json.encodeToJsonElement(value)
+        inline fun <reified T> decode(value: JsonElement): T = json.decodeFromJsonElement(value)
+        inline fun <reified T> decode(params: List<JsonElement>, index: Int): T = json.decodeFromJsonElement(
+            params[index]
+        )
+        inline fun <reified T> decode(params: List<JsonElement>, index: Int, default: T): T = if (index < params.size) {
+            decode(
+                params,
+                index
+            )
+        } else {
+            default
         }
 
         fun fromMethodAndParams(method: String, params: List<JsonElement>?): Request {
@@ -96,7 +79,7 @@ internal abstract class Request {
                 SignTransaction.method -> ::SignTransaction
                 SignTypedData.method -> ::SignTypedData
                 Subscribe.method -> ::Subscribe
-                else -> { it -> AnyRequest(method, it) }
+                else -> AnyRequest.constructor(method)
             }
             return constructor(params ?: emptyList())
         }
@@ -129,17 +112,25 @@ internal abstract class Request {
 internal data class AnyRequest(
     override val method: String,
     override val params: List<JsonElement>
-) : Request()
+) : Request() {
+    internal companion object {
+        fun constructor(method: String): (List<JsonElement>) -> Request = { it -> AnyRequest(method, it) }
+    }
+}
 
 @Serializable
 internal data class JsonRpcRequest(
-    var jsonrpc: String = "2.0",
+    var jsonrpc: String = VERSION,
     var method: String,
     var id: Int,
     var params: List<JsonElement>?
 ) {
     val request: Request
         get() = Request.fromMethodAndParams(method, params ?: listOf())
+
+    companion object {
+        const val VERSION = "2.0"
+    }
 }
 
 @Serializable

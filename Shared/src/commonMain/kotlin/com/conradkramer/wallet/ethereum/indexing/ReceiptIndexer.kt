@@ -8,16 +8,19 @@ import com.conradkramer.wallet.ethereum.requests.Receipt
 import com.conradkramer.wallet.ethereum.types.Chain
 import com.conradkramer.wallet.ethereum.types.Data
 import com.conradkramer.wallet.sql.Database
+import kotlinx.coroutines.CoroutineScope
 import mu.KLogger
 
 internal class ReceiptIndexer(
-    private val client: RpcClient,
-    database: Database,
     chain: Chain,
+    scope: CoroutineScope,
+    database: Database,
+    private val client: RpcClient,
     logger: KLogger
 ) : QueryIndexer<Data>(
-    database,
     chain,
+    scope,
+    database,
     database.ethereumQueries.receiptsToIndex(chain),
     Data::toString,
     logger
