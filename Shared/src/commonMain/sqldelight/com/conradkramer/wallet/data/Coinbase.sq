@@ -1,0 +1,30 @@
+CREATE TABLE cb_crypto_currency (
+    code TEXT PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    color TEXT NOT NULL,
+    sort_index INTEGER NOT NULL,
+    exponent INTEGER NOT NULL,
+    asset_id TEXT UNIQUE NOT NULL,
+    updated_at TEXT AS kotlinx.datetime.Instant NOT NULL
+);
+
+CREATE TABLE cb_exchange_rate (
+    [from] TEXT NOT NULL,
+    [to] TEXT NOT NULL,
+    rate REAL NOT NULL,
+    updated_at TEXT AS kotlinx.datetime.Instant NOT NULL,
+
+    PRIMARY KEY ([from], [to])
+);
+
+upsertCryptoCurrency:
+REPLACE INTO cb_crypto_currency(code, name, color, sort_index, exponent, asset_id, updated_at)
+VALUES ?;
+
+upsertExchangeRate:
+REPLACE INTO cb_exchange_rate([from], [to], rate, updated_at)
+VALUES ?;
+
+reset:
+DELETE FROM cb_crypto_currency;
+DELETE FROM cb_exchange_rate;

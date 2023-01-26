@@ -213,14 +213,16 @@ REPLACE INTO eth_balance(chain_id, address, balance, block)
 VALUES ?;
 
 tokenBalancesForAddress:
-SELECT contract.name, balance.balance, contract.symbol, contract.decimals FROM erc20_balance AS balance
+SELECT contract.name, balance.balance, contract.symbol, contract.decimals, cb.rate FROM erc20_balance AS balance
 LEFT JOIN erc20_contract AS contract ON balance.chain_id == contract.chain_id AND balance.contract == contract.address
+LEFT JOIN cb_exchange_rate AS cb ON cb.[to] = contract.symbol AND cb.[from] = ?
 WHERE
     contract.chain_id = ? AND
     balance.address = ?;
 
 balanceForAddress:
-SELECT balance.balance FROM eth_balance AS balance
+SELECT balance.balance, cb.rate FROM eth_balance AS balance
+LEFT JOIN cb_exchange_rate AS cb ON cb.[from] = ? AND cb.[to] = "ETH"
 WHERE balance.chain_id = ? AND balance.address = ?;
 
 reset {

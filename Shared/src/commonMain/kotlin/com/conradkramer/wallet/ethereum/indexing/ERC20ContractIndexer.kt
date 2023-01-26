@@ -10,16 +10,19 @@ import com.conradkramer.wallet.ethereum.types.Chain
 import com.conradkramer.wallet.ethereum.types.Data
 import com.conradkramer.wallet.ethereum.types.Quantity
 import com.conradkramer.wallet.sql.Database
+import kotlinx.coroutines.CoroutineScope
 import mu.KLogger
 
 internal class ERC20ContractIndexer(
-    private val client: RpcClient,
-    database: Database,
     chain: Chain,
+    scope: CoroutineScope,
+    database: Database,
+    private val client: RpcClient,
     logger: KLogger
 ) : QueryIndexer<Address>(
-    database,
     chain,
+    scope,
+    database,
     database.ethereumQueries.erc20ContractsToIndex(chain, Data(Transfer.selector.data)),
     Address::toString,
     logger

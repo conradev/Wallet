@@ -1,19 +1,28 @@
 package com.conradkramer.wallet
 
 import com.conradkramer.wallet.browser.BrowserPermissionStore
+import com.conradkramer.wallet.clients.CoinbaseClient
 import com.conradkramer.wallet.ethereum.AlchemyProvider
 import com.conradkramer.wallet.ethereum.Cloudflare
 import com.conradkramer.wallet.ethereum.InfuraProvider
 import com.conradkramer.wallet.ethereum.RpcClient
 import com.conradkramer.wallet.ethereum.RpcProvider
+import com.conradkramer.wallet.ethereum.indexing.AccountTransactionIndexer
+import com.conradkramer.wallet.ethereum.indexing.BalanceIndexer
+import com.conradkramer.wallet.ethereum.indexing.ChainIndexer
+import com.conradkramer.wallet.ethereum.indexing.ERC20ContractIndexer
+import com.conradkramer.wallet.ethereum.indexing.ERC721ContractIndexer
+import com.conradkramer.wallet.ethereum.indexing.ReceiptIndexer
+import com.conradkramer.wallet.ethereum.indexing.TransactionIndexer
 import com.conradkramer.wallet.ethereum.types.Chain
+import com.conradkramer.wallet.indexing.AppIndexer
+import com.conradkramer.wallet.indexing.CoinbaseIndexer
 import com.conradkramer.wallet.sql.Database
 import com.conradkramer.wallet.viewmodel.PermissionPromptViewModel
 import com.conradkramer.wallet.viewmodel.SignDataPromptViewModel
 import mu.KLogger
 import mu.KotlinLogging
 import org.koin.core.Koin
-import org.koin.core.KoinApplication
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Module
 import org.koin.core.context.startKoin
@@ -48,35 +57,42 @@ private fun sharedModule() = module {
     single { AlchemyProvider(mapOf(Chain.MAINNET to "tbOMWQYmtAGuUDnDOhoJFYxXIKctXij3")) }
     single { InfuraProvider("ef01c7a0107b41deb6f77b00bda654b1") }
     singleOf(::Cloudflare) bind RpcProvider::class
+
+    single(createdAtStart = true) { AppIndexer(get()) }
+
+    // TODO: Remove chain assumption
     factory { RpcClient(get<RpcProvider>().endpointUrl(Chain.MAINNET), logger<RpcClient>()) }
 
+    factory { CoinbaseClient(logger<CoinbaseClient>()) }
     factory { BrowserPermissionStore(get(), logger<BrowserPermissionStore>()) }
+    factory { params -> CoinbaseIndexer(params[0], get(), get(), logger<CoinbaseIndexer>()) }
+    factory { params -> ChainIndexer(params[0], params[1], get(), get(), get()) }
+    factory { params -> TransactionIndexer(params[0], params[1], get(), get(), logger<TransactionIndexer>()) }
+    factory { params -> ReceiptIndexer(params[0], params[1], get(), get(), logger<ReceiptIndexer>()) }
+    factory { params -> ERC20ContractIndexer(params[0], params[1], get(), get(), logger<ERC20ContractIndexer>()) }
+    factory { params -> ERC721ContractIndexer(params[0], params[1], get(), get(), logger<TransactionIndexer>()) }
+    factory { params ->
+        val client = RpcClient(get<AlchemyProvider>().endpointUrl(params[0]), logger<RpcClient>())
+        AccountTransactionIndexer(params[0], params[1], get(), client, params[2], logger<TransactionIndexer>())
+    }
+    factory { params -> BalanceIndexer(params[0], params[1], get(), get(), params[2], logger<TransactionIndexer>()) }
 
     factory { params -> KotlinLogging.logger(if (params.isNotEmpty()) params.get() else "General") }
 }
 
 internal expect fun platformModule(): org.koin.core.module.Module
 
-internal fun mockApplication(): KoinApplication {
-    return koinApplication {
-        modules(platformModule(), sharedModule(), mockModule())
-    }
+internal fun mockApplication() = koinApplication {
+    modules(platformModule(), sharedModule(), mockModule())
 }
 
-internal fun startKoinShared(declaration: KoinAppDeclaration): KoinApplication {
-    val application = startKoin {
-        declaration()
-        logger(KLoggerLogger())
-        allowOverride(false)
-        modules(platformModule(), sharedModule())
-    }
-
-    val options = LaunchOptions.current
-    if (options.resetAccounts) application.koin.get<AccountStore>().reset()
-    if (options.resetIndex) application.koin.get<Database>().ethereumQueries.reset()
-
-    return application
+internal fun startKoinShared(declaration: KoinAppDeclaration) = startKoin {
+    declaration()
+    logger(KLoggerLogger())
+    allowOverride(false)
+    modules(platformModule(), sharedModule())
 }
+    .also { LaunchOptions.current.apply(it.koin) }
 
 internal fun Scope.logger(qualifier: Qualifier) = get<KLogger> {
     parametersOf(

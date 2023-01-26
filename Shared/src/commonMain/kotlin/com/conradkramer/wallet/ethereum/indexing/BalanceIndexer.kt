@@ -18,6 +18,7 @@ import com.conradkramer.wallet.ethereum.types.Chain
 import com.conradkramer.wallet.ethereum.types.Data
 import com.conradkramer.wallet.ethereum.types.Quantity
 import com.conradkramer.wallet.sql.Database
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -27,12 +28,13 @@ import kotlinx.datetime.Instant
 import mu.KLogger
 
 internal class BalanceIndexer(
-    val address: Address,
-    private val client: RpcClient,
-    database: Database,
     chain: Chain,
+    scope: CoroutineScope,
+    database: Database,
+    private val client: RpcClient,
+    val address: Address,
     logger: KLogger
-) : Indexer(chain, logger, database) {
+) : Indexer(chain, scope, database, logger) {
 
     private val contracts = database.ethereumQueries.erc20ContractsForAccount(
         chain,

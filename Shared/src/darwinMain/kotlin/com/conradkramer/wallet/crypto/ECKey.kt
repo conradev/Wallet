@@ -178,7 +178,10 @@ actual class PublicKey(private val key: CValue<secp256k1_pubkey>) {
             )
         }
 
-        private fun parseSignature(signature: Signature, context: CPointer<secp256k1_context>): CValue<secp256k1_ecdsa_signature> = memScoped {
+        private fun parseSignature(
+            signature: Signature,
+            context: CPointer<secp256k1_context>
+        ): CValue<secp256k1_ecdsa_signature> = memScoped {
             alloc<secp256k1_ecdsa_signature>()
                 .also {
                     secp256k1_ecdsa_recoverable_signature_convert(
@@ -190,7 +193,10 @@ actual class PublicKey(private val key: CValue<secp256k1_pubkey>) {
                 .readValue()
         }
 
-        private fun parseRecoverableSignature(signature: Signature, context: CPointer<secp256k1_context>): CValue<secp256k1_ecdsa_recoverable_signature> = memScoped {
+        private fun parseRecoverableSignature(
+            signature: Signature,
+            context: CPointer<secp256k1_context>
+        ): CValue<secp256k1_ecdsa_recoverable_signature> = memScoped {
             val buffer = signature.r.data + signature.s.data
             return alloc<secp256k1_ecdsa_recoverable_signature>()
                 .also {
@@ -207,7 +213,14 @@ actual class PublicKey(private val key: CValue<secp256k1_pubkey>) {
 
         private fun parse(data: ByteArray): CValue<secp256k1_pubkey> = memScoped {
             alloc<secp256k1_pubkey>()
-                .also { secp256k1_ec_pubkey_parse(context(), it.ptr, data.asUByteArray().refTo(0), data.size.convert()) }
+                .also {
+                    secp256k1_ec_pubkey_parse(
+                        context(),
+                        it.ptr,
+                        data.asUByteArray().refTo(0),
+                        data.size.convert()
+                    )
+                }
                 .readValue()
         }
     }

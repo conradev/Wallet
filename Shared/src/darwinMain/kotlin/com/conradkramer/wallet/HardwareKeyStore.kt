@@ -251,7 +251,11 @@ internal actual data class HardwareKeyStore(
         continuation.invokeOnCancellation { inner.invalidate() }
     }
 
-    override fun <R> decrypt(context: AuthenticationContext, data: ByteArray, handler: (data: ByteArray) -> R): R = memScoped {
+    override fun <R> decrypt(
+        context: AuthenticationContext,
+        data: ByteArray,
+        handler: (data: ByteArray) -> R
+    ): R = memScoped {
         logger.info { "Decrypting data of size ${data.size} with key ${context.id}" }
 
         val query = dictionary(context.id).autorelease(this)
