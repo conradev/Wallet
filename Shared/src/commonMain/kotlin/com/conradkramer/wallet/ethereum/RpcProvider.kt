@@ -2,6 +2,7 @@ package com.conradkramer.wallet.ethereum
 
 import com.conradkramer.wallet.ethereum.types.Chain
 import io.ktor.http.URLBuilder
+import io.ktor.http.URLProtocol
 import io.ktor.http.Url
 import io.ktor.http.appendPathSegments
 
@@ -41,7 +42,20 @@ internal data class InfuraProvider(val projectId: String) : RpcProvider {
  * Errata:
  * - Negative `id` values return a "problem parsing request body" error
  */
-internal class Cloudflare : ChainRpcProvider(Url("https://cloudflare-eth.com"), Chain.MAINNET)
+internal class Cloudflare(
+    val host: String = "web3-trial.cloudflare-eth.com"
+) : RpcProvider {
+    override val supportedChains = setOf(
+        Chain.MAINNET,
+        Chain.RINKEBY,
+        Chain.GOERLI,
+        Chain.SEPOLIA
+    )
+
+    override fun endpointUrl(chain: Chain) = URLBuilder(protocol = URLProtocol.HTTPS, host = host)
+        .appendPathSegments("v1", chain.lowercaseName)
+        .build()
+}
 
 internal open class ChainRpcProvider(
     val url: Url,

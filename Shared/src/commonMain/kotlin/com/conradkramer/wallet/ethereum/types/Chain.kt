@@ -28,7 +28,8 @@ enum class Chain(val id: Long) {
     CLASSIC(61),
     MORDOR(63),
     ASTOR(212),
-    DEV(2018);
+    DEV(2018),
+    SEPOLIA(11155111);
 
     val lowercaseName = name.lowercase()
 
