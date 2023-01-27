@@ -1,6 +1,3 @@
 #include "../Configuration/Framework.xcconfig"
 
 PRODUCT_NAME = WalletUICore
-
-EXCLUDED_SOURCE_FILE_NAMES[sdk=iphone*] = UICore/macOS/* UICore/macOS/*/*
-EXCLUDED_SOURCE_FILE_NAMES[sdk=macosx*] = UIKit.framework UICore/iOS/* UICore/iOS/*/*
