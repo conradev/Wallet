@@ -1,3 +1,5 @@
+#if os(macOS)
+
 import LocalAuthenticationEmbeddedUI
 import SwiftUI
 
@@ -22,3 +24,5 @@ struct AuthenticationView: NSViewRepresentable {
         Coordinator(context)
     }
 }
+
+#endif

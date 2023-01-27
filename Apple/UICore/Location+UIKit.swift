@@ -1,3 +1,5 @@
+#if !os(macOS)
+
 import UIKit
 import WalletCore
 
@@ -17,3 +19,5 @@ extension Location {
         self = location
     }
 }
+
+#endif

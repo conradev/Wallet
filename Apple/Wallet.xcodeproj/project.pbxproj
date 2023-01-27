@@ -47,7 +47,6 @@
 		D031A81027E0099F0009C6BF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D031A80F27E0099F0009C6BF /* UIKit.framework */; };
 		D032D842282D1A950000CE6B /* Location+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D032D841282D1A950000CE6B /* Location+UIKit.swift */; };
 		D032D844282D1C380000CE6B /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = D028F29A281DC2A80042C687 /* Location.swift */; };
-		D032D845282D1CC40000CE6B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D031A80F27E0099F0009C6BF /* UIKit.framework */; };
 		D03AF5B427FD14AD002985D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AF5B327FD14AD002985D2 /* AppDelegate.swift */; };
 		D03AF5B627FD14AE002985D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D03AF5B527FD14AE002985D2 /* Assets.xcassets */; };
 		D03AF5B927FD14AE002985D2 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D03AF5B727FD14AE002985D2 /* MainMenu.xib */; };
@@ -75,6 +74,8 @@
 		D080E17527F2830F0024944D /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D080E17327F2830F0024944D /* MainWindowController.swift */; };
 		D0A05DE7282927C50059D2AA /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A05DE6282927C50059D2AA /* AuthenticationView.swift */; };
 		D0AD260127AA0BEA00010783 /* WalletWebExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D07F238B27595E0800E2C42C /* WalletWebExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D0B7C817298376D8009ACEE1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D031A80F27E0099F0009C6BF /* UIKit.framework */; platformFilter = ios; };
+		D0B7C818298376E1009ACEE1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D031A80B27DFF3EC0009C6BF /* AppKit.framework */; platformFilters = (macos, ); };
 		D0BF40F828273D3D001180E3 /* PromptWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF40F728273D3D001180E3 /* PromptWindowController.swift */; };
 		D0BF412E2827427A001180E3 /* LoginItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D078248C27FF90D5006736D4 /* LoginItem.swift */; };
 		D0BF412F2827427A001180E3 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0981F5C26E26B1400CDD5CA /* Logger.swift */; };
@@ -516,8 +517,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0B7C818298376E1009ACEE1 /* AppKit.framework in Frameworks */,
 				D0BF419328284AE9001180E3 /* SwiftUI.framework in Frameworks */,
-				D032D845282D1CC40000CE6B /* UIKit.framework in Frameworks */,
+				D0B7C817298376D8009ACEE1 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,14 +578,6 @@
 				D0F953302831C17E00E7987F /* SkyLight.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		D032D843282D1AA20000CE6B /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				D032D841282D1A950000CE6B /* Location+UIKit.swift */,
-			);
-			path = iOS;
 			sourceTree = "<group>";
 		};
 		D03AF5B227FD14AD002985D2 /* ViewService */ = {
@@ -743,14 +737,6 @@
 			path = External;
 			sourceTree = "<group>";
 		};
-		D0A05DE5282927A20059D2AA /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				D0A05DE6282927C50059D2AA /* AuthenticationView.swift */,
-			);
-			path = macOS;
-			sourceTree = "<group>";
-		};
 		D0BF417F282744A1001180E3 /* UICore */ = {
 			isa = PBXGroup;
 			children = (
@@ -761,8 +747,8 @@
 				D028F2AA281E5FA70042C687 /* SignDataPromptView.swift */,
 				D0EE239A281C9463004FCB52 /* FloatingButtonStyle.swift */,
 				D0F1EBEA275717EA00E83A43 /* Previews.swift */,
-				D032D843282D1AA20000CE6B /* iOS */,
-				D0A05DE5282927A20059D2AA /* macOS */,
+				D032D841282D1A950000CE6B /* Location+UIKit.swift */,
+				D0A05DE6282927C50059D2AA /* AuthenticationView.swift */,
 				D0BF4180282744B7001180E3 /* UICore.xcconfig */,
 			);
 			path = UICore;
