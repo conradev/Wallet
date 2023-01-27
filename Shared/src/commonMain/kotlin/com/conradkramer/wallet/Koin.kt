@@ -4,7 +4,6 @@ import com.conradkramer.wallet.browser.BrowserPermissionStore
 import com.conradkramer.wallet.clients.CoinbaseClient
 import com.conradkramer.wallet.ethereum.AlchemyProvider
 import com.conradkramer.wallet.ethereum.Cloudflare
-import com.conradkramer.wallet.ethereum.InfuraProvider
 import com.conradkramer.wallet.ethereum.RpcClient
 import com.conradkramer.wallet.ethereum.RpcProvider
 import com.conradkramer.wallet.ethereum.indexing.AccountTransactionIndexer
@@ -29,7 +28,6 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.core.logger.Logger
 import org.koin.core.logger.MESSAGE
-import org.koin.core.module.dsl.singleOf
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.Qualifier
 import org.koin.core.qualifier.TypeQualifier
@@ -55,12 +53,11 @@ private fun sharedModule() = module {
 
     single { Database.invoke(get()) }
     single { AlchemyProvider(mapOf(Chain.MAINNET to "tbOMWQYmtAGuUDnDOhoJFYxXIKctXij3")) }
-    single { InfuraProvider("ef01c7a0107b41deb6f77b00bda654b1") }
-    singleOf(::Cloudflare) bind RpcProvider::class
+    single { Cloudflare("eth.soup.solutions") } bind RpcProvider::class
 
     single(createdAtStart = true) { AppIndexer(get()) }
 
-    // TODO: Remove chain assumption
+    // TODO: Add parameter for `chain`
     factory { RpcClient(get<RpcProvider>().endpointUrl(Chain.MAINNET), logger<RpcClient>()) }
 
     factory { CoinbaseClient(logger<CoinbaseClient>()) }
