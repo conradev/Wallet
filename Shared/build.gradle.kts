@@ -48,7 +48,7 @@ kotlin {
         val darwinMain by creating {
             dependsOn(commonMain)
             dependencies {
-                implementation(libs.ktor.client.ios)
+                implementation(libs.ktor.client.darwin)
                 implementation(libs.sqldelight.driver.native)
             }
         }
