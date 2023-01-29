@@ -15,16 +15,12 @@ extension MainViewProvider {
 
     @ViewBuilder
     func contentView(for tab: MainViewModel.Tab) -> some View {
-        #if os(macOS)
-        Text(tab.title)
-        #else
         switch tab {
         case .utility:
             BrowserView()
         default:
             Text(tab.title)
         }
-        #endif
     }
 }
 
