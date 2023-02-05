@@ -1,30 +1,16 @@
 package com.conradkramer.wallet.bigint
 
-import java.math.MathContext
 import java.math.RoundingMode
 
 actual class BigDecimal(val inner: java.math.BigDecimal) {
-    init {
-        inner.setScale(1000000, RoundingMode.HALF_UP)
-    }
-
-    actual constructor(integer: BigInteger) : this(integer.inner.toBigDecimal())
-
-    override fun toString(): String {
-        return inner.toString()
-    }
-
-    actual fun toDouble(): Double {
-        return inner.toDouble()
-    }
-
-    actual operator fun div(other: BigDecimal): BigDecimal {
-        return BigDecimal(inner.divide(other.inner, MathContext.UNLIMITED))
-    }
+    override fun toString() = inner.toString()
+    actual fun toDouble() = inner.toDouble()
+    actual fun toBigInteger() = BigInteger(inner.toBigInteger())
+    actual fun div(other: BigDecimal, scale: Int) = BigDecimal(inner.divide(other.inner, scale, RoundingMode.DOWN))
+    actual operator fun div(other: BigDecimal) = div(other, CURRENCY_SCALE)
+    actual operator fun times(valueOf: BigDecimal) = BigDecimal(inner.times(valueOf.inner))
 
     actual companion object {
-        actual fun valueOf(value: Double): BigDecimal {
-            return BigDecimal(java.math.BigDecimal.valueOf(value))
-        }
+        actual fun valueOf(value: Double) = BigDecimal(java.math.BigDecimal.valueOf(value))
     }
 }

@@ -7,6 +7,7 @@ expect class BigInteger(data: ByteArray) : RLPRepresentable {
 
     fun toLong(): Long
     fun toULong(): ULong
+    fun toBigDecimal(): BigDecimal
 
     override fun equals(other: Any?): Boolean
     override fun hashCode(): Int
