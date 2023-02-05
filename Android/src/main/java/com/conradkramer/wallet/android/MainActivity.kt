@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import com.conradkramer.wallet.indexing.AppIndexer
 import com.conradkramer.wallet.viewmodel.MainViewModel
 import org.koin.android.ext.android.inject
 import org.koin.android.scope.AndroidScopeComponent
@@ -16,10 +17,12 @@ class MainActivity : AppCompatActivity(), AndroidScopeComponent {
     override val scope: Scope by activityRetainedScope()
 
     private val mainViewModel: MainViewModel by inject()
+    private val appIndexer: AppIndexer by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        appIndexer
 
         setContent {
             AppTheme {

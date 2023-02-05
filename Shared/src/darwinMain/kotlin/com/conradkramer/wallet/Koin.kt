@@ -6,6 +6,7 @@ import app.cash.sqldelight.driver.native.wrapConnection
 import co.touchlab.sqliter.DatabaseConfiguration
 import com.conradkramer.wallet.browser.BrowserMessageHost
 import com.conradkramer.wallet.browser.BrowserPromptHost
+import com.conradkramer.wallet.indexing.AppIndexer
 import com.conradkramer.wallet.sql.Database
 import com.conradkramer.wallet.viewmodel.BrowserViewModel
 import com.conradkramer.wallet.viewmodel.ImportViewModel
@@ -95,4 +96,7 @@ val Koin.browserMessageHost: BrowserMessageHost
     get() = get()
 
 val Koin.browserPromptHost: BrowserPromptHost
+    get() = get()
+
+val Koin.appIndexer: AppIndexer
     get() = get()

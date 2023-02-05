@@ -28,6 +28,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.core.logger.Logger
 import org.koin.core.logger.MESSAGE
+import org.koin.core.module.dsl.singleOf
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.Qualifier
 import org.koin.core.qualifier.TypeQualifier
@@ -54,8 +55,7 @@ private fun sharedModule() = module {
     single { Database.invoke(get()) }
     single { AlchemyProvider(mapOf(Chain.MAINNET to "tbOMWQYmtAGuUDnDOhoJFYxXIKctXij3")) }
     single { Cloudflare("eth.soup.solutions") } bind RpcProvider::class
-
-    single(createdAtStart = true) { AppIndexer(get()) }
+    singleOf(::AppIndexer)
 
     // TODO: Add parameter for `chain`
     factory { RpcClient(get<RpcProvider>().endpointUrl(Chain.MAINNET), logger<RpcClient>()) }
