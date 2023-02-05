@@ -57,6 +57,11 @@ private val coinAdapter = object : ColumnAdapter<Coin, Long> {
     override fun encode(value: Coin) = value.number
 }
 
+private val codeAdapter = object : ColumnAdapter<Currency.Code, String> {
+    override fun decode(databaseValue: String) = Currency.Code(databaseValue)
+    override fun encode(value: Currency.Code) = value.code
+}
+
 private val publicKeyAdapter = object : ColumnAdapter<PublicKey, ByteArray> {
     override fun decode(databaseValue: ByteArray) = PublicKey(databaseValue)
     override fun encode(value: PublicKey) = value.encoded(true)
@@ -106,9 +111,12 @@ internal fun Database.Companion.invoke(driver: SqlDriver): Database {
             promptAdapter = promptAdapter
         ),
         cb_crypto_currencyAdapter = Cb_crypto_currency.Adapter(
-            updated_atAdapter = timestampAdapter
+            updated_atAdapter = timestampAdapter,
+            codeAdapter = codeAdapter
         ),
         cb_exchange_rateAdapter = Cb_exchange_rate.Adapter(
+            fromAdapter = codeAdapter,
+            toAdapter = codeAdapter,
             updated_atAdapter = timestampAdapter
         ),
         erc20_balanceAdapter = Erc20_balance.Adapter(
@@ -120,11 +128,13 @@ internal fun Database.Companion.invoke(driver: SqlDriver): Database {
         erc20_contractAdapter = Erc20_contract.Adapter(
             chain_idAdapter = chainAdapter,
             addressAdapter = addressAdapter,
-            total_supplyAdapter = quantityAdapter
+            total_supplyAdapter = quantityAdapter,
+            symbolAdapter = codeAdapter
         ),
         erc721_contractAdapter = Erc721_contract.Adapter(
             chain_idAdapter = chainAdapter,
             addressAdapter = addressAdapter,
+            symbolAdapter = codeAdapter,
             total_supplyAdapter = quantityAdapter
         ),
         eth_account_transactionAdapter = Eth_account_transaction.Adapter(

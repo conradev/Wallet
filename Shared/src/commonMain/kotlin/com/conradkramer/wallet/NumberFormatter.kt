@@ -4,7 +4,7 @@ internal expect class NumberFormatter {
     fun string(number: Double): String
 
     companion object {
-        val currency: NumberFormatter
-        val testing: NumberFormatter
+        fun fiat(currency: Currency, locale: Locale? = null): NumberFormatter
+        fun cryptocurrency(currency: Currency, locale: Locale? = null): NumberFormatter
     }
 }

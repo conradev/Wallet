@@ -23,7 +23,6 @@ internal class RpcClient(
     val endpointUrl: Url,
     private val nativeLogger: KLogger
 ) {
-
     val client = HttpClient {
         install(Logging) {
             klogger(nativeLogger)

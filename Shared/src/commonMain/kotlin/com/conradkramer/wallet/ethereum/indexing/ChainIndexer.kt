@@ -1,7 +1,6 @@
 package com.conradkramer.wallet.ethereum.indexing
 
 import com.conradkramer.wallet.AccountStore
-import com.conradkramer.wallet.ethereum.RpcProvider
 import com.conradkramer.wallet.ethereum.types.Address
 import com.conradkramer.wallet.ethereum.types.Chain
 import com.conradkramer.wallet.sql.Database
@@ -17,10 +16,8 @@ internal class ChainIndexer(
     val chain: Chain,
     private val scope: CoroutineScope,
     private val database: Database,
-    provider: RpcProvider,
     private val accountStore: AccountStore
 ) : KoinComponent {
-
     private val transactionIndexer: TransactionIndexer = getKoin().get { parametersOf(chain, scope) }
     private val receiptIndexer: ReceiptIndexer = getKoin().get { parametersOf(chain, scope) }
     private val erc20ContractIndexer: ERC20ContractIndexer = getKoin().get { parametersOf(chain, scope) }

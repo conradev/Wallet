@@ -1,5 +1,6 @@
 package com.conradkramer.wallet.ethereum.indexing
 
+import com.conradkramer.wallet.Currency
 import com.conradkramer.wallet.data.Erc20_contract
 import com.conradkramer.wallet.ethereum.RpcClient
 import com.conradkramer.wallet.ethereum.abi.erc20
@@ -51,7 +52,7 @@ internal class ERC20ContractIndexer(
                 chain,
                 row,
                 Quantity(totalSupply),
-                symbol,
+                symbol?.let { Currency.Code(it) },
                 decimals?.toLong(),
                 name
             )

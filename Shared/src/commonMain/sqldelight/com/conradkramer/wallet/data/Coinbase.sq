@@ -1,5 +1,5 @@
 CREATE TABLE cb_crypto_currency (
-    code TEXT PRIMARY KEY NOT NULL,
+    code TEXT AS com.conradkramer.wallet.Currency.Code PRIMARY KEY NOT NULL,
     name TEXT NOT NULL,
     color TEXT NOT NULL,
     sort_index INTEGER NOT NULL,
@@ -9,8 +9,8 @@ CREATE TABLE cb_crypto_currency (
 );
 
 CREATE TABLE cb_exchange_rate (
-    [from] TEXT NOT NULL,
-    [to] TEXT NOT NULL,
+    [from] TEXT AS com.conradkramer.wallet.Currency.Code NOT NULL,
+    [to] TEXT AS com.conradkramer.wallet.Currency.Code NOT NULL,
     rate REAL NOT NULL,
     updated_at TEXT AS kotlinx.datetime.Instant NOT NULL,
 

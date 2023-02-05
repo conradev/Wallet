@@ -1,5 +1,6 @@
 package com.conradkramer.wallet.clients
 
+import com.conradkramer.wallet.Currency
 import com.conradkramer.wallet.ethereum.klogger
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -21,7 +22,7 @@ internal class CoinbaseClient(
 ) {
     @Serializable
     internal data class Cryptocurrency(
-        val code: String,
+        val code: Currency.Code,
         val name: String,
         val color: String,
         @SerialName("sort_index")
@@ -34,7 +35,7 @@ internal class CoinbaseClient(
     @Serializable
     private data class ExchangeRates(
         val currency: String,
-        val rates: Map<String, Double>
+        val rates: Map<Currency.Code, Double>
     )
 
     @Serializable
@@ -62,10 +63,10 @@ internal class CoinbaseClient(
         .body<DataResponse<List<Cryptocurrency>>>()
         .data
 
-    suspend fun exchangeRates(currency: String): Map<String, Double> = client.get(endpointUrl) {
+    suspend fun exchangeRates(currency: Currency.Code): Map<Currency.Code, Double> = client.get(endpointUrl) {
         url {
             appendPathSegments("exchange-rates")
-            parametersOf("currency", currency)
+            parametersOf("currency", currency.code)
         }
     }
         .body<DataResponse<ExchangeRates>>()

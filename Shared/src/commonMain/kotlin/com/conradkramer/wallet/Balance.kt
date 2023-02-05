@@ -11,15 +11,13 @@ data class Balance(
     fun toDouble() = (value.toBigDecimal().div(BigDecimal.pow10(currency.decimals))).toDouble()
 
     fun convert(currency: Currency, rate: Double): Balance {
-        val newValue = if (rate == 0.0) {
-            BigInteger.valueOf(0)
-        } else {
-            (
-                value.toBigDecimal() / BigDecimal.valueOf(rate) * BigDecimal.pow10(currency.decimals) / BigDecimal.pow10(
-                    this.currency.decimals
-                )
-                )
-                .toBigInteger()
+        val newValue = when (rate) {
+            0.0 -> BigInteger.valueOf(0)
+            else -> {
+                val converted = value.toBigDecimal() / BigDecimal.valueOf(rate)
+                val scaled = converted * BigDecimal.pow10(currency.decimals) / BigDecimal.pow10(this.currency.decimals)
+                scaled.toBigInteger()
+            }
         }
         return Balance(currency, newValue)
     }

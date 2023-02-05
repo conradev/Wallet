@@ -1,26 +1,38 @@
 package com.conradkramer.wallet
 
-import platform.Foundation.NSLocale
 import platform.Foundation.NSNumber
 import platform.Foundation.NSNumberFormatter
 import platform.Foundation.NSNumberFormatterCurrencyStyle
-import platform.Foundation.localeWithLocaleIdentifier
 import platform.Foundation.numberWithDouble
 
-internal actual class NumberFormatter private constructor(private val inner: NSNumberFormatter) {
-    actual fun string(number: Double) = inner.stringFromNumber(NSNumber.numberWithDouble(number))
-        ?: throw Exception("NSNumberFormatter failed to format number $number")
+internal actual class NumberFormatter private constructor(
+    private val inner: NSNumberFormatter,
+    private val suffix: String
+) {
+    actual fun string(number: Double): String = inner.stringFromNumber(NSNumber.numberWithDouble(number)) + suffix
 
     actual companion object {
-        actual val currency = forLocale()
-        actual val testing = forLocale("en_US")
+        actual fun fiat(currency: Currency, locale: Locale?) = formatter(locale) {
+            numberStyle = NSNumberFormatterCurrencyStyle
+            if (currency.symbol != null) currencySymbol = currency.symbol
+            currencyCode = currency.code.code
+        }
 
-        private fun forLocale(locale: String? = null) = NSNumberFormatter()
-            .also { formatter ->
-                locale?.let { formatter.locale = NSLocale.localeWithLocaleIdentifier(it) }
-                formatter.numberStyle = NSNumberFormatterCurrencyStyle
-                formatter.currencySymbol = ""
-            }
-            .let(::NumberFormatter)
+        actual fun cryptocurrency(currency: Currency, locale: Locale?) = formatter(locale, " ${currency.code.code}") {
+            numberStyle = NSNumberFormatterCurrencyStyle
+            minimumIntegerDigits = 1U
+            minimumFractionDigits = 2U
+            maximumFractionDigits = 3U
+            currencySymbol = ""
+        }
+
+        private fun formatter(
+            locale: Locale? = null,
+            suffix: String = "",
+            configure: (NSNumberFormatter.() -> Unit)? = null
+        ) = NSNumberFormatter()
+            .apply { setLocale(locale?.locale) }
+            .apply { if (configure != null) apply(configure) }
+            .let { NumberFormatter(it, suffix) }
     }
 }

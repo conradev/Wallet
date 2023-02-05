@@ -7,7 +7,9 @@ class NumberFormatterTests {
 
     @Test
     fun testBasicFormatting() {
-        val string = NumberFormatter.testing.string(8435.321404)
-        assertEquals("8,435.32", string)
+        val locale = Locale.testing
+        val currency = locale.currency(Locale.testing.currencyCode!!)!!
+        val string = NumberFormatter.fiat(currency, locale).string(8435.321404)
+        assertEquals("$8,435.32", string)
     }
 }

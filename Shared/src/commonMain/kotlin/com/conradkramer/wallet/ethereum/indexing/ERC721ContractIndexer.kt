@@ -1,5 +1,6 @@
 package com.conradkramer.wallet.ethereum.indexing
 
+import com.conradkramer.wallet.Currency
 import com.conradkramer.wallet.data.Erc721_contract
 import com.conradkramer.wallet.ethereum.RpcClient
 import com.conradkramer.wallet.ethereum.abi.erc721
@@ -68,7 +69,7 @@ internal class ERC721ContractIndexer(
             Erc721_contract(
                 chain,
                 row,
-                symbol,
+                symbol?.let { Currency.Code(it) },
                 name,
                 totalSupply?.let(::Quantity)
             )
