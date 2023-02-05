@@ -3,16 +3,18 @@ package com.conradkramer.wallet.bigint
 import gmp.__mpf_struct
 import gmp.mpf_clear
 import gmp.mpf_div
+import gmp.mpf_floor
 import gmp.mpf_get_d
 import gmp.mpf_init
+import gmp.mpf_mul
 import gmp.mpf_set_d
-import gmp.mpf_set_z
+import gmp.mpz_set_f
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.invoke
 import kotlinx.cinterop.nativeHeap
 import kotlinx.cinterop.ptr
 
-actual class BigDecimal() {
+actual class BigDecimal {
     val mpf: __mpf_struct = nativeHeap.alloc()
 
     init {
@@ -24,25 +26,20 @@ actual class BigDecimal() {
         nativeHeap.free(mpf.rawPtr)
     }
 
-    actual constructor(integer: BigInteger) : this() {
-        mpf_set_z!!(mpf.ptr, integer.mpz.ptr)
-    }
+    actual fun toDouble() = mpf_get_d!!(mpf.ptr)
+    actual fun toBigInteger() = BigInteger().also { mpz_set_f!!(it.mpz.ptr, mpf.ptr) }
 
-    actual fun toDouble(): Double {
-        return mpf_get_d!!(mpf.ptr)
-    }
+    private fun floor() = BigDecimal().also { mpf_floor!!(it.mpf.ptr, mpf.ptr) }
 
-    actual operator fun div(other: BigDecimal): BigDecimal {
-        val result = BigDecimal()
-        mpf_div!!(result.mpf.ptr, mpf.ptr, other.mpf.ptr)
-        return result
-    }
+    private fun divide(other: BigDecimal) = BigDecimal().also { mpf_div!!(it.mpf.ptr, mpf.ptr, other.mpf.ptr) }
+
+    actual fun div(other: BigDecimal, scale: Int) = (this.divide(other) * pow10(scale)).floor().divide(pow10(scale))
+    actual operator fun div(other: BigDecimal) = div(other, CURRENCY_SCALE)
+
+    actual operator fun times(valueOf: BigDecimal) = BigDecimal()
+        .also { mpf_mul!!(it.mpf.ptr, mpf.ptr, valueOf.mpf.ptr) }
 
     actual companion object {
-        actual fun valueOf(value: Double): BigDecimal {
-            val result = BigDecimal()
-            mpf_set_d!!(result.mpf.ptr, value)
-            return result
-        }
+        actual fun valueOf(value: Double) = BigDecimal().also { mpf_set_d!!(it.mpf.ptr, value) }
     }
 }
