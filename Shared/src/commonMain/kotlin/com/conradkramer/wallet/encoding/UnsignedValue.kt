@@ -63,14 +63,16 @@ fun UByteArray.toUInt(order: ByteOrder = ByteOrder.nativeOrder()) = toUnsignedVa
     UInt.SIZE_BYTES,
     UByte::toUInt,
     UInt::shl,
-    UInt::plus
+    UInt::plus,
+    0U
 )
 fun UByteArray.toULong(order: ByteOrder = ByteOrder.nativeOrder()) = toUnsignedValue(
     order,
     ULong.SIZE_BYTES,
     UByte::toULong,
     ULong::shl,
-    ULong::plus
+    ULong::plus,
+    0UL
 )
 
 private inline fun <reified T> UByteArray.toUnsignedValue(
@@ -78,8 +80,10 @@ private inline fun <reified T> UByteArray.toUnsignedValue(
     typeSize: Int,
     cast: (UByte) -> T,
     shl: (T, Int) -> T,
-    plus: (T, T) -> T
+    plus: (T, T) -> T,
+    zero: T
 ): T {
+    if (isEmpty()) return zero
     val size = minOf(size, typeSize)
     return List(size) {
         val offset = when (order) {

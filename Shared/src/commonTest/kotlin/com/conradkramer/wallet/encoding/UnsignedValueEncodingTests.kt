@@ -53,4 +53,10 @@ class UnsignedValueEncodingTests {
         assertEquals(input, littleEndian.toULong(ByteOrder.LITTLE_ENDIAN))
         assertEquals(input, bigEndian.toULong(ByteOrder.BIG_ENDIAN))
     }
+
+    @Test
+    fun testEmptyValue() {
+        val result = byteArrayOf().toUInt()
+        assertEquals(0U, result)
+    }
 }
