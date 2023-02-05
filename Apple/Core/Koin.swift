@@ -52,7 +52,8 @@ extension KoinApplication {
         \.onboardingViewModel,
         \.browserViewModel,
         \.browserMessageHost,
-        \.browserPromptHost
+        \.browserPromptHost,
+        \.appIndexer,
     ]
 
     private static let previewKeyPaths: [PartialKeyPath<Koin>] = [
