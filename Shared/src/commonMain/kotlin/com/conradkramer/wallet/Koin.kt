@@ -62,8 +62,8 @@ private fun sharedModule() = module {
 
     factory { CoinbaseClient(logger<CoinbaseClient>()) }
     factory { BrowserPermissionStore(get(), logger<BrowserPermissionStore>()) }
-    factory { params -> CoinbaseIndexer(params[0], get(), get(), logger<CoinbaseIndexer>()) }
-    factory { params -> ChainIndexer(params[0], params[1], get(), get(), get()) }
+    factory { params -> CoinbaseIndexer(params[0], params[1], get(), get(), logger<CoinbaseIndexer>()) }
+    factory { params -> ChainIndexer(params[0], params[1], get(), get()) }
     factory { params -> TransactionIndexer(params[0], params[1], get(), get(), logger<TransactionIndexer>()) }
     factory { params -> ReceiptIndexer(params[0], params[1], get(), get(), logger<ReceiptIndexer>()) }
     factory { params -> ERC20ContractIndexer(params[0], params[1], get(), get(), logger<ERC20ContractIndexer>()) }

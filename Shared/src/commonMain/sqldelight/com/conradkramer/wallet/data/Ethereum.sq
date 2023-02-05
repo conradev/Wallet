@@ -56,7 +56,7 @@ CREATE TABLE erc20_contract (
     chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
     address BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
     total_supply BLOB AS com.conradkramer.wallet.ethereum.types.Quantity,
-    symbol TEXT,
+    symbol TEXT AS com.conradkramer.wallet.Currency.Code,
     decimals INTEGER,
     name TEXT,
 
@@ -66,7 +66,7 @@ CREATE TABLE erc20_contract (
 CREATE TABLE erc721_contract (
     chain_id INTEGER AS com.conradkramer.wallet.ethereum.types.Chain NOT NULL,
     address BLOB AS com.conradkramer.wallet.ethereum.types.Address NOT NULL,
-    symbol TEXT,
+    symbol TEXT AS com.conradkramer.wallet.Currency.Code,
     name TEXT,
     total_supply BLOB AS com.conradkramer.wallet.ethereum.types.Quantity,
 
@@ -216,9 +216,9 @@ tokenBalancesForAddress:
 SELECT contract.name, balance.balance, contract.symbol, contract.decimals, cb.rate FROM erc20_balance AS balance
 LEFT JOIN erc20_contract AS contract ON balance.chain_id == contract.chain_id AND balance.contract == contract.address
 LEFT JOIN cb_exchange_rate AS cb ON cb.[to] = contract.symbol AND cb.[from] = ?
-WHERE
-    contract.chain_id = ? AND
-    balance.address = ?;
+LEFT JOIN cb_crypto_currency AS cbc ON cbc.code = contract.symbol
+WHERE contract.chain_id = ? AND balance.address = ?
+ORDER BY cbc.sort_index;
 
 balanceForAddress:
 SELECT balance.balance, cb.rate FROM eth_balance AS balance

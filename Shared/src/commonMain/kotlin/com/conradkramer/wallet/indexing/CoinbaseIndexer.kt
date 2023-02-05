@@ -1,5 +1,6 @@
 package com.conradkramer.wallet.indexing
 
+import com.conradkramer.wallet.Currency
 import com.conradkramer.wallet.clients.CoinbaseClient
 import com.conradkramer.wallet.data.Cb_crypto_currency
 import com.conradkramer.wallet.data.Cb_exchange_rate
@@ -11,6 +12,7 @@ import mu.KLogger
 
 internal class CoinbaseIndexer(
     private val scope: CoroutineScope,
+    private val currencyCode: Currency.Code,
     private val client: CoinbaseClient,
     private val database: Database,
     private val logger: KLogger
@@ -48,14 +50,13 @@ internal class CoinbaseIndexer(
 
         logger.info { "Indexed ${currencies.size} currencies from Coinbase" }
 
-        val from = "USD"
-        val exchangeRates = client.exchangeRates(from)
+        val exchangeRates = client.exchangeRates(currencyCode)
         database.transaction {
             val now = Clock.System.now()
             for (rate in exchangeRates) {
                 database.coinbaseQueries.upsertExchangeRate(
                     Cb_exchange_rate(
-                        from,
+                        currencyCode,
                         rate.key,
                         rate.value,
                         now
@@ -64,6 +65,6 @@ internal class CoinbaseIndexer(
             }
         }
 
-        logger.info { "Indexed ${exchangeRates.size} exchange rates for $from from Coinbase" }
+        logger.info { "Indexed ${exchangeRates.size} exchange rates for $currencyCode from Coinbase" }
     }
 }
