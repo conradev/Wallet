@@ -8,6 +8,7 @@ import com.conradkramer.wallet.browser.BrowserMessageHost
 import com.conradkramer.wallet.browser.BrowserPromptHost
 import com.conradkramer.wallet.indexing.AppIndexer
 import com.conradkramer.wallet.sql.Database
+import com.conradkramer.wallet.viewmodel.BalancesViewModel
 import com.conradkramer.wallet.viewmodel.BrowserViewModel
 import com.conradkramer.wallet.viewmodel.ImportViewModel
 import com.conradkramer.wallet.viewmodel.MainViewModel
@@ -84,6 +85,9 @@ val Koin.importViewModel: ImportViewModel
     get() = get()
 
 val Koin.browserViewModel: BrowserViewModel
+    get() = get()
+
+val Koin.balancesViewModel: BalancesViewModel
     get() = get()
 
 val Koin.permissionPromptViewModel: PermissionPromptViewModel

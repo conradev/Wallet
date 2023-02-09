@@ -51,6 +51,7 @@ extension KoinApplication {
         \.welcomeViewModel,
         \.onboardingViewModel,
         \.browserViewModel,
+        \.balancesViewModel,
         \.browserMessageHost,
         \.browserPromptHost,
         \.appIndexer,

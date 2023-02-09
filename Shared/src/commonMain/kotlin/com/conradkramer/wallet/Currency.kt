@@ -32,7 +32,9 @@ data class Currency(
     }
 
     companion object {
-        val ETH = Currency(Code.ETH, "Ethereum", "Ξ", 18)
-        val USD = Currency(Code.USD, "US Dollars", "$", 2)
+        val ETH: Currency
+            get() = Currency(Code.ETH, "Ethereum", "Ξ", 18)
+        val USD: Currency
+            get() = Currency(Code.USD, "US Dollars", "$", 2)
     }
 }

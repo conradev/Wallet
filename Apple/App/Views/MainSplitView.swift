@@ -18,6 +18,8 @@ extension MainViewProvider {
         switch tab {
         case .utility:
             BrowserView()
+        case .balance:
+            BalancesView()
         default:
             Text(tab.title)
         }

@@ -2,7 +2,6 @@
 
 package com.conradkramer.wallet.android
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -32,8 +31,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.conradkramer.wallet.viewmodel.BalancesViewModel
 import com.conradkramer.wallet.viewmodel.MainViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import org.koin.androidx.compose.get
 import kotlin.math.ln
 
 @Composable
@@ -52,9 +53,11 @@ fun MainView(mainViewModel: MainViewModel) {
     }
 
     val currentTab = mainViewModel.selectedTab.collectAsState()
+    val balancesViewModel: BalancesViewModel = get()
     Scaffold(
         modifier = Modifier
             .systemBarsPadding(),
+        topBar = { TopBar(currentTab.value) },
         bottomBar = {
             NavigationBar {
                 MainViewModel.Tab.values().forEach { tab ->
@@ -69,12 +72,11 @@ fun MainView(mainViewModel: MainViewModel) {
         }
     ) { padding ->
         NavHost(
-            modifier = Modifier.padding(padding),
             navController = navController,
             startDestination = currentTab.value.route
         ) {
             composable(MainViewModel.Tab.BALANCE.route) {
-                Text("Balance")
+                BalancesView(viewModel = balancesViewModel, padding)
             }
             composable(MainViewModel.Tab.COLLECTIBLES.route) {
                 Text("NFTs")

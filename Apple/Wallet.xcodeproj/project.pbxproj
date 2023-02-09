@@ -38,6 +38,8 @@
 		D03AF5B427FD14AD002985D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03AF5B327FD14AD002985D2 /* AppDelegate.swift */; };
 		D03AF5B627FD14AE002985D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D03AF5B527FD14AE002985D2 /* Assets.xcassets */; };
 		D03AF5B927FD14AE002985D2 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D03AF5B727FD14AE002985D2 /* MainMenu.xib */; };
+		D04B861D299539C50000AD7D /* BalancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04B861C299539C50000AD7D /* BalancesView.swift */; };
+		D04B861E29953AB70000AD7D /* AssetBalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FDE90B298385E400EF1FAD /* AssetBalanceView.swift */; };
 		D0501F8A2726BD5300311D6F /* Browser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0501F882726BD5300311D6F /* Browser.swift */; };
 		D0501F922726BF6A00311D6F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0501F912726BF6A00311D6F /* main.swift */; };
 		D05242D827FD261700F889B0 /* WalletNativeMessageHost in Embed Native Messaging Host */ = {isa = PBXBuildFile; fileRef = D07F238D27595E1000E2C42C /* WalletNativeMessageHost */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -361,6 +363,7 @@
 		D03AF5B827FD14AE002985D2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		D03AF5BA27FD14AE002985D2 /* ViewService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ViewService.entitlements; sourceTree = "<group>"; };
 		D03AF5BE27FD14E2002985D2 /* ViewService.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ViewService.xcconfig; sourceTree = "<group>"; };
+		D04B861C299539C50000AD7D /* BalancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalancesView.swift; sourceTree = "<group>"; };
 		D0501F882726BD5300311D6F /* Browser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Browser.swift; sourceTree = "<group>"; };
 		D0501F912726BF6A00311D6F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D0501F9A2726BFDD00311D6F /* NativeMessageHost.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = NativeMessageHost.xcconfig; sourceTree = "<group>"; };
@@ -415,6 +418,7 @@
 		D0F9532F2831BC6400E7987F /* SkyLight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkyLight.h; sourceTree = "<group>"; };
 		D0F953302831C17E00E7987F /* SkyLight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SkyLight.framework; path = System/Library/PrivateFrameworks/SkyLight.framework; sourceTree = SDKROOT; };
 		D0FA5FAD27F2886A00EC86E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = App/Base.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
+		D0FDE90B298385E400EF1FAD /* AssetBalanceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetBalanceView.swift; sourceTree = "<group>"; };
 		D0FDE90D2986F9CE00EF1FAD /* BrowserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
 		D0FDE910298739D300EF1FAD /* Location+App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Location+App.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -744,6 +748,8 @@
 				D0626960283A0A47000B62E6 /* AccessibilityIdentifiers.swift */,
 				D0EE2397281B9F18004FCB52 /* PermissionPromptView.swift */,
 				D028F2AA281E5FA70042C687 /* SignDataPromptView.swift */,
+				D04B861C299539C50000AD7D /* BalancesView.swift */,
+				D0FDE90B298385E400EF1FAD /* AssetBalanceView.swift */,
 				D0EE239A281C9463004FCB52 /* FloatingButtonStyle.swift */,
 				D0F1EBEA275717EA00E83A43 /* Previews.swift */,
 				D032D841282D1A950000CE6B /* Location+UIKit.swift */,
@@ -1488,10 +1494,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0626961283A0A47000B62E6 /* AccessibilityIdentifiers.swift in Sources */,
+				D04B861E29953AB70000AD7D /* AssetBalanceView.swift in Sources */,
 				D0BF41902828495D001180E3 /* PromptView.swift in Sources */,
 				D032D842282D1A950000CE6B /* Location+UIKit.swift in Sources */,
 				D0BF4181282744D8001180E3 /* Koin.swift in Sources */,
 				D0F953342831D63F00E7987F /* SignDataPromptView.swift in Sources */,
+				D04B861D299539C50000AD7D /* BalancesView.swift in Sources */,
 				D0BF418E2828495D001180E3 /* PermissionPromptView.swift in Sources */,
 				D0A05DE7282927C50059D2AA /* AuthenticationView.swift in Sources */,
 				D0BF419228284A76001180E3 /* Previews.swift in Sources */,

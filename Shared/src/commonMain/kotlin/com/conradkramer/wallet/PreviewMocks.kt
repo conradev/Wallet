@@ -5,6 +5,9 @@ import com.conradkramer.wallet.browser.message.Session
 import com.conradkramer.wallet.browser.prompt.PermissionPrompt
 import com.conradkramer.wallet.browser.prompt.SignDataPrompt
 import com.conradkramer.wallet.ethereum.types.Data
+import com.conradkramer.wallet.ethereum.types.Quantity
+import com.conradkramer.wallet.viewmodel.Asset
+import com.conradkramer.wallet.viewmodel.BalancesViewModel
 import com.conradkramer.wallet.viewmodel.PermissionPromptViewModel
 import com.conradkramer.wallet.viewmodel.SignDataPromptViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,6 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import org.koin.core.Koin
 import org.koin.core.KoinApplication
 import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
@@ -53,6 +57,20 @@ private class MockAccountStore(val account: Account) : AccountStore {
     }
 }
 
+internal class MockBalancesViewModel : BalancesViewModel() {
+    override val accountName = MutableStateFlow("conradkramer.eth")
+    override val totalBalance = MutableStateFlow("$5,623.20")
+    override val assets = MutableStateFlow(
+        listOf(
+            Asset(
+                Balance(Currency.ETH, Quantity.fromString("0x14f952c14b42909e").value),
+                Currency.USD,
+                0.000616750955964
+            )
+        )
+    )
+}
+
 internal fun mockModule() = module {
     val account = Account.random()
 
@@ -71,6 +89,8 @@ internal fun mockModule() = module {
 
     factoryOf(::PermissionPromptViewModel)
     factory { SignDataPromptViewModel(get(), get(), getOrNull(), get()) }
+
+    singleOf(::MockBalancesViewModel) bind BalancesViewModel::class
 }
 
 class PreviewMocks {
@@ -80,8 +100,6 @@ class PreviewMocks {
         val koin: Koin
             get() = application.koin
 
-        inline fun <reified T> get(): T {
-            return koin.get()
-        }
+        inline fun <reified T> get(): T = koin.get()
     }
 }
