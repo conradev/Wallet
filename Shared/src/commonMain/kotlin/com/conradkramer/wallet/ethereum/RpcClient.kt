@@ -69,6 +69,6 @@ internal class RpcClient(
     }
 }
 
-fun Logging.Config.klogger(klogger: KLogger) {
+internal fun Logging.Config.klogger(klogger: KLogger) {
     logger = object : Logger { override fun log(message: String) = klogger.info { message } }
 }
