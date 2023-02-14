@@ -6,15 +6,13 @@
 	<dict>
 		<key>NSExtensionAttributes</key>
 		<dict>
-			<key>IntentsRestrictedWhileLocked</key>
-			<array/>
-			<key>IntentsRestrictedWhileProtectedDataUnavailable</key>
-			<array/>
 			<key>IntentsSupported</key>
 			<array>
-				<string>DisplayAssetIntent</string>
 				<string>DisplayBalanceIntent</string>
+				<string>DisplayAssetIntent</string>
 			</array>
+			<key>IntentsRestrictedWhileLocked</key>
+			<array/>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.intents-service</string>

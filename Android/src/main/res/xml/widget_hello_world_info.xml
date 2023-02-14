@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="200dp"
+    android:minHeight="50dp"
+    android:targetCellWidth="5"
+    android:targetCellHeight="2"
+    android:updatePeriodMillis="14400000"
+    android:description="@string/balance_widget_description"
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen"
+    android:configure="com.conradkramer.wallet.android.widget.ConfigurationActivity"
+    android:widgetFeatures="reconfigurable|configuration_optional">
+</appwidget-provider>

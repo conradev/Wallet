@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_label">Wallet</string>
+    <string name="balance_widget_description">Shows you your balance</string>
 </resources>

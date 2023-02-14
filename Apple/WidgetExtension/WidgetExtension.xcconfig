@@ -1,0 +1,6 @@
+#include "../Configuration/Extension.xcconfig"
+
+PRODUCT_NAME = WalletWidgetExtension
+PRODUCT_BUNDLE_IDENTIFIER = $(APP_BUNDLE_IDENTIFIER).widget-extension
+INFOPLIST_FILE = WidgetExtension/WidgetExtension-Info.plist
+INFOPLIST_KEY_CFBundleDisplayName = Wallet Widget

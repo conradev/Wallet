@@ -1,0 +1,6 @@
+#include "WidgetExtension.xcconfig"
+
+SDKROOT = macosx
+SUPPORTED_PLATFORMS = macosx
+
+CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetExtension-macOS.entitlements

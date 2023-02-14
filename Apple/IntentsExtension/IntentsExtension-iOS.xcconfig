@@ -1,0 +1,6 @@
+#include "IntentsExtension.xcconfig"
+
+SDKROOT = iphoneos
+SUPPORTED_PLATFORMS = iphoneos iphonesimulator
+
+CODE_SIGN_ENTITLEMENTS = IntentsExtension/IntentsExtension-iOS.entitlements

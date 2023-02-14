@@ -1,10 +1,14 @@
 import Shared
 import SwiftUI
 
-struct AssetBalanceView: View {
-    var asset: Asset
+public struct AssetBalanceView: View {
+    public var asset: Shared.Asset
 
-    var body: some View {
+    public init(asset: Shared.Asset) {
+        self.asset = asset
+    }
+
+    public var body: some View {
         HStack {
             VStack(alignment: .leading) {
                 Text(asset.balance.currency.name)

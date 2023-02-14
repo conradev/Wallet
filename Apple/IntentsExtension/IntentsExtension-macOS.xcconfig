@@ -1,0 +1,6 @@
+#include "IntentsExtension.xcconfig"
+
+SDKROOT = macosx
+SUPPORTED_PLATFORMS = macosx
+
+CODE_SIGN_ENTITLEMENTS = IntentsExtension/IntentsExtension-macOS.entitlements

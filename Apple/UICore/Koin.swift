@@ -89,7 +89,7 @@ open class KotlinObservableObject: ObservableObject {
     }
 }
 
-public protocol KotlinViewModel: ObservableObject {
+public protocol KotlinViewModel: AnyObject  {
     associatedtype Observable: KotlinObservableObject
 
     static var bindings: [KotlinBinding] { get }

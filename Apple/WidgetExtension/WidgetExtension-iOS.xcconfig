@@ -1,0 +1,6 @@
+#include "WidgetExtension.xcconfig"
+
+SDKROOT = iphoneos
+SUPPORTED_PLATFORMS = iphoneos iphonesimulator
+
+CODE_SIGN_ENTITLEMENTS = WidgetExtension/WidgetExtension-iOS.entitlements

@@ -29,9 +29,9 @@ public struct BalancesView: View {
 
 extension BalancesViewModel: KotlinViewModel {
     public final class Observable: KotlinObservableObject {
-        var assets: [Asset] = []
-        var accountName = ""
-        var totalBalance = ""
+        public var assets: [Shared.Asset] = []
+        public var accountName = ""
+        public var totalBalance = ""
     }
 
     public static let bindings: [KotlinBinding] = [
@@ -41,7 +41,7 @@ extension BalancesViewModel: KotlinViewModel {
     ]
 }
 
-extension Asset: Identifiable {
+extension Shared.Asset: Identifiable {
     public var id: String { balance.currency.code.code }
 }
 
