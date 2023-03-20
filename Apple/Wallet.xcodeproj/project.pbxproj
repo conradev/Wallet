@@ -20,7 +20,6 @@
 		D028F278281CC8890042C687 /* MainSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D028F277281CC8890042C687 /* MainSceneDelegate.swift */; };
 		D028F27B281CCB9B0042C687 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D028F27A281CCB9B0042C687 /* MainTabView.swift */; };
 		D028F27E281CCE930042C687 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D028F27D281CCE930042C687 /* LaunchScreen.storyboard */; };
-		D028F27F281CCE930042C687 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D028F27D281CCE930042C687 /* LaunchScreen.storyboard */; };
 		D028F281281CCFF10042C687 /* PromptSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D028F280281CCFF10042C687 /* PromptSceneDelegate.swift */; };
 		D028F29F281E0ACD0042C687 /* Runtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = D028F29E281E0ACD0042C687 /* Runtime.swift */; };
 		D028F2A0281E0ACD0042C687 /* Runtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = D028F29E281E0ACD0042C687 /* Runtime.swift */; };
@@ -375,6 +374,8 @@
 		D070D39E272A7BEA00597E87 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		D070D39F272A7BEA00597E87 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		D070D3A2272A7F3200597E87 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D071F6B629C9249600ED0428 /* embed.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = embed.sh; sourceTree = "<group>"; };
+		D071F6B829C9292F00ED0428 /* embed.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = embed.sh; sourceTree = "<group>"; };
 		D072B0E426D2520800DA1C47 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		D072B0E526D2520900DA1C47 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D072B10526D252A700DA1C47 /* WebExtensionRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebExtensionRequestHandler.swift; sourceTree = "<group>"; };
@@ -654,6 +655,7 @@
 				D0871A932802589C003D47C4 /* WebExtension-iOS.entitlements */,
 				D0E52433272CE3C600A3370B /* WebExtension-macOS.entitlements */,
 				D0981F5626E2689000CDD5CA /* WebExtension-Info.plist */,
+				D071F6B829C9292F00ED0428 /* embed.sh */,
 			);
 			path = WebExtension;
 			sourceTree = "<group>";
@@ -707,8 +709,9 @@
 				D028F29E281E0ACD0042C687 /* Runtime.swift */,
 				D028F29A281DC2A80042C687 /* Location.swift */,
 				D070D39D272A7BE900597E87 /* Constants */,
-				D02D63B327268A6E0050BEA8 /* Core.xcconfig */,
 				D00D378B27746CDB0050F5A4 /* Tests */,
+				D071F6B629C9249600ED0428 /* embed.sh */,
+				D02D63B327268A6E0050BEA8 /* Core.xcconfig */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -825,8 +828,7 @@
 			buildPhases = (
 				D02D6393272685450050BEA8 /* Sources */,
 				D02D6396272685450050BEA8 /* Frameworks */,
-				D09974EC280F3DD900AB4C1B /* Compile TypeScript */,
-				D09974EE280F3FE200AB4C1B /* Embed Web Extension */,
+				D09974EC280F3DD900AB4C1B /* Embed Web Extension */,
 			);
 			buildRules = (
 			);
@@ -939,7 +941,6 @@
 			buildPhases = (
 				D072B0FF26D252A700DA1C47 /* Sources */,
 				D072B10026D252A700DA1C47 /* Frameworks */,
-				D09974F0280F410A00AB4C1B /* Compile TypeScript */,
 				D09974F1280F410B00AB4C1B /* Embed Web Extension */,
 			);
 			buildRules = (
@@ -1162,7 +1163,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"${PATH}:/etc/profiles/per-user/${USER}/bin\"\n\nif [[ -x $(command -v direnv) ]]; then\n    export JAVA_HOME=\"$(direnv exec . sh -c 'echo $JAVA_HOME')\"\nfi\n\n../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "${PROJECT_DIR}/Core/embed.sh\n";
 			showEnvVarsInLog = 0;
 		};
 		D0626966283BE936000B62E6 /* Embed Kotlin Frameworks */ = {
@@ -1182,30 +1183,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"${PATH}:/etc/profiles/per-user/${USER}/bin\"\n\nif [[ -x $(command -v direnv) ]]; then\n    export JAVA_HOME=\"$(direnv exec . sh -c 'echo $JAVA_HOME')\"\nfi\n\n../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "${PROJECT_DIR}/Core/embed.sh\n";
 			showEnvVarsInLog = 0;
 		};
-		D09974EC280F3DD900AB4C1B /* Compile TypeScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Compile TypeScript";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export PATH=\"${PATH}:/opt/homebrew/bin:/etc/profiles/per-user/$USER/bin\"\n\nif [[ -x $(command -v direnv) ]]; then\n    export PATH=\"${PATH}:$(direnv exec . sh -c 'echo $PATH')\"\nfi\n\nnpm run --prefix \"${PROJECT_DIR}/../Extension\" package\n";
-			showEnvVarsInLog = 0;
-		};
-		D09974EE280F3FE200AB4C1B /* Embed Web Extension */ = {
+		D09974EC280F3DD900AB4C1B /* Embed Web Extension */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -1222,26 +1203,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "RESOURCES_DIR=\"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\n\nmkdir -p \"${RESOURCES_DIR}\"\ncp -R \"${PROJECT_DIR}/../Extension/build/safari/\" \"${RESOURCES_DIR}\"\n";
-		};
-		D09974F0280F410A00AB4C1B /* Compile TypeScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Compile TypeScript";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export PATH=\"${PATH}:/opt/homebrew/bin:/etc/profiles/per-user/$USER/bin\"\n\nif [[ -x $(command -v direnv) ]]; then\n    export PATH=\"${PATH}:$(direnv exec . sh -c 'echo $PATH')\"\nfi\n\nnpm run --prefix \"${PROJECT_DIR}/../Extension\" package\n";
+			shellScript = "${PROJECT_DIR}/WebExtension/embed.sh\n";
 			showEnvVarsInLog = 0;
 		};
 		D09974F1280F410B00AB4C1B /* Embed Web Extension */ = {
@@ -1261,7 +1223,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "RESOURCES_DIR=\"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\n\nmkdir -p \"${RESOURCES_DIR}\"\ncp -R \"${PROJECT_DIR}/../Extension/build/safari/\" \"${RESOURCES_DIR}\"\n";
+			shellScript = "${PROJECT_DIR}/WebExtension/embed.sh\n";
+			showEnvVarsInLog = 0;
 		};
 		D0B463EC27C362BE00481E0A /* Embed Kotlin Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1280,7 +1243,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"${PATH}:/etc/profiles/per-user/${USER}/bin\"\n\nif [[ -x $(command -v direnv) ]]; then\n    export JAVA_HOME=\"$(direnv exec . sh -c 'echo $JAVA_HOME')\"\nfi\n\n../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "${PROJECT_DIR}/Core/embed.sh\n";
 			showEnvVarsInLog = 0;
 		};
 		D0B463EF27C376E800481E0A /* Embed Kotlin Frameworks */ = {
@@ -1300,7 +1263,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"${PATH}:/etc/profiles/per-user/${USER}/bin\"\n\nif [[ -x $(command -v direnv) ]]; then\n    export JAVA_HOME=\"$(direnv exec . sh -c 'echo $JAVA_HOME')\"\nfi\n\n../gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "${PROJECT_DIR}/Core/embed.sh\n";
 			showEnvVarsInLog = 0;
 		};
 		D0BF41352827429D001180E3 /* Lint Swift */ = {
@@ -1360,7 +1323,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"${PATH}:/etc/profiles/per-user/${USER}/bin\"\n\nif [[ -x $(command -v direnv) ]]; then\n    export JAVA_HOME=\"$(direnv exec . sh -c 'echo $JAVA_HOME')\"\nfi\n\nexport FRAMEWORKS_FOLDER_PATH=Kotlin\nexport EXPANDED_CODE_SIGN_IDENTITY=\"-\"\n../gradlew :shared:embedAndSignAppleFrameworkForXcode \n";
+			shellScript = "export FRAMEWORKS_FOLDER_PATH=Kotlin\nexport EXPANDED_CODE_SIGN_IDENTITY=\"-\"\n\n${PROJECT_DIR}/Core/embed.sh\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

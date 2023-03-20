@@ -5,7 +5,6 @@ SUPPORTED_PLATFORMS = iphoneos iphonesimulator
 
 INFOPLIST_FILE = App/iOS/App-iOS-Info.plist
 CODE_SIGN_ENTITLEMENTS = App/iOS/App-iOS.entitlements
-EXCLUDED_SOURCE_FILE_NAMES = App/macOS/* App/macOS/*/*
 
 INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES
 INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES

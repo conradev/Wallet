@@ -4,6 +4,7 @@ SDKROOT = macosx
 SUPPORTED_PLATFORMS = macosx
 
 CODE_SIGN_ENTITLEMENTS = App/macOS/App-macOS.entitlements
-EXCLUDED_SOURCE_FILE_NAMES = App/iOS/* App/iOS/*/*
 
 INFOPLIST_KEY_LSApplicationCategoryType = public.app-category.finance
+INFOPLIST_KEY_NSPrincipalClass = NSApplication
+INFOPLIST_KEY_NSMainNibFile = MainMenu
