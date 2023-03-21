@@ -20,6 +20,8 @@ actual data class BigInteger(val inner: java.math.BigInteger) : RLPRepresentable
     actual fun toULong(): ULong = data.toULong()
     actual fun toBigDecimal(): BigDecimal = BigDecimal(inner.toBigDecimal())
 
+    actual operator fun plus(valueOf: BigInteger): BigInteger = (inner + valueOf.inner).wrap()
+
     actual override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

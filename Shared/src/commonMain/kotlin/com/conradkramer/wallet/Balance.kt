@@ -10,6 +10,9 @@ data class Balance(
 ) {
     fun toDouble() = (value.toBigDecimal().div(BigDecimal.pow10(currency.decimals))).toDouble()
 
+    operator fun plus(valueOf: Balance) = Balance(currency, value + valueOf.value)
+        .also { if (currency.code != valueOf.currency.code) throw Exception("Cannot add balances from different currencies") }
+
     fun convert(currency: Currency, rate: Double): Balance {
         val newValue = when (rate) {
             0.0 -> BigInteger.valueOf(0)
