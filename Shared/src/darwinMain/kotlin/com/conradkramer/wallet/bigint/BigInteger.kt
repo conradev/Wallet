@@ -5,6 +5,7 @@ import com.conradkramer.wallet.encoding.RLPRepresentable
 import gmp.__mpz_struct
 import gmp._mpz_cmp_si
 import gmp.mpf_set_z
+import gmp.mpz_add
 import gmp.mpz_clear
 import gmp.mpz_cmp
 import gmp.mpz_export
@@ -80,6 +81,8 @@ actual class BigInteger() : RLPRepresentable {
     actual fun toBigDecimal() = BigDecimal().also { mpf_set_z!!(it.mpf.ptr, mpz.ptr) }
     actual fun toLong() = mpz_get_si!!(mpz.ptr)
     actual fun toULong() = mpz_get_ui!!(mpz.ptr)
+
+    actual operator fun plus(valueOf: BigInteger): BigInteger = BigInteger().also { mpz_add!!(it.mpz.ptr, this.mpz.ptr, valueOf.mpz.ptr) }
 
     actual override fun equals(other: Any?): Boolean {
         if (this === other) return true
