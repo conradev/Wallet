@@ -16,6 +16,9 @@
   },
   "testTargets" : [
     {
+      "skippedTests" : [
+        "PerformanceTests"
+      ],
       "target" : {
         "containerPath" : "container:Wallet.xcodeproj",
         "identifier" : "D0271CD127D15778002FF5B1",

@@ -55,6 +55,8 @@
 		D0626965283A131B000B62E6 /* WalletCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D0BF411B28274264001180E3 /* WalletCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D0626968283BE977000B62E6 /* WalletCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D0BF411B28274264001180E3 /* WalletCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D0626969283BE977000B62E6 /* WalletUICore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D0BF417B2827447B001180E3 /* WalletUICore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D071F6E429C9717800ED0428 /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D071F6E329C9717800ED0428 /* PerformanceTests.swift */; };
+		D071F6E529C9717800ED0428 /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D071F6E329C9717800ED0428 /* PerformanceTests.swift */; };
 		D072B0F326D2520900DA1C47 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D072B0E426D2520800DA1C47 /* OnboardingView.swift */; };
 		D072B0F526D2520900DA1C47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D072B0E526D2520900DA1C47 /* Assets.xcassets */; };
 		D072B10626D252A700DA1C47 /* WebExtensionRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D072B10526D252A700DA1C47 /* WebExtensionRequestHandler.swift */; };
@@ -376,6 +378,8 @@
 		D070D3A2272A7F3200597E87 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D071F6B629C9249600ED0428 /* embed.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = embed.sh; sourceTree = "<group>"; };
 		D071F6B829C9292F00ED0428 /* embed.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = embed.sh; sourceTree = "<group>"; };
+		D071F6E329C9717800ED0428 /* PerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTests.swift; sourceTree = "<group>"; };
+		D071F6E629C971DE00ED0428 /* PerformanceTests-iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "PerformanceTests-iOS.xctestplan"; sourceTree = "<group>"; };
 		D072B0E426D2520800DA1C47 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		D072B0E526D2520900DA1C47 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D072B10526D252A700DA1C47 /* WebExtensionRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebExtensionRequestHandler.swift; sourceTree = "<group>"; };
@@ -544,6 +548,7 @@
 			isa = PBXGroup;
 			children = (
 				D0271CD427D15778002FF5B1 /* AppTests.swift */,
+				D071F6E329C9717800ED0428 /* PerformanceTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -552,6 +557,7 @@
 			isa = PBXGroup;
 			children = (
 				D0271CF027D159BE002FF5B1 /* UnitTests.xctestplan */,
+				D071F6E629C971DE00ED0428 /* PerformanceTests-iOS.xctestplan */,
 				D0271CEE27D159A1002FF5B1 /* UITests-iOS.xctestplan */,
 				D0271CEF27D159A1002FF5B1 /* UITests-macOS.xctestplan */,
 				D07C8D1226E1CC1F00D4D339 /* Identity.xcconfig */,
@@ -1103,7 +1109,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D028F27F281CCE930042C687 /* LaunchScreen.storyboard in Resources */,
 				D072B0F526D2520900DA1C47 /* Assets.xcassets in Resources */,
 				D0FA5FAE27F2886A00EC86E5 /* MainMenu.xib in Resources */,
 			);
@@ -1341,6 +1346,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D071F6E429C9717800ED0428 /* PerformanceTests.swift in Sources */,
 				D0271CD527D15778002FF5B1 /* AppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1349,6 +1355,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D071F6E529C9717800ED0428 /* PerformanceTests.swift in Sources */,
 				D0271D0227D1AD14002FF5B1 /* AppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
