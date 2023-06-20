@@ -18,16 +18,12 @@ import kotlin.coroutines.resume
 actual typealias BiometricPromptHost = FragmentActivity
 
 internal actual class HardwareKeyStore(context: Context) : KeyStore<AuthenticationContext> {
-    private val isStrongBoxBacked = if (BuildConfig.DEBUG) {
-        context.packageManager.hasSystemFeature(PackageManager.FEATURE_STRONGBOX_KEYSTORE)
-    } else {
-        true
-    }
 
     private val keyStore = java.security.KeyStore.getInstance(ANDROID_KEYSTORE)
         .apply { load(null) }
 
     private val biometricManager = BiometricManager.from(context)
+    private val hasStrongBox = context.packageManager.hasSystemFeature(PackageManager.FEATURE_STRONGBOX_KEYSTORE)
 
     override val canStore: Boolean
         get() = biometricManager.canAuthenticate(authenticators) == BIOMETRIC_SUCCESS
@@ -43,7 +39,7 @@ internal actual class HardwareKeyStore(context: Context) : KeyStore<Authenticati
                 .setDigests(KeyProperties.DIGEST_SHA256)
                 .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
                 .setUserAuthenticationRequired(true)
-                .setIsStrongBoxBacked(isStrongBoxBacked)
+                .setIsStrongBoxBacked(hasStrongBox)
                 .build(),
         )
         keyPairGenerator.generateKeyPair()
