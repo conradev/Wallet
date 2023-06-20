@@ -15,6 +15,7 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
+import kotlinx.serialization.serializer
 
 @Serializable
 @JsonClassDiscriminator("type")
@@ -47,12 +48,12 @@ internal sealed class Message {
 
         private val json = Json {
             serializersModule = SerializersModule {
-                polymorphic(Message::class) {
-                    subclass(EventMessage::class)
-                    subclass(OpenURLMessage::class)
-                    subclass(RPCRequestMessage::class)
-                    subclass(RPCResponseMessage::class)
-                    subclass(StartSessionMessage::class)
+                polymorphic(Message::class, serializer()) {
+                    subclass(EventMessage.serializer())
+                    subclass(OpenURLMessage.serializer())
+                    subclass(RPCRequestMessage.serializer())
+                    subclass(RPCResponseMessage.serializer())
+                    subclass(StartSessionMessage.serializer())
                 }
             }
         }
