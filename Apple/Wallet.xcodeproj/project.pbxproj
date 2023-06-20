@@ -1289,18 +1289,26 @@
 		};
 		D0BF4136282742BD001180E3 /* Compile External Dependencies */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(PROJECT_DIR)/../External/build-darwin.sh",
+				"$(PROJECT_DIR)/../External/build-gmp-darwin.sh",
+				"$(PROJECT_DIR)/../External/build-ripemd160-darwin.sh",
+				"$(PROJECT_DIR)/../External/build-secp256k1-darwin.sh",
+				"$(PROJECT_DIR)/../External/build-xkcp-darwin.sh",
 			);
 			name = "Compile External Dependencies";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(PROJECT_DIR)/../External/build/$(PLATFORM_NAME)/libgmp.a",
+				"$(PROJECT_DIR)/../External/build/$(PLATFORM_NAME)/libripemd160.a",
+				"$(PROJECT_DIR)/../External/build/$(PLATFORM_NAME)/libsecp256k1.a",
+				"$(PROJECT_DIR)/../External/build/$(PLATFORM_NAME)/libXKCP.a",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
