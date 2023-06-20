@@ -61,7 +61,7 @@ android {
 
 dependencies {
     implementation(project(":Shared"))
-    implementation(files("../External/sqlite/sqlite-android-3400000.aar"))
+    implementation(files("../External/sqlite/sqlite-android-3420000.aar"))
     implementation(libs.dbtools.room.sqliteorg)
     implementation(libs.sqldelight.driver.android)
     implementation(libs.bundles.accompanist)
