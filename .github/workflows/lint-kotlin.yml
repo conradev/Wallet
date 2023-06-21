@@ -16,6 +16,11 @@ jobs:
       with:
         ssh-key: ${{ secrets.DEPLOY_KEY }}
         submodules: recursive
+    - uses: actions/setup-java@v3
+      with:
+        distribution: temurin
+        java-version: '19'
+        cache: gradle
     - name: Lint
       continue-on-error: true
       run: ./gradlew --continue lintKotlin

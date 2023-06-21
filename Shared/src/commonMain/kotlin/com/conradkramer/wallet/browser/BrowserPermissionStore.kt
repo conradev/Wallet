@@ -2,7 +2,7 @@ package com.conradkramer.wallet.browser
 
 import com.conradkramer.wallet.Account
 import com.conradkramer.wallet.sql.Database
-import mu.KLogger
+import io.github.oshai.kotlinlogging.KLogger
 
 class BrowserPermissionStore internal constructor(
     private val database: Database,

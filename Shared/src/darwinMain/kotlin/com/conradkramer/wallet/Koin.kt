@@ -16,8 +16,8 @@ import com.conradkramer.wallet.viewmodel.OnboardingViewModel
 import com.conradkramer.wallet.viewmodel.PermissionPromptViewModel
 import com.conradkramer.wallet.viewmodel.SignDataPromptViewModel
 import com.conradkramer.wallet.viewmodel.WelcomeViewModel
-import mu.KotlinLoggingConfiguration
-import mu.OSLogSubsystemAppender
+import io.github.oshai.kotlinlogging.KotlinLoggingConfiguration
+import io.github.oshai.kotlinlogging.OSLogSubsystemAppender
 import org.koin.core.Koin
 import org.koin.core.KoinApplication
 import org.koin.dsl.binds

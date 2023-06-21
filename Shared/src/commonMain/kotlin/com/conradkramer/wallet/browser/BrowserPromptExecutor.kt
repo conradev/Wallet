@@ -5,11 +5,11 @@ import com.conradkramer.wallet.CrossProcessNotifier
 import com.conradkramer.wallet.FILE_NAME
 import com.conradkramer.wallet.browser.prompt.Prompt
 import com.conradkramer.wallet.sql.Database
+import io.github.oshai.kotlinlogging.KLogger
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.merge
-import mu.KLogger
 import org.koin.core.annotation.Factory
 
 @Factory

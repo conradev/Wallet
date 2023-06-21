@@ -11,7 +11,7 @@ import com.conradkramer.wallet.sql.Database
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import mu.KLogger
+import io.github.oshai.kotlinlogging.KLogger
 
 internal class AccountTransactionIndexer(
     chain: Chain,

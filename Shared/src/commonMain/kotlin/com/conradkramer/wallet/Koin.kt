@@ -19,8 +19,8 @@ import com.conradkramer.wallet.indexing.CoinbaseIndexer
 import com.conradkramer.wallet.sql.Database
 import com.conradkramer.wallet.viewmodel.PermissionPromptViewModel
 import com.conradkramer.wallet.viewmodel.SignDataPromptViewModel
-import mu.KLogger
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KLogger
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.koin.core.Koin
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Module
@@ -116,10 +116,11 @@ private class KLoggerLogger(private val logger: KLogger) : Logger() {
     constructor(name: String) : this(KotlinLogging.logger(name))
     constructor() : this("Koin")
 
-    override fun log(level: Level, msg: MESSAGE) {
+    override fun display(level: Level, msg: MESSAGE) {
         when (level) {
             Level.DEBUG -> logger.debug { msg }
             Level.INFO -> logger.info { msg }
+            Level.WARNING -> logger.warn { msg }
             Level.ERROR -> logger.error { msg }
             Level.NONE -> logger.warn { msg }
         }

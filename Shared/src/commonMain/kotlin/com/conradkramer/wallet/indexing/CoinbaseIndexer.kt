@@ -5,10 +5,10 @@ import com.conradkramer.wallet.clients.CoinbaseClient
 import com.conradkramer.wallet.data.Cb_crypto_currency
 import com.conradkramer.wallet.data.Cb_exchange_rate
 import com.conradkramer.wallet.sql.Database
+import io.github.oshai.kotlinlogging.KLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
-import mu.KLogger
 
 internal class CoinbaseIndexer(
     private val scope: CoroutineScope,

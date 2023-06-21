@@ -3,7 +3,7 @@ package com.conradkramer.wallet
 import com.conradkramer.wallet.browser.BrowserMessageHost
 import com.conradkramer.wallet.browser.message.Message
 import com.conradkramer.wallet.browser.message.Session
-import mu.KLogger
+import io.github.oshai.kotlinlogging.KLogger
 import platform.darwin.XPC_CONNECTION_MACH_SERVICE_LISTENER
 import platform.darwin.XPC_TYPE_CONNECTION
 import platform.darwin.XPC_TYPE_ERROR

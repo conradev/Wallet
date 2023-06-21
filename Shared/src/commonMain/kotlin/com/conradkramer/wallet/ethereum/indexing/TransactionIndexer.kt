@@ -7,8 +7,8 @@ import com.conradkramer.wallet.ethereum.requests.GetTransactionByHash
 import com.conradkramer.wallet.ethereum.types.Chain
 import com.conradkramer.wallet.ethereum.types.Data
 import com.conradkramer.wallet.sql.Database
+import io.github.oshai.kotlinlogging.KLogger
 import kotlinx.coroutines.CoroutineScope
-import mu.KLogger
 
 internal class TransactionIndexer(
     chain: Chain,

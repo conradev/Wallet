@@ -2,6 +2,7 @@
 
 package com.conradkramer.wallet.browser.message
 
+import io.github.oshai.kotlinlogging.KLogger
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -14,7 +15,6 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
-import mu.KLogger
 
 @Serializable
 @JsonClassDiscriminator("type")

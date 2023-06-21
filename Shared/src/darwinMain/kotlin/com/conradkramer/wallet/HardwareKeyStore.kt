@@ -1,5 +1,6 @@
 package com.conradkramer.wallet
 
+import io.github.oshai.kotlinlogging.KLogger
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.MemScope
@@ -11,7 +12,6 @@ import kotlinx.cinterop.refTo
 import kotlinx.cinterop.utf8
 import kotlinx.cinterop.value
 import kotlinx.coroutines.suspendCancellableCoroutine
-import mu.KLogger
 import platform.CoreFoundation.CFArrayGetCount
 import platform.CoreFoundation.CFArrayGetValueAtIndex
 import platform.CoreFoundation.CFArrayRef

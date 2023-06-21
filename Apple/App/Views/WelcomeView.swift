@@ -42,7 +42,7 @@ extension WelcomeViewModel: KotlinViewModel {
     }
 
     public static let bindings: [KotlinBinding] = [
-        .init(\WelcomeViewModel.selectedOption, \.selectedOptionNative, \.selectedOption)
+        .init(\WelcomeViewModel.selectedOption, \.selectedOptionFlow, \.selectedOption)
     ]
 }
 

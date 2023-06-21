@@ -117,7 +117,7 @@ extension OnboardingViewModel: KotlinViewModel {
     }
 
     public static let bindings: [KotlinBinding] = [
-        .init(\OnboardingViewModel.screens, \.screensNative, \.screens)
+        .init(\OnboardingViewModel.screens, \.screensFlow, \.screens)
     ]
 }
 

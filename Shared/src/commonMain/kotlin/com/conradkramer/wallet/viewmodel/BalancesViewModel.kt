@@ -10,6 +10,7 @@ import com.conradkramer.wallet.bigint.BigInteger
 import com.conradkramer.wallet.ethereum.types.Chain
 import com.conradkramer.wallet.mapState
 import com.conradkramer.wallet.sql.Database
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,8 +18,13 @@ import org.koin.core.annotation.Factory
 import kotlin.coroutines.EmptyCoroutineContext
 
 abstract class BalancesViewModel {
+    @NativeCoroutinesState
     abstract val accountName: StateFlow<String>
+
+    @NativeCoroutinesState
     abstract val totalBalance: StateFlow<String>
+
+    @NativeCoroutinesState
     abstract val assets: StateFlow<List<Asset>>
 }
 

@@ -74,7 +74,6 @@
 		D0BF41312827427A001180E3 /* AppConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D028F294281D2DCC0042C687 /* AppConnection.swift */; };
 		D0BF41322827427A001180E3 /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DDD89027DB34C700835F5D /* Koin.swift */; };
 		D0BF41342827427A001180E3 /* Runtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = D028F29E281E0ACD0042C687 /* Runtime.swift */; };
-		D0BF413928274314001180E3 /* KMPNativeCoroutinesAsync in Frameworks */ = {isa = PBXBuildFile; productRef = D0BF413828274314001180E3 /* KMPNativeCoroutinesAsync */; };
 		D0BF413B28274314001180E3 /* KMPNativeCoroutinesCombine in Frameworks */ = {isa = PBXBuildFile; productRef = D0BF413A28274314001180E3 /* KMPNativeCoroutinesCombine */; };
 		D0BF413D28274314001180E3 /* KMPNativeCoroutinesCore in Frameworks */ = {isa = PBXBuildFile; productRef = D0BF413C28274314001180E3 /* KMPNativeCoroutinesCore */; };
 		D0BF413F28274314001180E3 /* DictionaryCoding in Frameworks */ = {isa = PBXBuildFile; productRef = D0BF413E28274314001180E3 /* DictionaryCoding */; };
@@ -504,7 +503,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0BF413928274314001180E3 /* KMPNativeCoroutinesAsync in Frameworks */,
 				D0BF413B28274314001180E3 /* KMPNativeCoroutinesCombine in Frameworks */,
 				D0BF413F28274314001180E3 /* DictionaryCoding in Frameworks */,
 				D0BF413D28274314001180E3 /* KMPNativeCoroutinesCore in Frameworks */,
@@ -975,14 +973,12 @@
 			buildRules = (
 			);
 			dependencies = (
-				D0BF414128274321001180E3 /* PBXTargetDependency */,
 				D0BF414328274321001180E3 /* PBXTargetDependency */,
 				D0BF414528274321001180E3 /* PBXTargetDependency */,
 				D0BF414728274321001180E3 /* PBXTargetDependency */,
 			);
 			name = Core;
 			packageProductDependencies = (
-				D0BF413828274314001180E3 /* KMPNativeCoroutinesAsync */,
 				D0BF413A28274314001180E3 /* KMPNativeCoroutinesCombine */,
 				D0BF413C28274314001180E3 /* KMPNativeCoroutinesCore */,
 				D0BF413E28274314001180E3 /* DictionaryCoding */,
@@ -1523,10 +1519,6 @@
 			target = D0501F8E2726BF6A00311D6F /* NativeMessageHost */;
 			targetProxy = D0501F982726BFCF00311D6F /* PBXContainerItemProxy */;
 		};
-		D0BF414128274321001180E3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = D0BF414028274321001180E3 /* KMPNativeCoroutinesAsync */;
-		};
 		D0BF414328274321001180E3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = D0BF414228274321001180E3 /* KMPNativeCoroutinesCombine */;
@@ -1882,16 +1874,16 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rickclephas/KMP-NativeCoroutines.git";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 0.13.2;
+				kind = revision;
+				revision = f2e100366354e38543d53e55b8a755359877e402;
 			};
 		};
 		D078248927FF90C0006736D4 /* XCRemoteSwiftPackageReference "DictionaryCoding" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/elegantchaos/DictionaryCoding.git";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 1.0.9;
+				kind = exactVersion;
+				version = 1.0.9;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1907,11 +1899,6 @@
 			package = D078248927FF90C0006736D4 /* XCRemoteSwiftPackageReference "DictionaryCoding" */;
 			productName = DictionaryCoding;
 		};
-		D0BF413828274314001180E3 /* KMPNativeCoroutinesAsync */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D031A7FA27DBFC710009C6BF /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */;
-			productName = KMPNativeCoroutinesAsync;
-		};
 		D0BF413A28274314001180E3 /* KMPNativeCoroutinesCombine */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D031A7FA27DBFC710009C6BF /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */;
@@ -1926,11 +1913,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D078248927FF90C0006736D4 /* XCRemoteSwiftPackageReference "DictionaryCoding" */;
 			productName = DictionaryCoding;
-		};
-		D0BF414028274321001180E3 /* KMPNativeCoroutinesAsync */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D031A7FA27DBFC710009C6BF /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */;
-			productName = KMPNativeCoroutinesAsync;
 		};
 		D0BF414228274321001180E3 /* KMPNativeCoroutinesCombine */ = {
 			isa = XCSwiftPackageProductDependency;

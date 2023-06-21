@@ -7,7 +7,7 @@ import com.conradkramer.wallet.browser.prompt.Prompt
 import com.conradkramer.wallet.ethereum.RpcClient
 import com.conradkramer.wallet.logger
 import kotlinx.serialization.json.JsonElement
-import mu.KLogger
+import io.github.oshai.kotlinlogging.KLogger
 import org.koin.core.annotation.Single
 import org.koin.core.component.KoinComponent
 
