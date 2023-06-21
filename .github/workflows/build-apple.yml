@@ -14,11 +14,11 @@ jobs:
       fail-fast: false
       matrix:
         configuration:
-        - scheme: App (iOS)
+        - scheme: App
           destination: generic/platform=iOS
           platform: iOS
           sdk-name: iphoneos
-        - scheme: App (iOS)
+        - scheme: App
           destination: platform=iOS Simulator,OS=16.4,name=iPhone 14 Pro
           platform: iOS Simulator
           sdk-name: iphonesimulator

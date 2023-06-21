@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         configuration:
-        - scheme: App (iOS)
+        - scheme: App
           destination: generic/platform=iOS
           platform: iOS
           method: ad-hoc

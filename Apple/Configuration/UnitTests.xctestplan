@@ -17,37 +17,10 @@
   "testTargets" : [
     {
       "parallelizable" : true,
-      "skippedTests" : [
-        "ExtendedKeyTests\/testRootKeyGeneration()"
-      ],
-      "target" : {
-        "containerPath" : "container:Wallet.xcodeproj",
-        "identifier" : "D08CF08E276038CD00E978CF",
-        "name" : "AccountsTests"
-      }
-    },
-    {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:Wallet.xcodeproj",
         "identifier" : "D00D378027746CA40050F5A4",
         "name" : "CoreTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:Wallet.xcodeproj",
-        "identifier" : "D062FEF8278868EE00EF408E",
-        "name" : "RPCTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:Wallet.xcodeproj",
-        "identifier" : "D0491E612790B55E00B362E8",
-        "name" : "XKCPTests"
       }
     }
   ],

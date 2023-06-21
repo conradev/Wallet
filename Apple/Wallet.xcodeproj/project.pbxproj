@@ -850,9 +850,9 @@
 			productReference = D07F238B27595E0800E2C42C /* WalletWebExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		D02D63FA2726932A0050BEA8 /* App (iOS) */ = {
+		D02D63FA2726932A0050BEA8 /* App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D02D64062726932B0050BEA8 /* Build configuration list for PBXNativeTarget "App (iOS)" */;
+			buildConfigurationList = D02D64062726932B0050BEA8 /* Build configuration list for PBXNativeTarget "App" */;
 			buildPhases = (
 				D02D63F72726932A0050BEA8 /* Sources */,
 				D02D63F82726932A0050BEA8 /* Frameworks */,
@@ -869,7 +869,7 @@
 				D028F287281CDB3E0042C687 /* PBXTargetDependency */,
 				D02D6412272696670050BEA8 /* PBXTargetDependency */,
 			);
-			name = "App (iOS)";
+			name = App;
 			packageProductDependencies = (
 			);
 			productName = "App (iOS)";
@@ -1025,7 +1025,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1330;
-				LastUpgradeCheck = 1410;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					D00D378027746CA40050F5A4 = {
 						CreatedOnToolsVersion = 13.2.1;
@@ -1078,7 +1078,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D02D63FA2726932A0050BEA8 /* App (iOS) */,
+				D02D63FA2726932A0050BEA8 /* App */,
 				D072B0E926D2520900DA1C47 /* App (macOS) */,
 				D0271CD127D15778002FF5B1 /* AppTests (iOS) */,
 				D0271CF627D1AD08002FF5B1 /* AppTests (macOS) */,
@@ -1521,7 +1521,7 @@
 		};
 		D0271CD927D15778002FF5B1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D02D63FA2726932A0050BEA8 /* App (iOS) */;
+			target = D02D63FA2726932A0050BEA8 /* App */;
 			targetProxy = D0271CD827D15778002FF5B1 /* PBXContainerItemProxy */;
 		};
 		D0271CFE27D1AD08002FF5B1 /* PBXTargetDependency */ = {
@@ -1838,7 +1838,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D02D64062726932B0050BEA8 /* Build configuration list for PBXNativeTarget "App (iOS)" */ = {
+		D02D64062726932B0050BEA8 /* Build configuration list for PBXNativeTarget "App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D02D64072726932B0050BEA8 /* Debug */,

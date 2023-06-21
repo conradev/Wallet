@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1420"
+   LastUpgradeVersion = "1500"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D02D63FA2726932A0050BEA8"
                BuildableName = "Wallet.app"
-               BlueprintName = "App (iOS)"
+               BlueprintName = "App"
                ReferencedContainer = "container:Wallet.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -50,7 +50,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D02D63FA2726932A0050BEA8"
             BuildableName = "Wallet.app"
-            BlueprintName = "App (iOS)"
+            BlueprintName = "App"
             ReferencedContainer = "container:Wallet.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -67,7 +67,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D02D63FA2726932A0050BEA8"
             BuildableName = "Wallet.app"
-            BlueprintName = "App (iOS)"
+            BlueprintName = "App"
             ReferencedContainer = "container:Wallet.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
