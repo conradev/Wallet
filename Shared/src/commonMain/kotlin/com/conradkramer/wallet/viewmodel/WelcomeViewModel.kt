@@ -1,6 +1,7 @@
 package com.conradkramer.wallet.viewmodel
 
 import com.conradkramer.wallet.AccountStore
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.annotation.Factory
 
@@ -17,6 +18,7 @@ class WelcomeViewModel internal constructor(private val accountStore: AccountSto
             }
     }
 
+    @NativeCoroutinesState
     val selectedOption = MutableStateFlow(Option.IMPORT_PHRASE)
 
     val options: List<Option>

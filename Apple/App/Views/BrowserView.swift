@@ -42,6 +42,6 @@ extension BrowserViewModel: KotlinViewModel {
     }
 
     public static let bindings: [KotlinBinding] = [
-        .init(\BrowserViewModel.prompts, \.promptsNative, \.prompts)
+        .init(\BrowserViewModel.prompts, \.promptsFlow, \.prompts)
     ]
 }

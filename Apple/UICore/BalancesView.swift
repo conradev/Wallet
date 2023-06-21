@@ -35,9 +35,9 @@ extension BalancesViewModel: KotlinViewModel {
     }
 
     public static let bindings: [KotlinBinding] = [
-        .init(\BalancesViewModel.assets, \.assetsNative, \.assets),
-        .init(\BalancesViewModel.accountName, \.accountNameNative, \.accountName),
-        .init(\BalancesViewModel.totalBalance, \.totalBalanceNative, \.totalBalance)
+        .init(\BalancesViewModel.assets, \.assetsFlow, \.assets),
+        .init(\BalancesViewModel.accountName, \.accountNameFlow, \.accountName),
+        .init(\BalancesViewModel.totalBalance, \.totalBalanceFlow, \.totalBalance)
     ]
 }
 

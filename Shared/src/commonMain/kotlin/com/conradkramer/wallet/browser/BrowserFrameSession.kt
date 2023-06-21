@@ -28,6 +28,7 @@ import com.conradkramer.wallet.ethereum.requests.Subscribe
 import com.conradkramer.wallet.ethereum.types.Address
 import com.conradkramer.wallet.ethereum.types.Data
 import com.conradkramer.wallet.ethereum.types.Quantity
+import io.github.oshai.kotlinlogging.KLogger
 import io.ktor.http.ParametersBuilder
 import io.ktor.http.URLBuilder
 import io.ktor.http.Url
@@ -35,7 +36,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
-import mu.KLogger
 import kotlin.coroutines.EmptyCoroutineContext
 
 internal class BrowserFrameSession(

@@ -9,20 +9,18 @@ public struct KotlinBinding {
     var bind: (AnyObject, AnyObject) -> [AnyCancellable]
 
     public init<ViewModel: KotlinViewModel, T, U>(
-        _ viewModelKeyPath: KeyPath<ViewModel, Kotlinx_coroutines_coreStateFlow>,
+        _ viewModelKeyPath: KeyPath<ViewModel, U>,
         _ viewModelNativeKeyPath: KeyPath<ViewModel, NativeFlow<T, Error, KotlinUnit>>,
         _ valueKeyPath: ReferenceWritableKeyPath<ViewModel.Observable, U>,
-        _ content: @escaping (T) -> U
+        _ get: @escaping (T) -> U
     ) {
         bind = { foo, bar in
             guard
                 let viewModel = foo as? ViewModel,
                 let observable = bar as? ViewModel.Observable else { fatalError("Failed to bind \(foo) and \(bar)") }
-            if let currentValue = viewModel[keyPath: viewModelKeyPath].value_ as? T {
-                observable[keyPath: valueKeyPath] = content(currentValue)
-            }
+            observable[keyPath: valueKeyPath] = viewModel[keyPath: viewModelKeyPath]
             let read = createPublisher(for: viewModel[keyPath: viewModelNativeKeyPath])
-                .map(content)
+                .map(get)
                 .replaceError(with: observable[keyPath: valueKeyPath])
                 .receive(on: DispatchQueue.main)
                 .assign(to: valueKeyPath, on: observable)
@@ -30,29 +28,28 @@ public struct KotlinBinding {
         }
     }
 
-    public init<ViewModel: KotlinViewModel, T>(
-        _ viewModelKeyPath: KeyPath<ViewModel, Kotlinx_coroutines_coreStateFlow>,
+    public init<ViewModel: KotlinViewModel, T: Equatable>(
+        _ viewModelKeyPath: KeyPath<ViewModel, T>,
         _ viewModelNativeKeyPath: KeyPath<ViewModel, NativeFlow<T, Error, KotlinUnit>>,
         _ valueKeyPath: ReferenceWritableKeyPath<ViewModel.Observable, T>
     ) {
-        self.init(viewModelKeyPath, viewModelNativeKeyPath, valueKeyPath) { $0 }
+        self.init(viewModelKeyPath, viewModelNativeKeyPath, valueKeyPath, { $0 })
     }
 
     public init<ViewModel: KotlinViewModel, T, U: Equatable>(
-        _ viewModelKeyPath: KeyPath<ViewModel, Kotlinx_coroutines_coreMutableStateFlow>,
+        _ viewModelKeyPath: ReferenceWritableKeyPath<ViewModel, T>,
         _ viewModelNativeKeyPath: KeyPath<ViewModel, NativeFlow<T, Error, KotlinUnit>>,
         _ valueKeyPath: ReferenceWritableKeyPath<ViewModel.Observable, U>,
-        _ content: @escaping (T) -> U
+        _ set: @escaping (T) -> U,
+        _ get: @escaping (U) -> T
     ) {
         bind = { foo, bar in
             guard
                 let viewModel = foo as? ViewModel,
                 let observable = bar as? ViewModel.Observable else { fatalError("Failed to bind \(foo) and \(bar)") }
-            if let currentValue = viewModel[keyPath: viewModelKeyPath].value_ as? T {
-                observable[keyPath: valueKeyPath] = content(currentValue)
-            }
+            observable[keyPath: valueKeyPath] = set(viewModel[keyPath: viewModelKeyPath])
             let read = createPublisher(for: viewModel[keyPath: viewModelNativeKeyPath])
-                .map(content)
+                .map(set)
                 .replaceError(with: observable[keyPath: valueKeyPath])
                 .receive(on: DispatchQueue.main)
                 .assign(to: valueKeyPath, on: observable)
@@ -60,17 +57,17 @@ public struct KotlinBinding {
                 .objectWillChange
                 .delay(for: 0, scheduler: RunLoop.main)
                 .map { observable[keyPath: valueKeyPath] }
-                .sink { viewModel[keyPath: viewModelKeyPath].setValue($0) }
+                .sink { viewModel[keyPath: viewModelKeyPath] = get($0) }
             return [read, write]
         }
     }
 
     public init<ViewModel: KotlinViewModel, T: Equatable>(
-        _ viewModelKeyPath: KeyPath<ViewModel, Kotlinx_coroutines_coreMutableStateFlow>,
+        _ viewModelKeyPath: ReferenceWritableKeyPath<ViewModel, T>,
         _ viewModelNativeKeyPath: KeyPath<ViewModel, NativeFlow<T, Error, KotlinUnit>>,
         _ valueKeyPath: ReferenceWritableKeyPath<ViewModel.Observable, T>
     ) {
-        self.init(viewModelKeyPath, viewModelNativeKeyPath, valueKeyPath) { $0 }
+        self.init(viewModelKeyPath, viewModelNativeKeyPath, valueKeyPath, { $0 }, { $0 })
     }
 }
 

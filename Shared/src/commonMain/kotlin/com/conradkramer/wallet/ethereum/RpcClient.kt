@@ -3,6 +3,7 @@ package com.conradkramer.wallet.ethereum
 import com.conradkramer.wallet.ethereum.requests.JsonRpcResponse
 import com.conradkramer.wallet.ethereum.requests.Request
 import com.conradkramer.wallet.ethereum.requests.validate
+import io.github.oshai.kotlinlogging.KLogger
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -15,7 +16,6 @@ import io.ktor.http.ContentType
 import io.ktor.http.Url
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
-import mu.KLogger
 import kotlin.math.absoluteValue
 import kotlin.random.Random
 

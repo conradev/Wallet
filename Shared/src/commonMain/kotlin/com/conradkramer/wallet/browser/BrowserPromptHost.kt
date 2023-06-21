@@ -11,6 +11,7 @@ import com.conradkramer.wallet.sql.Database
 import com.conradkramer.wallet.viewmodel.AnyPromptViewModel
 import com.conradkramer.wallet.viewmodel.PermissionPromptViewModel
 import com.conradkramer.wallet.viewmodel.SignDataPromptViewModel
+import io.github.oshai.kotlinlogging.KLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +20,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import mu.KLogger
 import org.koin.core.Koin
 import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent

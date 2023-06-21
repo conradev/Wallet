@@ -11,8 +11,8 @@ import com.conradkramer.wallet.ethereum.types.Chain
 import com.conradkramer.wallet.ethereum.types.Data
 import com.conradkramer.wallet.ethereum.types.Quantity
 import com.conradkramer.wallet.sql.Database
+import io.github.oshai.kotlinlogging.KLogger
 import kotlinx.coroutines.CoroutineScope
-import mu.KLogger
 
 internal class ERC20ContractIndexer(
     chain: Chain,

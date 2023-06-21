@@ -83,8 +83,8 @@ extension MainViewModel: KotlinViewModel {
     }
 
     public static let bindings: [KotlinBinding] = [
-        .init(\MainViewModel.showOnboarding, \.showOnboardingNative, \.showOnboarding) { $0.boolValue },
-        .init(\MainViewModel.selectedTab, \.selectedTabNative, \.selectedTab)
+        .init(\MainViewModel.showOnboarding, \.showOnboardingFlow, \.showOnboarding) { $0.boolValue },
+        .init(\MainViewModel.selectedTab, \.selectedTabFlow, \.selectedTab)
     ]
 }
 

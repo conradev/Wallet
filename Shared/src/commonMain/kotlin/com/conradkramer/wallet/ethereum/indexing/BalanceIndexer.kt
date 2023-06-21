@@ -18,6 +18,7 @@ import com.conradkramer.wallet.ethereum.types.Chain
 import com.conradkramer.wallet.ethereum.types.Data
 import com.conradkramer.wallet.ethereum.types.Quantity
 import com.conradkramer.wallet.sql.Database
+import io.github.oshai.kotlinlogging.KLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -25,7 +26,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
-import mu.KLogger
 
 internal class BalanceIndexer(
     chain: Chain,

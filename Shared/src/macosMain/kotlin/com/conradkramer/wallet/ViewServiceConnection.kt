@@ -1,10 +1,10 @@
 package com.conradkramer.wallet
 
 import com.conradkramer.wallet.browser.message.Message
+import io.github.oshai.kotlinlogging.KLogger
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import mu.KLogger
 import platform.Foundation.NSData
 import platform.darwin.XPC_ERROR_CONNECTION_INTERRUPTED
 import platform.darwin.XPC_ERROR_CONNECTION_INVALID

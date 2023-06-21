@@ -3,6 +3,7 @@ package com.conradkramer.wallet.viewmodel
 import com.conradkramer.wallet.Account
 import com.conradkramer.wallet.AccountStore
 import com.conradkramer.wallet.mapState
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -30,8 +31,10 @@ class MainViewModel internal constructor(private val accountStore: AccountStore)
 
     private val scope = CoroutineScope(EmptyCoroutineContext)
 
+    @NativeCoroutinesState
     val selectedTab = MutableStateFlow(Tab.BALANCE)
 
+    @NativeCoroutinesState
     val showOnboarding: StateFlow<Boolean>
         get() = accountStore.accounts.mapState(scope, List<Account>::isEmpty)
 }

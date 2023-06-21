@@ -35,5 +35,5 @@ runs:
         -resultBundlePath BuildResults.xcresult
 
       ./Tools/xcresulttool-github BuildResults.xcresult
-      
+
       rm -rf AuthKey_${{ inputs.app-store-key-id }}.p8

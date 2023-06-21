@@ -2,9 +2,9 @@ package com.conradkramer.wallet.ethereum.indexing
 
 import com.conradkramer.wallet.ethereum.types.Chain
 import com.conradkramer.wallet.sql.Database
+import io.github.oshai.kotlinlogging.KLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import mu.KLogger
 
 internal abstract class Indexer(
     val chain: Chain,

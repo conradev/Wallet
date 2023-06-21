@@ -1,33 +1,34 @@
 [versions]
-accompanist = "0.28.0"
-android = "7.3.1"
-androidx-appcompat = "1.5.1"
+accompanist = "0.30.1"
+android = "8.0.2"
+androidx-appcompat = "1.6.1"
 androidx-biometric = "1.2.0-alpha05"
-androidx-activity = "1.6.1"
+androidx-activity = "1.7.2"
 androidx-navigation = "2.5.3"
-bouncycastle = "1.72"
-compose-animation = "1.3.2"
-compose-compiler = "1.4.0-dev-k1.8.0-33c0ad36f83"
-compose-foundation = "1.3.1"
-compose-material = "1.3.1"
-compose-material3 = "1.0.1"
+bouncycastle = "1.74"
+compose-animation = "1.4.3"
+compose-compiler = "1.4.8-dev-k1.8.22-badc51991ec"
+compose-foundation = "1.4.3"
+compose-material = "1.4.3"
+compose-material3 = "1.1.0"
 compose-runtime = "1.3.2"
-compose-ui = "1.3.2"
-material = "1.8.0-rc01"
+compose-ui = "1.4.3"
+material = "1.9.0"
 dbtools-room = "7.0.1"
-koin = "3.2.2"
-koin-annotations = "1.1.0"
-kotlin = "1.8.0"
-kotlin-logging = "2.1.23"
-kotlinx-coroutines = "1.6.4"
+java = "19"
+koin = "3.4.1"
+koin-annotations = "1.2.2"
+kotlin = "1.8.22"
+kotlin-logging = "4.0.0-beta-29"
+kotlinx-coroutines = "1.7.1"
 kotlinx-datetime = "0.4.0"
-kotlinx-serialization = "1.4.1"
-kotlinter = "3.13.0"
-ksp = "1.8.0-1.0.8"
-ktor = "2.2.1"
-sqldelight = "2.0.0-alpha04"
-sl4f-android = "1.7.36"
-native-coroutines = "0.13.3"
+kotlinx-serialization = "1.5.1"
+kotlinter = "3.15.0"
+ksp = "1.8.22-1.0.11"
+ktor = "2.3.1"
+sqldelight = "2.0.0-rc01"
+sl4f-android = "2.0.7-0"
+native-coroutines = "1.0.0-ALPHA-11"
 
 [libraries]
 koin = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
@@ -70,8 +71,8 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 accompanist-systemui = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 bouncycastle = { module = "org.bouncycastle:bcprov-jdk15to18", version.ref = "bouncycastle" }
 dbtools-room-sqliteorg = { module = "org.dbtools:dbtools-room-sqliteorg", version.ref = "dbtools-room" }
-kotlin-logging = { module = "io.github.microutils:kotlin-logging", version.ref = "kotlin-logging" }
-slf4j-android = { module = "org.slf4j:slf4j-android", version.ref = "sl4f-android" }
+kotlin-logging = { module = "io.github.oshai:kotlin-logging", version.ref = "kotlin-logging" }
+slf4j-android = { module = "uk.uuid.slf4j:slf4j-android", version.ref = "sl4f-android" }
 
 [bundles]
 accompanist = ["accompanist-systemui"]

@@ -1,5 +1,6 @@
 package com.conradkramer.wallet.viewmodel
 
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -15,6 +16,7 @@ class OnboardingViewModel {
         companion object
     }
 
+    @NativeCoroutinesState
     val screens = MutableStateFlow(listOf(Screen.WELCOME))
 
     private val scope = MainScope()

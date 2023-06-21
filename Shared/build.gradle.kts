@@ -1,4 +1,6 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
+import org.jmailen.gradle.kotlinter.tasks.FormatTask
+import org.jmailen.gradle.kotlinter.tasks.LintTask
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -127,15 +129,21 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 28
-        targetSdk = 33
     }
     namespace = "com.conradkramer.wallet"
+
+    compileOptions {
+        sourceCompatibility(libs.versions.java.get())
+        targetCompatibility(libs.versions.java.get())
+    }
 }
 
 sqldelight {
-    database("Database") {
-        dialect("app.cash.sqldelight:sqlite-3-35-dialect:${libs.versions.sqldelight.get()}")
-        packageName = "com.conradkramer.wallet.sql"
+    databases {
+        create("Database") {
+            dialect("app.cash.sqldelight:sqlite-3-35-dialect:${libs.versions.sqldelight.get()}")
+            packageName.set("com.conradkramer.wallet.sql")
+        }
     }
 }
 
@@ -144,10 +152,25 @@ dependencies {
         .forEach { add(it, libs.koin.compiler) }
 }
 
+kotlin.sourceSets.all {
+    languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+}
+
 tasks.lintKotlinCommonMain {
     exclude { fte -> fte.file.absolutePath.contains("/generated/") }
 }
 
 tasks.formatKotlinCommonMain {
     exclude { fte -> fte.file.absolutePath.contains("/generated/") }
+}
+
+afterEvaluate {
+    tasks
+        .mapNotNull { it as? LintTask }
+        .filter { it.name.startsWith("lintKotlinGeneratedByKsp") }
+        .forEach { it.enabled = false }
+    tasks
+        .mapNotNull { it as? FormatTask }
+        .filter { it.name.startsWith("formatKotlinGeneratedByKsp") }
+        .forEach { it.enabled = false }
 }

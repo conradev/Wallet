@@ -9,7 +9,7 @@ import com.conradkramer.wallet.browser.prompt.SignDataPrompt
 import com.conradkramer.wallet.ethereum.signMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import mu.KLogger
+import io.github.oshai.kotlinlogging.KLogger
 import kotlin.coroutines.EmptyCoroutineContext
 
 class SignDataPromptViewModel internal constructor(
