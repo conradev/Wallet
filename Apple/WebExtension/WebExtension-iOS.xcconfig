@@ -1,6 +1,5 @@
 #include "WebExtension.xcconfig"
 
-SDKROOT = iphoneos
-SUPPORTED_PLATFORMS = iphoneos iphonesimulator
+SUPPORTED_PLATFORMS = iphoneos iphonesimulator xros xrsimulator
 
 CODE_SIGN_ENTITLEMENTS = WebExtension/WebExtension-iOS.entitlements
