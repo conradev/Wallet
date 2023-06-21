@@ -6,7 +6,6 @@ SUPPORTED_PLATFORMS = iphoneos iphonesimulator
 INFOPLIST_FILE = App/iOS/App-iOS-Info.plist
 CODE_SIGN_ENTITLEMENTS = App/iOS/App-iOS.entitlements
 
-INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES
 INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES
 INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen
 INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
