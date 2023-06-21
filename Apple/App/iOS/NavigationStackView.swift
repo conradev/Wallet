@@ -2,8 +2,7 @@ import SwiftUI
 import WalletCore
 
 struct NavigationStackView<Content, Tag>: View where Content: View, Tag: KotlinCaseIterable, Tag.Value: Hashable {
-    @Binding
-    var stack: [Tag.Value]
+    @Binding var stack: [Tag.Value]
 
     private var depth: Int = 0
     private var content: (Tag.Value) -> Content
@@ -31,8 +30,7 @@ struct NavigationStackView<Content, Tag>: View where Content: View, Tag: KotlinC
         }
     }
 
-    @ViewBuilder
-    private var page: some View {
+    @ViewBuilder private var page: some View {
         if let current = current {
             content(current)
                 .overlay(links)
@@ -41,11 +39,9 @@ struct NavigationStackView<Content, Tag>: View where Content: View, Tag: KotlinC
         }
     }
 
-    @ViewBuilder
-    private var links: some View {
+    @ViewBuilder private var links: some View {
         VStack {
             ForEach(Tag.allCases, id: \.self) { tag in
-                // swiftlint:disable:next multiline_arguments
                 NavigationLink(tag: tag, selection: next) {
                     Self(stack: $stack, depth: depth + 1, content: content)
                 } label: {

@@ -12,8 +12,7 @@ struct WizardView<Content: View>: View {
         }
     }
 
-    @ViewBuilder
-    private var navigationBar: some View {
+    @ViewBuilder private var navigationBar: some View {
         Rectangle()
             .fill(.separator)
             .frame(minHeight: 1, maxHeight: 1)

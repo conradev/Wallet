@@ -27,14 +27,12 @@ extension MainViewProvider {
 }
 
 struct MainSplitView: View, MainViewProvider {
-    @ObservedObject
-    var observable: MainViewModel.Observable
+    @ObservedObject var observable: MainViewModel.Observable
 
     var body: some View {
         NavigationView {
             List {
                 ForEach(MainViewModel.Tab.allCases) { tab in
-                    // swiftlint:disable:next multiline_arguments
                     NavigationLink(isActive: isActive(tab: tab)) {
                         view(for: tab)
                     } label: {
@@ -75,11 +73,8 @@ struct MainSplitView: View, MainViewProvider {
 
 extension MainViewModel: KotlinViewModel {
     public final class Observable: KotlinObservableObject {
-        @Published
-        var showOnboarding = false
-
-        @Published
-        var selectedTab: Tab = .balance
+        @Published var showOnboarding = false
+        @Published var selectedTab: Tab = .balance
     }
 
     public static let bindings: [KotlinBinding] = [

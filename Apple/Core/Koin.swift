@@ -54,7 +54,7 @@ extension KoinApplication {
         \.balancesViewModel,
         \.browserMessageHost,
         \.browserPromptHost,
-        \.appIndexer,
+        \.appIndexer
     ]
 
     private static let previewKeyPaths: [PartialKeyPath<Koin>] = [

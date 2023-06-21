@@ -2,7 +2,6 @@ opt_in_rules:
 - anonymous_argument_in_multiline_closure
 - array_init
 - attributes
-- capture_variable
 - closure_end_indentation
 - closure_spacing
 - collection_alignment
@@ -22,7 +21,6 @@ opt_in_rules:
 - enum_case_associated_values_count
 - expiring_todo
 - explicit_init
-- explicit_self
 - fallthrough
 - fatal_error_message
 - file_header
@@ -89,8 +87,6 @@ opt_in_rules:
 - unneeded_parentheses_in_closure_argument
 - unowned_variable_capture
 - untyped_error_in_catch
-- unused_declaration
-- unused_import
 - vertical_parameter_alignment_on_call
 - vertical_whitespace_closing_braces
 - vertical_whitespace_opening_braces

@@ -1,13 +1,8 @@
 import SwiftUI
 
 public struct BalancesView: View {
-    @ObservedObject
-    var observable: BalancesViewModel.Observable
+    @ObservedObject var observable: BalancesViewModel.Observable
     var viewModel: BalancesViewModel { observable.viewModel() }
-
-    public init(observable: BalancesViewModel.Observable  = KoinApplication.observable(BalancesViewModel.self)) {
-        self.observable = observable
-    }
 
     public var body: some View {
         ScrollView {
@@ -24,6 +19,10 @@ public struct BalancesView: View {
                 }
             }
         }
+    }
+
+    public init(observable: BalancesViewModel.Observable = KoinApplication.observable(BalancesViewModel.self)) {
+        self.observable = observable
     }
 }
 

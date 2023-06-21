@@ -2,8 +2,7 @@ import LocalAuthentication
 import SwiftUI
 
 public struct SignDataPromptView: View {
-    @ObservedObject
-    var observable: SignDataPromptViewModel.Observable
+    @ObservedObject var observable: SignDataPromptViewModel.Observable
     var viewModel: SignDataPromptViewModel { observable.viewModel() }
 
     private var context: AuthenticationContext? {

@@ -2,8 +2,7 @@ import SwiftUI
 import WalletCore
 
 struct MainTabView: View, MainViewProvider {
-    @ObservedObject
-    var observable: MainViewModel.Observable
+    @ObservedObject var observable: MainViewModel.Observable
 
     var body: some View {
         TabView(selection: $observable.selectedTab) {
