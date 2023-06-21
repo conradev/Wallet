@@ -15,7 +15,7 @@ import org.koin.core.annotation.Factory
 @Factory
 internal class BrowserPromptExecutor constructor(
     private val database: Database,
-    private val logger: KLogger
+    private val logger: KLogger,
 ) {
     private val notifier = CrossProcessNotifier()
 

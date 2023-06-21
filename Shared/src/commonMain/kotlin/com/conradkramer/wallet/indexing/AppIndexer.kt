@@ -14,14 +14,14 @@ import kotlin.coroutines.EmptyCoroutineContext
 class AppIndexer internal constructor() : KoinComponent {
     @OptIn(ExperimentalCoroutinesApi::class)
     private val scope: CoroutineScope = CoroutineScope(
-        EmptyCoroutineContext + Dispatchers.Default.limitedParallelism(5)
+        EmptyCoroutineContext + Dispatchers.Default.limitedParallelism(5),
     )
 
     private val chainIndexer: ChainIndexer = getKoin().get { parametersOf(Chain.MAINNET, scope) }
     private val coinbaseIndexer: CoinbaseIndexer = getKoin().get {
         parametersOf(
             scope,
-            Locale.current.currencyCode ?: Currency.Code.USD
+            Locale.current.currencyCode ?: Currency.Code.USD,
         )
     }
 }

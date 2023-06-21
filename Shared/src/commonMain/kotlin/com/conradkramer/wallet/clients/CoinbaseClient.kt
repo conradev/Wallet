@@ -18,7 +18,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 internal class CoinbaseClient(
-    private val nativeLogger: KLogger
+    private val nativeLogger: KLogger,
 ) {
     @Serializable
     internal data class Cryptocurrency(
@@ -29,13 +29,13 @@ internal class CoinbaseClient(
         val sortIndex: Long,
         val exponent: Long,
         @SerialName("asset_id")
-        val assetId: String
+        val assetId: String,
     )
 
     @Serializable
     private data class ExchangeRates(
         val currency: String,
-        val rates: Map<Currency.Code, Double>
+        val rates: Map<Currency.Code, Double>,
     )
 
     @Serializable
@@ -50,7 +50,7 @@ internal class CoinbaseClient(
             json(
                 Json {
                     ignoreUnknownKeys = true
-                }
+                },
             )
         }
     }

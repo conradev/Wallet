@@ -15,7 +15,7 @@ internal class CoinbaseIndexer(
     private val currencyCode: Currency.Code,
     private val client: CoinbaseClient,
     private val database: Database,
-    private val logger: KLogger
+    private val logger: KLogger,
 ) {
     init { refresh() }
 
@@ -42,8 +42,8 @@ internal class CoinbaseIndexer(
                         currency.sortIndex,
                         currency.exponent,
                         currency.assetId,
-                        now
-                    )
+                        now,
+                    ),
                 )
             }
         }
@@ -59,8 +59,8 @@ internal class CoinbaseIndexer(
                         currencyCode,
                         rate.key,
                         rate.value,
-                        now
-                    )
+                        now,
+                    ),
                 )
             }
         }

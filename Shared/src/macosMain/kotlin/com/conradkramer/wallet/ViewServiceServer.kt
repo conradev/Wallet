@@ -20,7 +20,7 @@ import platform.darwin.xpc_object_t
 class ViewServiceServer internal constructor(
     machService: String,
     private val host: BrowserMessageHost,
-    private val logger: KLogger
+    private val logger: KLogger,
 ) {
     private val queue = dispatch_queue_create("$machService.listener", null)
     private val listener =

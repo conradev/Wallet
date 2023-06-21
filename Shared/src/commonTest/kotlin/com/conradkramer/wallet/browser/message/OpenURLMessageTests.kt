@@ -9,7 +9,7 @@ internal class OpenURLMessageTests() : MessageTests() {
         val message = OpenURLMessage(
             20,
             session,
-            "https://conradkramer.com"
+            "https://conradkramer.com",
         )
         val jsonMessage = decode(
             """{
@@ -24,7 +24,7 @@ internal class OpenURLMessageTests() : MessageTests() {
                 "url": "https://conradkramer.com"
             }
         }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         assertEquals(message, jsonMessage)

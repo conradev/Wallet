@@ -4,10 +4,10 @@ import com.conradkramer.wallet.ethereum.types.Transaction
 import kotlinx.serialization.json.JsonElement
 
 internal data class SendTransaction(
-    val transaction: Transaction
+    val transaction: Transaction,
 ) : Request() {
     constructor(params: List<JsonElement>) : this(
-        decode<Transaction>(params, 0)
+        decode<Transaction>(params, 0),
     )
 
     override val method = Companion.method

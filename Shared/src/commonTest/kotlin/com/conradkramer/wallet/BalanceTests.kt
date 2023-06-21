@@ -12,9 +12,9 @@ class BalanceTests {
                 Currency.Code.ETH,
                 "Ethereum",
                 "ETH",
-                18
+                18,
             ),
-            Quantity.fromString("0x14f952c14b42909e").value
+            Quantity.fromString("0x14f952c14b42909e").value,
         )
         assertEquals(1.511, balance.toDouble(), 0.00001)
     }

@@ -15,14 +15,14 @@ internal class TransactionIndexer(
     scope: CoroutineScope,
     database: Database,
     private val client: RpcClient,
-    logger: KLogger
+    logger: KLogger,
 ) : QueryIndexer<Data>(
     chain,
     scope,
     database,
     database.ethereumQueries.transactionsToIndex(chain),
     Data::toString,
-    logger
+    logger,
 ) {
     override suspend fun index(identifier: String) {
         val request = GetTransactionByHash(Data.fromString(identifier))
@@ -36,8 +36,8 @@ internal class TransactionIndexer(
                 transaction.from,
                 transaction.to,
                 transaction.value,
-                transaction.input
-            )
+                transaction.input,
+            ),
         )
     }
 }

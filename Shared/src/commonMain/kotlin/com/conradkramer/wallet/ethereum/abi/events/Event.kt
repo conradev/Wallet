@@ -17,7 +17,7 @@ internal sealed class Event {
         inline fun <reified T> decode(
             params: List<Data>,
             index: Int,
-            map: (ByteArray) -> T
+            map: (ByteArray) -> T,
         ): T {
             return if (index < params.size) {
                 map(params[index].data)
@@ -31,5 +31,5 @@ internal sealed class Event {
 internal class AnyEvent(
     val address: Address,
     val topics: List<Data>,
-    val data: Data
+    val data: Data,
 ) : Event()

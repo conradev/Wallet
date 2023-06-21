@@ -11,7 +11,7 @@ internal data class Transaction(
     val gasPrice: Quantity? = null,
     val value: Quantity? = null,
     val data: Data? = null,
-    val nonce: Quantity? = null
+    val nonce: Quantity? = null,
 ) {
     init {
         if (nonce != null && Quantity(BigInteger.valueOf(nonce.toULong())) != nonce) {

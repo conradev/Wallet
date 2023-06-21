@@ -42,11 +42,11 @@ abstract class HexadecimalValue : RLPRepresentable {
             string: String,
             allowNibbles: Boolean,
             regex: Regex,
-            constructor: (ByteArray) -> T
+            constructor: (ByteArray) -> T,
         ): T {
             if (!regex.matches(string)) {
                 throw Exception(
-                    "String of length ${string.length} is not the correct format for ${T::class.simpleName}"
+                    "String of length ${string.length} is not the correct format for ${T::class.simpleName}",
                 )
             }
 

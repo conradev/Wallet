@@ -13,7 +13,7 @@ internal class ChainSerializer : KSerializer<Chain> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Chain", PrimitiveKind.STRING)
     override fun deserialize(decoder: Decoder) = Chain(Quantity.fromString(decoder.decodeString()).toLong())
     override fun serialize(encoder: Encoder, value: Chain) = encoder.encodeString(
-        Quantity(BigInteger.valueOf(value.id)).toString()
+        Quantity(BigInteger.valueOf(value.id)).toString(),
     )
 }
 
@@ -29,7 +29,8 @@ enum class Chain(val id: Long) {
     MORDOR(63),
     ASTOR(212),
     DEV(2018),
-    SEPOLIA(11155111);
+    SEPOLIA(11155111),
+    ;
 
     val lowercaseName = name.lowercase()
 

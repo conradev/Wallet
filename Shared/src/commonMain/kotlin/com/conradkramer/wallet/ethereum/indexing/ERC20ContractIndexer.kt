@@ -19,14 +19,14 @@ internal class ERC20ContractIndexer(
     scope: CoroutineScope,
     database: Database,
     private val client: RpcClient,
-    logger: KLogger
+    logger: KLogger,
 ) : QueryIndexer<Address>(
     chain,
     scope,
     database,
     database.ethereumQueries.erc20ContractsToIndex(chain, Data(Transfer.selector.data)),
     Address::toString,
-    logger
+    logger,
 ) {
 
     override suspend fun index(identifier: String) {
@@ -54,8 +54,8 @@ internal class ERC20ContractIndexer(
                 Quantity(totalSupply),
                 symbol?.let { Currency.Code(it) },
                 decimals?.toLong(),
-                name
-            )
+                name,
+            ),
         )
     }
 }

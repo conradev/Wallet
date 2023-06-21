@@ -8,10 +8,10 @@ import com.conradkramer.wallet.ethereum.types.Address
 import com.conradkramer.wallet.ethereum.types.BlockSpecifier
 import com.conradkramer.wallet.ethereum.types.Chain
 import com.conradkramer.wallet.sql.Database
+import io.github.oshai.kotlinlogging.KLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import io.github.oshai.kotlinlogging.KLogger
 
 internal class AccountTransactionIndexer(
     chain: Chain,
@@ -19,7 +19,7 @@ internal class AccountTransactionIndexer(
     database: Database,
     private val client: RpcClient,
     val address: Address,
-    logger: KLogger
+    logger: KLogger,
 ) : Indexer(chain, scope, database, logger) {
     init { refresh() }
 
@@ -34,7 +34,7 @@ internal class AccountTransactionIndexer(
 
         val transactions = listOf(
             GetAssetTransfers(fromBlock = fromBlock, fromAddress = address),
-            GetAssetTransfers(fromBlock = fromBlock, toAddress = address)
+            GetAssetTransfers(fromBlock = fromBlock, toAddress = address),
         )
             .map { scope.async { client.all(it) } }
             .awaitAll()
@@ -56,8 +56,8 @@ internal class AccountTransactionIndexer(
                         chain,
                         address,
                         transaction.first,
-                        transaction.second
-                    )
+                        transaction.second,
+                    ),
                 )
             }
         }

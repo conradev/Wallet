@@ -7,7 +7,7 @@ import platform.Foundation.numberWithDouble
 
 internal actual class NumberFormatter private constructor(
     private val inner: NSNumberFormatter,
-    private val suffix: String
+    private val suffix: String,
 ) {
     actual fun string(number: Double): String = inner.stringFromNumber(NSNumber.numberWithDouble(number)) + suffix
 
@@ -29,7 +29,7 @@ internal actual class NumberFormatter private constructor(
         private fun formatter(
             locale: Locale? = null,
             suffix: String = "",
-            configure: (NSNumberFormatter.() -> Unit)? = null
+            configure: (NSNumberFormatter.() -> Unit)? = null,
         ) = NSNumberFormatter()
             .apply { setLocale(locale?.locale) }
             .apply { if (configure != null) apply(configure) }

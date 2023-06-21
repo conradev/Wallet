@@ -17,7 +17,8 @@ class MainViewModel internal constructor(private val accountStore: AccountStore)
         COLLECTIBLES,
         TRANSFER,
         UTILITY,
-        TRANSACTIONS;
+        TRANSACTIONS,
+        ;
 
         val title: String
             get() = when (this) {

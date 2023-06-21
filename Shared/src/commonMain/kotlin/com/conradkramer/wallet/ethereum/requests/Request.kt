@@ -46,12 +46,12 @@ internal abstract class Request {
         inline fun <reified T> encode(value: T) = json.encodeToJsonElement(value)
         inline fun <reified T> decode(value: JsonElement): T = json.decodeFromJsonElement(value)
         inline fun <reified T> decode(params: List<JsonElement>, index: Int): T = json.decodeFromJsonElement(
-            params[index]
+            params[index],
         )
         inline fun <reified T> decode(params: List<JsonElement>, index: Int, default: T): T = if (index < params.size) {
             decode(
                 params,
-                index
+                index,
             )
         } else {
             default
@@ -111,7 +111,7 @@ internal abstract class Request {
 
 internal data class AnyRequest(
     override val method: String,
-    override val params: List<JsonElement>
+    override val params: List<JsonElement>,
 ) : Request() {
     internal companion object {
         fun constructor(method: String): (List<JsonElement>) -> Request = { it -> AnyRequest(method, it) }
@@ -123,7 +123,7 @@ internal data class JsonRpcRequest(
     var jsonrpc: String = VERSION,
     var method: String,
     var id: Int,
-    var params: List<JsonElement>?
+    var params: List<JsonElement>?,
 ) {
     val request: Request
         get() = Request.fromMethodAndParams(method, params ?: listOf())
@@ -137,7 +137,7 @@ internal data class JsonRpcRequest(
 internal data class JsonRpcError(
     val code: Int,
     override val message: String,
-    val data: JsonElement? = null
+    val data: JsonElement? = null,
 ) : Throwable(message)
 
 @Serializable
@@ -145,7 +145,7 @@ internal data class JsonRpcResponse(
     var jsonrpc: String = "2.0",
     var id: Int,
     var result: JsonElement? = null,
-    var error: JsonRpcError? = null
+    var error: JsonRpcError? = null,
 )
 
 internal fun JsonRpcRequest.validate(response: JsonRpcResponse) {

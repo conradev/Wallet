@@ -7,10 +7,10 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 internal data class GetTransactionReceipt(
-    val hash: Data
+    val hash: Data,
 ) : Request() {
     constructor(params: List<JsonElement>) : this(
-        decode<Data>(params, 0)
+        decode<Data>(params, 0),
     )
 
     override val method = Companion.method
@@ -28,7 +28,7 @@ internal data class Receipt(
     val status: Quantity,
     val contractAddress: Address?,
     val gasUsed: Quantity,
-    val logs: List<Log>
+    val logs: List<Log>,
 )
 
 @Serializable
@@ -38,5 +38,5 @@ internal data class Log(
     val address: Address,
     val topics: List<Data>,
     val data: Data,
-    val removed: Boolean
+    val removed: Boolean,
 )

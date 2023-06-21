@@ -16,7 +16,7 @@ internal class ChainIndexer(
     val chain: Chain,
     private val scope: CoroutineScope,
     private val database: Database,
-    private val accountStore: AccountStore
+    private val accountStore: AccountStore,
 ) : KoinComponent {
     private val transactionIndexer: TransactionIndexer = getKoin().get { parametersOf(chain, scope) }
     private val receiptIndexer: ReceiptIndexer = getKoin().get { parametersOf(chain, scope) }
@@ -45,7 +45,7 @@ internal class ChainIndexer(
         for (inserted in updated.subtract(current)) {
             addressIndexers[inserted] = setOf(
                 getKoin().get<AccountTransactionIndexer> { parametersOf(chain, scope, inserted) },
-                getKoin().get<BalanceIndexer> { parametersOf(chain, scope, inserted) }
+                getKoin().get<BalanceIndexer> { parametersOf(chain, scope, inserted) },
             )
         }
     }

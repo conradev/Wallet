@@ -65,15 +65,15 @@ fun MainView(mainViewModel: MainViewModel) {
                         selected = currentTab.value == tab,
                         onClick = { mainViewModel.selectedTab.value = tab },
                         icon = { Icon(tab.icon, tab.title) },
-                        label = { Text(tab.title) }
+                        label = { Text(tab.title) },
                     )
                 }
             }
-        }
+        },
     ) { padding ->
         NavHost(
             navController = navController,
-            startDestination = currentTab.value.route
+            startDestination = currentTab.value.route,
         ) {
             composable(MainViewModel.Tab.BALANCE.route) {
                 BalancesView(viewModel = balancesViewModel, padding)
@@ -120,7 +120,7 @@ val MainViewModel.Tab.icon: ImageVector
  * elevated bottom bar
  */
 private fun ColorScheme.surfaceColorAtElevation(
-    elevation: Dp
+    elevation: Dp,
 ): Color {
     if (elevation == 0.dp) return surface
     val alpha = ((4.5f * ln(elevation.value + 1)) + 2f) / 100f

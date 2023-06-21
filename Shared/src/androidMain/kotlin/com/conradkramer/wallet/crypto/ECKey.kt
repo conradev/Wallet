@@ -34,8 +34,8 @@ internal actual class PrivateKey internal constructor(private val inner: BCECPri
         BCECPrivateKey(
             "ECDSA",
             ECPrivateKeySpec(d, curveSpec),
-            BouncyCastleProvider.CONFIGURATION
-        )
+            BouncyCastleProvider.CONFIGURATION,
+        ),
     )
 
     actual constructor (encoded: ByteArray) : this(BigInteger(1, encoded)) {
@@ -98,8 +98,8 @@ actual class PublicKey(private val inner: BCECPublicKey) : ECKey() {
         BCECPublicKey(
             "ECDSA",
             ECPublicKeySpec(q, curveSpec),
-            BouncyCastleProvider.CONFIGURATION
-        )
+            BouncyCastleProvider.CONFIGURATION,
+        ),
     )
 
     actual constructor(data: ByteArray) : this(curveSpec.curve.decodePoint(data))

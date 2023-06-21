@@ -21,7 +21,7 @@ import kotlin.random.Random
 
 internal class RpcClient(
     val endpointUrl: Url,
-    private val nativeLogger: KLogger
+    private val nativeLogger: KLogger,
 ) {
     val client = HttpClient {
         install(Logging) {

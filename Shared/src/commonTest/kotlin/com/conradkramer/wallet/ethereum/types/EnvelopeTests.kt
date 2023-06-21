@@ -17,7 +17,7 @@ class EnvelopeTests {
         BigInteger.valueOf(115322L),
         Address.fromString("0xed975db5192ab41713f0080e7306e08188e53e7f"),
         BigInteger.valueOf(0),
-        Data.fromString("0xefef39a10000000000000000000000000000000000000000000000000000000000000001")
+        Data.fromString("0xefef39a10000000000000000000000000000000000000000000000000000000000000001"),
     )
 
     @Test
@@ -31,7 +31,7 @@ class EnvelopeTests {
         assertEquals(envelope, result.first)
         assertDataEquals(
             publicKey.encoded(false),
-            result.second.encoded(false)
+            result.second.encoded(false),
         )
     }
 }

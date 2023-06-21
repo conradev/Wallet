@@ -6,12 +6,18 @@ import com.conradkramer.wallet.bigint.pow10
 
 data class Balance(
     val currency: Currency,
-    val value: BigInteger
+    val value: BigInteger,
 ) {
     fun toDouble() = (value.toBigDecimal().div(BigDecimal.pow10(currency.decimals))).toDouble()
 
     operator fun plus(valueOf: Balance) = Balance(currency, value + valueOf.value)
-        .also { if (currency.code != valueOf.currency.code) throw Exception("Cannot add balances from different currencies") }
+        .also {
+            if (currency.code != valueOf.currency.code) {
+                throw Exception(
+                    "Cannot add balances from different currencies",
+                )
+            }
+        }
 
     fun convert(currency: Currency, rate: Double): Balance {
         val newValue = when (rate) {

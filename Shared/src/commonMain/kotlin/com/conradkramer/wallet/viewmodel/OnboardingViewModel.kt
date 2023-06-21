@@ -11,7 +11,8 @@ class OnboardingViewModel {
     enum class Screen {
         WELCOME,
         IMPORT_PHRASE,
-        GENERATE;
+        GENERATE,
+        ;
 
         companion object
     }

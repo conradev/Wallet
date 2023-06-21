@@ -9,7 +9,7 @@ class XPCTests {
     @Test
     fun testXPCJsonConversion() {
         val json = Json.parseToJsonElement(
-            """{"string": "value", "int": 123, "double": 1.2342, "bool": false, "array": ["hello", 1, 2], "null": null}"""
+            """{"string": "value", "int": 123, "double": 1.2342, "bool": false, "array": ["hello", 1, 2], "null": null}""",
         )
         assertEquals(json, json.xpc.json)
     }

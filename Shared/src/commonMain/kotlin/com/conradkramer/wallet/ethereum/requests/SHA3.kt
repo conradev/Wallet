@@ -4,10 +4,10 @@ import com.conradkramer.wallet.ethereum.types.Data
 import kotlinx.serialization.json.JsonElement
 
 internal data class SHA3(
-    val data: Data
+    val data: Data,
 ) : Request() {
     constructor(params: List<JsonElement>) : this(
-        decode<Data>(params, 0)
+        decode<Data>(params, 0),
     )
 
     override val method = Companion.method

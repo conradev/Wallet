@@ -5,11 +5,11 @@ import kotlinx.serialization.json.JsonElement
 
 internal data class SignTypedData(
     val address: Address,
-    val data: JsonElement
+    val data: JsonElement,
 ) : Request() {
     constructor(params: List<JsonElement>) : this(
         decode(params, 0),
-        decode(params, 1)
+        decode(params, 1),
     )
 
     override val method = Companion.method

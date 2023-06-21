@@ -12,20 +12,20 @@ internal data class RPCRequestMessage protected constructor(
     override val url: String,
     override val frame: Frame,
     override val session: Session,
-    val payload: Payload
+    val payload: Payload,
 ) : RequestMessage() {
     constructor(id: Long, url: String, frame: Frame, session: Session, request: Request) : this(
         id,
         url,
         frame,
         session,
-        Payload(request.method, request.params)
+        Payload(request.method, request.params),
     )
 
     @Serializable
     internal data class Payload(
         val method: String,
-        val params: List<JsonElement>? = null
+        val params: List<JsonElement>? = null,
     )
 
     val request: Request

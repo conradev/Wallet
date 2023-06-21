@@ -1,7 +1,7 @@
 package com.conradkramer.wallet.ethereum.abi
 
 internal data class Invocation(
-    private val name: String
+    private val name: String,
 ) {
     private val types: MutableList<Type> = mutableListOf()
     private val arguments: MutableList<ByteArray> = mutableListOf()

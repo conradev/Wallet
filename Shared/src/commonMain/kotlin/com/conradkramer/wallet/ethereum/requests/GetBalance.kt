@@ -6,11 +6,11 @@ import kotlinx.serialization.json.JsonElement
 
 internal data class GetBalance(
     val address: Address,
-    val specifier: BlockSpecifier = BlockSpecifier.LATEST
+    val specifier: BlockSpecifier = BlockSpecifier.LATEST,
 ) : Request() {
     constructor(params: List<JsonElement>) : this(
         decode(params, 0),
-        decode(params, 1, BlockSpecifier.LATEST)
+        decode(params, 1, BlockSpecifier.LATEST),
     )
 
     override val method = Companion.method

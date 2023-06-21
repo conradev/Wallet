@@ -9,7 +9,7 @@ internal class ERC721(client: RpcClient, address: Address) : Interface(client, a
 
     suspend fun ownerOf(token: BigInteger) = invoke(
         Invocation("ownerOf").parameter(Type.UInt()) { encode(token) },
-        Type.UInt(160)::decode
+        Type.UInt(160)::decode,
     )
 }
 
@@ -20,7 +20,7 @@ internal class ERC721Metadata(client: RpcClient, address: Address) : Interface(c
 
     suspend fun tokenURI(tokenId: BigInteger) = invoke(
         Invocation("tokenURI").parameter(Type.UInt()) { encode(tokenId) },
-        Type.String::decode
+        Type.String::decode,
     )
 }
 
@@ -32,5 +32,5 @@ internal class ERC721Enumerable(client: RpcClient, address: Address) : Interface
 internal suspend fun RpcClient.erc721(address: Address) = Interface.ifSupported(ERC721(this, address))
 internal suspend fun RpcClient.erc721Metadata(address: Address) = Interface.ifSupported(ERC721Metadata(this, address))
 internal suspend fun RpcClient.erc721Enumerable(address: Address) = Interface.ifSupported(
-    ERC721Enumerable(this, address)
+    ERC721Enumerable(this, address),
 )

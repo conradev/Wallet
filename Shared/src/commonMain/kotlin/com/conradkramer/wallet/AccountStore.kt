@@ -22,14 +22,14 @@ internal interface AccountStore {
         context: AuthenticationContext,
         info: BiometricPromptInfo,
         host: BiometricPromptHost?,
-        handler: (root: ExtendedPrivateKey?) -> R
+        handler: (root: ExtendedPrivateKey?) -> R,
     ): R
 }
 
 internal class DatabaseAccountStore(
     private val database: Database,
     private val keyStore: KeyStore<AuthenticationContext>,
-    private val logger: KLogger
+    private val logger: KLogger,
 ) : AccountStore {
     init {
         database.accountQueries.prune(keyStore.all)
@@ -87,7 +87,7 @@ internal class DatabaseAccountStore(
         context: AuthenticationContext,
         info: BiometricPromptInfo,
         host: BiometricPromptHost?,
-        handler: (root: ExtendedPrivateKey?) -> R
+        handler: (root: ExtendedPrivateKey?) -> R,
     ): R {
         val encryptedSeed = database.accountQueries.encryptedSeed(context.id).executeAsOneOrNull()
             ?: return handler(null)
@@ -119,7 +119,7 @@ internal fun ExtendedPrivateKey.publicKeys(id: String, index: Long = 0): List<Pu
             index,
             false,
             0,
-            child(coin, account = 0, address = 0).publicKey.key
+            child(coin, account = 0, address = 0).publicKey.key,
         )
     }
 }

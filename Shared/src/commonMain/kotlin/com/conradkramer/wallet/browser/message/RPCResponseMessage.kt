@@ -11,17 +11,17 @@ import kotlin.random.Random
 internal data class RPCResponseMessage(
     override val id: Long,
     override val session: Session,
-    val payload: Payload
+    val payload: Payload,
 ) : Message() {
     constructor(id: Long, message: RPCRequestMessage, result: JsonElement) : this(
         id,
         message.session,
-        Payload(message.id, result, null)
+        Payload(message.id, result, null),
     )
     constructor(id: Long, message: RPCRequestMessage, error: JsonRpcError) : this(
         id,
         message.session,
-        Payload(message.id, null, error)
+        Payload(message.id, null, error),
     )
 
     constructor(message: RPCRequestMessage, result: JsonElement) : this(Random.nextLong(), message, result)
@@ -32,13 +32,13 @@ internal data class RPCResponseMessage(
         @SerialName("request_id")
         val requestId: Long,
         val result: JsonElement? = null,
-        val error: JsonRpcError? = null
+        val error: JsonRpcError? = null,
     )
 
     @Serializable
     internal data class RPCError(
         val code: Int,
         override val message: String,
-        val data: JsonElement? = null
+        val data: JsonElement? = null,
     ) : Throwable(message)
 }

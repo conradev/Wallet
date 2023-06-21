@@ -50,7 +50,7 @@ internal actual class PrivateKey actual constructor(actual val encoded: ByteArra
                             .also { if (it != 1) throw Exception("Failed to generate public key from private key") }
                     }
                     .readValue()
-            }
+            },
         )
 
     actual operator fun plus(increment: PrivateKey) = PrivateKey(
@@ -60,11 +60,11 @@ internal actual class PrivateKey actual constructor(actual val encoded: ByteArra
                     secp256k1_ec_seckey_tweak_add(
                         context(),
                         sum.asUByteArray().refTo(0),
-                        increment.encoded.asUByteArray().refTo(0)
+                        increment.encoded.asUByteArray().refTo(0),
                     )
                         .also { if (it != 1) throw Exception("Failed add $this to $increment") }
                 }
-        }
+        },
     )
 
     actual fun sign(data: ByteArray) = memScoped {
@@ -79,7 +79,7 @@ internal actual class PrivateKey actual constructor(actual val encoded: ByteArra
                     hash.asUByteArray().refTo(0),
                     encoded.asUByteArray().refTo(0),
                     null,
-                    entropy.asUByteArray().refTo(0)
+                    entropy.asUByteArray().refTo(0),
                 )
                     .also { if (it != 1) throw Exception("Failed to create signature") }
             }
@@ -91,7 +91,7 @@ internal actual class PrivateKey actual constructor(actual val encoded: ByteArra
                     context,
                     output.asUByteArray().refTo(0),
                     recoveryId.ptr,
-                    signature.ptr
+                    signature.ptr,
                 )
                     .also { if (it != 1) throw Exception("Failed to serialize signature") }
             }
@@ -99,7 +99,7 @@ internal actual class PrivateKey actual constructor(actual val encoded: ByteArra
         Signature(
             BigInteger(output.copyOfRange(0, 32)),
             BigInteger(output.copyOfRange(32, 64)),
-            recoveryId.value.toByte()
+            recoveryId.value.toByte(),
         )
     }
 
@@ -138,7 +138,7 @@ actual class PublicKey(private val key: CValue<secp256k1_pubkey>) {
             context,
             parseSignature(signature, context).ptr,
             hash.asUByteArray().refTo(0),
-            key.ptr
+            key.ptr,
         )
             .let { it == 1 }
     }
@@ -170,24 +170,24 @@ actual class PublicKey(private val key: CValue<secp256k1_pubkey>) {
                             context,
                             it.ptr,
                             parseRecoverableSignature(signature, context).ptr,
-                            hash.asUByteArray().refTo(0)
+                            hash.asUByteArray().refTo(0),
                         )
                             .also { if (it != 1) throw Exception("Invalid signature") }
                     }
-                    .readValue()
+                    .readValue(),
             )
         }
 
         private fun parseSignature(
             signature: Signature,
-            context: CPointer<secp256k1_context>
+            context: CPointer<secp256k1_context>,
         ): CValue<secp256k1_ecdsa_signature> = memScoped {
             alloc<secp256k1_ecdsa_signature>()
                 .also {
                     secp256k1_ecdsa_recoverable_signature_convert(
                         context,
                         it.ptr,
-                        parseRecoverableSignature(signature, context).ptr
+                        parseRecoverableSignature(signature, context).ptr,
                     )
                 }
                 .readValue()
@@ -195,7 +195,7 @@ actual class PublicKey(private val key: CValue<secp256k1_pubkey>) {
 
         private fun parseRecoverableSignature(
             signature: Signature,
-            context: CPointer<secp256k1_context>
+            context: CPointer<secp256k1_context>,
         ): CValue<secp256k1_ecdsa_recoverable_signature> = memScoped {
             val buffer = signature.r.data + signature.s.data
             return alloc<secp256k1_ecdsa_recoverable_signature>()
@@ -204,7 +204,7 @@ actual class PublicKey(private val key: CValue<secp256k1_pubkey>) {
                         context,
                         it.ptr,
                         buffer.asUByteArray().refTo(0),
-                        signature.v.toInt()
+                        signature.v.toInt(),
                     )
                         .also { if (it != 1) throw Exception("Failed to parse signature") }
                 }
@@ -218,7 +218,7 @@ actual class PublicKey(private val key: CValue<secp256k1_pubkey>) {
                         context(),
                         it.ptr,
                         data.asUByteArray().refTo(0),
-                        data.size.convert()
+                        data.size.convert(),
                     )
                 }
                 .readValue()

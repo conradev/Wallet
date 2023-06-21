@@ -45,12 +45,12 @@ fun ImportView(padding: PaddingValues, viewModel: ImportViewModel) {
             .padding(padding)
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.SpaceEvenly,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Icon(
             Icons.Filled.Input,
             null,
-            Modifier.size(48.dp)
+            Modifier.size(48.dp),
         )
         Text(viewModel.title, style = MaterialTheme.typography.headlineLarge)
         OutlinedTextField(
@@ -71,11 +71,11 @@ fun ImportView(padding: PaddingValues, viewModel: ImportViewModel) {
             value = phrase,
             onValueChange = { phrase = viewModel.clean(it) },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
-            keyboardActions = KeyboardActions(onGo = { import() })
+            keyboardActions = KeyboardActions(onGo = { import() }),
         )
         Button(
             onClick = import,
-            enabled = viewModel.validate(phrase)
+            enabled = viewModel.validate(phrase),
         ) {
             Text(viewModel.action, style = MaterialTheme.typography.titleSmall)
         }
@@ -88,6 +88,6 @@ fun ImportViewPreview() {
     Scaffold(
         content = { padding ->
             ImportView(padding, PreviewMocks.get())
-        }
+        },
     )
 }

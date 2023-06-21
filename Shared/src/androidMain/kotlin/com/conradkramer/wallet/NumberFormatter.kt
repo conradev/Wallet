@@ -5,7 +5,7 @@ import java.text.NumberFormat
 
 internal actual class NumberFormatter private constructor(
     private val inner: NumberFormat,
-    private val suffix: String = ""
+    private val suffix: String = "",
 ) {
     actual fun string(number: Double) = inner.format(number) + suffix
 

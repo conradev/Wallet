@@ -9,7 +9,8 @@ import org.koin.core.annotation.Factory
 class WelcomeViewModel internal constructor(private val accountStore: AccountStore) {
     enum class Option {
         IMPORT_PHRASE,
-        GENERATE;
+        GENERATE,
+        ;
 
         val title: String
             get() = when (this) {

@@ -42,27 +42,27 @@ private data class Image(val base: NativePtr) {
     private data class Header(
         val offset: NativePtr,
         val numberOfCommands: UInt,
-        val size: Long = sizeOf<mach_header_64>()
+        val size: Long = sizeOf<mach_header_64>(),
     )
 
     private open class LoadCommand(
-        val size: UInt
+        val size: UInt,
     )
 
     private class SegmentLoadCommand(
         val name: String,
         val offset: NativePtr,
         size: UInt,
-        val sections: List<Section>
+        val sections: List<Section>,
     ) : LoadCommand(size) {
         data class Section(
             val name: String,
-            val offset: NativePtr
+            val offset: NativePtr,
         )
 
         private data class SectionIterator(
             var offset: NativePtr,
-            val count: UInt
+            val count: UInt,
         ) : Iterator<Section> {
             private var index: UInt = 0u
 
@@ -87,7 +87,7 @@ private data class Image(val base: NativePtr) {
                 val segmentOffset = NativePtr.NULL + header.vmaddr.toLong()
                 val sections = SectionIterator(
                     offset + sizeOf<segment_command_64>(),
-                    header.nsects
+                    header.nsects,
                 ).asSequence().toList()
                 return SegmentLoadCommand(name, segmentOffset, header.cmdsize, sections)
             }

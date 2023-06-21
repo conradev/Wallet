@@ -7,7 +7,7 @@ data class Frame(
     val x: Double,
     val y: Double,
     val width: Double,
-    val height: Double
+    val height: Double,
 ) {
     companion object {
         val zero = Frame(0.0, 0.0, 0.0, 0.0)

@@ -12,11 +12,11 @@ import kotlinx.serialization.json.JsonElement
 
 internal data class GetBlockByNumber(
     val block: BlockSpecifier = BlockSpecifier.LATEST,
-    val hydrated: Boolean
+    val hydrated: Boolean,
 ) : Request() {
     constructor(params: List<JsonElement>) : this(
         decode(params, 0, BlockSpecifier.LATEST),
-        decode(params, 1)
+        decode(params, 1),
     )
 
     override val method = Companion.method
@@ -33,7 +33,7 @@ internal data class Block<Tx>(
     val number: Quantity,
     val timestamp: Quantity,
     val logsBloom: Data,
-    val transactions: List<Tx>
+    val transactions: List<Tx>,
 )
 
 @OptIn(ExperimentalSerializationApi::class)
@@ -51,5 +51,5 @@ internal data class Transaction(
     val gas: Quantity,
     val gasPrice: Quantity,
     val maxFeePerGas: Quantity?,
-    val maxPriorityFeePerGas: Quantity?
+    val maxPriorityFeePerGas: Quantity?,
 )

@@ -7,7 +7,7 @@ import io.ktor.utils.io.core.toByteArray
 
 internal data class Selector(
     val name: String,
-    val types: List<Type>
+    val types: List<Type>,
 ) {
     constructor(name: String, vararg types: Type) : this(name, types.toList())
 

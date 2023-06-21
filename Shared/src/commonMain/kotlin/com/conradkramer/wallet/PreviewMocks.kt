@@ -25,7 +25,7 @@ private fun Account.Companion.random(): Account {
         0,
         ExtendedPrivateKey
             .fromSeed(Mnemonic().seed())
-            .publicKeys("id", 0)
+            .publicKeys("id", 0),
     )
 }
 
@@ -51,7 +51,7 @@ private class MockAccountStore(val account: Account) : AccountStore {
         context: AuthenticationContext,
         info: BiometricPromptInfo,
         host: BiometricPromptHost?,
-        handler: (root: ExtendedPrivateKey?) -> R
+        handler: (root: ExtendedPrivateKey?) -> R,
     ): R {
         return handler(null)
     }
@@ -65,9 +65,9 @@ internal class MockBalancesViewModel : BalancesViewModel() {
             Asset(
                 Balance(Currency.ETH, Quantity.fromString("0x14f952c14b42909e").value),
                 Currency.USD,
-                0.000616750955964
-            )
-        )
+                0.000616750955964,
+            ),
+        ),
     )
 }
 
@@ -83,7 +83,7 @@ internal fun mockModule() = module {
             Session(0, 0, 0),
             "mint.fun",
             account.ethereumAddress,
-            Data.fromString("0x9b2055d370f73ec7d8a03e965129118dc8f5bf83")
+            Data.fromString("0x9b2055d370f73ec7d8a03e965129118dc8f5bf83"),
         )
     }
 

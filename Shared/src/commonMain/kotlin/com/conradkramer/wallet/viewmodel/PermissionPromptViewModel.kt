@@ -3,7 +3,7 @@ package com.conradkramer.wallet.viewmodel
 import com.conradkramer.wallet.browser.prompt.PermissionPrompt
 
 class PermissionPromptViewModel(
-    prompt: PermissionPrompt
+    prompt: PermissionPrompt,
 ) : PromptViewModel<PermissionPrompt, PermissionPrompt.Response>(prompt) {
     val title = "“${prompt.domain}” would like to access your:"
     val allowTitle = "Allow"
@@ -25,7 +25,8 @@ class PermissionPromptViewModel(
     enum class Permission {
         ADDRESS,
         ACCOUNT_BALANCE,
-        ACTIVITY;
+        ACTIVITY,
+        ;
 
         val summary: String
             get() = when (this) {

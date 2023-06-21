@@ -13,7 +13,7 @@ internal class RPCRequestMessageTests : MessageTests() {
             "https://conradkramer.com",
             Frame.zero,
             session,
-            GetBalance(Address.fromString("0x8a6752a88417e8f7d822dacaeb52ed8e6e591c43"))
+            GetBalance(Address.fromString("0x8a6752a88417e8f7d822dacaeb52ed8e6e591c43")),
         )
         val jsonMessage = decode(
             """{
@@ -31,7 +31,7 @@ internal class RPCRequestMessageTests : MessageTests() {
                 "params":["0x8A6752a88417e8F7D822DaCaeB52Ed8e6e591c43", "latest"]
             }
         }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         assertEquals(message, jsonMessage)

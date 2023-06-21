@@ -9,23 +9,23 @@ import com.conradkramer.wallet.ethereum.types.Transaction
 
 internal abstract class Interface(
     val client: RpcClient,
-    val address: Address
+    val address: Address,
 ) {
     abstract val interfaceId: UInt
 
     protected suspend inline fun <T> invoke(
         invocation: Invocation,
         decode: (ByteArray) -> T,
-        block: BlockSpecifier = BlockSpecifier.LATEST
+        block: BlockSpecifier = BlockSpecifier.LATEST,
     ): T {
         val result: Data = client.send(
             Call(
                 Transaction(
                     to = address,
-                    data = Data(invocation.build())
+                    data = Data(invocation.build()),
                 ),
-                block
-            )
+                block,
+            ),
         )
         return decode(result.data)
     }
@@ -34,7 +34,7 @@ internal abstract class Interface(
         suspend fun <T : Interface> ifSupported(instance: T): T? {
             val supports = ERC165(instance.client, instance.address).runCatching {
                 supportsInterface(
-                    instance.interfaceId
+                    instance.interfaceId,
                 )
             }
                 .getOrNull() ?: false

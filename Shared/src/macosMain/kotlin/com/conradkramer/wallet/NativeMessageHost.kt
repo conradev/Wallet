@@ -53,7 +53,7 @@ class NativeMessageHost(private val connection: ViewServiceConnection) {
                 val read = read(
                     fd,
                     pinnedData.addressOf(index),
-                    (size - index).convert()
+                    (size - index).convert(),
                 ).toInt()
                 if (read >= 0) {
                     index += read

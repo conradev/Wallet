@@ -6,15 +6,15 @@ import com.conradkramer.wallet.browser.message.Session
 import com.conradkramer.wallet.browser.prompt.Prompt
 import com.conradkramer.wallet.ethereum.RpcClient
 import com.conradkramer.wallet.logger
-import kotlinx.serialization.json.JsonElement
 import io.github.oshai.kotlinlogging.KLogger
+import kotlinx.serialization.json.JsonElement
 import org.koin.core.annotation.Single
 import org.koin.core.component.KoinComponent
 
 @Single
 class BrowserMessageHost internal constructor(
     private val client: RpcClient,
-    internal val logger: KLogger
+    internal val logger: KLogger,
 ) : KoinComponent {
 
     private var sender: ((Message) -> Unit)? = null
@@ -50,7 +50,7 @@ class BrowserMessageHost internal constructor(
                 getKoin().get(),
                 getKoin().get(),
                 getKoin().logger<BrowserFrameSession>(),
-                message.session
+                message.session,
             ) { send(it) }
         }
     }
