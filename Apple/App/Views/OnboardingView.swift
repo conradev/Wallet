@@ -18,22 +18,14 @@ struct OnboardingView: View {
     )
 #endif
 
-    @StateObject
-    private var observable: OnboardingViewModel.Observable = KoinApplication.observable(OnboardingViewModel.self)
+    @StateObject private var observable = KoinApplication.observable(OnboardingViewModel.self)
     private var viewModel: OnboardingViewModel { observable.viewModel() }
-
-    @StateObject
-    private var welcomeViewObservable: WelcomeViewModel.Observable = KoinApplication.observable(WelcomeViewModel.self)
-
-    @StateObject
-    private var importViewObservable: ImportViewModel.Observable = KoinApplication.observable(ImportViewModel.self)
+    @StateObject private var welcomeViewObservable = KoinApplication.observable(WelcomeViewModel.self)
+    @StateObject private var importViewObservable = KoinApplication.observable(ImportViewModel.self)
 
 #if os(macOS)
-    @State
-    private var callbacks = Callbacks()
-
-    @State
-    private var isValid = false
+    @State private var callbacks = Callbacks()
+    @State private var isValid = false
 #endif
 
 #if os(macOS)
@@ -105,8 +97,7 @@ struct OnboardingView: View {
 
 extension OnboardingViewModel: KotlinViewModel {
     public final class Observable: KotlinObservableObject {
-        @Published
-        var screens: [Screen] = [.welcome]
+        @Published var screens: [Screen] = [.welcome]
 
         var current: Screen {
             if let current = screens.last {

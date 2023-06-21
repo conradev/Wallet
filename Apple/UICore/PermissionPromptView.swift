@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct PermissionPromptView: View {
-    @ObservedObject
-    var observable: PermissionPromptViewModel.Observable
+    @ObservedObject var observable: PermissionPromptViewModel.Observable
     var viewModel: PermissionPromptViewModel { observable.viewModel() }
 
     var body: some View {

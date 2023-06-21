@@ -2,8 +2,7 @@ import SwiftUI
 import WalletUICore
 
 struct WelcomeView: View {
-    @ObservedObject
-    var observable: WelcomeViewModel.Observable
+    @ObservedObject var observable: WelcomeViewModel.Observable
     var viewModel: WelcomeViewModel { observable.viewModel() }
 
     #if !os(macOS)
@@ -37,8 +36,7 @@ struct WelcomeView: View {
 
 extension WelcomeViewModel: KotlinViewModel {
     public final class Observable: KotlinObservableObject {
-        @Published
-        var selectedOption: Option = .importPhrase
+        @Published var selectedOption: Option = .importPhrase
     }
 
     public static let bindings: [KotlinBinding] = [
@@ -84,8 +82,7 @@ struct CellButtonStyle: ButtonStyle {
         RoundedRectangle(cornerRadius: 15, style: .continuous)
     }
 
-    @ViewBuilder
-    var stroke: some View {
+    @ViewBuilder var stroke: some View {
         if selected {
             shape.stroke(Color.accentColor, lineWidth: 3)
         } else {

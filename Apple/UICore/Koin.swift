@@ -33,7 +33,7 @@ public struct KotlinBinding {
         _ viewModelNativeKeyPath: KeyPath<ViewModel, NativeFlow<T, Error, KotlinUnit>>,
         _ valueKeyPath: ReferenceWritableKeyPath<ViewModel.Observable, T>
     ) {
-        self.init(viewModelKeyPath, viewModelNativeKeyPath, valueKeyPath, { $0 })
+        self.init(viewModelKeyPath, viewModelNativeKeyPath, valueKeyPath) { $0 }
     }
 
     public init<ViewModel: KotlinViewModel, T, U: Equatable>(

@@ -6,11 +6,8 @@ import WalletUICore
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     let app = KoinApplication.start()
 
-    @LazyKoin
-    var server: ViewServiceServer
-
-    @LazyKoin
-    var host: BrowserPromptHost
+    @LazyKoin var server: ViewServiceServer
+    @LazyKoin var host: BrowserPromptHost
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         server.start()

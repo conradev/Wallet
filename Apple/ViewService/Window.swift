@@ -21,7 +21,7 @@ struct Window: Identifiable {
         }
     }
 
-    static var onScreen: [Window] {
+    static var onScreen: [Self] {
         Array(Query())
     }
 
@@ -40,7 +40,7 @@ struct Window: Identifiable {
         self.isVisible = isVisible.boolValue
     }
 
-    init?(id: Window.ID) {
+    init?(id: Self.ID) {
         guard let window = Array(Query(windows: [id])).first else { return nil }
         self = window
     }
