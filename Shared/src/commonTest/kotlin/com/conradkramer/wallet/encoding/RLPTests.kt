@@ -44,20 +44,20 @@ class RLPTests {
                 Item.List(),
                 Item.List(
                     listOf(
-                        Item.List()
-                    )
+                        Item.List(),
+                    ),
                 ),
                 Item.List(
                     listOf(
                         Item.List(),
                         Item.List(
                             listOf(
-                                Item.List()
-                            )
-                        )
-                    )
-                )
-            )
+                                Item.List(),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         )
         assertEquals(expected, decoded)
         assertContentEquals(input, encoded)

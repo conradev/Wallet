@@ -11,7 +11,7 @@ actual class Locale(val locale: java.util.Locale) {
         return Currency(
             Currency.Code(currency.currencyCode),
             currency.getDisplayName(locale),
-            currency.getSymbol(locale)
+            currency.getSymbol(locale),
         )
     }
 

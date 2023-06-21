@@ -6,7 +6,7 @@ import kotlin.experimental.and
 internal data class Signature(
     val r: BigInteger,
     val s: BigInteger,
-    val v: Byte
+    val v: Byte,
 ) {
     init {
         if (r == BigInteger.valueOf(0)) throw Exception("r is zero")

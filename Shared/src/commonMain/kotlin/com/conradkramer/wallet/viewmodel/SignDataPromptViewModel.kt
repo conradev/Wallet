@@ -7,16 +7,16 @@ import com.conradkramer.wallet.BiometricPromptInfo
 import com.conradkramer.wallet.Coin
 import com.conradkramer.wallet.browser.prompt.SignDataPrompt
 import com.conradkramer.wallet.ethereum.signMessage
+import io.github.oshai.kotlinlogging.KLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import io.github.oshai.kotlinlogging.KLogger
 import kotlin.coroutines.EmptyCoroutineContext
 
 class SignDataPromptViewModel internal constructor(
     prompt: SignDataPrompt,
     private val accountStore: AccountStore,
     private val host: BiometricPromptHost? = null,
-    private val logger: KLogger
+    private val logger: KLogger,
 ) : PromptViewModel<SignDataPrompt, SignDataPrompt.Response>(prompt) {
     val title = "“${prompt.domain}” would like to use your account to sign the following message:"
     val warning = "This could potentially be dangerous. If you do not understand the above message, press “Cancel”"
@@ -27,7 +27,7 @@ class SignDataPromptViewModel internal constructor(
         "Sign Data",
         prompt.domain,
         "sign a message for “${prompt.domain}”",
-        "Cancel"
+        "Cancel",
     )
 
     val data: String = try {

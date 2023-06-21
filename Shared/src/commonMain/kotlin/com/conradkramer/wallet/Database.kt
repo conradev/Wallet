@@ -105,52 +105,52 @@ internal fun Database.Companion.invoke(driver: SqlDriver): Database {
     return Database(
         driver,
         browser_permissionAdapter = Browser_permission.Adapter(
-            stateAdapter = stateAdapter
+            stateAdapter = stateAdapter,
         ),
         browser_promptAdapter = Browser_prompt.Adapter(
-            promptAdapter = promptAdapter
+            promptAdapter = promptAdapter,
         ),
         cb_crypto_currencyAdapter = Cb_crypto_currency.Adapter(
             updated_atAdapter = timestampAdapter,
-            codeAdapter = codeAdapter
+            codeAdapter = codeAdapter,
         ),
         cb_exchange_rateAdapter = Cb_exchange_rate.Adapter(
             fromAdapter = codeAdapter,
             toAdapter = codeAdapter,
-            updated_atAdapter = timestampAdapter
+            updated_atAdapter = timestampAdapter,
         ),
         erc20_balanceAdapter = Erc20_balance.Adapter(
             chain_idAdapter = chainAdapter,
             contractAdapter = addressAdapter,
             addressAdapter = addressAdapter,
-            balanceAdapter = quantityAdapter
+            balanceAdapter = quantityAdapter,
         ),
         erc20_contractAdapter = Erc20_contract.Adapter(
             chain_idAdapter = chainAdapter,
             addressAdapter = addressAdapter,
             total_supplyAdapter = quantityAdapter,
-            symbolAdapter = codeAdapter
+            symbolAdapter = codeAdapter,
         ),
         erc721_contractAdapter = Erc721_contract.Adapter(
             chain_idAdapter = chainAdapter,
             addressAdapter = addressAdapter,
             symbolAdapter = codeAdapter,
-            total_supplyAdapter = quantityAdapter
+            total_supplyAdapter = quantityAdapter,
         ),
         eth_account_transactionAdapter = Eth_account_transaction.Adapter(
             chain_idAdapter = chainAdapter,
             addressAdapter = addressAdapter,
             blockAdapter = quantityLongAdapter,
-            hashAdapter = dataAdapter
+            hashAdapter = dataAdapter,
         ),
         eth_balanceAdapter = Eth_balance.Adapter(
             chain_idAdapter = chainAdapter,
             addressAdapter = addressAdapter,
-            balanceAdapter = quantityAdapter
+            balanceAdapter = quantityAdapter,
         ),
         eth_blockAdapter = Eth_block.Adapter(
             chain_idAdapter = chainAdapter,
-            timestampAdapter = timestampAdapter
+            timestampAdapter = timestampAdapter,
         ),
         eth_logAdapter = Eth_log.Adapter(
             chain_idAdapter = chainAdapter,
@@ -160,12 +160,12 @@ internal fun Database.Companion.invoke(driver: SqlDriver): Database {
             topic_1Adapter = dataAdapter,
             topic_2Adapter = dataAdapter,
             topic_3Adapter = dataAdapter,
-            data_Adapter = dataAdapter
+            data_Adapter = dataAdapter,
         ),
         eth_receiptAdapter = Eth_receipt.Adapter(
             chain_idAdapter = chainAdapter,
             tx_hashAdapter = dataAdapter,
-            contract_addressAdapter = addressAdapter
+            contract_addressAdapter = addressAdapter,
         ),
         eth_transactionAdapter = Eth_transaction.Adapter(
             chain_idAdapter = chainAdapter,
@@ -174,12 +174,12 @@ internal fun Database.Companion.invoke(driver: SqlDriver): Database {
             fromAdapter = addressAdapter,
             toAdapter = addressAdapter,
             value_Adapter = quantityAdapter,
-            data_Adapter = dataAdapter
+            data_Adapter = dataAdapter,
         ),
         public_keyAdapter = Public_key.Adapter(
             coinAdapter = coinAdapter,
-            encodedAdapter = publicKeyAdapter
-        )
+            encodedAdapter = publicKeyAdapter,
+        ),
     )
 }
 

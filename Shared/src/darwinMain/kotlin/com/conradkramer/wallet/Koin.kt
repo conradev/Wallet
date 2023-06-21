@@ -27,7 +27,7 @@ import platform.Foundation.NSFileManager
 internal fun darwinModule() = module {
     single { HardwareKeyStore(getProperty("app_group_identifier"), logger<HardwareKeyStore>()) } binds arrayOf(
         BiometricAuthenticator::class,
-        KeyStore::class
+        KeyStore::class,
     )
     single<SqlDriver> {
         val applicationGroup: String = getProperty("app_group_identifier")
@@ -42,14 +42,14 @@ internal fun darwinModule() = module {
             version = schema.version,
             extendedConfig = DatabaseConfiguration.Extended(
                 foreignKeyConstraints = true,
-                basePath = basePath
+                basePath = basePath,
             ),
             create = { connection ->
                 wrapConnection(connection) { schema.create(it) }
             },
             upgrade = { connection, oldVersion, newVersion ->
                 wrapConnection(connection) { schema.migrate(it, oldVersion, newVersion) }
-            }
+            },
         )
         NativeSqliteDriver(configuration)
     }
@@ -58,7 +58,7 @@ internal fun darwinModule() = module {
 fun KoinApplication.Companion.start(
     applicationGroup: String,
     viewServiceName: String,
-    subsystem: String
+    subsystem: String,
 ): KoinApplication {
     KotlinLoggingConfiguration.appender = OSLogSubsystemAppender(subsystem)
     CrashReporterClient.installHook()
@@ -66,8 +66,8 @@ fun KoinApplication.Companion.start(
         properties(
             mapOf(
                 "app_group_identifier" to applicationGroup,
-                "view_service_identifier" to viewServiceName
-            )
+                "view_service_identifier" to viewServiceName,
+            ),
         )
     }
 }

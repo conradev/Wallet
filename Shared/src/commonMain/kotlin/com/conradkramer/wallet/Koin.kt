@@ -96,7 +96,7 @@ internal fun Scope.logger(qualifier: Qualifier) = get<KLogger> {
         when (qualifier) {
             is TypeQualifier -> qualifier.type.simpleName ?: qualifier.value
             else -> qualifier.value
-        }
+        },
     )
 }
 
@@ -105,7 +105,7 @@ internal fun Koin.logger(qualifier: Qualifier) = get<KLogger> {
         when (qualifier) {
             is TypeQualifier -> qualifier.type.simpleName ?: qualifier.value
             else -> qualifier.value
-        }
+        },
     )
 }
 

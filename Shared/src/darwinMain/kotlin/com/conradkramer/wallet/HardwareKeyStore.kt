@@ -89,7 +89,7 @@ actual class BiometricPromptHost
 @Suppress("UNCHECKED_CAST")
 internal actual data class HardwareKeyStore(
     private val applicationGroup: String,
-    private val logger: KLogger
+    private val logger: KLogger,
 ) : KeyStore<AuthenticationContext> {
     override val canStore: Boolean
         get() = LAContext().canEvaluatePolicy(LAPolicyDeviceOwnerAuthentication, null)
@@ -140,20 +140,20 @@ internal actual data class HardwareKeyStore(
                     null,
                     3,
                     kCFTypeDictionaryKeyCallBacks.ptr,
-                    kCFTypeDictionaryValueCallBacks.ptr
+                    kCFTypeDictionaryValueCallBacks.ptr,
                 )?.autorelease(this)
 
                 val accessControl = SecAccessControlCreateWithFlags(
                     null,
                     kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
                     kSecAccessControlPrivateKeyUsage or kSecAccessControlUserPresence,
-                    null
+                    null,
                 )!!.autorelease(this)
 
                 CFDictionarySetValue(
                     privateKeyAttributes,
                     kSecAttrAccessControl,
-                    accessControl
+                    accessControl,
                 )
                 CFDictionarySetValue(create, kSecPrivateKeyAttrs, privateKeyAttributes)
             }
@@ -202,7 +202,7 @@ internal actual data class HardwareKeyStore(
             publicKey,
             kSecKeyAlgorithmECIESEncryptionCofactorX963SHA256AESGCM,
             data.bridgingRetain().autorelease(this),
-            error.ptr
+            error.ptr,
         ) ?: when (val encryptStatus = CFErrorGetCode(error.value).toInt()) {
             else -> throw Exception("Error encrypting data with key $id: $encryptStatus")
         }
@@ -240,7 +240,7 @@ internal actual data class HardwareKeyStore(
     override suspend fun prompt(
         context: AuthenticationContext,
         host: BiometricPromptHost?,
-        info: BiometricPromptInfo
+        info: BiometricPromptInfo,
     ) = suspendCancellableCoroutine { continuation ->
         val inner = context.context
         inner.localizedCancelTitle = info.cancelTitle
@@ -254,7 +254,7 @@ internal actual data class HardwareKeyStore(
     override fun <R> decrypt(
         context: AuthenticationContext,
         data: ByteArray,
-        handler: (data: ByteArray) -> R
+        handler: (data: ByteArray) -> R,
     ): R = memScoped {
         logger.info { "Decrypting data of size ${data.size} with key ${context.id}" }
 
@@ -264,7 +264,7 @@ internal actual data class HardwareKeyStore(
         CFDictionarySetValue(
             query,
             kSecUseAuthenticationContext,
-            CFBridgingRetain(context.context)?.autorelease(this)
+            CFBridgingRetain(context.context)?.autorelease(this),
         )
 
         val result = alloc<CFTypeRefVar>()
@@ -277,7 +277,7 @@ internal actual data class HardwareKeyStore(
             key,
             kSecKeyAlgorithmECIESEncryptionCofactorX963SHA256AESGCM,
             data.bridgingRetain().autorelease(this),
-            error.ptr
+            error.ptr,
         ) ?: when (val decryptStatus = CFErrorGetCode(error.value).toInt()) {
             else -> throw Exception("Failed to decrypt data with key ${context.id}: $decryptStatus")
         }
@@ -300,7 +300,7 @@ internal actual data class HardwareKeyStore(
             null,
             10,
             kCFTypeDictionaryKeyCallBacks.ptr,
-            kCFTypeDictionaryValueCallBacks.ptr
+            kCFTypeDictionaryValueCallBacks.ptr,
         )!!
         CFDictionarySetValue(dictionary, kSecAttrAccessGroup, groupRef)
         CFDictionarySetValue(dictionary, kSecClass, kSecClassKey)

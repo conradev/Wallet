@@ -45,7 +45,7 @@ internal class BrowserFrameSession(
     private val executor: BrowserPromptExecutor,
     private val logger: KLogger,
     private val session: Session,
-    private val sender: (Message) -> Unit
+    private val sender: (Message) -> Unit,
 ) {
     private val scope = CoroutineScope(EmptyCoroutineContext)
 
@@ -156,7 +156,7 @@ internal class BrowserFrameSession(
             message.session,
             message.domain,
             account.ethereumAddress,
-            request.data
+            request.data,
         )
         return executor.executePrompt<SignDataPrompt.Response>(prompt).signature ?: throw ProviderError.cancelled
     }
@@ -187,7 +187,8 @@ internal enum class ProviderError(private val code: Int) {
     UNAUTHORIZED(4100),
     UNSUPPORTED_METHOD(4200),
     DISCONNECTED(4900),
-    CHAIN_DISCONNECTED(4901);
+    CHAIN_DISCONNECTED(4901),
+    ;
 
     fun message(message: String, data: JsonElement? = null): JsonRpcError {
         return JsonRpcError(code, message, data)

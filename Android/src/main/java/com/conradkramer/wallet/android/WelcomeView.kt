@@ -38,7 +38,7 @@ fun WelcomeView(padding: PaddingValues, viewModel: WelcomeViewModel, onClick: (W
             .padding(padding)
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.SpaceEvenly,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(viewModel.title, style = MaterialTheme.typography.headlineLarge)
         Text(viewModel.subtitle, style = MaterialTheme.typography.headlineSmall)
@@ -46,12 +46,12 @@ fun WelcomeView(padding: PaddingValues, viewModel: WelcomeViewModel, onClick: (W
             Button(onClick = { onClick(option) }) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Image(
                         option.icon,
                         null,
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary)
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary),
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(option.title, style = MaterialTheme.typography.titleLarge)
@@ -71,6 +71,6 @@ val WelcomeViewModel.Option.icon: ImageVector
 @Composable
 fun WelcomeViewPreview() {
     Scaffold(
-        content = { padding -> WelcomeView(padding, PreviewMocks.get()) }
+        content = { padding -> WelcomeView(padding, PreviewMocks.get()) },
     )
 }

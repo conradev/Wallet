@@ -37,7 +37,7 @@ fun OnboardingView(scope: Scope) {
     Scaffold { padding ->
         NavHost(
             navController = navController,
-            startDestination = Screen.WELCOME.route
+            startDestination = Screen.WELCOME.route,
         ) {
             composable(Screen.WELCOME.route) {
                 WelcomeView(padding, welcomeViewModel) { option ->

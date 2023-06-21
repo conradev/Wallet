@@ -33,13 +33,13 @@ internal class BalanceIndexer(
     database: Database,
     private val client: RpcClient,
     val address: Address,
-    logger: KLogger
+    logger: KLogger,
 ) : Indexer(chain, scope, database, logger) {
 
     private val contracts = database.ethereumQueries.erc20ContractsForAccount(
         chain,
         Data(Transfer.selector.data),
-        Data(Type.Address.encode(address))
+        Data(Type.Address.encode(address)),
     )
 
     init {
@@ -58,8 +58,8 @@ internal class BalanceIndexer(
                 Eth_block(
                     chain,
                     block.number.toLong(),
-                    Instant.fromEpochSeconds(block.timestamp.toLong(), 0)
-                )
+                    Instant.fromEpochSeconds(block.timestamp.toLong(), 0),
+                ),
             )
             block
         }
@@ -85,8 +85,8 @@ internal class BalanceIndexer(
                     chain,
                     address,
                     balance,
-                    block
-                )
+                    block,
+                ),
             )
         }
 
@@ -112,8 +112,8 @@ internal class BalanceIndexer(
                             contract,
                             address,
                             Quantity(balance),
-                            block
-                        )
+                            block,
+                        ),
                     )
                 }
             }

@@ -4,7 +4,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonArray
 
 internal data class Subscribe(
-    val events: Set<String>
+    val events: Set<String>,
 ) : Request() {
     constructor(params: List<JsonElement>) : this(params.map { decode<String>(it) }.toSet())
 

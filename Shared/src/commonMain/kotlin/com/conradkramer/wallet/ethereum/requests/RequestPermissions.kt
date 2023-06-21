@@ -5,7 +5,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 
 internal data class RequestPermissions(
-    val permissions: Set<Permission>
+    val permissions: Set<Permission>,
 ) : Request() {
     constructor(params: List<JsonElement>) : this(params.map(::Permission).toSet())
 
@@ -14,7 +14,7 @@ internal data class RequestPermissions(
         get() = permissions.map(Permission::encoded)
 
     data class Permission(
-        val name: String
+        val name: String,
     ) {
         constructor(input: JsonElement) : this(input.jsonObject.keys.first())
 

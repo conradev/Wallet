@@ -40,7 +40,7 @@ fun BalancesView(viewModel: BalancesViewModel, padding: PaddingValues) {
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement
             .spacedBy(10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             modifier = Modifier
@@ -50,7 +50,7 @@ fun BalancesView(viewModel: BalancesViewModel, padding: PaddingValues) {
             text = walletTitle,
             textAlign = TextAlign.Center,
             overflow = TextOverflow.Ellipsis,
-            maxLines = 1
+            maxLines = 1,
         )
         Text(
             modifier = Modifier
@@ -58,7 +58,7 @@ fun BalancesView(viewModel: BalancesViewModel, padding: PaddingValues) {
                 .padding(vertical = 16.dp),
             style = MaterialTheme.typography.headlineLarge,
             text = totalBalance,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         for (balance in assets) {
@@ -71,7 +71,7 @@ fun BalancesView(viewModel: BalancesViewModel, padding: PaddingValues) {
 @Composable
 fun BalancesViewPreview() {
     Scaffold(
-        topBar = { TopBar(tab = MainViewModel.Tab.BALANCE) }
+        topBar = { TopBar(tab = MainViewModel.Tab.BALANCE) },
     ) {
         BalancesView(PreviewMocks.get(), it)
     }

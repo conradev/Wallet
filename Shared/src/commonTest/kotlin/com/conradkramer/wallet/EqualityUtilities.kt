@@ -6,10 +6,10 @@ import kotlin.test.assertNotEquals
 
 internal fun assertDataEquals(expected: ByteArray, actual: ByteArray) = assertEquals(
     expected.encodeHex(),
-    actual.encodeHex()
+    actual.encodeHex(),
 )
 
 internal fun assertDataNotEquals(expected: ByteArray, actual: ByteArray) = assertNotEquals(
     expected.encodeHex(),
-    actual.encodeHex()
+    actual.encodeHex(),
 )

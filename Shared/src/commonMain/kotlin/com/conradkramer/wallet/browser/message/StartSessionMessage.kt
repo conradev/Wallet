@@ -10,7 +10,7 @@ internal data class StartSessionMessage(
     override val url: String,
     override val frame: Frame,
     override val session: Session,
-    val payload: Payload
+    val payload: Payload,
 ) : RequestMessage() {
     constructor(id: Long, url: String, frame: Frame, session: Session) : this(id, url, frame, session, Payload())
 

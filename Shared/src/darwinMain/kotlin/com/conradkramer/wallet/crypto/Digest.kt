@@ -39,7 +39,7 @@ internal actual object SHA512Mac {
                 key.size.convert(),
                 data.refTo(0),
                 data.size.convert(),
-                it.refTo(0)
+                it.refTo(0),
             )
         }
         .toByteArray()
@@ -50,7 +50,7 @@ internal actual object PBKDF2SHA512Derivation {
     actual fun compute(
         salt: ByteArray,
         password: String,
-        rounds: Int
+        rounds: Int,
     ): ByteArray = UByteArray(CC_SHA512_DIGEST_LENGTH)
         .also {
             CCKeyDerivationPBKDF(
@@ -62,7 +62,7 @@ internal actual object PBKDF2SHA512Derivation {
                 kCCPRFHmacAlgSHA512,
                 rounds.convert(),
                 it.refTo(0),
-                it.size.convert()
+                it.size.convert(),
             )
                 .also { if (it != kCCSuccess) throw Exception("PBKDF2 SHA-512 failed with status $it") }
         }
@@ -77,7 +77,7 @@ internal actual object RIPEMD160Digest {
                 data.asUByteArray().refTo(0),
                 data.size.convert(),
                 it.refTo(0),
-                it.size.convert()
+                it.size.convert(),
             )
         }
         .toByteArray()
@@ -92,7 +92,7 @@ internal actual object Keccak256Digest {
         Keccak_HashUpdate(
             instance.ptr,
             data.asUByteArray().refTo(0),
-            (data.size * CHAR_BIT).convert()
+            (data.size * CHAR_BIT).convert(),
         )
 
         ByteArray(32)

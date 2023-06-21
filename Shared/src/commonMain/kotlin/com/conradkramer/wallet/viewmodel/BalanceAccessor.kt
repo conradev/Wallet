@@ -19,7 +19,7 @@ import kotlin.math.pow
 
 data class Asset(
     val balance: Balance,
-    val fiat: Balance
+    val fiat: Balance,
 ) {
     constructor(balance: Balance, fiat: Currency, rate: Double) : this(balance, balance.convert(fiat, rate))
 
@@ -31,7 +31,7 @@ data class Asset(
 }
 
 class BalanceAccessor(
-    val database: Database
+    val database: Database,
 ) {
     fun holdings(scope: CoroutineScope, chain: Chain, address: Address, fiat: Currency.Code): StateFlow<List<Asset>> {
         val ethBalanceFlow = database.ethereumQueries.balanceForAddress(fiat, chain, address).asFlow()
@@ -50,7 +50,7 @@ class BalanceAccessor(
                 database.ethereumQueries.balanceForAddress(fiat, chain, address).executeAsOneOrNull()?.let { result ->
                     val rate = result.rate ?: return@let null
                     Asset(Balance(Currency.ETH, result.balance.value), fiatCurrency, rate)
-                }
+                },
             )
 
             val tokenBalances = database.ethereumQueries.tokenBalancesForAddress(fiat, chain, address).executeAsList()

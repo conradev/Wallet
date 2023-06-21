@@ -37,9 +37,9 @@ internal abstract class RLPEnvelope : Envelope(), RLPRepresentable {
             rlp.values + listOf(
                 RLP.Item.Data(ByteArray(1) { signature.v }),
                 signature.r.rlp,
-                signature.s.rlp
-            )
-        )
+                signature.s.rlp,
+            ),
+        ),
     )
 
     companion object {
@@ -77,7 +77,7 @@ internal data class Envelope1559(
     val destination: Address,
     val amount: BigInteger,
     val data: Data = Data(),
-    val accessList: AccessList = AccessList()
+    val accessList: AccessList = AccessList(),
 ) : RLPEnvelope() {
     constructor(base: RLP.Item) : this(
         BigInteger(base.values[0].data),
@@ -88,7 +88,7 @@ internal data class Envelope1559(
         Address(base.values[5].data),
         BigInteger(base.values[6].data),
         Data(base.values[7].data),
-        AccessList(base.values[8])
+        AccessList(base.values[8]),
     ) {
         val fields = base.values.size
         if (fields != 12) throw Exception("${this::class} is expecting 12 fields, not $fields")
@@ -109,8 +109,8 @@ internal data class Envelope1559(
                 destination.rlp,
                 amount.rlp,
                 data.rlp,
-                accessList.rlp
-            )
+                accessList.rlp,
+            ),
         )
 
     companion object {
@@ -119,7 +119,7 @@ internal data class Envelope1559(
 }
 
 internal data class AccessList(
-    val value: Map<Address, List<Data>> = emptyMap()
+    val value: Map<Address, List<Data>> = emptyMap(),
 ) : RLPRepresentable {
     constructor(rlp: RLP.Item) : this(decode(rlp))
 
@@ -129,10 +129,10 @@ internal data class AccessList(
                 RLP.Item.List(
                     listOf(
                         entry.key.rlp,
-                        RLP.Item.List(entry.value.map(Data::rlp))
-                    )
+                        RLP.Item.List(entry.value.map(Data::rlp)),
+                    ),
                 )
-            }
+            },
         )
 
     companion object {

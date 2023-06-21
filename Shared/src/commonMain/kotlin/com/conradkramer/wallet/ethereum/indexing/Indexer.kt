@@ -10,7 +10,7 @@ internal abstract class Indexer(
     val chain: Chain,
     protected val scope: CoroutineScope,
     protected val database: Database,
-    protected val logger: KLogger
+    protected val logger: KLogger,
 ) {
     fun refresh() {
         scope.launch {

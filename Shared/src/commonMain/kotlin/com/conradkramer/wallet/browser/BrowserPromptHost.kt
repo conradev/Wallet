@@ -29,7 +29,7 @@ import kotlin.coroutines.EmptyCoroutineContext
 @Factory
 class BrowserPromptHost internal constructor(
     private val database: Database,
-    private val logger: KLogger
+    private val logger: KLogger,
 ) : KoinComponent {
     private val scope = CoroutineScope(EmptyCoroutineContext)
     private val notifier = CrossProcessNotifier()

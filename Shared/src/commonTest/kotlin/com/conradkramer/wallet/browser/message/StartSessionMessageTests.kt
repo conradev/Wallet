@@ -10,7 +10,7 @@ internal class StartSessionMessageTests() : MessageTests() {
             20,
             "https://conradkramer.com",
             Frame.zero,
-            session
+            session,
         )
         val jsonMessage = decode(
             """{
@@ -25,7 +25,7 @@ internal class StartSessionMessageTests() : MessageTests() {
             "type":"start_session",
             "payload":{}
         }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         assertEquals(message, jsonMessage)

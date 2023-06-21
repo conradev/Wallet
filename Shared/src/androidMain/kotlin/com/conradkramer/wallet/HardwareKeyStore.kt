@@ -44,7 +44,7 @@ internal actual class HardwareKeyStore(context: Context) : KeyStore<Authenticati
                 .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
                 .setUserAuthenticationRequired(true)
                 .setIsStrongBoxBacked(isStrongBoxBacked)
-                .build()
+                .build(),
         )
         keyPairGenerator.generateKeyPair()
     }
@@ -73,7 +73,7 @@ internal actual class HardwareKeyStore(context: Context) : KeyStore<Authenticati
     override suspend fun prompt(
         context: AuthenticationContext,
         host: BiometricPromptHost?,
-        info: BiometricPromptInfo
+        info: BiometricPromptInfo,
     ): Boolean {
         val activity = host ?: return false
         return suspendCancellableCoroutine { continuation ->
@@ -91,7 +91,7 @@ internal actual class HardwareKeyStore(context: Context) : KeyStore<Authenticati
                     override fun onAuthenticationFailed() {
                         continuation.resume(false)
                     }
-                }
+                },
             )
             prompt.authenticate(info.info, context.cryptoObject)
             continuation.invokeOnCancellation {
@@ -112,13 +112,13 @@ internal actual class HardwareKeyStore(context: Context) : KeyStore<Authenticati
 
 actual class AuthenticationContext(
     actual val id: String,
-    val cryptoObject: BiometricPrompt.CryptoObject
+    val cryptoObject: BiometricPrompt.CryptoObject,
 ) {
     actual constructor(id: String) : this(
         id,
         BiometricPrompt.CryptoObject(
-            Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding")
-        )
+            Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding"),
+        ),
     )
 
     val cipher: Cipher

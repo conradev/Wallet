@@ -14,7 +14,7 @@ internal class RPCResponseMessageTests() : MessageTests() {
         "https://conradkramer.com",
         Frame.zero,
         session,
-        GetBalance(Address.fromString("0x8a6752a88417e8f7d822dacaeb52ed8e6e591c43"))
+        GetBalance(Address.fromString("0x8a6752a88417e8f7d822dacaeb52ed8e6e591c43")),
     )
 
     @Test
@@ -22,7 +22,7 @@ internal class RPCResponseMessageTests() : MessageTests() {
         val message = RPCResponseMessage(
             21,
             request,
-            JsonPrimitive("0x1")
+            JsonPrimitive("0x1"),
         )
         val jsonMessage = decode(
             """{
@@ -38,7 +38,7 @@ internal class RPCResponseMessageTests() : MessageTests() {
                 "result": "0x1"
             }
         }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         assertEquals(message, jsonMessage)
@@ -49,7 +49,7 @@ internal class RPCResponseMessageTests() : MessageTests() {
         val message = RPCResponseMessage(
             21,
             request,
-            JsonRpcError(-100, "error", JsonPrimitive(1))
+            JsonRpcError(-100, "error", JsonPrimitive(1)),
         )
         val jsonMessage = decode(
             """{
@@ -69,7 +69,7 @@ internal class RPCResponseMessageTests() : MessageTests() {
                 }
             }
         }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         assertEquals(message, jsonMessage)

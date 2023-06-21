@@ -12,7 +12,7 @@ internal class EventMessageTests() : MessageTests() {
         val message = EventMessage(
             20,
             session,
-            ConnectEvent(Quantity(BigInteger.valueOf(1)))
+            ConnectEvent(Quantity(BigInteger.valueOf(1))),
         )
         val jsonMessage = decode(
             """{
@@ -28,7 +28,7 @@ internal class EventMessageTests() : MessageTests() {
                 "value": "0x1"
             }
         }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         assertEquals(message, jsonMessage)

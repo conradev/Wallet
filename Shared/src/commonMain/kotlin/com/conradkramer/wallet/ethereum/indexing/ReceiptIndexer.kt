@@ -16,14 +16,14 @@ internal class ReceiptIndexer(
     scope: CoroutineScope,
     database: Database,
     private val client: RpcClient,
-    logger: KLogger
+    logger: KLogger,
 ) : QueryIndexer<Data>(
     chain,
     scope,
     database,
     database.ethereumQueries.receiptsToIndex(chain),
     Data::toString,
-    logger
+    logger,
 ) {
     override suspend fun index(identifier: String) {
         val hash = Data.fromString(identifier)
@@ -36,8 +36,8 @@ internal class ReceiptIndexer(
                     receipt.transactionHash,
                     receipt.gasUsed.toLong(),
                     receipt.status.toBool(),
-                    receipt.contractAddress
-                )
+                    receipt.contractAddress,
+                ),
             )
             for (log in receipt.logs) {
                 database.ethereumQueries.insertLog(
@@ -50,8 +50,8 @@ internal class ReceiptIndexer(
                         log.topics.elementAtOrNull(1),
                         log.topics.elementAtOrNull(2),
                         log.topics.elementAtOrNull(3),
-                        log.data
-                    )
+                        log.data,
+                    ),
                 )
             }
         }

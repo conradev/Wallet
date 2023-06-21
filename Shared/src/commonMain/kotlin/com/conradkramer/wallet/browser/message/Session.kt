@@ -10,7 +10,7 @@ data class Session(
     @SerialName("tab_id")
     val tabId: Int,
     @SerialName("frame_id")
-    val frameId: Int
+    val frameId: Int,
 ) {
     internal fun browserPid(browserPid: Int): Session {
         return Session(browserPid, this.tabId, this.frameId)

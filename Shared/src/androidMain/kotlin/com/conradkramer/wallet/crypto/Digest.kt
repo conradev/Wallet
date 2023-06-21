@@ -26,7 +26,7 @@ internal actual object PBKDF2SHA512Derivation {
     actual fun compute(
         salt: ByteArray,
         password: String,
-        rounds: Int
+        rounds: Int,
     ): ByteArray {
         val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512")
         return factory.generateSecret(PBEKeySpec(password.toCharArray(), salt, rounds, 512)).encoded

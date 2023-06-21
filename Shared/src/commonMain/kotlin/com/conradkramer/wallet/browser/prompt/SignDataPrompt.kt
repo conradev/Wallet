@@ -18,7 +18,7 @@ data class SignDataPrompt internal constructor(
     override val session: Session,
     val domain: String,
     val address: Address,
-    val data: Data
+    val data: Data,
 ) : Prompt() {
     constructor(frame: Frame, session: Session, domain: String, address: Address, data: Data) : this(
         Random.nextBytes(20).encodeHex(),
@@ -26,12 +26,12 @@ data class SignDataPrompt internal constructor(
         session,
         domain,
         address,
-        data
+        data,
     )
 
     @Serializable
     data class Response protected constructor(
-        val signature: Data? = null
+        val signature: Data? = null,
     ) {
         internal constructor(signature: Signature?) : this(signature?.let { Data(it.toByteArray()) })
     }

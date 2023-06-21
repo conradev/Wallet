@@ -11,7 +11,7 @@ import kotlin.random.Random
 internal data class EventMessage protected constructor(
     override val id: Long,
     override val session: Session,
-    val payload: Payload
+    val payload: Payload,
 ) : Message() {
     constructor(session: Session, event: Event) : this(Random.nextLong(), session, event)
     constructor(id: Long, session: Session, event: Event) : this(id, session, Payload(event.name, event.value))
@@ -19,6 +19,6 @@ internal data class EventMessage protected constructor(
     @Serializable
     internal data class Payload(
         val name: String,
-        val value: JsonElement
+        val value: JsonElement,
     )
 }

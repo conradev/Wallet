@@ -11,11 +11,11 @@ internal interface SignRequest {
 
 internal data class Sign(
     override val address: Address,
-    override val data: Data
+    override val data: Data,
 ) : Request(), SignRequest {
     constructor(params: List<JsonElement>) : this(
         decode(params, 0),
-        decode(params, 1)
+        decode(params, 1),
     )
 
     override val method = Companion.method

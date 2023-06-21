@@ -5,12 +5,12 @@ import org.koin.core.Koin
 
 internal data class LaunchOptions(
     val resetAccounts: Boolean,
-    val resetIndex: Boolean
+    val resetIndex: Boolean,
 ) {
     companion object {
         val default = LaunchOptions(
             resetAccounts = false,
-            resetIndex = false
+            resetIndex = false,
         )
         val current = launchOptionsForCurrentProcess()
     }

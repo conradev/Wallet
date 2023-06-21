@@ -20,7 +20,9 @@ internal enum class BlockTag {
     LATEST,
 
     @SerialName("pending")
-    PENDING;
+    PENDING,
+
+    ;
 
     override fun toString(): String {
         return name.lowercase()

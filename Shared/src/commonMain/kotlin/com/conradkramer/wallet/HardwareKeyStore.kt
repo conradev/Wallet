@@ -4,7 +4,7 @@ internal data class BiometricPromptInfo(
     val title: String,
     val subtitle: String,
     val reason: String,
-    val cancelTitle: String
+    val cancelTitle: String,
 )
 
 expect class BiometricPromptHost

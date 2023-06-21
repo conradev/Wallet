@@ -31,7 +31,7 @@ abstract class BalancesViewModel {
 @Factory(binds = [BalancesViewModel::class])
 class DatabaseBalancesViewModel internal constructor(
     accountStore: AccountStore,
-    private val database: Database
+    private val database: Database,
 ) : BalancesViewModel() {
     private val scope = CoroutineScope(EmptyCoroutineContext)
 

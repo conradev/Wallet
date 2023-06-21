@@ -8,10 +8,10 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 internal data class GetTransactionByHash(
-    val hash: Data
+    val hash: Data,
 ) : Request() {
     constructor(params: List<JsonElement>) : this(
-        decode<Data>(params, 0)
+        decode<Data>(params, 0),
     )
 
     override val method = Companion.method
@@ -39,5 +39,5 @@ internal data class CompletedTransaction(
     val nonce: Quantity,
     val r: Quantity,
     val s: Quantity,
-    val v: Quantity
+    val v: Quantity,
 )

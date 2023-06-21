@@ -19,7 +19,7 @@ data class Currency(
     val code: Code,
     val name: String,
     val symbol: String?,
-    val decimals: Int = 2
+    val decimals: Int = 2,
 ) {
     @Serializable(CurrencyCodeSerializer::class)
     data class Code(val code: String) {

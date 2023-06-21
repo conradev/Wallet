@@ -6,7 +6,7 @@ import kotlinx.serialization.json.JsonElement
 
 @Serializable
 internal data class ConnectEvent(
-    val chainId: Quantity
+    val chainId: Quantity,
 ) : Event() {
     override val name = "connect"
 

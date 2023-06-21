@@ -11,7 +11,7 @@ internal class ERC165(client: RpcClient, address: Address) : Interface(client, a
     suspend fun supportsInterface(tag: UInt) = invoke(
         Invocation("supportsInterface")
             .parameter(Type.Bytes(4)) { encode(tag.toByteArray(ByteOrder.BIG_ENDIAN)) },
-        Type.Bool::decode
+        Type.Bool::decode,
     )
 
     suspend fun ifSupported(): ERC165? {

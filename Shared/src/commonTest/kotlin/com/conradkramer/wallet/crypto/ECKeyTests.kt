@@ -22,11 +22,11 @@ class ECKeyTests {
 
         assertEquals(
             "0339a36013301597daef41fbe593a02cc513d0b55527ec2df1050e2e8ff49c85c2",
-            key.publicKey.encoded(true).encodeHex()
+            key.publicKey.encoded(true).encodeHex(),
         )
         assertEquals(
             "0439a36013301597daef41fbe593a02cc513d0b55527ec2df1050e2e8ff49c85c23cbe7ded0e7ce6a594896b8f62888fdbc5c8821305e2ea42bf01e37300116281",
-            key.publicKey.encoded(false).encodeHex()
+            key.publicKey.encoded(false).encodeHex(),
         )
     }
 
@@ -54,7 +54,7 @@ class ECKeyTests {
 
         assertDataEquals(
             publicKey.encoded(false),
-            result.encoded(false)
+            result.encoded(false),
         )
     }
 
@@ -67,7 +67,7 @@ class ECKeyTests {
         val invalidSignature = Signature(
             BigInteger(SecureRandom.nextBytes(32)),
             BigInteger(SecureRandom.nextBytes(32)),
-            1
+            1,
         )
 
         val result = try { PublicKey.recover(data, invalidSignature) } catch (e: Exception) { null }
@@ -86,7 +86,7 @@ class ECKeyTests {
         val result = PublicKey.recover(differentData, signature)
         assertDataNotEquals(
             result.encoded(false),
-            publicKey.encoded(false)
+            publicKey.encoded(false),
         )
     }
 

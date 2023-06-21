@@ -9,13 +9,13 @@ import kotlin.random.Random
 internal data class OpenURLMessage protected constructor(
     override val id: Long,
     override val session: Session,
-    val payload: Payload
+    val payload: Payload,
 ) : Message() {
     constructor(id: Long, session: Session, url: String) : this(id, session, Payload(url))
     constructor(session: Session, url: String) : this(Random.nextLong(), session, url)
 
     @Serializable
     internal data class Payload(
-        val url: String
+        val url: String,
     )
 }

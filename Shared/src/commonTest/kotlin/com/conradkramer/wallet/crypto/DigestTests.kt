@@ -31,7 +31,7 @@ class DigestTests {
 
         assertEquals(
             "57916e136fc942282b352c1bf86f01b1ae7599cb451dfbd0dc61e955e496c6d7ee83ba9a8ef8da9f0f922764de2f63a0b6495f908ff74db8b66650a2e8698bdd",
-            digest.encodeHex()
+            digest.encodeHex(),
         )
     }
 }

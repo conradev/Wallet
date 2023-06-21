@@ -30,7 +30,7 @@ internal data class InfuraProvider(val projectId: String) : RpcProvider {
         Chain.ROPSTEN,
         Chain.KOVAN,
         Chain.RINKEBY,
-        Chain.GOERLI
+        Chain.GOERLI,
     )
 
     override fun endpointUrl(chain: Chain) = URLBuilder("https://${chain.lowercaseName}.infura.io/v3")
@@ -43,13 +43,13 @@ internal data class InfuraProvider(val projectId: String) : RpcProvider {
  * - Negative `id` values return a "problem parsing request body" error
  */
 internal class Cloudflare(
-    val host: String = "web3-trial.cloudflare-eth.com"
+    val host: String = "web3-trial.cloudflare-eth.com",
 ) : RpcProvider {
     override val supportedChains = setOf(
         Chain.MAINNET,
         Chain.RINKEBY,
         Chain.GOERLI,
-        Chain.SEPOLIA
+        Chain.SEPOLIA,
     )
 
     override fun endpointUrl(chain: Chain) = URLBuilder(protocol = URLProtocol.HTTPS, host = host)
@@ -59,7 +59,7 @@ internal class Cloudflare(
 
 internal open class ChainRpcProvider(
     val url: Url,
-    chain: Chain
+    chain: Chain,
 ) : RpcProvider {
     override val supportedChains = setOf(chain)
 

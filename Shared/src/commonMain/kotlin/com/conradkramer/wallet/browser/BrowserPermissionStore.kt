@@ -6,12 +6,13 @@ import io.github.oshai.kotlinlogging.KLogger
 
 class BrowserPermissionStore internal constructor(
     private val database: Database,
-    private val logger: KLogger
+    private val logger: KLogger,
 ) {
     enum class State(val value: Long) {
         ALLOWED(1),
         DENIED(-1),
-        UNSPECIFIED(0);
+        UNSPECIFIED(0),
+        ;
 
         companion object {
             private val mapping = State.values().associate { it.value to it }

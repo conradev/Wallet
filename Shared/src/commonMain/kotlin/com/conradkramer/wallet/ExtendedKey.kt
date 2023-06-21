@@ -12,7 +12,7 @@ import io.ktor.utils.io.core.toByteArray
 
 internal enum class Network {
     MAINNET,
-    TESTNET;
+    TESTNET,
 }
 
 internal abstract class ExtendedKey(
@@ -20,7 +20,7 @@ internal abstract class ExtendedKey(
     val chainCode: ByteArray,
     val depth: UByte,
     val parentFingerprint: ByteArray,
-    val childNumber: UInt
+    val childNumber: UInt,
 ) {
     protected abstract val encodedKey: ByteArray
     protected abstract val version: UInt
@@ -47,7 +47,7 @@ internal class ExtendedPrivateKey(
     chainCode: ByteArray,
     depth: UByte,
     parentFingerprint: ByteArray,
-    childNumber: UInt
+    childNumber: UInt,
 ) : ExtendedKey(network, chainCode, depth, parentFingerprint, childNumber) {
 
     override val encodedKey: ByteArray
@@ -83,7 +83,7 @@ internal class ExtendedPrivateKey(
             digest.copyOfRange(32, 64),
             depth.inc(),
             publicKey.fingerprint,
-            index
+            index,
         )
     }
 
@@ -105,7 +105,7 @@ internal class ExtendedPrivateKey(
                 root.copyOfRange(32, 64),
                 0u,
                 ByteArray(20),
-                0u
+                0u,
             )
         }
     }
@@ -117,7 +117,7 @@ internal class ExtendedPublicKey(
     chainCode: ByteArray,
     depth: UByte,
     parentFingerprint: ByteArray,
-    childNumber: UInt
+    childNumber: UInt,
 ) : ExtendedKey(network, chainCode, depth, parentFingerprint, childNumber) {
     override val encodedKey: ByteArray
         get() = key.encoded(true)

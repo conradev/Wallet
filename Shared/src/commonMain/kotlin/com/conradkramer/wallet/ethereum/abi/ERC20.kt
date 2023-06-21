@@ -15,7 +15,7 @@ internal class ERC20(client: RpcClient, address: Address) : Interface(client, ad
         Invocation("balanceOf")
             .parameter(Type.Address) { encode(address) },
         Type.UInt()::decode,
-        block
+        block,
     )
 }
 

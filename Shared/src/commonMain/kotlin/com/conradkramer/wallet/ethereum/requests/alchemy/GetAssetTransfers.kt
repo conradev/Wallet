@@ -11,22 +11,22 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 internal class GetAssetTransfers private constructor(
-    private val payload: Payload
+    private val payload: Payload,
 ) : Request() {
     constructor(
         fromBlock: BlockSpecifier? = null,
         toBlock: BlockSpecifier? = null,
         fromAddress: Address? = null,
         toAddress: Address? = null,
-        ascending: Boolean = false
+        ascending: Boolean = false,
     ) : this(
         Payload(
             fromBlock,
             toBlock,
             fromAddress,
             toAddress,
-            if (ascending) "asc" else "desc"
-        )
+            if (ascending) "asc" else "desc",
+        ),
     )
 
     @Serializable
@@ -38,11 +38,11 @@ internal class GetAssetTransfers private constructor(
         val order: String,
         val category: List<String> = listOf("external", "internal", "erc20", "erc721", "erc1155", "specialnft"),
         val excludeZeroValue: Boolean = false,
-        var pageKey: String? = null
+        var pageKey: String? = null,
     )
 
     constructor(params: List<JsonElement>) : this(
-        decode<Payload>(params, 0)
+        decode<Payload>(params, 0),
     )
 
     override val method = Companion.method
@@ -61,13 +61,13 @@ internal class GetAssetTransfers private constructor(
 @Serializable
 internal data class AssetTransfers(
     val transfers: List<Transfer>,
-    val pageKey: String?
+    val pageKey: String?,
 ) {
     @Serializable
     internal data class Transfer(
         @SerialName("blockNum")
         val block: Quantity,
-        val hash: Data
+        val hash: Data,
     )
 }
 

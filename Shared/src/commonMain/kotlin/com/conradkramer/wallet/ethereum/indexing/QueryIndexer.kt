@@ -22,7 +22,7 @@ internal abstract class QueryIndexer<RowType : Any>(
     database: Database,
     val query: Query<RowType>,
     val identifier: (RowType) -> String,
-    logger: KLogger
+    logger: KLogger,
 ) : Indexer(chain, scope, database, logger) {
 
     private val tasks: MutableMap<String, Deferred<Result<Unit>>> = mutableMapOf()

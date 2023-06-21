@@ -6,11 +6,11 @@ import kotlinx.serialization.json.JsonElement
 
 internal data class PersonalSign(
     override val data: Data,
-    override val address: Address
+    override val address: Address,
 ) : Request(), SignRequest {
     constructor(params: List<JsonElement>) : this(
         decode(params, 0),
-        decode(params, 1)
+        decode(params, 1),
     )
 
     override val method = Companion.method

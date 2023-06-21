@@ -29,9 +29,9 @@ private fun BalanceTopBar() {
             }) {
                 Icon(
                     imageVector = Icons.Filled.MoreVert,
-                    contentDescription = "Options"
+                    contentDescription = "Options",
                 )
             }
-        }
+        },
     )
 }

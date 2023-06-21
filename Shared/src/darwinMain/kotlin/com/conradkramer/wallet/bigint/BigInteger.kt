@@ -53,7 +53,7 @@ actual class BigInteger() : RLPRepresentable {
                     data.size.convert(),
                     1.convert(),
                     0.convert(),
-                    mpz.ptr
+                    mpz.ptr,
                 )
             }
             if (count.value != 1UL) throw Exception("Failed to export integer")
@@ -73,7 +73,7 @@ actual class BigInteger() : RLPRepresentable {
                 data.size.convert(),
                 1.convert(),
                 0.convert(),
-                pinned.addressOf(0)
+                pinned.addressOf(0),
             )
         }
     }
@@ -82,7 +82,9 @@ actual class BigInteger() : RLPRepresentable {
     actual fun toLong() = mpz_get_si!!(mpz.ptr)
     actual fun toULong() = mpz_get_ui!!(mpz.ptr)
 
-    actual operator fun plus(valueOf: BigInteger): BigInteger = BigInteger().also { mpz_add!!(it.mpz.ptr, this.mpz.ptr, valueOf.mpz.ptr) }
+    actual operator fun plus(valueOf: BigInteger): BigInteger = BigInteger().also {
+        mpz_add!!(it.mpz.ptr, this.mpz.ptr, valueOf.mpz.ptr)
+    }
 
     actual override fun equals(other: Any?): Boolean {
         if (this === other) return true

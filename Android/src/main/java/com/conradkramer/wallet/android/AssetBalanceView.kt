@@ -27,23 +27,23 @@ fun AssetBalanceView(asset: Asset) {
                 .fillMaxWidth()
                 .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(horizontalAlignment = Alignment.Start) {
                 Text(
                     text = asset.balance.currency.name,
                     textAlign = TextAlign.Start,
                     fontWeight = FontWeight.SemiBold,
-                    fontSize = 18.sp
+                    fontSize = 18.sp,
                 )
                 Text(
                     text = asset.balanceString,
-                    textAlign = TextAlign.End
+                    textAlign = TextAlign.End,
                 )
             }
             Text(
                 text = asset.fiatBalanceString,
-                textAlign = TextAlign.End
+                textAlign = TextAlign.End,
             )
         }
     }

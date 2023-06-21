@@ -14,8 +14,8 @@ internal data class Account(val id: String, private val keys: Map<Coin, List<Pub
             .filter { it.account_index == index }
             .groupBy(
                 keySelector = Public_key::coin,
-                valueTransform = Public_key::encoded
-            )
+                valueTransform = Public_key::encoded,
+            ),
     )
 
     init {

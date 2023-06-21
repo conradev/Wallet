@@ -52,7 +52,7 @@ internal fun Type.UInt.encode(data: ByteArray) = ByteArray(32).also {
         it,
         it.size - data.size,
         0,
-        bits / 8
+        bits / 8,
     )
 }
 
