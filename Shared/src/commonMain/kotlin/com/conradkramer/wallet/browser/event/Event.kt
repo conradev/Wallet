@@ -20,11 +20,13 @@ internal abstract class Event {
         }
 
         @OptIn(ExperimentalSerializationApi::class)
-        val json = Json {
-            encodeDefaults = true
-            explicitNulls = false
-            serializersModule = SerializersModule {
-                include(serializersModuleOf(Quantity.serializer()))
+        val json by lazy {
+            Json {
+                encodeDefaults = true
+                explicitNulls = false
+                serializersModule = SerializersModule {
+                    include(serializersModuleOf(Quantity.serializer()))
+                }
             }
         }
     }

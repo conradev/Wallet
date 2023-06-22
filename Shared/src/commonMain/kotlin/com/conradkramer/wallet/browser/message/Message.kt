@@ -46,14 +46,16 @@ internal sealed class Message {
             }
         }
 
-        private val json = Json {
-            serializersModule = SerializersModule {
-                polymorphic(Message::class, serializer()) {
-                    subclass(EventMessage.serializer())
-                    subclass(OpenURLMessage.serializer())
-                    subclass(RPCRequestMessage.serializer())
-                    subclass(RPCResponseMessage.serializer())
-                    subclass(StartSessionMessage.serializer())
+        private val json by lazy {
+            Json {
+                serializersModule = SerializersModule {
+                    polymorphic(Message::class) {
+                        subclass(EventMessage.serializer())
+                        subclass(OpenURLMessage.serializer())
+                        subclass(RPCRequestMessage.serializer())
+                        subclass(RPCResponseMessage.serializer())
+                        subclass(StartSessionMessage.serializer())
+                    }
                 }
             }
         }
