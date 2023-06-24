@@ -21,7 +21,7 @@ CODE_SIGN_IDENTITY = Apple Development
 INFOPLIST_FILE = Configuration/Info.plist
 GENERATE_INFOPLIST_FILE = YES
 INFOPLIST_KEY_NSHumanReadableCopyright = Copyright © 2021-2023 Conrad Kramer
-INFOPLIST_KEY_CFBundleDisplayName = Walleth
+INFOPLIST_KEY_CFBundleDisplayName = Monet
 
 ENABLE_APP_SANDBOX[sdk=macosx*] = YES
 ENABLE_HARDENED_RUNTIME[sdk=macosx*] = YES

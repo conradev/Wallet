@@ -54,7 +54,7 @@ private fun sharedModule() = module {
 
     single { Database.invoke(get()) }
     single { AlchemyProvider(mapOf(Chain.MAINNET to "tbOMWQYmtAGuUDnDOhoJFYxXIKctXij3")) }
-    single { Cloudflare("eth.soup.solutions") } bind RpcProvider::class
+    single { Cloudflare("eth.monet.financial") } bind RpcProvider::class
     singleOf(::AppIndexer)
 
     // TODO: Add parameter for `chain`
