@@ -19,12 +19,12 @@
     "web-ext": "^7.4.0"
   },
   "scripts": {
-    "generate": "node page/generator.mjs && node content/generator.mjs && node background/generator.mjs",
+    "generate": "bun page/generator.mjs && bun content/generator.mjs && bun background/generator.mjs",
     "clean": "rm -rf build/ page/validators.js content/validators.js background/validators.js",
     "lint": "eslint --ext .ts .",
     "compile": "tsc",
-    "bundle": "node esbuild.config.mjs",
-    "package": "npm run generate && npm run bundle",
-    "build": "npm run generate && npm run compile && npm run lint && npm run bundle"
+    "bundle": "bun esbuild.config.mjs",
+    "package": "bun run generate && bun run bundle",
+    "build": "bun run generate && bun run compile && bun run lint && bun run bundle"
   }
 }
