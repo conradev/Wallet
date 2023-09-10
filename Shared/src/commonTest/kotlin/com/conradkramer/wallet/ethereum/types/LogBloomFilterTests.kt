@@ -5,7 +5,7 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-/* ktlint-disable max-line-length */
+@Suppress("ktlint:standard:max-line-length")
 class LogBloomFilterTests {
 
     @Test

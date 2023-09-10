@@ -5,7 +5,7 @@ import io.ktor.utils.io.core.toByteArray
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-/* ktlint-disable max-line-length */
+@Suppress("ktlint:standard:max-line-length")
 class DigestTests {
     @Test
     fun testKeccakDigest() {

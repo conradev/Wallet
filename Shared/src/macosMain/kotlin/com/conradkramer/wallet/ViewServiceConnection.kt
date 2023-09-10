@@ -27,7 +27,7 @@ class ViewServiceConnection(machService: String, private val logger: KLogger) {
                 return active.value
             }
 
-            val connection = xpc_connection_create_mach_service(machService, null, 0)
+            val connection = xpc_connection_create_mach_service(machService, null, 0u)
             xpc_connection_set_event_handler(connection) { event ->
                 if (xpc_get_type(event) == XPC_TYPE_ERROR &&
                     (event == XPC_ERROR_CONNECTION_INTERRUPTED || event == XPC_ERROR_CONNECTION_INVALID)

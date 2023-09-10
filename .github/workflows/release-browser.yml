@@ -30,7 +30,7 @@ jobs:
         npx web-ext build -s Extension/build/firefox -n wallet.xpi
         mv web-ext-artifacts/wallet.xpi Wallet.xpi
     - name: Attach Artifact
-      uses: SierraSoftworks/gh-releases@v1.0.6
+      uses: SierraSoftworks/gh-releases@v1.0.7
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         overwrite: 'false'

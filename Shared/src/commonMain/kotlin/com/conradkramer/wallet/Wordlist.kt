@@ -1,6 +1,6 @@
 package com.conradkramer.wallet
 
-/* ktlint-disable max-line-length */
+@Suppress("ktlint:standard:max-line-length")
 class Wordlist private constructor(val words: List<String>) {
     companion object {
         val english: Wordlist = Wordlist(

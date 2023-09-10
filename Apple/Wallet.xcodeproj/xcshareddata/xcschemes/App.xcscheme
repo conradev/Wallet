@@ -33,7 +33,7 @@
             default = "YES">
          </TestPlanReference>
          <TestPlanReference
-            reference = "container:Configuration/UITests-iOS.xctestplan">
+            reference = "container:Configuration/UITests.xctestplan">
          </TestPlanReference>
       </TestPlans>
    </TestAction>

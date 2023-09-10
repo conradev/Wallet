@@ -26,7 +26,7 @@ actual class CrossProcessNotifier {
                 notify_register_dispatch(
                     topic,
                     key.ptr,
-                    dispatch_get_global_queue(QOS_CLASS_USER_INTERACTIVE.toLong(), 0),
+                    dispatch_get_global_queue(QOS_CLASS_USER_INTERACTIVE.toLong(), 0u),
                 ) {
                     trySend(Unit)
                 }

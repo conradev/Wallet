@@ -24,7 +24,7 @@ class ViewServiceServer internal constructor(
 ) {
     private val queue = dispatch_queue_create("$machService.listener", null)
     private val listener =
-        xpc_connection_create_mach_service(machService, queue, XPC_CONNECTION_MACH_SERVICE_LISTENER)
+        xpc_connection_create_mach_service(machService, queue, XPC_CONNECTION_MACH_SERVICE_LISTENER.toULong())
 
     private val connections: MutableMap<Session, xpc_connection_t> = mutableMapOf()
 

@@ -9,6 +9,9 @@ inputs:
   app-store-key-issuer-id:
     description: App Store key issuer ID
     required: true
+  product-name:
+    description: The full name of the .app file
+    required: true
   archive-path:
     description: Xcode archive path
     required: true
@@ -52,7 +55,7 @@ runs:
         sleep 10
       done
 
-      tar --options xz:compression-level=9 -C Release -cJvf Wallet.txz ./
-      echo "notarized-app=Apple/Wallet.txz" >> $GITHUB_OUTPUT
+      aa archive -a lzma -b 8m -d Release -subdir ${{ inputs.product-name }} -o ${{ inputs.product-name }}.aar
+      echo "notarized-app=Apple/${{ inputs.product-name }}.aar" >> $GITHUB_OUTPUT
 
       rm -rf AuthKey_${{ inputs.app-store-key-id }}.p8 Release ExportOptions.plist

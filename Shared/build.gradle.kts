@@ -13,9 +13,22 @@ plugins {
 }
 
 kotlin {
-    android()
+    androidTarget {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = libs.versions.java.get()
+            }
+        }
+    }
 
     sourceSets {
+        all {
+            languageSettings.apply {
+                optIn("kotlin.experimental.ExperimentalObjCName")
+                optIn("kotlinx.cinterop.ExperimentalForeignApi")
+            }
+        }
+
         val commonMain by getting {
             dependencies {
                 implementation(libs.bundles.koin)
@@ -112,7 +125,6 @@ kotlin {
                 kotlinOptions {
                     freeCompilerArgs = freeCompilerArgs + listOf("-linker-option", "-application_extension")
                 }
-                enableEndorsedLibs = true
             }
             it.binaries {
                 framework {
@@ -125,7 +137,7 @@ kotlin {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 28
@@ -141,7 +153,7 @@ android {
 sqldelight {
     databases {
         create("Database") {
-            dialect("app.cash.sqldelight:sqlite-3-35-dialect:${libs.versions.sqldelight.get()}")
+            dialect("app.cash.sqldelight:sqlite-3-38-dialect:${libs.versions.sqldelight.get()}")
             packageName.set("com.conradkramer.wallet.sql")
         }
     }
@@ -152,25 +164,12 @@ dependencies {
         .forEach { add(it, libs.koin.compiler) }
 }
 
-kotlin.sourceSets.all {
-    languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+tasks.withType<LintTask> {
+    if (name.contains("Ksp")) enabled = false
+    source = source.minus(project.fileTree("build/generated")).asFileTree
 }
 
-tasks.lintKotlinCommonMain {
-    exclude { fte -> fte.file.absolutePath.contains("/generated/") }
-}
-
-tasks.formatKotlinCommonMain {
-    exclude { fte -> fte.file.absolutePath.contains("/generated/") }
-}
-
-afterEvaluate {
-    tasks
-        .mapNotNull { it as? LintTask }
-        .filter { it.name.startsWith("lintKotlinGeneratedByKsp") }
-        .forEach { it.enabled = false }
-    tasks
-        .mapNotNull { it as? FormatTask }
-        .filter { it.name.startsWith("formatKotlinGeneratedByKsp") }
-        .forEach { it.enabled = false }
+tasks.withType<FormatTask> {
+    if (name.contains("Ksp")) enabled = false
+    source = source.minus(project.fileTree("build/generated")).asFileTree
 }

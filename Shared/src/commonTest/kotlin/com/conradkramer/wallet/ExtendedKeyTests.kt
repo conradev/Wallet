@@ -5,7 +5,7 @@ import com.conradkramer.wallet.encoding.encodeHex
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-/* ktlint-disable max-line-length */
+@Suppress("ktlint:standard:max-line-length")
 class ExtendedKeyTests {
 
     // https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki#Test_vector_1

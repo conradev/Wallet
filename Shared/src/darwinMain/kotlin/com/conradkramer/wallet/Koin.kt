@@ -17,7 +17,6 @@ import com.conradkramer.wallet.viewmodel.PermissionPromptViewModel
 import com.conradkramer.wallet.viewmodel.SignDataPromptViewModel
 import com.conradkramer.wallet.viewmodel.WelcomeViewModel
 import io.github.oshai.kotlinlogging.KotlinLoggingConfiguration
-import io.github.oshai.kotlinlogging.OSLogSubsystemAppender
 import org.koin.core.Koin
 import org.koin.core.KoinApplication
 import org.koin.dsl.binds
@@ -39,16 +38,14 @@ internal fun darwinModule() = module {
         val schema = Database.Schema
         val configuration = DatabaseConfiguration(
             name = Database.FILE_NAME,
-            version = schema.version,
+            version = if (schema.version > Int.MAX_VALUE) error("Schema version is larger than Int.MAX_VALUE: ${schema.version}.") else schema.version.toInt(),
             extendedConfig = DatabaseConfiguration.Extended(
                 foreignKeyConstraints = true,
                 basePath = basePath,
             ),
-            create = { connection ->
-                wrapConnection(connection) { schema.create(it) }
-            },
+            create = { connection -> wrapConnection(connection) { schema.create(it) } },
             upgrade = { connection, oldVersion, newVersion ->
-                wrapConnection(connection) { schema.migrate(it, oldVersion, newVersion) }
+                wrapConnection(connection) { schema.migrate(it, oldVersion.toLong(), newVersion.toLong()) }
             },
         )
         NativeSqliteDriver(configuration)
@@ -60,8 +57,7 @@ fun KoinApplication.Companion.start(
     viewServiceName: String,
     subsystem: String,
 ): KoinApplication {
-    KotlinLoggingConfiguration.appender = OSLogSubsystemAppender(subsystem)
-    CrashReporterClient.installHook()
+    KotlinLoggingConfiguration.subsystem.value = subsystem
     return startKoinShared {
         properties(
             mapOf(

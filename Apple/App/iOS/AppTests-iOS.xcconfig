@@ -1,5 +1,5 @@
 #include "../../Configuration/Tests.xcconfig"
 
 SUPPORTED_PLATFORMS = iphoneos iphonesimulator xros xrsimulator
-PRODUCT_NAME = AppTests-iOS
-TEST_TARGET_NAME = App (iOS)
+PRODUCT_NAME = AppTests
+TEST_TARGET_NAME = App

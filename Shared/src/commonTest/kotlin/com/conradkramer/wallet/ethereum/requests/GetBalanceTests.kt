@@ -6,7 +6,7 @@ import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-/* ktlint-disable max-line-length */
+@Suppress("ktlint:standard:max-line-length")
 class GetBalanceTests {
     @Test
     fun testDeserialization() {
