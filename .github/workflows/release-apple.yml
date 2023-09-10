@@ -44,9 +44,9 @@ jobs:
       with:
         certificate: ${{ secrets.DEVELOPER_CERT }}
         password: ${{ secrets.DEVELOPER_CERT_PASSWORD }}
-    - name: NPM Install
-      shell: bash
-      run: npm install
+    - uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: latest
     - name: Archive
       uses: ./.github/actions/archive
       with:
