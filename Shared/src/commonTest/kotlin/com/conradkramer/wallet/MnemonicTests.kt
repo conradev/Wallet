@@ -6,7 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 
-/* ktlint-disable max-line-length */
+@Suppress("ktlint:standard:max-line-length")
 class MnemonicTests {
     @Test
     fun testValidPhrasesOfAllLengths() {

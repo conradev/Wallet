@@ -9,6 +9,6 @@ import platform.Foundation.dataWithBytes
 import platform.Foundation.getBytes
 
 internal fun NSData.toByteArray() = ByteArray(length.convert())
-    .also { data -> data.usePinned { getBytes(it.addressOf(0), NSMakeRange(0, length)) } }
+    .also { data -> data.usePinned { getBytes(it.addressOf(0), NSMakeRange(0u, length)) } }
 
 internal fun ByteArray.toNSData() = usePinned { NSData.dataWithBytes(it.addressOf(0), size.convert()) }

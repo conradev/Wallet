@@ -87,7 +87,7 @@ internal actual object RIPEMD160Digest {
 internal actual object Keccak256Digest {
     actual fun digest(data: ByteArray) = memScoped {
         val instance = alloc<Keccak_HashInstance>()
-            .also { Keccak_HashInitialize(it.ptr, 1088, 512, 256, 1) }
+            .also { Keccak_HashInitialize(it.ptr, 1088u, 512u, 256u, 1u) }
 
         Keccak_HashUpdate(
             instance.ptr,

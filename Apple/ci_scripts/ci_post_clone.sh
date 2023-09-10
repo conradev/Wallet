@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-brew install node openjdk@19
+brew install node openjdk@20
 
 bun install
 

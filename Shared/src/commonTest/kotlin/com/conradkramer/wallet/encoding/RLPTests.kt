@@ -6,7 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
-/* ktlint-disable max-line-length */
+@Suppress("ktlint:standard:max-line-length")
 class RLPTests {
     @Test
     fun testSingleByte() {

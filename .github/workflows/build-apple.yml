@@ -19,11 +19,11 @@ jobs:
           platform: iOS
           sdk-name: iphoneos
         - scheme: App
-          destination: platform=iOS Simulator,OS=16.4,name=iPhone 14 Pro
+          destination: platform=iOS Simulator,OS=17.0,name=iPhone 14 Pro
           platform: iOS Simulator
           sdk-name: iphonesimulator
           xcode-unit-test: UnitTests
-          xcode-ui-test: UITests-iOS
+          xcode-ui-test: UITests
           gradle-test: iosX64Test
         - scheme: App (macOS)
           destination: platform=macOS
@@ -33,7 +33,7 @@ jobs:
           xcode-ui-test: UITests-macOS
           gradle-test: macosX64Test
     env:
-      DEVELOPER_DIR: /Applications/Xcode_14.3.1.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_15.0.app/Contents/Developer
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -43,8 +43,11 @@ jobs:
     - uses: actions/setup-java@v3
       with:
         distribution: temurin
-        java-version: '19'
+        java-version: '20'
         cache: gradle
+    - uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: latest
     - name: Cache Kotlin Native Compiler
       uses: actions/cache@v3
       with:
@@ -55,9 +58,9 @@ jobs:
       with:
         certificate: ${{ secrets.DEVELOPER_CERT }}
         password: ${{ secrets.DEVELOPER_CERT_PASSWORD }}
-    - uses: oven-sh/setup-bun@v1
-      with:
-        bun-version: latest
+    - name: Build External Libraries
+      shell: bash
+      run: External/build-darwin.sh ${{ matrix.configuration['sdk-name'] }}
     - name: Build
       id: build
       uses: ./.github/actions/build-for-testing

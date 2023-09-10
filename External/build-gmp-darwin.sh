@@ -21,7 +21,7 @@ build() {
         CPP_FOR_BUILD="$CC_FOR_BUILD -E" \
         CFLAGS="-Wno-bitwise-conditional-parentheses -Wno-unused-value" || cat config.log
     
-    make -j $(sysctl hw.logicalcpu | awk '{print $2}')
+    make -j $(/usr/sbin/sysctl hw.logicalcpu | awk '{print $2}')
 
     SDK_DIR="${BUILD_DIR}/${SDK_NAME}"
     mkdir -p "${SDK_DIR}"

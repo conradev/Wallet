@@ -22,7 +22,7 @@
       "target" : {
         "containerPath" : "container:Wallet.xcodeproj",
         "identifier" : "D0271CD127D15778002FF5B1",
-        "name" : "AppTests (iOS)"
+        "name" : "AppTests"
       }
     }
   ],

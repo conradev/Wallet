@@ -1,6 +1,0 @@
-{
-    "name": "Wallet",
-    "image": "ghcr.io/conradev/wallet-dev:latest",
-    "onCreateCommand": "./gradlew assembleDebug assembleAndroidTest",
-    "updateContentCommand": "./gradlew assembleDebug assembleAndroidTest"
-}

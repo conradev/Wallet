@@ -11,16 +11,29 @@ runs:
   steps:
   - shell: bash
     run: |
+      security list-keychains -d user -s login.keychain Developer.keychain
+
+      if [[ ! -f "$HOME/Library/Keychains/Developer.keychain-db" ]]; then
+        security create-keychain -p "${{ inputs.password }}" Developer.keychain
+        security set-keychain-settings -lut 21600 Developer.keychain
+
+        for CERT_INDEX in {2..8}; do
+          CERT_FILE=AppleWWDRCAG${CERT_INDEX}.cer
+          curl --proto '=https' --tlsv1.2 -sSOf "https://www.apple.com/certificateauthority/$CERT_FILE"
+          security import $CERT_FILE -k Developer.keychain -f openssl
+          rm $CERT_FILE
+        done
+      fi
+
+      security unlock-keychain -p "${{ inputs.password }}" Developer.keychain
+
       echo -n "${{ inputs.certificate }}" | base64 -d > Developer.p12
-      security create-keychain -p password Developer.keychain
-      security set-keychain-settings -lut 21600 Developer.keychain
-      security unlock-keychain -p password Developer.keychain
       security import Developer.p12 \
         -k Developer.keychain \
         -f pkcs12 \
         -A \
         -T /usr/bin/codesign \
         -T /usr/bin/security \
-        -P ${{ inputs.password }}
-      security set-key-partition-list -S apple-tool:,apple: -k password Developer.keychain
-      security list-keychains -d user -s login.keychain Developer.keychain
+        -P "${{ inputs.password }}"
+
+      security set-key-partition-list -S apple-tool:,apple: -k "${{ inputs.password }}" Developer.keychain

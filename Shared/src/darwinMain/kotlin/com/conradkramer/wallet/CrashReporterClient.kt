@@ -26,6 +26,7 @@ import platform.posix.RTLD_DEFAULT
 import platform.posix.dladdr
 import platform.posix.dlsym
 
+@kotlin.experimental.ExperimentalNativeApi
 class CrashReporterClient {
     companion object {
         fun installHook() {

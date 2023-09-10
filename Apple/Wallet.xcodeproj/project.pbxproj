@@ -207,6 +207,13 @@
 			remoteGlobalIDString = D0BF415C2827447B001180E3;
 			remoteInfo = UICore;
 		};
+		D0E80A672AADA83B00BBEB89 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D072B0DE26D2520800DA1C47 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D072B0E926D2520900DA1C47;
+			remoteInfo = "App (macOS)";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -324,11 +331,11 @@
 		D00D378C27746D0B0050F5A4 /* CoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTests.swift; sourceTree = "<group>"; };
 		D01361E927E64A280039DFCB /* NavigationStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationStackView.swift; sourceTree = "<group>"; };
 		D0144F8E27FF9A2000224C62 /* NativeMessageHost.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NativeMessageHost.entitlements; sourceTree = "<group>"; };
-		D0271CD227D15778002FF5B1 /* AppTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AppTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0271CD227D15778002FF5B1 /* AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0271CD427D15778002FF5B1 /* AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTests.swift; sourceTree = "<group>"; };
 		D0271CEA27D15845002FF5B1 /* AppTests-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppTests-iOS.xcconfig"; sourceTree = "<group>"; };
 		D0271CED27D1591E002FF5B1 /* AppTests-macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppTests-macOS.xcconfig"; sourceTree = "<group>"; };
-		D0271CEE27D159A1002FF5B1 /* UITests-iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "UITests-iOS.xctestplan"; sourceTree = "<group>"; };
+		D0271CEE27D159A1002FF5B1 /* UITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UITests.xctestplan; sourceTree = "<group>"; };
 		D0271CEF27D159A1002FF5B1 /* UITests-macOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "UITests-macOS.xctestplan"; sourceTree = "<group>"; };
 		D0271CF027D159BE002FF5B1 /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
 		D0271CF727D1AD08002FF5B1 /* AppTests-macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AppTests-macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -378,7 +385,7 @@
 		D071F6B629C9249600ED0428 /* embed.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = embed.sh; sourceTree = "<group>"; };
 		D071F6B829C9292F00ED0428 /* embed.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = embed.sh; sourceTree = "<group>"; };
 		D071F6E329C9717800ED0428 /* PerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTests.swift; sourceTree = "<group>"; };
-		D071F6E629C971DE00ED0428 /* PerformanceTests-iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "PerformanceTests-iOS.xctestplan"; sourceTree = "<group>"; };
+		D071F6E629C971DE00ED0428 /* PerformanceTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = PerformanceTests.xctestplan; sourceTree = "<group>"; };
 		D072B0E426D2520800DA1C47 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		D072B0E526D2520900DA1C47 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D072B10526D252A700DA1C47 /* WebExtensionRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebExtensionRequestHandler.swift; sourceTree = "<group>"; };
@@ -555,8 +562,8 @@
 			isa = PBXGroup;
 			children = (
 				D0271CF027D159BE002FF5B1 /* UnitTests.xctestplan */,
-				D071F6E629C971DE00ED0428 /* PerformanceTests-iOS.xctestplan */,
-				D0271CEE27D159A1002FF5B1 /* UITests-iOS.xctestplan */,
+				D071F6E629C971DE00ED0428 /* PerformanceTests.xctestplan */,
+				D0271CEE27D159A1002FF5B1 /* UITests.xctestplan */,
 				D0271CEF27D159A1002FF5B1 /* UITests-macOS.xctestplan */,
 				D07C8D1226E1CC1F00D4D339 /* Identity.xcconfig */,
 				D07C8D1026E1C88C00D4D339 /* Compiler.xcconfig */,
@@ -737,7 +744,7 @@
 				D07F238E27595E1200E2C42C /* Wallet.app */,
 				D07F238F27595E1500E2C42C /* Wallet.app */,
 				D00D378127746CA40050F5A4 /* CoreTests.xctest */,
-				D0271CD227D15778002FF5B1 /* AppTests-iOS.xctest */,
+				D0271CD227D15778002FF5B1 /* AppTests.xctest */,
 				D0271CF727D1AD08002FF5B1 /* AppTests-macOS.xctest */,
 				D03AF5B127FD14AD002985D2 /* 87PW93R2ZR.com.conradkramer.wallet.viewservice.app */,
 				D0BF411B28274264001180E3 /* WalletCore.framework */,
@@ -789,9 +796,9 @@
 			productReference = D00D378127746CA40050F5A4 /* CoreTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		D0271CD127D15778002FF5B1 /* AppTests (iOS) */ = {
+		D0271CD127D15778002FF5B1 /* AppTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D0271CDC27D15778002FF5B1 /* Build configuration list for PBXNativeTarget "AppTests (iOS)" */;
+			buildConfigurationList = D0271CDC27D15778002FF5B1 /* Build configuration list for PBXNativeTarget "AppTests" */;
 			buildPhases = (
 				D0271CCE27D15778002FF5B1 /* Sources */,
 				D0271CCF27D15778002FF5B1 /* Frameworks */,
@@ -803,10 +810,11 @@
 			dependencies = (
 				D01529B42A41F328004A918C /* PBXTargetDependency */,
 				D0271CD927D15778002FF5B1 /* PBXTargetDependency */,
+				D0E80A682AADA83B00BBEB89 /* PBXTargetDependency */,
 			);
-			name = "AppTests (iOS)";
+			name = AppTests;
 			productName = AppTests;
-			productReference = D0271CD227D15778002FF5B1 /* AppTests-iOS.xctest */;
+			productReference = D0271CD227D15778002FF5B1 /* AppTests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		D0271CF627D1AD08002FF5B1 /* AppTests (macOS) */ = {
@@ -1080,7 +1088,7 @@
 			targets = (
 				D02D63FA2726932A0050BEA8 /* App */,
 				D072B0E926D2520900DA1C47 /* App (macOS) */,
-				D0271CD127D15778002FF5B1 /* AppTests (iOS) */,
+				D0271CD127D15778002FF5B1 /* AppTests */,
 				D0271CF627D1AD08002FF5B1 /* AppTests (macOS) */,
 				D072B10226D252A700DA1C47 /* WebExtension (iOS) */,
 				D02D638C272685450050BEA8 /* WebExtension (macOS) */,
@@ -1303,7 +1311,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/bin/env -i /bin/bash ../External/build-darwin.sh $PLATFORM_NAME\n";
+			shellScript = "/usr/bin/env -i DEVELOPER_DIR=\"$DEVELOPER_DIR\" /bin/bash ../External/build-darwin.sh $PLATFORM_NAME\n";
 			showEnvVarsInLog = 0;
 		};
 		D0BF4137282742E3001180E3 /* Compile Kotlin */ = {
@@ -1609,6 +1617,11 @@
 			target = D0BF415C2827447B001180E3 /* UICore */;
 			targetProxy = D0BF418C28274703001180E3 /* PBXContainerItemProxy */;
 		};
+		D0E80A682AADA83B00BBEB89 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D072B0E926D2520900DA1C47 /* App (macOS) */;
+			targetProxy = D0E80A672AADA83B00BBEB89 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1811,7 +1824,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0271CDC27D15778002FF5B1 /* Build configuration list for PBXNativeTarget "AppTests (iOS)" */ = {
+		D0271CDC27D15778002FF5B1 /* Build configuration list for PBXNativeTarget "AppTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0271CDA27D15778002FF5B1 /* Debug */,

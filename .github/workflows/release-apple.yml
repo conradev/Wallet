@@ -20,9 +20,9 @@ jobs:
           destination: generic/platform=macOS
           platform: macOS
           method: mac-application
-          artifact-file: Wallet.app.txz
+          artifact-file: Apple/Wallet.app.aar
     env:
-      DEVELOPER_DIR: /Applications/Xcode_14.3.1.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_15.0.app/Contents/Developer
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -32,8 +32,11 @@ jobs:
     - uses: actions/setup-java@v3
       with:
         distribution: temurin
-        java-version: '19'
+        java-version: '20'
         cache: gradle
+    - uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: latest
     - name: Cache Kotlin Native Compiler
       uses: actions/cache@v3
       with:
@@ -44,9 +47,9 @@ jobs:
       with:
         certificate: ${{ secrets.DEVELOPER_CERT }}
         password: ${{ secrets.DEVELOPER_CERT_PASSWORD }}
-    - uses: oven-sh/setup-bun@v1
-      with:
-        bun-version: latest
+    - name: Build External Libraries
+      shell: bash
+      run: External/build-darwin.sh ${{ matrix.configuration['sdk-name'] }}
     - name: Archive
       uses: ./.github/actions/archive
       with:
@@ -56,22 +59,17 @@ jobs:
         app-store-key-id: ${{ secrets.APPSTORE_KEY_ID }}
         app-store-key-issuer-id: ${{ secrets.APPSTORE_KEY_ISSUER_ID }}
         archive-path: Wallet.xcarchive
-    - name: Export Locally
-      uses: ./.github/actions/export
+    - name: Notarize
+      if: ${{ matrix.configuration['platform'] == 'macOS' }}
+      uses: ./.github/actions/notarize
       with:
-        method: ${{ matrix.configuration['method'] }}
-        destination: export
         app-store-key: ${{ secrets.APPSTORE_KEY }}
         app-store-key-id: ${{ secrets.APPSTORE_KEY_ID }}
         app-store-key-issuer-id: ${{ secrets.APPSTORE_KEY_ISSUER_ID }}
         archive-path: Wallet.xcarchive
-        export-path: Release
-    - name: Compress
-      if: ${{ matrix.configuration['platform'] == 'macOS' }}
-      shell: bash
-      run: tar --options xz:compression-level=9 -C Apple/Release -cJf Wallet.app.txz ./
+        product-name: Wallet.app
     - name: Attach Artifact
-      uses: SierraSoftworks/gh-releases@v1.0.6
+      uses: SierraSoftworks/gh-releases@v1.0.7
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         overwrite: 'false'

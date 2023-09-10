@@ -16,7 +16,7 @@ jobs:
     - uses: actions/setup-java@v3
       with:
         distribution: temurin
-        java-version: '19'
+        java-version: '20'
         cache: gradle
     - name: Prepare Key
       run: |
@@ -31,7 +31,7 @@ jobs:
         ./gradlew assembleRelease
         mv Android/build/outputs/apk/release/Android-release.apk Wallet.apk
     - name: Attach Artifact
-      uses: SierraSoftworks/gh-releases@v1.0.6
+      uses: SierraSoftworks/gh-releases@v1.0.7
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         overwrite: 'false'

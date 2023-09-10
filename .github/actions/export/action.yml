@@ -24,8 +24,7 @@ inputs:
 runs:
   using: composite
   steps:
-  - id: notarize
-    shell: bash
+  - shell: bash
     working-directory: Apple
     run: |
       echo "${{ inputs.app-store-key }}" > AuthKey_${{ inputs.app-store-key-id }}.p8
