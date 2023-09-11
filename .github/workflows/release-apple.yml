@@ -12,14 +12,16 @@ jobs:
       matrix:
         configuration:
         - scheme: App
-          destination: generic/platform=iOS
+          build-destination: generic/platform=iOS
           platform: iOS
           method: ad-hoc
+          export-destination: export
           artifact-file: Apple/Release/Wallet.ipa
         - scheme: App (macOS)
-          destination: generic/platform=macOS
+          build-destination: generic/platform=macOS
           platform: macOS
-          method: mac-application
+          method: developer-id
+          export-destination: upload
           artifact-file: Apple/Wallet.app.aar
     env:
       DEVELOPER_DIR: /Applications/Xcode_15.0.app/Contents/Developer
@@ -45,8 +47,8 @@ jobs:
     - name: Import Certificate
       uses: ./.github/actions/import-cert
       with:
-        certificate: ${{ secrets.DEVELOPER_CERT }}
-        password: ${{ secrets.DEVELOPER_CERT_PASSWORD }}
+        certificate: ${{ secrets.DEVELOPER_ID_CERT }}
+        password: ${{ secrets.DEVELOPER_ID_CERT_PASSWORD }}
     - name: Build External Libraries
       shell: bash
       run: External/build-darwin.sh ${{ matrix.configuration['sdk-name'] }}
@@ -54,11 +56,21 @@ jobs:
       uses: ./.github/actions/archive
       with:
         scheme: ${{ matrix.configuration['scheme'] }}
-        destination: ${{ matrix.configuration['destination'] }}
+        destination: ${{ matrix.configuration['build-destination'] }}
         app-store-key: ${{ secrets.APPSTORE_KEY }}
         app-store-key-id: ${{ secrets.APPSTORE_KEY_ID }}
         app-store-key-issuer-id: ${{ secrets.APPSTORE_KEY_ISSUER_ID }}
         archive-path: Wallet.xcarchive
+    - name: Export
+      uses: ./.github/actions/export
+      with:
+        method: ${{ matrix.configuration['method'] }}
+        destination: ${{ matrix.configuration['export-destination'] }}
+        app-store-key: ${{ secrets.APPSTORE_KEY }}
+        app-store-key-id: ${{ secrets.APPSTORE_KEY_ID }}
+        app-store-key-issuer-id: ${{ secrets.APPSTORE_KEY_ISSUER_ID }}
+        archive-path: Wallet.xcarchive
+        export-path: Release
     - name: Notarize
       if: ${{ matrix.configuration['platform'] == 'macOS' }}
       uses: ./.github/actions/notarize

@@ -23,7 +23,7 @@ runs:
     run: |
       echo "${{ inputs.app-store-key }}" > AuthKey_${{ inputs.app-store-key-id }}.p8
 
-      xcodebuild clean build-for-testing \
+      xcodebuild build-for-testing \
         -allowProvisioningUpdates \
         -allowProvisioningDeviceRegistration \
         -authenticationKeyID ${{ inputs.app-store-key-id }} \
