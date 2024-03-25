@@ -26,11 +26,12 @@ runs:
       xcodebuild build-for-testing \
         -allowProvisioningUpdates \
         -allowProvisioningDeviceRegistration \
+        -skipPackagePluginValidation \
+        -skipMacroValidation \
+        -onlyUsePackageVersionsFromResolvedFile \
         -authenticationKeyID ${{ inputs.app-store-key-id }} \
         -authenticationKeyIssuerID ${{ inputs.app-store-key-issuer-id }} \
         -authenticationKeyPath "${PWD}/AuthKey_${{ inputs.app-store-key-id }}.p8" \
-        -onlyUsePackageVersionsFromResolvedFile \
-        -skipPackagePluginValidation \
         -scheme '${{ inputs.scheme }}' \
         -destination '${{ inputs.destination }}' \
         -resultBundlePath BuildResults.xcresult

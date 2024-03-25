@@ -8,18 +8,18 @@ on:
     - "*"
 jobs:
   build:
-    name: Build (${{ matrix.configuration['platform'] }})
+    name: Build (${{ matrix.platform }})
     runs-on: macos-13
     strategy:
       fail-fast: false
       matrix:
-        configuration:
+        include:
         - scheme: App
           destination: generic/platform=iOS
           platform: iOS
           sdk-name: iphoneos
         - scheme: App
-          destination: platform=iOS Simulator,OS=17.0,name=iPhone 14 Pro
+          destination: platform=iOS Simulator,OS=17.2,name=iPhone 14 Pro
           platform: iOS Simulator
           sdk-name: iphonesimulator
           xcode-unit-test: UnitTests
@@ -33,7 +33,7 @@ jobs:
           xcode-ui-test: UITests-macOS
           gradle-test: macosX64Test
     env:
-      DEVELOPER_DIR: /Applications/Xcode_15.0.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_15.2.app/Contents/Developer
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -60,44 +60,44 @@ jobs:
         password: ${{ secrets.DEVELOPER_CERT_PASSWORD }}
     - name: Build External Libraries
       shell: bash
-      run: External/build-darwin.sh ${{ matrix.configuration['sdk-name'] }}
+      run: External/build-darwin.sh ${{ matrix.sdk-name }}
     - name: Build
       id: build
       uses: ./.github/actions/build-for-testing
       with:
-        scheme: ${{ matrix.configuration['scheme'] }}
-        destination: ${{ matrix.configuration['destination'] }}
+        scheme: ${{ matrix.scheme }}
+        destination: ${{ matrix.destination }}
         app-store-key: ${{ secrets.APPSTORE_KEY }}
         app-store-key-id: ${{ secrets.APPSTORE_KEY_ID }}
         app-store-key-issuer-id: ${{ secrets.APPSTORE_KEY_ISSUER_ID }}
     - name: Xcode Unit Test
-      if: ${{ matrix.configuration['xcode-unit-test'] != '' }}
+      if: ${{ matrix.xcode-unit-test != '' }}
       continue-on-error: true
       uses: ./.github/actions/test-without-building
       with:
-        scheme: ${{ matrix.configuration['scheme'] }}
-        destination: ${{ matrix.configuration['destination'] }}
-        test-plan: ${{ matrix.configuration['xcode-unit-test'] }}
-        artifact-prefix: unit-tests-${{ matrix.configuration['sdk-name'] }}
-        check-name: Xcode Unit Tests (${{ matrix.configuration['platform'] }})
+        scheme: ${{ matrix.scheme }}
+        destination: ${{ matrix.destination }}
+        test-plan: ${{ matrix.xcode-unit-test }}
+        artifact-prefix: unit-tests-${{ matrix.sdk-name }}
+        check-name: Xcode Unit Tests (${{ matrix.platform }})
     - name: Build Kotlin Tests
-      if: ${{ matrix.configuration['gradle-test'] != '' }}
+      if: ${{ matrix.gradle-test != '' }}
       shell: bash
-      run: ./gradlew :Shared:${{ matrix.configuration['gradle-test'] }}Klibrary
+      run: ./gradlew :Shared:${{ matrix.gradle-test }}Klibrary
     - name: Kotlin Unit Test
-      if: ${{ matrix.configuration['gradle-test'] != '' }}
+      if: ${{ matrix.gradle-test != '' }}
       continue-on-error: true
       uses: ./.github/actions/gradle-test
       with:
-        task: :Shared:${{ matrix.configuration['gradle-test'] }}
-        check-name: Kotlin Tests (${{ matrix.configuration['platform'] }})
+        task: :Shared:${{ matrix.gradle-test }}
+        check-name: Kotlin Tests (${{ matrix.platform }})
     - name: Xcode UI Test
-      if: ${{ matrix.configuration['xcode-ui-test'] != '' }}
+      if: ${{ matrix.xcode-ui-test != '' }}
       continue-on-error: true
       uses: ./.github/actions/test-without-building
       with:
-        scheme: ${{ matrix.configuration['scheme'] }}
-        destination: ${{ matrix.configuration['destination'] }}
-        test-plan: ${{ matrix.configuration['xcode-ui-test'] }}
-        artifact-prefix: ui-tests-${{ matrix.configuration['sdk-name'] }}
-        check-name: Xcode UI Tests (${{ matrix.configuration['platform'] }})
+        scheme: ${{ matrix.scheme }}
+        destination: ${{ matrix.destination }}
+        test-plan: ${{ matrix.xcode-ui-test }}
+        artifact-prefix: ui-tests-${{ matrix.sdk-name }}
+        check-name: Xcode UI Tests (${{ matrix.platform }})

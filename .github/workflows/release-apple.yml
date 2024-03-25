@@ -5,26 +5,22 @@ on:
     - created
 jobs:
   build:
-    name: Build ${{ matrix.configuration['platform'] }} Release
+    name: Build ${{ matrix.platform }} Release
     runs-on: macos-13
     strategy:
       fail-fast: false
       matrix:
-        configuration:
+        include:
         - scheme: App
           build-destination: generic/platform=iOS
           platform: iOS
-          method: ad-hoc
-          export-destination: export
           artifact-file: Apple/Release/Wallet.ipa
         - scheme: App (macOS)
           build-destination: generic/platform=macOS
           platform: macOS
-          method: developer-id
-          export-destination: upload
           artifact-file: Apple/Wallet.app.aar
     env:
-      DEVELOPER_DIR: /Applications/Xcode_15.0.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_15.2.app/Contents/Developer
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -47,32 +43,33 @@ jobs:
     - name: Import Certificate
       uses: ./.github/actions/import-cert
       with:
-        certificate: ${{ secrets.DEVELOPER_ID_CERT }}
-        password: ${{ secrets.DEVELOPER_ID_CERT_PASSWORD }}
+        certificate: ${{ secrets.DEVELOPER_CERT }}
+        password: ${{ secrets.DEVELOPER_CERT_PASSWORD }}
     - name: Build External Libraries
       shell: bash
-      run: External/build-darwin.sh ${{ matrix.configuration['sdk-name'] }}
+      run: External/build-darwin.sh ${{ matrix.sdk-name }}
     - name: Archive
       uses: ./.github/actions/archive
       with:
-        scheme: ${{ matrix.configuration['scheme'] }}
-        destination: ${{ matrix.configuration['build-destination'] }}
+        scheme: ${{ matrix.scheme }}
+        destination: ${{ matrix.build-destination }}
         app-store-key: ${{ secrets.APPSTORE_KEY }}
         app-store-key-id: ${{ secrets.APPSTORE_KEY_ID }}
         app-store-key-issuer-id: ${{ secrets.APPSTORE_KEY_ISSUER_ID }}
         archive-path: Wallet.xcarchive
     - name: Export
+      if: ${{ matrix.platform == 'iOS' }}
       uses: ./.github/actions/export
       with:
-        method: ${{ matrix.configuration['method'] }}
-        destination: ${{ matrix.configuration['export-destination'] }}
+        method: ad-hoc
+        destination: export
         app-store-key: ${{ secrets.APPSTORE_KEY }}
         app-store-key-id: ${{ secrets.APPSTORE_KEY_ID }}
         app-store-key-issuer-id: ${{ secrets.APPSTORE_KEY_ISSUER_ID }}
         archive-path: Wallet.xcarchive
         export-path: Release
     - name: Notarize
-      if: ${{ matrix.configuration['platform'] == 'macOS' }}
+      if: ${{ matrix.platform == 'macOS' }}
       uses: ./.github/actions/notarize
       with:
         app-store-key: ${{ secrets.APPSTORE_KEY }}
@@ -84,5 +81,6 @@ jobs:
       uses: SierraSoftworks/gh-releases@v1.0.7
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        release_tag: ${{ github.ref_name }}
         overwrite: 'false'
-        files: ${{ matrix.configuration['artifact-file'] }}
+        files: ${{ matrix.artifact-file }}
