@@ -17,15 +17,15 @@ import com.conradkramer.wallet.viewmodel.OnboardingViewModel.Screen
 import com.conradkramer.wallet.viewmodel.WelcomeViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import org.koin.androidx.compose.get
+import org.koin.compose.koinInject
 import org.koin.core.scope.Scope
 
 @Composable
 fun OnboardingView(scope: Scope) {
     val navController = rememberNavController()
-    val onboardingViewModel: OnboardingViewModel = get(scope = scope)
-    val welcomeViewModel: WelcomeViewModel = get(scope = scope)
-    val importViewModel: ImportViewModel = get(scope = scope)
+    val onboardingViewModel: OnboardingViewModel = koinInject(scope = scope)
+    val welcomeViewModel: WelcomeViewModel = koinInject(scope = scope)
+    val importViewModel: ImportViewModel = koinInject(scope = scope)
 
     LaunchedEffect(true) {
         onboardingViewModel.bind(navController)

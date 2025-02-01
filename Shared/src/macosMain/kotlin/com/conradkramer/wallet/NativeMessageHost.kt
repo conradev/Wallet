@@ -1,7 +1,10 @@
+@file:OptIn(ExperimentalForeignApi::class)
+
 package com.conradkramer.wallet
 
 import com.conradkramer.wallet.encoding.toByteArray
 import com.conradkramer.wallet.encoding.toUInt
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.convert
 import kotlinx.cinterop.usePinned

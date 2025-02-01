@@ -788,7 +788,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D01529C42A41F34A004A918C /* PBXTargetDependency */,
 				D0BF415A282743E9001180E3 /* PBXTargetDependency */,
 			);
 			name = CoreTests;
@@ -808,7 +807,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D01529B42A41F328004A918C /* PBXTargetDependency */,
 				D0271CD927D15778002FF5B1 /* PBXTargetDependency */,
 				D0E80A682AADA83B00BBEB89 /* PBXTargetDependency */,
 			);
@@ -829,7 +827,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D01529B62A41F32B004A918C /* PBXTargetDependency */,
 				D0271CFE27D1AD08002FF5B1 /* PBXTargetDependency */,
 			);
 			name = "AppTests (macOS)";
@@ -848,7 +845,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D01529BA2A41F331004A918C /* PBXTargetDependency */,
 				D0BF4151282743AF001180E3 /* PBXTargetDependency */,
 			);
 			name = "WebExtension (macOS)";
@@ -872,7 +868,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D01529B02A41F320004A918C /* PBXTargetDependency */,
 				D0BF418D28274703001180E3 /* PBXTargetDependency */,
 				D028F287281CDB3E0042C687 /* PBXTargetDependency */,
 				D02D6412272696670050BEA8 /* PBXTargetDependency */,
@@ -895,7 +890,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D01529BE2A41F33E004A918C /* PBXTargetDependency */,
 				D032D840282993440000CE6B /* PBXTargetDependency */,
 			);
 			name = WebViewService;
@@ -915,7 +909,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D01529BC2A41F333004A918C /* PBXTargetDependency */,
 				D0BF4154282743C2001180E3 /* PBXTargetDependency */,
 			);
 			name = NativeMessageHost;
@@ -941,7 +934,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D01529B22A41F325004A918C /* PBXTargetDependency */,
 				D0BF418B282746F9001180E3 /* PBXTargetDependency */,
 				D028F28B281CDB490042C687 /* PBXTargetDependency */,
 				D03AF5C427FD1B92002985D2 /* PBXTargetDependency */,
@@ -966,7 +958,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D01529B82A41F32E004A918C /* PBXTargetDependency */,
 				D0BF414E2827439D001180E3 /* PBXTargetDependency */,
 			);
 			name = "WebExtension (iOS)";
@@ -989,7 +980,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D01529C22A41F346004A918C /* PBXTargetDependency */,
 				D0BF414328274321001180E3 /* PBXTargetDependency */,
 				D0BF414528274321001180E3 /* PBXTargetDependency */,
 				D0BF414728274321001180E3 /* PBXTargetDependency */,
@@ -1015,7 +1005,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D01529C02A41F342004A918C /* PBXTargetDependency */,
 				D0BF4183282744EF001180E3 /* PBXTargetDependency */,
 			);
 			name = UICore;
@@ -1080,7 +1069,6 @@
 			packageReferences = (
 				D031A7FA27DBFC710009C6BF /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */,
 				D078248927FF90C0006736D4 /* XCRemoteSwiftPackageReference "DictionaryCoding" */,
-				D01529AE2A41F318004A918C /* XCRemoteSwiftPackageReference "SwiftLint" */,
 			);
 			productRefGroup = D09C9E6F27595CC000BA3DA9 /* Products */;
 			projectDirPath = "";
@@ -1483,50 +1471,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		D01529B02A41F320004A918C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = D01529AF2A41F320004A918C /* SwiftLintPlugin */;
-		};
-		D01529B22A41F325004A918C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = D01529B12A41F325004A918C /* SwiftLintPlugin */;
-		};
-		D01529B42A41F328004A918C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = D01529B32A41F328004A918C /* SwiftLintPlugin */;
-		};
-		D01529B62A41F32B004A918C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = D01529B52A41F32B004A918C /* SwiftLintPlugin */;
-		};
-		D01529B82A41F32E004A918C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = D01529B72A41F32E004A918C /* SwiftLintPlugin */;
-		};
-		D01529BA2A41F331004A918C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = D01529B92A41F331004A918C /* SwiftLintPlugin */;
-		};
-		D01529BC2A41F333004A918C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = D01529BB2A41F333004A918C /* SwiftLintPlugin */;
-		};
-		D01529BE2A41F33E004A918C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = D01529BD2A41F33E004A918C /* SwiftLintPlugin */;
-		};
-		D01529C02A41F342004A918C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = D01529BF2A41F342004A918C /* SwiftLintPlugin */;
-		};
-		D01529C22A41F346004A918C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = D01529C12A41F346004A918C /* SwiftLintPlugin */;
-		};
-		D01529C42A41F34A004A918C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = D01529C32A41F34A004A918C /* SwiftLintPlugin */;
-		};
 		D0271CD927D15778002FF5B1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D02D63FA2726932A0050BEA8 /* App */;
@@ -1926,14 +1870,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		D01529AE2A41F318004A918C /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/SwiftLint.git";
-			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 0.52.2;
-			};
-		};
 		D031A7FA27DBFC710009C6BF /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rickclephas/KMP-NativeCoroutines.git";
@@ -1953,61 +1889,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D01529AF2A41F320004A918C /* SwiftLintPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D01529AE2A41F318004A918C /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = "plugin:SwiftLintPlugin";
-		};
-		D01529B12A41F325004A918C /* SwiftLintPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D01529AE2A41F318004A918C /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = "plugin:SwiftLintPlugin";
-		};
-		D01529B32A41F328004A918C /* SwiftLintPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D01529AE2A41F318004A918C /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = "plugin:SwiftLintPlugin";
-		};
-		D01529B52A41F32B004A918C /* SwiftLintPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D01529AE2A41F318004A918C /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = "plugin:SwiftLintPlugin";
-		};
-		D01529B72A41F32E004A918C /* SwiftLintPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D01529AE2A41F318004A918C /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = "plugin:SwiftLintPlugin";
-		};
-		D01529B92A41F331004A918C /* SwiftLintPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D01529AE2A41F318004A918C /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = "plugin:SwiftLintPlugin";
-		};
-		D01529BB2A41F333004A918C /* SwiftLintPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D01529AE2A41F318004A918C /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = "plugin:SwiftLintPlugin";
-		};
-		D01529BD2A41F33E004A918C /* SwiftLintPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D01529AE2A41F318004A918C /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = "plugin:SwiftLintPlugin";
-		};
-		D01529BF2A41F342004A918C /* SwiftLintPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D01529AE2A41F318004A918C /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = "plugin:SwiftLintPlugin";
-		};
-		D01529C12A41F346004A918C /* SwiftLintPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D01529AE2A41F318004A918C /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = "plugin:SwiftLintPlugin";
-		};
-		D01529C32A41F34A004A918C /* SwiftLintPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D01529AE2A41F318004A918C /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = "plugin:SwiftLintPlugin";
-		};
 		D028F286281CDB3E0042C687 /* DictionaryCoding */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D078248927FF90C0006736D4 /* XCRemoteSwiftPackageReference "DictionaryCoding" */;

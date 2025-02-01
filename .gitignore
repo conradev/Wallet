@@ -5,6 +5,7 @@ xcuserdata
 xcuserdata
 
 # Kotlin
+.kotlin
 *.iml
 .gradle
 /local.properties

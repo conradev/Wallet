@@ -1,7 +1,10 @@
+@file:OptIn(ExperimentalForeignApi::class)
+
 package com.conradkramer.wallet.crypto
 
 import com.conradkramer.wallet.autorelease
 import com.conradkramer.wallet.toKotlinString
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.convert
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.refTo

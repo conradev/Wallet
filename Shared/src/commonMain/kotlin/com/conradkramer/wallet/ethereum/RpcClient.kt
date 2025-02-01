@@ -10,6 +10,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.logging.LoggingConfig
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
@@ -69,6 +70,6 @@ internal class RpcClient(
     }
 }
 
-internal fun Logging.Config.klogger(klogger: KLogger) {
+internal fun LoggingConfig.klogger(klogger: KLogger) {
     logger = object : Logger { override fun log(message: String) = klogger.info { message } }
 }

@@ -28,7 +28,7 @@ internal class AccountTransactionIndexer(
             .lastIndexedBlockForAccount(chain, address)
             .executeAsOne()
             .block
-            ?.let { BlockSpecifier.fromNumber(it + 1) }
+            ?.let { BlockSpecifier.fromNumber(it.toLong() + 1) }
 
         logger.info { "Enumerating transactions for $address from block ${fromBlock ?: "0"}" }
 

@@ -19,7 +19,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,8 +32,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.conradkramer.wallet.viewmodel.BalancesViewModel
 import com.conradkramer.wallet.viewmodel.MainViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import org.koin.androidx.compose.get
+import org.koin.compose.koinInject
 import kotlin.math.ln
 
 @Composable
@@ -45,15 +43,9 @@ fun MainView(mainViewModel: MainViewModel) {
         mainViewModel.bind(navController)
     }
 
-    val systemUiController = rememberSystemUiController()
     val colorScheme = MaterialTheme.colorScheme
-    SideEffect {
-        systemUiController.setStatusBarColor(colorScheme.surface)
-        systemUiController.setNavigationBarColor(colorScheme.surfaceColorAtElevation(3.0.dp))
-    }
-
     val currentTab = mainViewModel.selectedTab.collectAsState()
-    val balancesViewModel: BalancesViewModel = get()
+    val balancesViewModel: BalancesViewModel = koinInject()
     Scaffold(
         modifier = Modifier
             .systemBarsPadding(),

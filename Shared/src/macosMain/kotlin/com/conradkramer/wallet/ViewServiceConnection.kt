@@ -1,8 +1,11 @@
+@file:OptIn(ExperimentalForeignApi::class)
+
 package com.conradkramer.wallet
 
 import com.conradkramer.wallet.browser.message.Message
 import io.github.oshai.kotlinlogging.KLogger
 import io.ktor.utils.io.core.toByteArray
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import platform.Foundation.NSData
@@ -16,7 +19,7 @@ import platform.darwin.xpc_connection_set_event_handler
 import platform.darwin.xpc_connection_t
 import platform.darwin.xpc_get_type
 import platform.darwin.xpc_object_t
-import kotlin.native.concurrent.AtomicReference
+import kotlin.concurrent.AtomicReference
 
 class ViewServiceConnection(machService: String, private val logger: KLogger) {
     private class XPCConnection(val machService: String, val handler: (xpc_object_t) -> Unit) {

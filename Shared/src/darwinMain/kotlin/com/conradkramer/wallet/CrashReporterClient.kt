@@ -3,6 +3,7 @@ package com.conradkramer.wallet
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.COpaquePointer
 import kotlinx.cinterop.CPointer
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.NativePtr
 import kotlinx.cinterop.ULongVar
 import kotlinx.cinterop.alloc
@@ -25,6 +26,7 @@ import platform.posix.Dl_info
 import platform.posix.RTLD_DEFAULT
 import platform.posix.dladdr
 import platform.posix.dlsym
+import kotlin.experimental.ExperimentalNativeApi
 
 @kotlin.experimental.ExperimentalNativeApi
 class CrashReporterClient {
@@ -39,6 +41,7 @@ class CrashReporterClient {
     }
 }
 
+@OptIn(ExperimentalForeignApi::class)
 private data class Image(val base: NativePtr) {
     private data class Header(
         val offset: NativePtr,
@@ -151,6 +154,7 @@ private data class Image(val base: NativePtr) {
      *     uint64_t abort_cause;
      * };
      */
+    @OptIn(ExperimentalNativeApi::class)
     fun write(throwable: Throwable) {
         val offset = NativePtr.NULL + crashInfo.toLong() + (-first.toLong()) + header.offset.toLong()
         val struct = interpretCPointer<ULongVar>(offset)!!
@@ -197,6 +201,7 @@ private data class Image(val base: NativePtr) {
     }
 }
 
+@OptIn(ExperimentalForeignApi::class)
 private fun String.getPointer(): CPointer<ByteVar> {
     return cstr.place(interpretCPointer(nativeHeap.alloc(cstr.size, cstr.align).rawPtr)!!)
 }

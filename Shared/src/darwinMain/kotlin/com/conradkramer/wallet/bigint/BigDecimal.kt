@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalForeignApi::class)
+
 package com.conradkramer.wallet.bigint
 
 import gmp.__mpf_struct
@@ -9,6 +11,7 @@ import gmp.mpf_init
 import gmp.mpf_mul
 import gmp.mpf_set_d
 import gmp.mpz_set_f
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.invoke
 import kotlinx.cinterop.nativeHeap

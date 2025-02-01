@@ -1,5 +1,6 @@
 package com.conradkramer.wallet
 
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.IntVar
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.memScoped
@@ -14,6 +15,7 @@ import platform.darwin.notify_post
 import platform.darwin.notify_register_dispatch
 import platform.posix.QOS_CLASS_USER_INTERACTIVE
 
+@OptIn(ExperimentalForeignApi::class)
 actual class CrossProcessNotifier {
     actual fun notify(topic: String) {
         notify_post(topic)

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalForeignApi::class)
+
 package com.conradkramer.wallet.bigint
 
 import com.conradkramer.wallet.encoding.RLP
@@ -16,6 +18,7 @@ import gmp.mpz_init
 import gmp.mpz_set_si
 import gmp.mpz_set_ui
 import gmp.mpz_sizeinbase
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.convert

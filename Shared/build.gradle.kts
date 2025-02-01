@@ -1,4 +1,8 @@
+import app.cash.sqldelight.core.capitalize
+import com.android.build.gradle.internal.scope.ProjectInfo.Companion.getBaseName
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jmailen.gradle.kotlinter.tasks.FormatTask
 import org.jmailen.gradle.kotlinter.tasks.LintTask
 
@@ -13,11 +17,11 @@ plugins {
 }
 
 kotlin {
+    jvmToolchain(libs.versions.java.get().toInt())
+
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = libs.versions.java.get()
-            }
+        compilerOptions {
+            jvmTarget = JvmTarget.fromTarget(libs.versions.java.get())
         }
     }
 
@@ -25,18 +29,20 @@ kotlin {
         all {
             languageSettings.apply {
                 optIn("kotlin.experimental.ExperimentalObjCName")
-                optIn("kotlinx.cinterop.ExperimentalForeignApi")
+                optIn("kotlin.experimental.ExperimentalForeignApi")
             }
         }
 
         val commonMain by getting {
             dependencies {
-                implementation(libs.bundles.koin)
+                implementation(libs.koin.core)
+                api(libs.koin.annotations)
                 implementation(libs.bundles.kotlinx)
                 implementation(libs.bundles.ktor)
                 implementation(libs.sqldelight.coroutines)
                 implementation(libs.kotlin.logging)
             }
+            kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
         }
         val commonTest by getting {
             dependencies {
@@ -111,10 +117,6 @@ kotlin {
             }
         }
         nativeTargets.forEach {
-            getByName("${it.targetName}Main") {
-
-            }
-
             it.compilations.getByName("main") {
                 cinterops {
                     val gmp by creating
@@ -122,14 +124,10 @@ kotlin {
                     val secp256k1 by creating
                     val xkcp by creating
                 }
-                kotlinOptions {
-                    freeCompilerArgs = freeCompilerArgs + listOf("-linker-option", "-application_extension")
-                }
             }
             it.binaries {
                 framework {
                     baseName = "Shared"
-                    embedBitcode(BitcodeEmbeddingMode.DISABLE)
                 }
             }
         }
@@ -137,7 +135,7 @@ kotlin {
 }
 
 android {
-    compileSdk = 34
+    compileSdk = 35
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 28
@@ -160,8 +158,14 @@ sqldelight {
 }
 
 dependencies {
-    listOf("kspMacosX64", "kspMacosArm64", "kspIosArm64", "kspIosX64", "kspIosSimulatorArm64", "kspAndroid")
-        .forEach { add(it, libs.koin.compiler) }
+    listOf("kspMacosX64", "kspMacosArm64", "kspIosArm64", "kspIosX64", "kspIosSimulatorArm64", "kspAndroid", "kspCommonMainMetadata")
+        .forEach { add(it, libs.koin.ksp) }
+}
+
+project.tasks.withType(KotlinCompilationTask::class.java).configureEach {
+    if(name != "kspCommonMainKotlinMetadata") {
+        dependsOn("kspCommonMainKotlinMetadata")
+    }
 }
 
 tasks.withType<LintTask> {

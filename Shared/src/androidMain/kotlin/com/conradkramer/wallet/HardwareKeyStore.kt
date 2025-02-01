@@ -2,6 +2,7 @@ package com.conradkramer.wallet
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import androidx.biometric.BiometricManager
@@ -34,14 +35,14 @@ internal actual class HardwareKeyStore(context: Context) : KeyStore<Authenticati
     override fun generate(id: String) {
         val purposes = KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
         val keyPairGenerator = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, ANDROID_KEYSTORE)
-        keyPairGenerator.initialize(
-            KeyGenParameterSpec.Builder(id, purposes)
-                .setDigests(KeyProperties.DIGEST_SHA256)
-                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
-                .setUserAuthenticationRequired(true)
-                .setIsStrongBoxBacked(hasStrongBox)
-                .build(),
-        )
+        val builder = KeyGenParameterSpec.Builder(id, purposes)
+            .setDigests(KeyProperties.DIGEST_SHA256)
+            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
+            .setUserAuthenticationRequired(true)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            builder.setDevicePropertiesAttestationIncluded(false)
+        }
+        keyPairGenerator.initialize(builder.build())
         keyPairGenerator.generateKeyPair()
     }
 

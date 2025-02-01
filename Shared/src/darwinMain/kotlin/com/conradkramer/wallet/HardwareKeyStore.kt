@@ -1,8 +1,11 @@
+@file:OptIn(ExperimentalForeignApi::class)
+
 package com.conradkramer.wallet
 
 import io.github.oshai.kotlinlogging.KLogger
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.cinterop.CPointer
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.MemScope
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.convert
@@ -311,7 +314,6 @@ internal actual data class HardwareKeyStore(
 
 actual class AuthenticationContext(actual val id: String, val context: LAContext) {
     actual constructor(id: String) : this(id, LAContext())
-
     val policy = if (context.canEvaluatePolicy(LAPolicyDeviceOwnerAuthenticationWithBiometrics, null)) {
         LAPolicyDeviceOwnerAuthenticationWithBiometrics
     } else {
@@ -320,6 +322,7 @@ actual class AuthenticationContext(actual val id: String, val context: LAContext
 
     val biometricsAvailable = (policy == LAPolicyDeviceOwnerAuthenticationWithBiometrics)
 }
+
 
 fun <T : CPointer<U>, U> MemScope.autorelease(value: T): T {
     defer { CFRelease(value as CFTypeRef) }

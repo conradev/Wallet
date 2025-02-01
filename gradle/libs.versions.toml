@@ -1,42 +1,38 @@
 [versions]
-accompanist = "0.32.0"
-android = "8.1.1"
-androidx-appcompat = "1.6.1"
-androidx-biometric = "1.2.0-alpha05"
-androidx-activity = "1.7.2"
-androidx-navigation = "2.7.2"
-bouncycastle = "1.76"
-compose-animation = "1.5.1"
-compose-compiler = "1.5.3"
-compose-foundation = "1.5.1"
-compose-material = "1.5.1"
-compose-material3 = "1.1.1"
-compose-runtime = "1.5.1"
-compose-ui = "1.5.1"
-material = "1.9.0"
+android = "8.8.0"
+androidx-appcompat = "1.7.0"
+androidx-biometric = "1.4.0-alpha02"
+androidx-activity = "1.10.0"
+androidx-navigation = "2.8.6"
+bouncycastle = "1.80"
+compose-foundation = "1.7.7"
+compose-material3 = "1.3.1"
+compose-ui = "1.7.7"
+material = "1.12.0"
 dbtools-room = "7.0.1"
-java = "20"
-koin = "3.4.3"
-koin-annotations = "1.2.2"
-kotlin = "1.9.10"
-kotlin-logging = "5.1.0"
-kotlinx-coroutines = "1.7.3"
-kotlinx-datetime = "0.4.1"
-kotlinx-serialization = "1.6.0"
-kotlinter = "3.16.0"
-ksp = "1.9.10-1.0.13"
-ktor = "2.3.4"
-sqldelight = "2.0.0"
-sl4f-android = "2.0.9-0"
-native-coroutines = "1.0.0-ALPHA-18"
+java = "21"
+koin = "4.0.2"
+koin-annotations = "2.0.0-RC1"
+kotlin = "2.1.10"
+kotlin-logging = "7.0.3"
+kotlinx-coroutines = "1.10.1"
+kotlinx-datetime = "0.6.1"
+kotlinx-serialization = "1.8.0"
+kotlinter = "5.0.1"
+ksp = "2.1.10-1.0.29"
+ktor = "3.0.3"
+sqldelight = "2.0.2"
+sl4f-android = "2.0.16-0"
+native-coroutines = "1.0.0-ALPHA-38"
 
 [libraries]
-koin = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
-koin-annotations = { group = "io.insert-koin", name = "koin-annotations", version.ref = "koin-annotations" }
-koin-compiler = { group = "io.insert-koin", name = "koin-ksp-compiler", version.ref = "koin-annotations" }
-koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-android-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
-koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
+koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin-annotations" }
+koin-ksp = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-annotations" }
+ksp-api = {module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp"}
 
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
@@ -58,8 +54,8 @@ compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-ui" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-ui" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-ui" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-foundation" }
-material-icons-core = { module = "androidx.compose.material:material-icons-core", version.ref = "compose-material" }
-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose-material" }
+material-icons-core = { module = "androidx.compose.material:material-icons-core", version.ref = "compose-foundation" }
+material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose-foundation" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 
@@ -68,17 +64,14 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
-accompanist-systemui = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 bouncycastle = { module = "org.bouncycastle:bcprov-jdk15to18", version.ref = "bouncycastle" }
 dbtools-room-sqliteorg = { module = "org.dbtools:dbtools-room-sqliteorg", version.ref = "dbtools-room" }
 kotlin-logging = { module = "io.github.oshai:kotlin-logging", version.ref = "kotlin-logging" }
 slf4j-android = { module = "uk.uuid.slf4j:slf4j-android", version.ref = "sl4f-android" }
 
 [bundles]
-accompanist = ["accompanist-systemui"]
 androidx = ["androidx-activity", "androidx-appcompat", "androidx-navigation", "compose-ui", "compose-ui-tooling-preview", "compose-foundation", "material-icons-core", "material-icons-extended", "material", "material3"]
 androidx-biometric = ["androidx-biometric", "androidx-biometric-ktx"]
-koin = ["koin", "koin-annotations"]
 koin-android = ["koin-android", "koin-android-compose"]
 kotlinx = ["kotlinx-coroutines-core", "kotlinx-datetime", "kotlinx-serialization-json"]
 ktor = ["ktor-client-core", "ktor-client-logging", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json"]
@@ -90,6 +83,7 @@ android-library = { id = "com.android.library", version.ref = "android" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 native-coroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "native-coroutines" }

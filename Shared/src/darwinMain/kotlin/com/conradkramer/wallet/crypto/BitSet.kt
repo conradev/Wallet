@@ -1,5 +1,6 @@
 package com.conradkramer.wallet.crypto
 
+@OptIn(ObsoleteNativeApi::class)
 internal actual class BitSet actual constructor(size: Int) {
 
     private val inner = kotlin.native.BitSet(size)

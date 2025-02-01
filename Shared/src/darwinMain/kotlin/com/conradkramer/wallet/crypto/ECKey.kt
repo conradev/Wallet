@@ -1,10 +1,11 @@
-@file:OptIn(ExperimentalUnsignedTypes::class)
+@file:OptIn(ExperimentalUnsignedTypes::class, ExperimentalForeignApi::class)
 
 package com.conradkramer.wallet.crypto
 
 import com.conradkramer.wallet.bigint.BigInteger
 import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.CValue
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.IntVar
 import kotlinx.cinterop.MemScope
 import kotlinx.cinterop.alloc

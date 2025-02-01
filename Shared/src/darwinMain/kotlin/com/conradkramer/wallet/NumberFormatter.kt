@@ -14,8 +14,12 @@ internal actual class NumberFormatter private constructor(
     actual companion object {
         actual fun fiat(currency: Currency, locale: Locale?) = formatter(locale) {
             numberStyle = NSNumberFormatterCurrencyStyle
-            if (currency.symbol != null) currencySymbol = currency.symbol
-            currencyCode = currency.code.code
+            if (currency.symbol != null) {
+                currencySymbol = currency.symbol
+                internationalCurrencySymbol = currency.symbol
+            } else {
+                currencyCode = currency.code.code
+            }
         }
 
         actual fun cryptocurrency(currency: Currency, locale: Locale?) = formatter(locale, " ${currency.code.code}") {

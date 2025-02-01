@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Input
+import androidx.compose.material.icons.automirrored.filled.Input
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -48,7 +48,7 @@ fun ImportView(padding: PaddingValues, viewModel: ImportViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Icon(
-            Icons.Filled.Input,
+            Icons.AutoMirrored.Filled.Input,
             null,
             Modifier.size(48.dp),
         )

@@ -33,6 +33,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, OnboardingWindowControllerDe
                 self?.finishOnboarding()
             }
     }()
+    
+    func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
+        true
+    }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         LoginItem.viewService.start()
