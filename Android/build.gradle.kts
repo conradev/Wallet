@@ -8,15 +8,21 @@ plugins {
     alias(libs.plugins.kotlinter)
 }
 
-val keystore = Properties()
-    .also { it.load(FileInputStream(project.file("keystore.properties"))) }
+val keystoreFile = project.file("keystore.properties")
+val keystore = Properties().apply {
+    if (keystoreFile.exists()) {
+        FileInputStream(keystoreFile).use(::load)
+    }
+}
+val hasReleaseSigning = listOf("storeFile", "storePassword", "keyAlias", "keyPassword")
+    .all { keystore[it] != null }
 
 android {
-    compileSdk = 35
+    compileSdk = 36
     defaultConfig {
         applicationId = "com.conradkramer.wallet.android"
         minSdk = 28
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "0.1"
     }
@@ -32,7 +38,11 @@ android {
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = if (hasReleaseSigning) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
