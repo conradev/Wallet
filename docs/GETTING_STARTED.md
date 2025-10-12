@@ -46,3 +46,25 @@ Open the Xcode project (`Apple/Wallet.xcodeproj`) and build and run the app usin
 In order to build for Android, you will need to download [Android Studio](https://developer.android.com/studio).
 
 Open the repository in Android Studio and build and run the app using the `Android` configuration.
+
+If you are building from the command line (for example to run `./gradlew test` or `./gradlew :Android:assembleRelease`), install
+the Android command-line tools and point the build at them via `ANDROID_SDK_ROOT`:
+
+```bash
+mkdir -p "$HOME/android-sdk"
+cd "$HOME/android-sdk"
+curl -L -o commandlinetools-linux.zip \
+  https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+unzip commandlinetools-linux.zip -d cmdline-tools-temp
+mkdir -p cmdline-tools/latest
+mv cmdline-tools-temp/cmdline-tools/* cmdline-tools/latest/
+rm -rf cmdline-tools-temp commandlinetools-linux.zip
+
+export ANDROID_SDK_ROOT="$HOME/android-sdk"
+yes | "$ANDROID_SDK_ROOT"/cmdline-tools/latest/bin/sdkmanager --licenses
+"$ANDROID_SDK_ROOT"/cmdline-tools/latest/bin/sdkmanager \
+  "platform-tools" "platforms;android-36" "build-tools;35.0.0"
+```
+
+With the SDK installed, set `ANDROID_SDK_ROOT` in your shell before invoking Gradle so that the Android plugins can locate the
+platform and build tools.
