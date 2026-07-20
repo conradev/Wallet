@@ -1,15 +1,5 @@
-# Wallet
+# Moved to compatible.systems
 
-![License](https://img.shields.io/github/license/conradev/Wallet) ![Kotlin](https://img.shields.io/badge/kotlin-1.8.0-blue?logo=kotlin&logoColor=white) ![Apple Build Status](https://img.shields.io/github/actions/workflow/status/conradev/Wallet/build-apple.yml?branch=main&label=macos%2C%20ios&logo=Apple) ![Android Build Status](https://img.shields.io/github/actions/workflow/status/conradev/Wallet/build-android.yml?branch=main&label=android&logo=Android&logoColor=white)
+This repository has moved to [compatible.systems/conrad/Wallet](https://compatible.systems/conrad/Wallet).
 
-Wallet is an as-of-yet unnamed cryptocurrency wallet. It will initially be released with Ethereum support on macOS, iOS and Android. It is still _**very early**_ and not yet in a state where anyone can use it for anything.
-
-You can read about the [goals](docs/GOALS.md) of the project or check out the [FAQ](docs/FAQ.md).
-
-## Contributing
-
-If you are interested in contributing, check out the [contribution guidelines](docs/CONTRIBUTING.md) or the [getting started](docs/GETTING_STARTED.md) page.
-
-## License
-
-The code is licensed under the [GPLv3](LICENSE.md).
+This GitHub repository is archived and no longer maintained.
