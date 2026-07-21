@@ -8,8 +8,10 @@ import com.conradkramer.wallet.sql.Database
 import io.github.oshai.kotlinlogging.KLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 internal class CoinbaseIndexer(
     private val scope: CoroutineScope,
     private val currencyCode: Currency.Code,

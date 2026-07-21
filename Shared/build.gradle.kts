@@ -1,7 +1,6 @@
 import app.cash.sqldelight.core.capitalize
 import com.android.build.gradle.internal.scope.ProjectInfo.Companion.getBaseName
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jmailen.gradle.kotlinter.tasks.FormatTask
 import org.jmailen.gradle.kotlinter.tasks.LintTask
@@ -30,6 +29,7 @@ kotlin {
             languageSettings.apply {
                 optIn("kotlin.experimental.ExperimentalObjCName")
                 optIn("kotlin.experimental.ExperimentalForeignApi")
+                optIn("kotlin.time.ExperimentalTime")
             }
         }
 
@@ -135,7 +135,7 @@ kotlin {
 }
 
 android {
-    compileSdk = 35
+    compileSdk = 36
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 28
@@ -162,8 +162,14 @@ dependencies {
         .forEach { add(it, libs.koin.ksp) }
 }
 
-project.tasks.withType(KotlinCompilationTask::class.java).configureEach {
-    if(name != "kspCommonMainKotlinMetadata") {
+tasks.withType<KotlinCompilationTask<*>>().configureEach {
+    if (name != "kspCommonMainKotlinMetadata") {
+        dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
+
+tasks.configureEach {
+    if (name.startsWith("ksp") && name != "kspCommonMainKotlinMetadata") {
         dependsOn("kspCommonMainKotlinMetadata")
     }
 }
